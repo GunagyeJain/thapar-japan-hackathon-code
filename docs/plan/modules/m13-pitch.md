@@ -23,7 +23,7 @@ Win the room. A pitch that maps every minute to the judging rubric (Technical fi
 
 ## Tasks
 - [ ] **T0 (today, before 15:30, no code): flyer survey.** A Google Form with 5 questions: did you pre-order a special meal; did it arrive; did you carry your own food; what did you worry about; which diet. Share it in family and college groups. Read the results at 05:00.
-- [ ] **T1 (today, 16:30 checkpoint, no code): ask the JAL mentors.**
+- [ ] **T1 (Checkpoint 1 at 16:00–17:30, and the 00:00 mentorship round; no code): ask the JAL mentors.** The talk itself follows `06-deliverables/checkpoint-1/brief.md` in the docs repo.
   - Do special meals really drop when a codeshare booking is reissued?
   - What is the real caterer cutoff at DEL?
   - Would a read-only passenger-list feed plus an add-on screen for the crew iPad app be acceptable for a pilot?
