@@ -40,7 +40,10 @@ def test_miso_soup_dashi_is_fish():
 def test_curry_roux_hides_pork():
     curry = sheet("vegetable_curry")
     assert verdict(curry, "vegetarian")["verdict"] == "UNSAFE"
-    assert any(v.startswith("ポークエキス → pork_extract") for v in vias(verdict(curry, "halal")))
+    roux = next(r for r in curry["ingredients"] if r["name_ja"] == "カレールウ")
+    assert {"lard", "pork_extract"} <= set(roux["tags"])
+    # One rule per forbidden family: pork shows once, through the first word that hit it.
+    assert [v for v in vias(verdict(curry, "halal")) if "pork" in v] == ["ラード → lard → pork"]
     assert any(v.startswith("ラード → lard") for v in vias(verdict(curry, "vegetarian")))
 
 
@@ -97,3 +100,11 @@ def test_extract_and_approve_over_http(client, fresh):
 
 def test_extract_rejects_empty_text(client, fresh):
     assert client.post("/api/recipes/extract", json={"text": "  "}).status_code == 422
+
+
+@pytest.mark.parametrize("path", sorted(SHEETS.glob("*.png")) + sorted(SHEETS.glob("*.txt")), ids=lambda p: p.name)
+def test_demo_sheets_are_cached_for_offline(path):
+    from app.modules.m9_recipes import cache
+    from app.modules.m9_recipes.pipeline import source_hash
+
+    assert cache.get(source_hash(path.read_bytes())) is not None, f"run {path.name} through Gemini once and commit the cache"

@@ -1,0 +1,141 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "image",
+ "result": {
+  "dish_name_ja": "野菜カレー",
+  "dish_name_en": "Vegetable curry",
+  "transcription": "野菜カレー\n英語名：Vegetable curry\n区分：機内食 主菜（東京発デリー行き）\n\n材料（4人分）\n・玉ねぎ 1個\n・人参 1本\n・じゃがいも 2個\n・なす 1本\n・カレールウ 100g（原材料：小麦粉、ラード、砂糖、食塩、カレー粉、ポークエキス）\n・サラダ油 大さじ1\n・水 700ml\n・ご飯 600g\n\n作り方\n1. 野菜を一口大に切り、サラダ油で玉ねぎから炒める。\n2. 水を加えて野菜が柔らかくなるまで煮る。\n3. 火を止めてカレールウを溶かし、弱火で10分煮込む。\n4. ご飯に添えて盛り付ける。",
+  "ingredients": [
+   {
+    "name_ja": "玉ねぎ",
+    "name_en": "onion",
+    "tags": [
+     "onion",
+     "allium",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "玉ねぎ 1個"
+   },
+   {
+    "name_ja": "人参",
+    "name_en": "carrot",
+    "tags": [
+     "carrot",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "人参 1本"
+   },
+   {
+    "name_ja": "じゃがいも",
+    "name_en": "potato",
+    "tags": [
+     "potato",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "じゃがいも 2個"
+   },
+   {
+    "name_ja": "なす",
+    "name_en": "eggplant",
+    "tags": [
+     "eggplant",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "なす 1本"
+   },
+   {
+    "name_ja": "小麦粉",
+    "name_en": "wheat flour",
+    "tags": [
+     "wheat",
+     "grain"
+    ],
+    "confidence": 1.0,
+    "evidence": "原材料：小麦粉"
+   },
+   {
+    "name_ja": "ラード",
+    "name_en": "lard",
+    "tags": [
+     "lard",
+     "pork",
+     "non_halal_meat"
+    ],
+    "confidence": 1.0,
+    "evidence": "ラード"
+   },
+   {
+    "name_ja": "砂糖",
+    "name_en": "sugar",
+    "tags": [
+     "sugar"
+    ],
+    "confidence": 1.0,
+    "evidence": "砂糖"
+   },
+   {
+    "name_ja": "食塩",
+    "name_en": "salt",
+    "tags": [
+     "salt"
+    ],
+    "confidence": 1.0,
+    "evidence": "食塩"
+   },
+   {
+    "name_ja": "カレー粉",
+    "name_en": "curry powder",
+    "tags": [
+     "spice"
+    ],
+    "confidence": 1.0,
+    "evidence": "カレー粉"
+   },
+   {
+    "name_ja": "ポークエキス",
+    "name_en": "pork extract",
+    "tags": [
+     "pork_extract",
+     "pork",
+     "meat_extract",
+     "meat",
+     "non_halal_meat"
+    ],
+    "confidence": 1.0,
+    "evidence": "ポークエキス"
+   },
+   {
+    "name_ja": "サラダ油",
+    "name_en": "vegetable oil",
+    "tags": [
+     "vegetable"
+    ],
+    "confidence": 0.9,
+    "evidence": "サラダ油 大さじ1"
+   },
+   {
+    "name_ja": "水",
+    "name_en": "water",
+    "tags": [],
+    "confidence": 1.0,
+    "evidence": "水 700ml"
+   },
+   {
+    "name_ja": "ご飯",
+    "name_en": "cooked rice",
+    "tags": [
+     "rice",
+     "grain"
+    ],
+    "confidence": 1.0,
+    "evidence": "ご飯 600g"
+   }
+  ]
+ }
+}
