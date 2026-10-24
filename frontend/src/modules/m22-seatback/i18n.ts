@@ -1,0 +1,80 @@
+// Seat-screen strings in English, Hindi and Japanese. Food rules only: never a diet's or a festival's name.
+import type { Text } from "@/lib/types"
+
+type Fill = (...values: string[]) => Text
+
+export const SEAT = {
+  seat: (s: string): Text => ({ en: `Seat ${s}`, hi: `सीट ${s}`, ja: `座席 ${s}` }),
+  route: (from: string, to: string): Text => ({ en: `${from} → ${to}`, hi: `${from} → ${to}`, ja: `${from} → ${to}` }),
+  welcome: { en: "Welcome aboard", hi: "विमान में आपका स्वागत है", ja: "ご搭乗ありがとうございます" },
+  welcomeBody: {
+    en: "Before the meal, this screen asks whether your meal is still right. One tap is enough.",
+    hi: "भोजन से पहले यह स्क्रीन पूछेगी कि आपका भोजन अब भी सही है या नहीं। बस एक टैप।",
+    ja: "お食事の前に、このままのお食事でよいかをこの画面でお伺いします。タップひとつで完了です。",
+  },
+  eyebrow: { en: "Meal check · before the meal service", hi: "भोजन जाँच · भोजन परोसने से पहले", ja: "お食事の確認 · 機内食サービスの前に" },
+  askSpecial: { en: "Your pre-ordered meal — still right?", hi: "आपका पहले से बुक भोजन — क्या अब भी सही है?", ja: "ご予約のお食事 — このままでよろしいですか？" },
+  askMain: { en: "Your meal is held for you — still right?", hi: "आपका भोजन आपके लिए रखा है — क्या अब भी सही है?", ja: "お食事をお取り置きしています — このままでよろしいですか？" },
+  yes: { en: "Yes", hi: "हाँ", ja: "はい" },
+  no: { en: "No, skip", hi: "नहीं, छोड़ें", ja: "いいえ、不要です" },
+  change: { en: "Change", hi: "बदलें", ja: "変更する" },
+  showMeal: { en: "Show my meal", hi: "मेरा भोजन दिखाएँ", ja: "お食事の内容を表示" },
+  hideMeal: { en: "Hide", hi: "छिपाएँ", ja: "閉じる" },
+  mealHeld: { en: "The main course from the trolley, held for you", hi: "ट्रॉली का मुख्य भोजन, आपके लिए रखा है", ja: "ワゴンのメインをお取り置き" },
+  rules: { en: "Your food rules", hi: "आपके खाने के नियम", ja: "お食事の制限" },
+  privacy: {
+    en: "Only your initials are on screen. The meal shows after a tap.",
+    hi: "स्क्रीन पर सिर्फ़ आपके नाम के पहले अक्षर हैं। भोजन टैप करने पर दिखता है।",
+    ja: "画面にはイニシャルのみ表示されます。お食事の内容はタップで表示されます。",
+  },
+  scanNote: {
+    en: "Crew still check your tray at your seat before they hand it over.",
+    hi: "परोसने से पहले क्रू आपकी सीट पर ट्रे की जाँच करेगा।",
+    ja: "お渡しの前に、客室乗務員が座席でトレーを確認します。",
+  },
+  noAnswerNote: { en: "The crew will also ask you in person.", hi: "क्रू आपसे ख़ुद भी पूछेगा।", ja: "客室乗務員からも直接お伺いします。" },
+  confirmedTitle: { en: "Thank you. Your meal comes first.", hi: "धन्यवाद। आपका भोजन पहले आएगा।", ja: "ありがとうございます。お食事を優先してお届けします。" },
+  skippedTitle: {
+    en: "Thank you. Your meal will go to someone on board who needs it.",
+    hi: "धन्यवाद। आपका भोजन विमान में किसी ज़रूरतमंद को दिया जाएगा।",
+    ja: "ありがとうございます。お食事は機内で必要な方にお回しします。",
+  },
+  skippedBody: { en: "Hungry later? Ask the crew.", hi: "बाद में भूख लगे तो क्रू से कहें।", ja: "後でお腹が空いたら、客室乗務員にお声がけください。" },
+  undo: { en: "Undo: keep my meal", hi: "वापस लें: मेरा भोजन रखें", ja: "取り消して元のお食事にする" },
+  changedTitle: (dish: string): Text => ({ en: `Done. Crew will bring: ${dish}`, hi: `हो गया। क्रू यह लाएगा: ${dish}`, ja: `承りました。お届けするお食事：${dish}` }),
+  changeTitle: { en: "What else is on board for you", hi: "विमान में आपके लिए और क्या है", ja: "機内でお選びいただけるお食事" },
+  changeBody: {
+    en: "Only meals that fit all your food rules today, and that nobody else is waiting for.",
+    hi: "सिर्फ़ वे भोजन जो आज आपके सभी नियमों के अनुरूप हैं और जिनका कोई और इंतज़ार नहीं कर रहा।",
+    ja: "本日のお食事の制限にすべて合い、ほかの方がお待ちでないお食事のみ表示しています。",
+  },
+  fits: { en: "Fits your food rules", hi: "आपके नियमों के अनुरूप", ja: "制限に適合" },
+  sourceFreed: { en: "Fresh, not needed by its passenger", hi: "ताज़ा, जिसके लिए था उन्हें नहीं चाहिए", ja: "未使用のお食事（新鮮）" },
+  sourceSpare: { en: "Spare special meal", hi: "अतिरिक्त विशेष भोजन", ja: "予備の特別食" },
+  sourceMain: { en: "From the trolley", hi: "ट्रॉली से", ja: "ワゴンのメイン" },
+  choose: { en: "Choose", hi: "चुनें", ja: "これにする" },
+  back: { en: "Back", hi: "वापस", ja: "戻る" },
+  nothingFits: {
+    en: "Nothing else on board fits your food rules right now. Your meal stays as it is.",
+    hi: "अभी विमान में और कुछ आपके नियमों के अनुरूप नहीं है। आपका भोजन वैसा ही रहेगा।",
+    ja: "現在、ほかにお食事の制限に合うものはありません。お食事はこのままです。",
+  },
+  askCrew: { en: "The crew will help you choose.", hi: "क्रू चुनने में आपकी मदद करेगा।", ja: "客室乗務員がお選びするお手伝いをします。" },
+  taken: { en: "Someone took that one first. Pick again.", hi: "वह किसी और ने पहले ले लिया। फिर से चुनें।", ja: "先にほかの方が選ばれました。もう一度お選びください。" },
+  emptySeat: { en: "This seat is free", hi: "यह सीट ख़ाली है", ja: "この座席は空席です" },
+  offline: {
+    en: "Can't reach the aircraft server. Trying again…",
+    hi: "विमान के सर्वर से संपर्क नहीं हो रहा। फिर कोशिश कर रहे हैं…",
+    ja: "機内サーバーに接続できません。再接続しています…",
+  },
+  failed: { en: "That didn't go through. Tap again.", hi: "यह नहीं हुआ। फिर टैप करें।", ja: "送信できませんでした。もう一度タップしてください。" },
+  pickTitle: { en: "Seat screens · JL740", hi: "सीट स्क्रीन · JL740", ja: "座席モニター · JL740" },
+  pickBody: {
+    en: "Open the screen of one seat. Seats with a question are listed once the crew press Ask seats now.",
+    hi: "किसी एक सीट की स्क्रीन खोलें। क्रू के Ask seats now दबाने पर प्रश्न वाली सीटें यहाँ दिखती हैं।",
+    ja: "座席のモニターを開きます。乗務員が「座席に確認する」を押すと、質問のある座席がここに表示されます。",
+  },
+  pickInput: { en: "Seat, e.g. 23C", hi: "सीट, जैसे 23C", ja: "座席 例 23C" },
+  open: { en: "Open", hi: "खोलें", ja: "開く" },
+  progress: (pct: string): Text => ({ en: `${pct} of the way`, hi: `${pct} रास्ता तय`, ja: `${pct} 経過` }),
+} satisfies Record<string, Text | Fill>

@@ -1,6 +1,6 @@
 // The copilot's card for one seat: the passenger's food rules in Japanese with English below, how strict,
 // the tray to hand over (and which rung put it there), when they may eat, and the eaten / refused / swapped taps.
-import { ArrowRightLeft, CalendarDays, CheckCircle2, ScanLine, Sunrise, XCircle } from "lucide-react"
+import { ArrowRightLeft, CalendarDays, CheckCircle2, MonitorPlay, ScanLine, Sunrise, XCircle } from "lucide-react"
 import { useState } from "react"
 
 import { msUntil, useSimClock } from "@/lib/clock"
@@ -20,9 +20,11 @@ import {
   type TapType,
 } from "@/modules/m8-crew/copilot"
 import type { NewTap } from "@/modules/m8-crew/copilotStore"
-import { COPILOT, COPY, rungLabel, type Bilingual } from "@/modules/m8-crew/i18n"
+import { COPILOT, COPY, rungLabel, SEATBACK, type Bilingual } from "@/modules/m8-crew/i18n"
 import { useCrewLang, useSay } from "@/modules/m8-crew/lang"
+import { SEAT_ANSWER } from "@/modules/m8-crew/SeatbackPanel"
 import { FlexChip, TIER_LOOK, TierChip } from "@/modules/m8-crew/tier"
+import type { SeatbackRow } from "@/modules/m22-seatback"
 
 export interface CopilotCardProps {
   pkg: CopilotPackage
@@ -30,6 +32,8 @@ export interface CopilotCardProps {
   now: () => string
   onTap: (tap: NewTap) => Promise<void>
   onScan: (seat: string) => void
+  /** The seat screen's answer (m22), while the tablet is on the cabin network. */
+  answer?: SeatbackRow
 }
 
 export const TAP_LOOK: Record<TapType, { status: Status; icon: typeof CheckCircle2; word: Bilingual }> = {
@@ -45,7 +49,7 @@ const TRAY_STATUS: Record<MealItem["status"], { status: Status; word: Bilingual 
   served: { status: "safe", word: COPY.trayServed },
 }
 
-export function CopilotCard({ pkg, seat, now, onTap, onScan }: CopilotCardProps) {
+export function CopilotCard({ pkg, seat, now, onTap, onScan, answer }: CopilotCardProps) {
   const say = useSay()
   const pax = pkg.passengers.find((p) => p.seat === seat)
   const info = pkg.copilot?.seats.find((s) => s.seat === seat)
@@ -69,6 +73,12 @@ export function CopilotCard({ pkg, seat, now, onTap, onScan }: CopilotCardProps)
         <TierChip tier={info.tier} />
         {info.flex && <FlexChip />}
       </div>
+      {answer && (
+        <div className="flex flex-col gap-1">
+          <StatusChip status={SEAT_ANSWER[answer.status].status} icon={MonitorPlay} label={say(SEAT_ANSWER[answer.status].word)} className="self-start" />
+          {(answer.status === "confirmed" || answer.status === "changed") && <Bi text={SEATBACK.scanStill} size="sm" className="text-muted-foreground" />}
+        </div>
+      )}
       <Rules seat={info} />
       <SunTimer seat={info} />
       <Tray pkg={pkg} seat={info} current={current} />

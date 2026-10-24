@@ -1,5 +1,5 @@
 // The serve list: who gets which tray, in service order, grouped by galley; a check once it's served or eaten.
-import { CheckCircle2, Sunrise } from "lucide-react"
+import { CheckCircle2, MonitorPlay, Sunrise } from "lucide-react"
 import { useMemo } from "react"
 
 import { fmtTime } from "@/lib/format"
@@ -10,15 +10,19 @@ import { serveRows, type CopilotPackage, type ServeRow } from "@/modules/m8-crew
 import { TAP_LOOK } from "@/modules/m8-crew/CopilotCard"
 import { COPILOT, rungLabel } from "@/modules/m8-crew/i18n"
 import { useDish, useSay } from "@/modules/m8-crew/lang"
+import { SEAT_ANSWER } from "@/modules/m8-crew/SeatbackPanel"
 import { TierChip } from "@/modules/m8-crew/tier"
+import type { SeatbackRow } from "@/modules/m22-seatback"
 
 interface ServeListProps {
   pkg: CopilotPackage
   selected: string | null
   onSeat: (seat: string) => void
+  /** Seat-screen answers by seat (m22), while the tablet is on the cabin network. */
+  answers?: Map<string, SeatbackRow>
 }
 
-export function ServeList({ pkg, selected, onSeat }: ServeListProps) {
+export function ServeList({ pkg, selected, onSeat, answers }: ServeListProps) {
   const groups = useMemo(() => serveRows(pkg), [pkg])
   if (groups.size === 0) {
     return (
@@ -40,7 +44,7 @@ export function ServeList({ pkg, selected, onSeat }: ServeListProps) {
           <ul>
             {rows.map((row) => (
               <li key={row.seat.seat} className="border-b last:border-b-0">
-                <Row row={row} on={row.seat.seat === selected} onSeat={onSeat} />
+                <Row row={row} on={row.seat.seat === selected} onSeat={onSeat} answer={answers?.get(row.seat.seat)} />
               </li>
             ))}
           </ul>
@@ -50,7 +54,7 @@ export function ServeList({ pkg, selected, onSeat }: ServeListProps) {
   )
 }
 
-function Row({ row, on, onSeat }: { row: ServeRow; on: boolean; onSeat: (seat: string) => void }) {
+function Row({ row, on, onSeat, answer }: { row: ServeRow; on: boolean; onSeat: (seat: string) => void; answer?: SeatbackRow }) {
   const say = useSay()
   const dish = useDish()
   const { seat, item, tap, tray } = row
@@ -92,6 +96,9 @@ function Row({ row, on, onSeat }: { row: ServeRow; on: boolean; onSeat: (seat: s
         </span>
       )}
       {seat.sunrise_box && <StatusChip size="sm" status="info" icon={Sunrise} label={say(COPILOT.sunriseBox)} />}
+      {answer && !row.done && (
+        <StatusChip size="sm" status={SEAT_ANSWER[answer.status].status} icon={MonitorPlay} label={say(SEAT_ANSWER[answer.status].word)} />
+      )}
       <RowStatus row={row} />
       {tap && tap.type !== "eaten" && (
         <StatusChip size="sm" status={TAP_LOOK[tap.type].status} icon={TAP_LOOK[tap.type].icon} label={say(TAP_LOOK[tap.type].word)} />

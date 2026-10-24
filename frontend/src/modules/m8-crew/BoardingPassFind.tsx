@@ -20,6 +20,8 @@ interface BoardingPassFindProps {
 }
 
 const paxName = (p: Passenger): string => p.display_name ?? `${p.surname}/${p.given} ${p.title}`
+/** Long bilingual lines wrap instead of running off the panel. */
+const WRAP = "h-auto min-h-7 py-1 whitespace-normal"
 
 export function BoardingPassFind({ pkg, seat, onSeat }: BoardingPassFindProps) {
   const say = useSay()
@@ -61,17 +63,17 @@ export function BoardingPassFind({ pkg, seat, onSeat }: BoardingPassFindProps) {
 
 function MatchView({ match, seat, onSeat }: { match: PassMatch; seat: string; onSeat: (seat: string) => void }) {
   const say = useSay()
-  if (match.kind === "unreadable") return <StatusChip status="warn" label={say(PASS.unreadable)} />
-  if (match.kind === "not_found") return <StatusChip status="warn" label={say(PASS.notFound)} />
+  if (match.kind === "unreadable") return <StatusChip status="warn" label={say(PASS.unreadable)} className={WRAP} />
+  if (match.kind === "not_found") return <StatusChip status="warn" label={say(PASS.notFound)} className={WRAP} />
   if (match.kind === "other_flight") {
-    return <StatusChip status="warn" label={say(PASS.otherFlight(`${match.pass.carrier}${match.pass.flight}`))} />
+    return <StatusChip status="warn" label={say(PASS.otherFlight(`${match.pass.carrier}${match.pass.flight}`))} className={WRAP} />
   }
   const [only] = match.passengers
   const moved = match.pass && match.passengers.length === 1 && match.pass.seat && match.pass.seat !== only.seat
   return (
     <div className="flex flex-col gap-2">
       {match.passengers.length === 1 ? (
-        <StatusChip status="safe" label={say(PASS.found(paxName(only), only.seat))} />
+        <StatusChip status="safe" label={say(PASS.found(paxName(only), only.seat))} className={WRAP} />
       ) : (
         <>
           <Bi text={PASS.pick} size="sm" className="text-muted-foreground" />
@@ -93,8 +95,8 @@ function MatchView({ match, seat, onSeat }: { match: PassMatch; seat: string; on
           </div>
         </>
       )}
-      {match.rebooked && <StatusChip status="info" label={say(PASS.rebooked)} />}
-      {moved && <StatusChip status="info" label={say(PASS.seatMoved(match.pass!.seat, only.seat))} />}
+      {match.rebooked && <StatusChip status="info" label={say(PASS.rebooked)} className={WRAP} />}
+      {moved && <StatusChip status="info" label={say(PASS.seatMoved(match.pass!.seat, only.seat))} className={WRAP} />}
     </div>
   )
 }

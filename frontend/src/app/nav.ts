@@ -10,6 +10,7 @@ import {
   LayoutGrid,
   LineChart,
   MessageCircle,
+  MonitorPlay,
   Palette,
   PlayCircle,
   QrCode,
@@ -58,6 +59,7 @@ export const NAV: NavEntry[] = [
   { to: "/demo", label: "Demo control", module: "m11", group: "Team", surface: "desktop", icon: PlayCircle, blurb: "Step the story, reset the data" },
   { to: "/ui", label: "UI kit", module: "m2", group: "Team", surface: "desktop", icon: Palette, blurb: "Components and tokens" },
   { to: "/jal", label: "JAL booking (concept)", module: "m23", group: "Passenger", surface: "web", icon: Globe, blurb: "Manage booking → Special meal in JAL's look, with ThaliBento plugged in" },
+  { to: "/seat", label: "Seat screen", module: "m22", group: "Crew", surface: "tablet", icon: MonitorPlay, blurb: "Before the meal, each seat with a special meal asks: still right?" },
 ]
 
 export const NAV_GROUPS: NavGroup[] = ["Overview", "Operations", "Passenger", "Crew", "Team"]
