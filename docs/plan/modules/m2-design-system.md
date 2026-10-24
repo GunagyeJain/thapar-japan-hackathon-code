@@ -40,7 +40,7 @@ Plus the final `docs/design.md`.
 - [x] **T1 Tokens + type (30 min).** `tokens.css` (light + cabin dark), Tailwind theme mapping, fonts (two weights each; Japanese through fontsource unicode-range subsets), focus ring, tabular numbers utility.
 
   _Done when:_ the m0 home page uses the new tokens with no hard-coded hex anywhere in `src/`.
-- [ ] **T2 Status + chrome components (30 min).** StatusChip, VerdictBadge, Countdown, DualClock, FlightContextBar, PageHeader, EmptyState, LangSwitch; DesktopLayout nav styled.
+- [x] **T2 Status + chrome components (30 min).** StatusChip, VerdictBadge, Countdown, DualClock, FlightContextBar, PageHeader, EmptyState, LangSwitch; DesktopLayout nav styled.
 
   _Done when:_ the `/ui` gallery shows each one in light and cabin dark. **Ship** (heads-up: "use @/ui components; see docs/design.md").
 - [ ] **T3 Data components (45 min).** DataTable, Timeline, KpiTile, RawMessage, DiffView, SeatMap (with Priya 23C, Mehta 31K and the row-5 judge seats in the example).
