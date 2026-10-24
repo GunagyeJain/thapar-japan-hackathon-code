@@ -38,11 +38,7 @@ export const s = {
     back: { en: "Back", hi: "पीछे", ja: "戻る" },
     retry: { en: "Try again", hi: "फिर से कोशिश करें", ja: "もう一度" },
     loading: { en: "Loading", hi: "लोड हो रहा है", ja: "読み込み中" },
-    error: {
-      en: "Something went wrong. Check your connection and try again.",
-      hi: "कुछ गड़बड़ हो गई। अपना इंटरनेट कनेक्शन जाँचें और फिर से कोशिश करें।",
-      ja: "エラーが発生しました。接続を確認して、もう一度お試しください。",
-    },
+    error: { en: "Something went wrong. Try again.", hi: "कुछ गड़बड़ हुई। फिर से कोशिश करें।", ja: "エラーが発生しました。もう一度お試しください。" },
     step: { en: "Step {n} of {total}", hi: "चरण {n} / {total}", ja: "ステップ {n} / {total}" },
   },
 
@@ -62,11 +58,7 @@ export const s = {
     hint: { en: "Demo booking: 6XK2QP · SHARMA", hi: "डेमो बुकिंग: 6XK2QP · SHARMA", ja: "デモ用：6XK2QP · SHARMA" },
     submit: { en: "Find booking", hi: "बुकिंग खोजें", ja: "検索" },
     searching: { en: "Looking up your booking", hi: "आपकी बुकिंग खोजी जा रही है", ja: "ご予約を検索しています" },
-    notFound: {
-      en: "We couldn't find that booking. Check the 6-character reference and the surname on your ticket.",
-      hi: "यह बुकिंग नहीं मिली। टिकट पर लिखा 6 अक्षरों का रेफ़रेंस और उपनाम दोबारा देखें।",
-      ja: "ご予約が見つかりません。航空券に記載の6桁の予約番号と姓をご確認ください。",
-    },
+    notFound: { en: "Booking not found. Check the reference and surname.", hi: "बुकिंग नहीं मिली। रेफ़रेंस और उपनाम जाँचें।", ja: "予約が見つかりません。予約番号と姓をご確認ください。" },
   },
 
   language: {
@@ -78,52 +70,26 @@ export const s = {
     thisTrip: { en: "Use them for this trip", hi: "इस यात्रा के लिए इस्तेमाल करें", ja: "今回の旅行に使う" },
     saveProfile: { en: "Save them for next time", hi: "अगली बार के लिए सेव करें", ja: "次回のために保存する" },
     shareCaterer: { en: "Share them with the caterer", hi: "केटरर के साथ साझा करें", ja: "機内食会社と共有する" },
-    notice: {
-      en: "Your food rules go to JAL and its caterer in Delhi and Tokyo. We store food rules, not religion. Deleted after your trip.",
-      hi: "आपके खाने के नियम JAL और दिल्ली व टोक्यो में उसके केटरर तक जाते हैं। हम खाने के नियम रखते हैं, धर्म नहीं। यात्रा के बाद ये मिटा दिए जाते हैं।",
-      ja: "食事のルールはJALと、デリーおよび東京の機内食会社に送られます。保存するのは食事のルールのみで、宗教は保存しません。旅行後に削除されます。",
-    },
-    needThisTrip: {
-      en: "Turn on \"Use them for this trip\" so we can order your meal.",
-      hi: "भोजन ऑर्डर करने के लिए \"इस यात्रा के लिए इस्तेमाल करें\" चालू करें।",
-      ja: "機内食を手配するには「今回の旅行に使う」をオンにしてください。",
-    },
+    notice: { en: "Food rules only, never religion. Deleted after your trip.", hi: "सिर्फ़ खाने के नियम, धर्म कभी नहीं। यात्रा के बाद मिटा दिए जाते हैं।", ja: "保存するのは食事のルールのみ。旅行後に削除します。" },
+    needThisTrip: { en: "Turn on “Use them for this trip” to order your meal.", hi: "भोजन के लिए “इस यात्रा के लिए इस्तेमाल करें” चालू करें।", ja: "手配には「今回の旅行に使う」をオンに。" },
     agree: { en: "Continue", hi: "आगे बढ़ें", ja: "続ける" },
   },
 
   picker: {
     title: { en: "Tell us about your food", hi: "अपने खाने के बारे में बताएँ", ja: "お食事について教えてください" },
     dietTitle: { en: "Do you follow a diet?", hi: "क्या आप किसी खास आहार का पालन करते हैं?", ja: "特定の食事スタイルはありますか？" },
-    dietSub: {
-      en: "Optional. Tap one and we tick its foods below for you.",
-      hi: "ज़रूरी नहीं। एक चुनें, हम नीचे उससे जुड़ी चीज़ों पर अपने आप निशान लगा देंगे।",
-      ja: "任意です。選ぶと、下の食材に自動でチェックが入ります。",
-    },
+    dietSub: { en: "Optional", hi: "ज़रूरी नहीं", ja: "任意" },
     foodsTitle: { en: "What can't you eat?", hi: "आप क्या नहीं खा सकते?", ja: "召し上がれない食材は？" },
-    foodsSub: { en: "Tick every food you don't eat.", hi: "जो भी नहीं खाते, उन सब पर निशान लगाएँ।", ja: "召し上がれない食材をすべて選んでください。" },
     allergensTitle: { en: "Any food allergies?", hi: "क्या आपको किसी खाने से एलर्जी है?", ja: "食物アレルギーはありますか？" },
-    allergensSub: { en: "The kitchen keeps these out completely.", hi: "किचन इन्हें आपके खाने से पूरी तरह दूर रखेगा।", ja: "厨房でこれらを完全に取り除きます。" },
     yourAnswer: { en: "Your answer so far", hi: "अब तक आपका जवाब", ja: "現在のご回答" },
-    needFood: {
-      en: "Tick at least one food you can't eat, or choose a diet.",
-      hi: "कम से कम एक खाना चुनें जो आप नहीं खा सकते, या कोई आहार चुनें।",
-      ja: "召し上がれない食材を1つ以上、または食事スタイルを選んでください。",
-    },
-    sub: {
-      en: "Tap one that fits, then untick anything that doesn't apply.",
-      hi: "जो आप पर लागू हो उसे चुनें, फिर जो लागू न हो उसका निशान हटा दें।",
-      ja: "近いものを選び、当てはまらない項目のチェックを外してください。",
-    },
+    needFood: { en: "Tick at least one food you can't eat.", hi: "कम से कम एक खाना चुनें जो आप नहीं खाते।", ja: "召し上がれない食材を1つ以上選んでください。" },
+    sub: { en: "Tap one that fits, then untick what doesn't apply.", hi: "जो लागू हो उसे चुनें, बाकी का निशान हटाएँ।", ja: "近いものを選び、不要なチェックを外してください。" },
     presets: { en: "Quick picks", hi: "जल्दी चुनें", ja: "よく選ばれるもの" },
     groups: { en: "I don't eat", hi: "मैं नहीं खाता/खाती", ja: "食べられないもの" },
     allergens: { en: "Allergies", hi: "एलर्जी", ja: "アレルギー" },
     allAllergens: { en: "Show all {n}", hi: "सभी {n} दिखाएँ", ja: "全{n}品目を表示" },
     fewerAllergens: { en: "Show fewer", hi: "कम दिखाएँ", ja: "表示を減らす" },
-    nothing: {
-      en: "Nothing ticked yet. Tap a quick pick or tick what you don't eat.",
-      hi: "अभी कुछ नहीं चुना। ऊपर से चुनें या जो नहीं खाते उस पर निशान लगाएँ।",
-      ja: "まだ選択されていません。上から選ぶか、食べられないものにチェックしてください。",
-    },
+    nothing: { en: "Nothing ticked yet.", hi: "अभी कुछ नहीं चुना।", ja: "まだ選択されていません。" },
   },
 
   summary: {
@@ -155,47 +121,27 @@ export const s = {
 
   promise: {
     title: { en: "Your meal promise", hi: "आपके भोजन का वादा", ja: "機内食のお約束" },
-    sub: {
-      en: "We check it at every hand-off: booking, caterer list, galley and your seat.",
-      hi: "हर पड़ाव पर हम इसकी जाँच करते हैं: बुकिंग, केटरर की सूची, गैली और आपकी सीट।",
-      ja: "予約、機内食会社のリスト、ギャレー、お座席の各段階で確認します。",
-    },
+    sub: { en: "Checked at every hand-off.", hi: "हर पड़ाव पर जाँचा जाता है।", ja: "各段階で確認します。" },
     updates: { en: "Updates", hi: "अपडेट", ja: "お知らせ" },
     change: { en: "Change my answers", hi: "अपने जवाब बदलें", ja: "回答を変更する" },
     statusLabel: { en: "Promise status", hi: "वादे की स्थिति", ja: "お約束の状況" },
     handoffs: { en: "Where your meal is", hi: "आपका भोजन कहाँ तक पहुँचा", ja: "お食事の現在地" },
-    empty: {
-      en: "No updates yet. If anything changes before your flight, it shows up here.",
-      hi: "अभी कोई अपडेट नहीं। फ़्लाइट से पहले कुछ बदला तो यहाँ दिखेगा।",
-      ja: "お知らせはまだありません。出発前に変更があればここに表示されます。",
-    },
+    empty: { en: "No updates yet.", hi: "अभी कोई अपडेट नहीं।", ja: "お知らせはまだありません。" },
   },
 
   judge: {
     title: { en: "Join flight JL740", hi: "फ़्लाइट JL740 से जुड़ें", ja: "JL740便に参加" },
-    sub: {
-      en: "Tell us what you can't eat. You get a seat on JL740, and we find you a safe meal on board.",
-      hi: "बताइए आप क्या नहीं खा सकते। आपको JL740 पर सीट मिलेगी और हम विमान में आपके लिए सुरक्षित भोजन खोजेंगे।",
-      ja: "召し上がれないものを教えてください。JL740の座席をご用意し、機内で安全なお食事をお探しします。",
-    },
+    sub: { en: "Tell us what you can't eat.", hi: "बताइए आप क्या नहीं खा सकते।", ja: "召し上がれないものを教えてください。" },
     name: { en: "Your name (shown to the crew)", hi: "आपका नाम (क्रू को दिखेगा)", ja: "お名前（乗務員に表示）" },
     namePlaceholder: { en: "Judge 1", hi: "जज 1", ja: "審査員 1" },
     join: { en: "Join and get a seat", hi: "जुड़ें और सीट पाएँ", ja: "参加して座席を取る" },
     saveNew: { en: "Save my new answers", hi: "नए जवाब सेव करें", ja: "新しい回答を保存" },
     cancel: { en: "Cancel", hi: "रद्द करें", ja: "キャンセル" },
     tryAgain: { en: "Try a different diet", hi: "कोई और आहार आज़माएँ", ja: "別の食事で試す" },
-    tryAgainSub: {
-      en: "You keep seat {seat}. We'll find a meal for your new answers.",
-      hi: "आपकी सीट {seat} वही रहेगी। हम नए जवाबों के लिए भोजन खोजेंगे।",
-      ja: "座席{seat}はそのままです。新しい回答に合う食事をお探しします。",
-    },
+    tryAgainSub: { en: "You keep seat {seat}.", hi: "आपकी सीट {seat} वही रहेगी।", ja: "座席{seat}はそのままです。" },
     editTitle: { en: "Change your answers", hi: "अपने जवाब बदलें", ja: "回答を変更" },
     joining: { en: "Getting your seat", hi: "आपकी सीट तय हो रही है", ja: "座席を確保しています" },
-    full: {
-      en: "All demo seats are taken. Watch the crew tablet on the big screen.",
-      hi: "डेमो की सभी सीटें भर गई हैं। बड़ी स्क्रीन पर क्रू टैबलेट देखें।",
-      ja: "デモ用の座席はすべて埋まりました。大画面の乗務員タブレットをご覧ください。",
-    },
+    full: { en: "All demo seats are taken.", hi: "डेमो की सभी सीटें भर गईं।", ja: "デモ用の座席は満席です。" },
     matching: { en: "Checking every meal on board", hi: "विमान का हर भोजन जाँचा जा रहा है", ja: "機内のすべての食事を確認しています" },
     crewWillConfirm: {
       en: "Crew will confirm your meal on board.",
