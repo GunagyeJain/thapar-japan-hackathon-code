@@ -43,6 +43,7 @@ npm run dev
 | Tests only | `npm test` |
 | Regenerate `shared/seed/*.json` | `npm run seed` |
 | Demo build: one origin on :8000 (for the tunnel) | `npm run demo` |
+| Clean checkout to a running demo in one go (installs, builds, prints the judge and tunnel addresses) | `bash scripts/demo.sh` (add `--reset` for fresh data) |
 | HTTPS address for phones and the iPad (needs `cloudflared`) | `npm run tunnel` (with `npm run demo` running) |
 | After a sync changed `requirements.txt` | `uv pip install --python backend/.venv -r backend/requirements.txt` |
 | After a sync changed a `package.json` | `npm install` |
