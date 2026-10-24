@@ -45,6 +45,7 @@ npm run dev
 | Demo build: one origin on :8000 (for the tunnel) | `npm run demo` |
 | Clean checkout to a running demo in one go (installs, builds, prints the judge and tunnel addresses) | `bash scripts/demo.sh` (add `--reset` for fresh data) |
 | HTTPS address for phones and the iPad (needs `cloudflared`) | `npm run tunnel` (with `npm run demo` running) |
+| Story smoke test (Playwright; first time: `npm install --prefix e2e && npm --prefix e2e run install-browser`) | `npm run e2e` (starts `npm run demo` if nothing is on :8000; `E2E_BASE_URL=…` to point elsewhere) |
 | After a sync changed `requirements.txt` | `uv pip install --python backend/.venv -r backend/requirements.txt` |
 | After a sync changed a `package.json` | `npm install` |
 | Port 8000 or 5173 already in use | stop the old `npm run dev`; on Windows `netstat -ano \| findstr :8000`, then `taskkill /PID <pid> /T /F` |
