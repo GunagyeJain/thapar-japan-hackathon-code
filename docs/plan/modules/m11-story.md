@@ -1,7 +1,7 @@
 # m11: story engine + demo control
 
 **Owner:** Gunagye (lane b) · **Branch:** `gunagye/m11-story` · **Phase:** 3, 22:00–02:00 IST
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Make the 4-minute demo deterministic and impossible to get lost in. `/demo` is the presenter's control panel:
@@ -46,7 +46,7 @@ A Playwright run proves the whole story still works before every rehearsal.
 Every step is idempotent: running it twice changes nothing.
 
 ## Tasks
-- [ ] **T1 Scenario + step runner (45 min).** Step definitions, `GET /scenario`, `POST /step` (sets the clock, runs the auto actions, marks done), tests.
+- [x] **T1 Scenario + step runner (45 min).** Step definitions, `GET /scenario`, `POST /step` (sets the clock, runs the auto actions, marks done), tests.
 
   _Done when:_ stepping 0 → 8 by API alone ends with Priya's C1–C5 all green and 27D served from the backup.
 - [ ] **T2 `/demo` page (40 min).**
@@ -68,3 +68,8 @@ Two dry runs in a row work from `/demo` with no manual database fiddling, and th
 ## Notes
 - Judges join during Act 0/1, while the tablet is still online. Their seats sync to the tablet with the package at step 6.
 - On the projector, judges show as first name + initial; their diet comes from presets only.
+- **How steps call the other modules:** through their HTTP routes in `shared/api.md`, in-process (`actions._call`), not Python imports, so an owner can structure their code freely. m3 `POST /profiles`, m4 `POST /sim/booking-events` and `POST /alerts/{id}/actions`, m7 `GET/POST /flights/{id}/meal-lists` + `POST /meal-lists/{id}/ack`, m6 `POST /late-requests`, m8 `POST /flights/{id}/crew-events`.
+- **Stand-ins until a route is on main** (404/405): m4's rebooking (Priya 6XK2QP → 8MZ2TN, SSR dropped, C2 fail, LOST_MEAL with the deadline) and request-again (SSR back, C2 fixed, alert resolved, SMS); m7's acknowledgement (C3 for every promise). They switch off by themselves once the routes exist.
+- **Step 7** sends the tablet's events with fixed `client_id`s (`story-<type>-<item>-<who>`), so a second sync is all duplicates. 27D gets the first galley-reserve backup.
+- **Step 0** resets (keeping judges) unless nothing has happened since the last story reset, so judges who joined meanwhile stay.
+- `POST /demo/step` also returns `did: string[]` (what the server just did), shown on `/demo`.
