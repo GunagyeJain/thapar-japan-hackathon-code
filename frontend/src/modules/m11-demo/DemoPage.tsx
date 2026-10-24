@@ -102,7 +102,6 @@ export function DemoPage() {
       <PageHeader
         eyebrow="JL740 · the 4-minute story"
         title="Demo control"
-        subtitle="One step at a time: where to look, what to click, what to say. The other screens show a short guide while the story runs."
         actions={
           <>
             <BrandToggle />
@@ -156,12 +155,19 @@ export function DemoPage() {
                   ))}
                 </ol>
               </Block>
-              <Block icon={MessageSquareQuote} title="Say">
-                <p className="border-l-2 border-blue pl-3 text-[15px] leading-relaxed italic">“{cue.say}”</p>
-              </Block>
-              <Block icon={Eye} title="The room sees">
-                <p className="text-[15px] leading-relaxed">{cue.sees}</p>
-              </Block>
+              <details className="group md:col-span-2">
+                <summary className="flex cursor-pointer items-center gap-1.5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                  <MessageSquareQuote className="size-3.5" aria-hidden="true" /> Script
+                </summary>
+                <div className="mt-3 grid gap-5 md:grid-cols-2">
+                  <Block icon={MessageSquareQuote} title="Say">
+                    <p className="border-l-2 border-blue pl-3 text-[15px] leading-relaxed italic">“{cue.say}”</p>
+                  </Block>
+                  <Block icon={Eye} title="The room sees">
+                    <p className="text-[15px] leading-relaxed">{cue.sees}</p>
+                  </Block>
+                </div>
+              </details>
             </div>
           ) : (
             <p className="text-lg leading-relaxed" lang={lang}>
@@ -200,14 +206,13 @@ export function DemoPage() {
         </section>
         <div className="flex flex-col gap-5">
           <section className="rounded-xl border bg-card p-4" aria-labelledby="priya-title">
-            <h2 id="priya-title" className="text-sm font-semibold">
-              Priya's meal promise · 23C
+            <h2 id="priya-title" className="mb-3 text-sm font-semibold">
+              Priya's meal · 23C
             </h2>
-            <p className="mb-3 text-xs text-muted-foreground">Fills in as the story runs: the five hand-offs of her meal.</p>
             {priya.data?.promise ? (
               <PromiseSteps checkpoints={priya.data.promise.checkpoints} orientation="column" current={cue?.handoff && cue.handoff !== "LATE" ? cue.handoff : null} />
             ) : (
-              <p className="rounded-lg bg-mist px-3 py-2 text-sm text-muted-foreground">Not yet: it starts when Priya fills in her phone in Act 1.</p>
+              <p className="rounded-lg bg-mist px-3 py-2 text-sm text-muted-foreground">Starts in Act 1</p>
             )}
           </section>
           <JudgeQr />

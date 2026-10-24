@@ -311,7 +311,14 @@ def _ev(type_: str, item_id: str, at: datetime, **extra) -> dict:
 
 # ---------------------------------------------------------------- v2 story (docs/plan/v2.md)
 
-PRIYA_SAYS = "pure veg, no onion-garlic, aur Purnima ka vrat rakhti hoon"
+# What Priya ticks on JAL's special-meal form (/jal): Vegetarian, Onion & garlic, Purnima fast.
+PRIYA_FORM = {"forbid": ["meat", "seafood", "egg", "gelatin", "onion", "garlic"], "allow": ["dairy"], "allergens": []}
+
+
+def _purnima_rule() -> dict[str, Any]:
+    """The form's Purnima tile: every Purnima date, asked about before it changes a meal (confirm)."""
+    days = next(o["days"] for o in engine.calendar()["observances"] if o["id"] == "purnima")
+    return {"id": "TR-purnima", "kind": "dates", "dates": [d["date"] for d in days], "preset": "vrat", "confirm": True}
 
 
 def _priya_id() -> str:
@@ -320,18 +327,18 @@ def _priya_id() -> str:
 
 
 def priya_passport(did: list[str]) -> None:
-    """Priya says her diet in her own words; the passport is saved (Act 1)."""
+    """Priya fills the special-meal form on JAL's My Booking; the passport is saved (Act 1)."""
     pid = _priya_id()
     status, have = _call("GET", f"/passport/{pid}")
     if status != NOT_THERE and have:
-        did.append("Priya's passport was already saved")
+        did.append("Priya's meal form was already saved")
         return
-    status, understood = _call("POST", "/passport/understand", {"text": PRIYA_SAYS, "lang": "hi"})
+    rules = {**PRIYA_FORM, "time_rules": [_purnima_rule()]}
+    status, saved = _call("POST", "/passport", {"passenger_id": pid, "lang": "en", "rules": rules, "source": "form"})
     if status == NOT_THERE:
-        raise StepError("The passport chat isn't on this build yet")
-    _, saved = _call("POST", "/passport", {"passenger_id": pid, "lang": "hi", "rules": understood["rules"], "source": "chat"})
+        raise StepError("The meal form isn't on this build yet")
     plan = (saved or {}).get("plan") or {}
-    did.append(f"Priya's passport saved: {plan.get('code') or plan.get('main_pick')} {plan.get('kitchen_note') or ''}".strip())
+    did.append(f"Priya's form saved: {plan.get('code') or plan.get('main_pick')} {plan.get('kitchen_note') or ''}".strip())
 
 
 def radar_scan(did: list[str]) -> None:
