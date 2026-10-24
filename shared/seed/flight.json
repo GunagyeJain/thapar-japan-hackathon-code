@@ -1,0 +1,36 @@
+{
+ "id": "JL740-20261025",
+ "flight_no": "JL740",
+ "date": "2026-10-25",
+ "origin": "DEL",
+ "dest": "NRT",
+ "std": "2026-10-25T04:35:00+05:30",
+ "sta": "2026-10-25T15:20:00+09:00",
+ "aircraft": "B787-8",
+ "cabins": {
+  "C": {
+   "rows": [
+    1,
+    5
+   ],
+   "letters": "ACDGHK",
+   "seats": 30
+  },
+  "Y": {
+   "rows": [
+    18,
+    39
+   ],
+   "letters": "ACDEFGHK",
+   "seats": 176
+  }
+ },
+ "special_meal_cutoff": "2026-10-24T03:35:00+05:30",
+ "caterer_final_list_at": "2026-10-25T00:40:00+05:30",
+ "dispatch_at": "2026-10-25T02:05:00+05:30",
+ "boarding_at": "2026-10-25T03:35:00+05:30",
+ "status": "scheduled",
+ "delay_min": 0,
+ "caterer": "Skyline Flight Kitchens, Delhi",
+ "backup_count": 4
+}
