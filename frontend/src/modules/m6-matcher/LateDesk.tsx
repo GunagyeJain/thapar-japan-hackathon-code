@@ -7,6 +7,7 @@ import { api, FLIGHT_ID, POLL_MS } from "@/lib/api"
 import type { Lang, Passenger } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { Button, EmptyState, Input, KpiTile, LangSwitch, PageHeader, toast } from "@/ui"
+import { BackupForecast } from "@/modules/m6-matcher/BackupForecast"
 import { DietChoice, NO_DIET, type DietValue } from "@/modules/m6-matcher/DietChoice"
 import { MatchResult } from "@/modules/m6-matcher/MatchResult"
 import type { InventoryResponse, LateRequestResponse, MatchResult as Result } from "@/modules/m6-matcher/types"
@@ -172,6 +173,7 @@ export function LateDesk() {
           )}
         </section>
       </div>
+      <BackupForecast lang={lang} />
     </div>
   )
 }
