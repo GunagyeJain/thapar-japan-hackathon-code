@@ -1,6 +1,7 @@
 // Rules engine for the browser and the offline crew tablet.
 // A line-by-line port of backend/app/modules/m1_rules/engine.py (evaluate and presets);
 // shared/rules/vectors.json keeps the two in step, so change both together.
+import calendarJson from "@shared/rules/calendar.json"
 import codesJson from "@shared/rules/codes.json"
 import dietsJson from "@shared/rules/diets.json"
 import presetsJson from "@shared/rules/presets.json"
@@ -222,4 +223,35 @@ export function combinePresets(presetIds: readonly string[]): { forbid: string[]
   const forbid = dedupe(picked.flatMap((p) => p.forbid))
   const allow = dedupe(picked.flatMap((p) => p.allow)).filter((a) => !forbid.some((f) => covers(f, a)))
   return { forbid, allow }
+}
+
+export type FastDay = { date: string; name: Text; alt?: string }
+export type Observance = { id: string; labels: Text; rules: string; days: FastDay[] }
+export type Calendar = { version: string; note: Text; observances: Observance[] }
+
+/** Public fast-day calendar (Ekadashi, Navratri). Which fasts a person keeps never leaves their phone. */
+export function calendar(): Calendar {
+  return calendarJson as Calendar
+}
+
+/** The given travel dates that fall on a fast day of any of these observances. */
+export function fastDays(observanceIds: readonly string[], dates: readonly string[]): string[] {
+  const picked = calendar().observances.filter((o) => observanceIds.includes(o.id))
+  const days = new Set(picked.flatMap((o) => o.days.map((d) => d.date)))
+  return dates.map((d) => d.slice(0, 10)).filter((d) => days.has(d))
+}
+
+/** A person's rules on one date: on a fast day the vrat preset is added. Forbid wins, as in combinePresets. */
+export function rulesOn(
+  forbid: readonly string[],
+  allow: readonly string[],
+  fastingDates: readonly string[],
+  onDate: string,
+): { forbid: string[]; allow: string[]; fast_day: boolean } {
+  const day = onDate.slice(0, 10)
+  if (!fastingDates.some((d) => d.slice(0, 10) === day)) return { forbid: [...forbid], allow: [...allow], fast_day: false }
+  const vrat = loadRules().presets.get("vrat") as Preset
+  const outForbid = dedupe([...forbid, ...vrat.forbid])
+  const outAllow = dedupe([...allow, ...vrat.allow]).filter((a) => !outForbid.some((f) => covers(f, a)))
+  return { forbid: outForbid, allow: outAllow, fast_day: true }
 }
