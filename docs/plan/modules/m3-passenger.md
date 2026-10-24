@@ -1,7 +1,7 @@
 # m3: passenger + judge join
 
 **Owner:** Shefali · **Branch:** `shefali/m3-passenger` · **Phase:** 1, 17:00–19:30 IST (after m0 is on main)
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Act 1 of the demo, plus the moment judges take part.
@@ -66,3 +66,6 @@ Act 1 runs live on a phone, and a judge can join from a QR in under 30 seconds.
 
 ## Notes
 _Owner's running notes: what's mocked, open questions._
+- Before m0: pure logic only, in new files. `seats.py` (judge seat order, lookup clean-up) + `test_m3_seats.py`; `types.ts`, `mock.ts` (8 presets, picker groups, Priya's AVML/VJML options, HNML check), `diet.ts` (picker state + summary chips) + `diet.test.ts`; `i18n.ts` with EN/HI/JA copy for every step of `/p` and `/j`.
+- After m0: `router.py` endpoints, `DietPicker.tsx`, `DietSummary.tsx`, the `/p` and `/j` pages. `test_m3_seats.py` loads `seats.py` by path; switch to a normal import once the app package exists.
+- Hindi and Japanese copy is a first draft: get a native speaker to read the Japanese before the demo.
