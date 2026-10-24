@@ -1,7 +1,7 @@
 // "/crew": the crew tablet. Download the flight package while online; everything below works in airplane mode.
 // Layout: app bar (flight, connection, language) → three numbered tasks → the task's screen.
-import { CloudDownload, Info, LayoutGrid, ListChecks, RefreshCw, ScanLine, UtensilsCrossed, Wifi, WifiOff, type LucideIcon } from "lucide-react"
-import { useCallback, useMemo, useState, type ReactNode } from "react"
+import { CloudDownload, LayoutGrid, ListChecks, RefreshCw, ScanLine, UtensilsCrossed, Wifi, WifiOff, type LucideIcon } from "lucide-react"
+import { useCallback, useMemo, useState } from "react"
 
 import { Brand } from "@/app/layouts/Brand"
 import { FLIGHT_ID } from "@/lib/api"
@@ -80,26 +80,10 @@ function CrewScreens({ crewLang, setCrewLang }: { crewLang: CrewLang; setCrewLan
           <>
             <TaskNav pkg={pkg} task={task} onTask={setTask} />
             <div role="tabpanel" aria-label={task}>
-              {task === "galley" && (
-                <Screen how={COPY.howGalley}>
-                  <GalleyCheck pkg={pkg} now={now} record={store.record} />
-                </Screen>
-              )}
-              {task === "service" && (
-                <Screen how={COPY.howService}>
-                  <SeatScan pkg={pkg} seat={seat} onSeat={setSeat} now={now} record={store.record} />
-                </Screen>
-              )}
-              {task === "seats" && (
-                <Screen how={COPY.howSeats}>
-                  <CrewSeats pkg={pkg} online={store.online} onSeat={goService} />
-                </Screen>
-              )}
-              {task === "copilot" && (
-                <Screen how={COPILOT.how}>
-                  <CopilotTask pkg={pkg} now={now} onTap={onTap} onScan={goService} online={store.online} />
-                </Screen>
-              )}
+              {task === "galley" && <GalleyCheck pkg={pkg} now={now} record={store.record} />}
+              {task === "service" && <SeatScan pkg={pkg} seat={seat} onSeat={setSeat} now={now} record={store.record} />}
+              {task === "seats" && <CrewSeats pkg={pkg} online={store.online} onSeat={goService} />}
+              {task === "copilot" && <CopilotTask pkg={pkg} now={now} onTap={onTap} onScan={goService} online={store.online} />}
             </div>
           </>
         )}
@@ -159,18 +143,12 @@ function AppBar({ store, simNow, crewLang, setCrewLang }: { store: CrewStore; si
 function Setup({ store }: { store: CrewStore }) {
   const say = useSay()
   const [busy, setBusy] = useState(false)
-  const steps = [COPY.setup1, COPY.setup2, COPY.setup3]
   return (
     <section className="mx-auto mt-6 flex w-full max-w-2xl flex-col gap-6 rounded-xl border bg-card p-8">
-      <Bi text={COPY.setupTitle} size="lg" />
-      <ol className="flex flex-col gap-4">
-        {steps.map((s, i) => (
-          <li key={i} className="flex items-start gap-3">
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-secondary font-display font-bold tabular">{i + 1}</span>
-            <Bi text={s} size="md" />
-          </li>
-        ))}
-      </ol>
+      <div className="flex flex-col gap-2">
+        <Bi text={COPY.setupTitle} size="lg" />
+        <Bi text={COPY.setupOffline} size="sm" className="text-muted-foreground" />
+      </div>
       <Button
         size="lg"
         className="h-14 text-lg"
@@ -193,26 +171,24 @@ interface TaskCardInfo {
   n: number
   icon: LucideIcon
   title: Bilingual
-  when: Bilingual
-  progress: Bilingual
+  progress: string
   done: boolean
 }
 
 function TaskNav({ pkg, task, onTask }: { pkg: CopilotPackage; task: Task; onTask: (t: Task) => void }) {
-  const say = useSay()
   const cards = useMemo<TaskCardInfo[]>(() => {
     const L = lookup(pkg)
     const rows = [...galleyRows(pkg, L).values()].flat()
     const found = rows.filter(isDone).length
-    const served = pkg.items.filter((i) => i.status === "served").length
+    const served = rows.filter((r) => r.item.status === "served").length
     const specials = pkg.passengers.filter((p) => p.ssr_meal).length
     const judges = pkg.passengers.filter((p) => p.is_judge).length
     const serve = serveProgress(pkg)
     return [
-      { id: "galley", n: 1, icon: UtensilsCrossed, title: COPY.task1, when: COPY.task1When, progress: COPY.progressGalley(found, rows.length), done: rows.length > 0 && found === rows.length },
-      { id: "service", n: 2, icon: ScanLine, title: COPY.task2, when: COPY.task2When, progress: COPY.progressServed(served), done: false },
-      { id: "seats", n: 3, icon: LayoutGrid, title: COPY.task3, when: COPY.task3When, progress: COPY.progressSeats(specials, judges), done: false },
-      { id: "copilot", n: 4, icon: ListChecks, title: COPILOT.task, when: COPILOT.taskWhen, progress: COPILOT.progress(serve.done, serve.of), done: serve.of > 0 && serve.done === serve.of },
+      { id: "galley", n: 1, icon: UtensilsCrossed, title: COPY.task1, progress: `${found}/${rows.length}`, done: rows.length > 0 && found === rows.length },
+      { id: "service", n: 2, icon: ScanLine, title: COPY.task2, progress: `${served}/${rows.length}`, done: false },
+      { id: "seats", n: 3, icon: LayoutGrid, title: COPY.task3, progress: judges ? `${specials} · J ${judges}` : `${specials}`, done: false },
+      { id: "copilot", n: 4, icon: ListChecks, title: COPILOT.task, progress: `${serve.done}/${serve.of}`, done: serve.of > 0 && serve.done === serve.of },
     ]
   }, [pkg])
 
@@ -241,28 +217,17 @@ function TaskNav({ pkg, task, onTask }: { pkg: CopilotPackage; task: Task; onTas
               <c.icon className="size-5" aria-hidden="true" />
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block text-[11px] font-medium tracking-wider text-muted-foreground uppercase tabular">
-                {c.n} · {say(c.when)}
+              <span className="flex items-baseline gap-2">
+                <span className="font-display text-sm font-bold text-muted-foreground tabular">{c.n}</span>
+                <Bi text={c.title} size="md" className="font-semibold" />
               </span>
-              <Bi text={c.title} size="md" className="font-semibold" />
-              <span className={cn("mt-0.5 block text-sm tabular", c.done ? "text-safe" : "text-muted-foreground")}>{say(c.progress)}</span>
+            </span>
+            <span className={cn("shrink-0 font-display text-lg font-semibold tabular", c.done ? "text-safe" : "text-muted-foreground")}>
+              {c.progress}
             </span>
           </button>
         )
       })}
     </nav>
-  )
-}
-
-/** A task's screen with its one-line how-to on top. */
-function Screen({ how, children }: { how: Bilingual; children: ReactNode }) {
-  return (
-    <div className="flex flex-col gap-4">
-      <p className="flex items-start gap-2 rounded-lg bg-secondary/60 px-3 py-2 text-sm">
-        <Info className="mt-0.5 size-4 shrink-0 text-sky" aria-hidden="true" />
-        <Bi text={how} size="sm" />
-      </p>
-      {children}
-    </div>
   )
 }
