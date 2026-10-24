@@ -39,13 +39,13 @@ export const ONBOARD_RUNGS: readonly Rung[] = ONBOARD
 
 export const RUNGS: Record<Rung, { label: string; ladder?: string }> = {
   ssr_change: { label: "Special meal (SSR)" },
-  caterer_add: { label: "Caterer list add", ladder: "Add to the caterer's next list" },
-  standby_uplift: { label: "Standby uplift", ladder: "Standby bank: AVML ×2, VJML, DBML, VGML" },
-  lounge: { label: "Lounge meal", ladder: "Lounge · business only" },
-  airside_partner: { label: "Airside partner", ladder: "Airside partner · closed 00–05" },
+  caterer_add: { label: "Caterer list add", ladder: "Caterer list" },
+  standby_uplift: { label: "Standby uplift", ladder: "Standby stock" },
+  lounge: { label: "Lounge meal", ladder: "Lounge (business)" },
+  airside_partner: { label: "Airside partner", ladder: "Airside partner" },
   onboard_spare: { label: "Onboard spare", ladder: "Spare on board" },
   noshow_release: { label: "No-show release" },
-  reserve_pouch: { label: "Reserve pouch", ladder: "Reserve pouch, heated" },
+  reserve_pouch: { label: "Reserve pouch" },
   flex_swap: { label: "Flex swap" },
   sunrise_box: { label: "Sunrise box" },
   unmet: { label: "Not met" },

@@ -12,20 +12,18 @@ import { Button, DataTable, EmptyState, PageHeader, toast, type Column } from "@
 import { CHANGES_KEY, useChangeMetrics, useChanges, useItemPlaces, useResetChaos, useRunChaos } from "./api"
 import { CutoffLadder } from "./CutoffLadder"
 import { DecisionCard } from "./DecisionCard"
-import { KINDS, WINDOWS } from "./labels"
+import { WINDOWS } from "./labels"
 import { MetricsStrip } from "./MetricsStrip"
 import { ChannelLabel, OutcomeChip, RungBadge, SampleChip } from "./parts"
 import type { ChangeEvent, ChangesResponse, Feed } from "./types"
-import { needSummary, numbered } from "./words"
+import { numbered } from "./words"
 
 /** During a Chaos Mode run the new events land one at a time, so the room can follow each onto its rung. */
 const REVEAL_MS = 700
 
 type Row = ChangeEvent & { n: number }
 
-// Two short lines per cell where it saves width, so every column still fits at 1440 px.
 const cell = "px-2"
-const twoLines = "line-clamp-2 whitespace-normal leading-snug"
 const COLUMNS: Column<Row>[] = [
   { key: "n", header: "#", cell: (e) => <span className="text-muted-foreground">{e.n}</span>, className: `${cell} w-7` },
   {
@@ -53,36 +51,14 @@ const COLUMNS: Column<Row>[] = [
     className: cell,
     sortValue: (e) => e.seat ?? "",
   },
-  {
-    key: "need",
-    header: "What changed",
-    cell: (e) => {
-      const text = e.request.forbid.length ? needSummary(e.request) : `${KINDS[e.kind]}${e.request.note ? `: ${e.request.note}` : ""}`
-      return (
-        <span className={`max-w-[210px] text-[13px] ${twoLines}`} title={`${KINDS[e.kind]}: ${text}`}>
-          {text}
-        </span>
-      )
-    },
-    className: cell,
-  },
-  {
-    key: "window",
-    header: "Window",
-    cell: (e) => <span className={`max-w-[84px] ${twoLines}`}>{WINDOWS[e.window].name}</span>,
-    className: cell,
-  },
   { key: "rung", header: "Rung", cell: (e) => <RungBadge rung={e.decision.rung} />, className: cell },
   { key: "result", header: "Result", cell: (e) => <OutcomeChip event={e} side="ours" />, className: cell },
   {
     key: "today",
     header: "Today",
     cell: (e) => (
-      <span className="flex items-center gap-1.5">
+      <span title={t(e.today.outcome, "en")}>
         <OutcomeChip event={e} side="today" />
-        <span className={`max-w-[170px] text-xs text-muted-foreground ${twoLines}`} title={t(e.today.outcome, "en")}>
-          {t(e.today.outcome, "en")}
-        </span>
       </span>
     ),
     className: cell,
@@ -164,9 +140,9 @@ export function ChangeControlPage() {
   return (
     <div className="mx-auto flex max-w-[1600px] flex-col gap-5 px-6 py-6">
       <PageHeader
-        eyebrow="Operations · JL740 DEL → NRT · 25 Oct"
+        eyebrow="JL740 · DEL → NRT · 25 Oct"
         title="Change control"
-        subtitle={nowWindow ? `Now: ${WINDOWS[nowWindow].name} window. ${WINDOWS[nowWindow].phrase}.` : "Every late diet change, on the rung still possible at that minute."}
+        subtitle={nowWindow ? `Now: ${WINDOWS[nowWindow].name}` : "Every late change, on its rung"}
         actions={
           <>
             <SampleChip live={live} />
@@ -186,12 +162,9 @@ export function ChangeControlPage() {
 
       <div className="grid gap-5 min-[1700px]:grid-cols-[minmax(0,1fr)_440px]">
         <section className="flex min-w-0 flex-col gap-2" aria-labelledby="m18-log-title">
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-            <h2 id="m18-log-title" className="text-base font-semibold">
-              Change log
-            </h2>
-            <p className="text-sm text-muted-foreground">Every late need, the rung it landed on, and what today's process would have done.</p>
-          </div>
+          <h2 id="m18-log-title" className="text-base font-semibold">
+            Change log
+          </h2>
           {changes.isError ? (
             <EmptyState
               title="Couldn't load the change log"
@@ -215,7 +188,7 @@ export function ChangeControlPage() {
                 <EmptyState
                   icon={Zap}
                   title="No changes yet"
-                  body="Run Chaos Mode to fire the seven JL740 events, or take a change at the Change desk. Each lands here within 2 seconds."
+                  body="Run Chaos Mode, or log one at the Change desk."
                 />
               }
             />
@@ -229,7 +202,7 @@ export function ChangeControlPage() {
             <EmptyState
               className="flex-1"
               title="Pick a change"
-              body="Click a dot on the ladder or a row in the log to see every rung tried, the message the passenger got and what today's process would have done."
+              body="Click a dot or a row."
             />
           )}
         </div>

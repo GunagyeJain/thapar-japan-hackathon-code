@@ -161,12 +161,9 @@ export function PassengerCard({ passenger: p, passport, loading }: { passenger: 
               </li>
             ))}
           </ul>
-          <p lang="ja" className="text-xs text-muted-foreground">
-            {passport.card.ja}
-          </p>
         </div>
       ) : (
-        <StatusChip status="neutral" size="sm" icon={UserRoundX} label="No passport: they haven't told us their food rules yet" />
+        <StatusChip status="neutral" size="sm" icon={UserRoundX} label="No food rules on file" />
       )}
     </div>
   )

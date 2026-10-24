@@ -15,12 +15,9 @@ export interface MetricsStripProps {
 export function MetricsStrip({ metrics, error, onRetry }: MetricsStripProps) {
   return (
     <section className="flex flex-col gap-2" aria-labelledby="m18-metrics-title">
-      <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-        <h2 id="m18-metrics-title" className="text-base font-semibold">
-          ThaliBento vs today's process
-        </h2>
-        <p className="text-sm text-muted-foreground">The same events, both ways. Big number: ThaliBento; small: today.</p>
-      </div>
+      <h2 id="m18-metrics-title" className="text-base font-semibold">
+        ThaliBento vs today
+      </h2>
       {error && !metrics ? (
         <EmptyState
           title="Couldn't load the metrics"
@@ -34,7 +31,7 @@ export function MetricsStrip({ metrics, error, onRetry }: MetricsStripProps) {
       ) : (
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {metrics
-            ? kpiViews(metrics).map((k) => <KpiTile key={k.id} label={k.label} value={k.value} delta={k.delta} hint={k.hint} status={k.status} />)
+            ? kpiViews(metrics).map((k) => <KpiTile key={k.id} label={k.label} value={k.value} delta={k.delta} status={k.status} />)
             : Array.from({ length: 4 }, (_, i) => <div key={i} className="h-36 animate-pulse rounded-xl border bg-card" aria-hidden="true" />)}
         </div>
       )}

@@ -171,9 +171,9 @@ export function ChangeDeskPage() {
   return (
     <div className="mx-auto flex max-w-[1600px] flex-col gap-5 px-6 py-6">
       <PageHeader
-        eyebrow="Operations · check-in, lounge, gate and crew"
+        eyebrow="Check-in · lounge · gate · crew"
         title="Change desk"
-        subtitle={`Take a diet change at any counter; the router finds the best fix still possible.${nowWindow ? ` Now: ${WINDOWS[nowWindow].phrase}.` : ""}`}
+        subtitle={nowWindow ? `Now: ${WINDOWS[nowWindow].name}` : "Any counter, the best fix still possible"}
         actions={<SampleChip live={changes.data?.live} />}
       />
 
@@ -191,7 +191,6 @@ export function ChangeDeskPage() {
           </Step>
 
           <Step n={3} title="What do they need?" aside={<LangSwitch value={lang} onChange={setLang} />}>
-            <p className="-mt-1 text-xs text-muted-foreground">Their language: the tiles and the answer they get are in it.</p>
             <Tabs value={mode} onValueChange={(v) => setMode(v as Mode)}>
               <TabsList className="h-10">
                 {hasPassport && <TabsTrigger value="passport">Their passport</TabsTrigger>}
@@ -200,7 +199,7 @@ export function ChangeDeskPage() {
               </TabsList>
               {hasPassport && (
                 <TabsContent value="passport" className="pt-2 text-sm text-muted-foreground">
-                  The router uses the rules in their passport, shown above. Switch tabs if something changed.
+                  Uses the rules in their passport.
                 </TabsContent>
               )}
               <TabsContent value="picker" className="pt-2">
@@ -252,8 +251,7 @@ export function ChangeDeskPage() {
               <EmptyState
                 className="flex-1"
                 icon={Send}
-                title="The router's answer appears here"
-                body="Pick the counter, find the passenger, say what they need, then Submit change. You'll see the fix in plain words, every rung tried, the message they get and what today's process would have done."
+                title="The fix appears here"
               />
             )}
           </section>
