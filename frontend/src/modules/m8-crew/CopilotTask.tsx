@@ -87,7 +87,7 @@ export function CopilotTask({ pkg, now, onTap, onScan, online = true }: CopilotT
           <CopilotMap pkg={pkg} selected={selected} onSeat={setSelected} />
           <Hint text={COPILOT.pickSeat} />
           <Dialog open={selected !== null} onOpenChange={(open) => !open && setSelected(null)}>
-            <DialogContent className="cabin max-h-[92vh] gap-0 overflow-y-auto border-0 bg-transparent p-0 sm:max-w-3xl" aria-describedby={undefined}>
+            <DialogContent className="max-h-[92vh] gap-0 overflow-y-auto border-0 bg-transparent p-0 sm:max-w-3xl" aria-describedby={undefined}>
               <DialogTitle className="sr-only">{selected}</DialogTitle>
               {selected && card(selected)}
             </DialogContent>

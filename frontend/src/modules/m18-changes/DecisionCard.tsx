@@ -45,7 +45,7 @@ export function DecisionCard({ event: e, place, className }: DecisionCardProps) 
           <span aria-hidden="true">·</span>
           <span>{KINDS[e.kind]}</span>
           <span aria-hidden="true">·</span>
-          <span>{WINDOWS[e.window].name} window</span>
+          <span>{WINDOWS[e.window].name}</span>
         </p>
         <h3 className="font-display text-xl leading-tight font-semibold">
           <span className="tabular">{e.seat ?? "—"}</span> {e.name ?? "Passenger"}
@@ -58,7 +58,6 @@ export function DecisionCard({ event: e, place, className }: DecisionCardProps) 
           <RungBadge rung={d.rung} className="bg-card" />
         </div>
         <p className="font-display text-lg leading-snug font-semibold text-navy">{decisionHeadline(d, place)}</p>
-        <p className="text-sm text-muted-foreground">{t(d.reason, "en")}</p>
         {(d.item_id || d.spec_name || d.kitchen_note) && (
           <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
             {d.item_id && <span className="code font-semibold">{d.item_id}</span>}
@@ -94,7 +93,11 @@ export function DecisionCard({ event: e, place, className }: DecisionCardProps) 
                       {RUNGS[s.rung].label}
                       <span className="sr-only">{s.chosen ? " (chosen)" : " (skipped)"}</span>
                     </span>
-                    {s.reason && <span className="block text-xs text-muted-foreground">{s.reason}</span>}
+                    {s.reason && (
+                      <span className="line-clamp-2 text-xs text-muted-foreground" title={s.reason}>
+                        {s.reason}
+                      </span>
+                    )}
                   </span>
                 </li>
               )
@@ -111,7 +114,7 @@ export function DecisionCard({ event: e, place, className }: DecisionCardProps) 
               {lang !== "en" && <p className="border-t pt-1.5 text-xs text-muted-foreground">EN: {t(e.message, "en")}</p>}
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">No message: nobody to tell. The meal goes back into stock.</p>
+            <p className="text-sm text-muted-foreground">None: the meal goes back into stock.</p>
           )}
         </Section>
 
@@ -119,7 +122,9 @@ export function DecisionCard({ event: e, place, className }: DecisionCardProps) 
           <span>
             <OutcomeChip event={e} side="today" />
           </span>
-          <p className="text-sm">{t(e.today.outcome, "en")}</p>
+          <p className="line-clamp-3 text-sm" title={t(e.today.outcome, "en")}>
+            {t(e.today.outcome, "en")}
+          </p>
         </Section>
       </div>
     </article>

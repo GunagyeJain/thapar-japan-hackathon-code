@@ -106,15 +106,17 @@ export function MatchResult({ result, lang = "en", compact = false }: MatchResul
       <TierLadder tier={result.tier} lang={lang} />
       {result.status === "matched" ? <Chosen result={result} lang={lang} /> : <VoucherCard result={result} lang={lang} />}
       <p className="text-sm">{t(result.explanation, lang)}</p>
-      {!compact && (
-        <div>
-          <h3 className="pb-1 text-sm font-medium text-muted-foreground">{t(STR.considered, lang)}</h3>
+      {!compact && others.length > 0 && (
+        <details>
+          <summary className="cursor-pointer pb-1 text-sm font-medium text-muted-foreground hover:text-foreground">
+            {t(STR.considered, lang)} ({others.length})
+          </summary>
           <ul>
             {others.map((row) => (
               <ConsideredRow key={`${row.item_id}-${row.tier}`} row={row} lang={lang} />
             ))}
           </ul>
-        </div>
+        </details>
       )}
       <p className="flex items-center gap-1.5 text-xs text-muted-foreground tabular">
         <Cpu className="size-3.5" aria-hidden="true" />

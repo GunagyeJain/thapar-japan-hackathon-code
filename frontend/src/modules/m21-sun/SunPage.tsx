@@ -12,7 +12,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
   EmptyState,
@@ -29,7 +28,7 @@ import {
 } from "@/ui"
 
 import { useSunFlight, useSunPresets, useSunSeats } from "./api"
-import { city, fmtDeg, fmtLeft, fmtPosition, ruleLabel } from "./format"
+import { city, fmtDeg, fmtLeft, ruleLabel } from "./format"
 import { fill, s } from "./i18n"
 import { SunChart } from "./SunChart"
 import { SunTimer } from "./SunTimer"
@@ -75,29 +74,22 @@ function Kpis({ flight, lang }: { flight: SunFlight; lang: Lang }) {
         label={t(s.kpiAircraft, lang)}
         value={rise ? hm(rise.at_aircraft) : "–"}
         delta={rise ? "IST" : undefined}
-        hint={
-          rise
-            ? fill(t(s.kpiAircraftHint, lang), { pos: fmtPosition(rise.lat, rise.lon), alt: rise.alt_m.toLocaleString("en-US") })
-            : t(s.noSunrise, lang)
-        }
+        hint={rise ? undefined : t(s.noSunrise, lang)}
       />
       <KpiTile
         label={fill(t(s.kpiOrigin, lang), { city: city(flight.origin, lang) })}
         value={rise?.at_origin ? hm(rise.at_origin) : "–"}
         delta="IST"
-        hint={fill(t(s.kpiOriginHint, lang), { code: flight.origin })}
       />
       <KpiTile
         label={t(s.kpiEarlier, lang)}
         value={rise?.minutes_earlier ?? "–"}
         delta={rise?.minutes_earlier != null ? t(s.minUnit, lang) : undefined}
-        hint={t(s.kpiEarlierHint, lang)}
       />
       <KpiTile
         label={t(s.kpiRule, lang)}
         value={!eat.sunrise_box && eat.may_eat_from ? hm(eat.may_eat_from) : "–"}
         delta={!eat.sunrise_box && eat.may_eat_from ? "IST" : undefined}
-        hint={t(s.kpiRuleHint, lang)}
         status={eat.sunrise_box ? { status: "info", label: t(s.sunriseBox, lang) } : undefined}
       />
     </div>
@@ -124,12 +116,11 @@ function ChartCard({ flight, lang }: { flight: SunFlight; lang: Lang }) {
         {delay > 0 && <StatusChip status="warn" size="sm" label={fill(t(s.delayed, lang), { n: delay })} />}
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <div className="flex max-w-3xl flex-col gap-1.5" lang={lang}>
-          {earlier != null && (
-            <p className="font-display text-xl leading-snug font-semibold">{fill(t(s.explain, lang), { n: earlier, city: origin })}</p>
-          )}
-          <p className="text-muted-foreground">{fill(t(s.why, lang), { city: origin })}</p>
-        </div>
+        {earlier != null && (
+          <p className="font-display text-xl leading-snug font-semibold" lang={lang}>
+            {fill(t(s.explain, lang), { n: earlier, city: origin })}
+          </p>
+        )}
         <SunChart flight={flight} lang={lang} now={now} />
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
           <span className="flex items-center gap-2">
@@ -145,7 +136,10 @@ function ChartCard({ flight, lang }: { flight: SunFlight; lang: Lang }) {
             {fill(t(s.legendLine, lang), { deg: fmtDeg(flight.threshold_cruise) })}
           </span>
         </div>
-        <p className="text-xs text-muted-foreground">{t(s.method, lang)}</p>
+        <details className="text-xs text-muted-foreground">
+          <summary className="cursor-pointer hover:text-foreground">{t(s.methodTitle, lang)}</summary>
+          <p className="mt-1">{t(s.method, lang)}</p>
+        </details>
       </CardContent>
     </Card>
   )
@@ -194,12 +188,10 @@ function PresetRow({ f, current, lang }: { f: SunSummary; current: boolean; lang
 
 function PresetsCard({ currentFlightNo, lang }: { currentFlightNo: string | null; lang: Lang }) {
   const presets = useSunPresets()
-  const day = presets.data ? DAY.format(new Date(`${presets.data.date}T12:00:00+05:30`)) : ""
   return (
     <Card>
       <CardHeader>
         <CardTitle>{t(s.presetsTitle, lang)}</CardTitle>
-        {presets.data && <CardDescription lang={lang}>{fill(t(s.presetsSub, lang), { date: day })}</CardDescription>}
       </CardHeader>
       <CardContent>
         {presets.isError ? (
@@ -252,10 +244,9 @@ function SeatsCard({ flightNo, lang }: { flightNo: string; lang: Lang }) {
                 <span className="w-12 font-display text-lg font-semibold tabular">{row.seat}</span>
                 <span className="flex min-w-0 flex-1 flex-col" lang={lang}>
                   <span className="text-sm font-medium">{ruleLabel(row.rule, lang)}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {t(row.note, lang)}
-                    {row.may_eat_until && ` · ${fill(t(s.until, lang), { time: fmtTime(row.may_eat_until, "IST") })}`}
-                  </span>
+                  {row.may_eat_until && (
+                    <span className="text-xs text-muted-foreground">{fill(t(s.until, lang), { time: fmtTime(row.may_eat_until, "IST") })}</span>
+                  )}
                 </span>
                 <SunTimer mayEatFrom={row.may_eat_from} sunriseBox={row.sunrise_box} lang={lang} size="sm" />
               </li>

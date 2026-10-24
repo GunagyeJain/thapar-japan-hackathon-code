@@ -28,11 +28,8 @@ function Legend() {
 function Row({ f, max }: { f: Family; max: number }) {
   const breakdown = `${f.loaded_from.special} special · ${f.loaded_from.main} main · ${f.loaded_from.spare} spare or pouch`
   return (
-    <li className="grid grid-cols-[168px_1fr_190px_118px] items-center gap-4 py-2">
-      <div className="min-w-0">
-        <div className="truncate text-sm font-medium">{t(f.label)}</div>
-        <div className="text-xs text-muted-foreground tabular">{Math.round(f.share * 100)}% of the silent passengers</div>
-      </div>
+    <li className="grid grid-cols-[160px_1fr_150px_118px] items-center gap-4 py-2">
+      <div className="min-w-0 truncate text-sm font-medium">{t(f.label)}</div>
       <div className="flex flex-col gap-1" aria-hidden="true">
         <div className="relative h-3 rounded-sm bg-muted">
           <div className="absolute inset-y-0 left-0 rounded-sm bg-sky/50" style={{ width: `${barPct(f.forecast, max)}%` }} />
@@ -43,12 +40,9 @@ function Row({ f, max }: { f: Family; max: number }) {
           <div className="absolute inset-y-0 left-0 rounded-sm bg-grey/60" style={{ width: `${barPct(f.loaded, max)}%` }} />
         </div>
       </div>
-      <div className="text-xs leading-5 tabular" title={breakdown}>
-        <div>
-          <span className="font-semibold">{f.known}</span> told · {f.forecast.toFixed(1)} forecast ·{" "}
-          <span className="font-semibold">p90 {f.p90}</span>
-        </div>
-        <div className="text-muted-foreground">{f.loaded} on board for them</div>
+      <div className="text-xs leading-5 tabular" title={`${f.known} told · ${f.forecast.toFixed(1)} forecast · ${breakdown}`}>
+        <span className="font-semibold">p90 {f.p90}</span>
+        <span className="text-muted-foreground"> · {f.loaded} on board</span>
       </div>
       <div className="justify-self-end">
         {f.risk ? (
@@ -71,10 +65,6 @@ export function FamilyChart({ families }: { families: Family[] }) {
           <Row key={f.family} f={f} max={max} />
         ))}
       </ul>
-      <p className="text-xs text-muted-foreground">
-        Bars share one scale (0–{max}); on-board bars longer than the scale are cut at the edge. Hover the numbers for
-        where the meals on board come from.
-      </p>
     </div>
   )
 }

@@ -87,7 +87,7 @@ export function LabelsPage() {
       <PageHeader
         eyebrow="Skyline Flight Kitchens, Delhi · JL740"
         title={version ? `Tray labels · meal list v${version}` : "Tray labels"}
-        subtitle="8 per A4 sheet. The QR holds only the meal item id; crew look up the seat on the tablet."
+        subtitle="8 per A4 · the QR holds only the item id"
         actions={
           <Button disabled={!labels.data?.length} onClick={() => window.print()}>
             <Printer /> Print

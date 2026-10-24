@@ -1,8 +1,9 @@
 // Caterer-side design: a standard veg tray in five sealed cups, and the fewest spare cups that make it safe for late needs.
 import { t } from "@/lib/i18n"
-import { Badge, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/ui"
+import { Badge, Card, CardContent, CardHeader, CardTitle } from "@/ui"
 
 import { s } from "./i18n"
+import { More } from "./More"
 import type { Bento } from "./types"
 
 export function BentoSpares({ bento }: { bento: Bento }) {
@@ -12,9 +13,15 @@ export function BentoSpares({ bento }: { bento: Bento }) {
     <Card>
       <CardHeader>
         <CardTitle>{t(s.bentoTitle)}</CardTitle>
-        <CardDescription>{t(bento.design)}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
+        <SpareCups bento={bento} slotLabel={slotLabel} needLabel={needLabel} />
+        <p className="text-sm">
+          <span className="font-semibold tabular">{bento.total_cups} cups</span> make standard trays safe for all four late needs
+          <span className="text-muted-foreground tabular"> · {bento.cups_if_stocked_apart} if stocked apart</span>
+        </p>
+        <More title={t(s.howCups)}>
+          <p className="text-muted-foreground">{t(bento.design)}</p>
         <div>
           <div className="mb-1.5 text-xs font-medium text-muted-foreground">Standard veg tray</div>
           <ol className="grid grid-cols-5 gap-1.5">
@@ -41,8 +48,16 @@ export function BentoSpares({ bento }: { bento: Bento }) {
             ))}
           </ul>
         </div>
+        </More>
+      </CardContent>
+    </Card>
+  )
+}
+
+function SpareCups({ bento, slotLabel, needLabel }: { bento: Bento; slotLabel: Record<string, string>; needLabel: Record<string, string> }) {
+  return (
         <div>
-          <div className="mb-1.5 text-xs font-medium text-muted-foreground">Spare cups to load (greedy set cover, p90 of pooled late needs)</div>
+          <div className="mb-1.5 text-xs font-medium text-muted-foreground">Spare cups to load</div>
           <table className="w-full text-sm">
             <tbody>
               {bento.spares.map((sp) => (
@@ -60,11 +75,5 @@ export function BentoSpares({ bento }: { bento: Bento }) {
             </tbody>
           </table>
         </div>
-        <p className="text-sm">
-          <span className="font-semibold tabular">{bento.total_cups} cups</span> turn standard trays into safe ones for all
-          four late needs; stocking each need apart takes <span className="tabular">{bento.cups_if_stocked_apart}</span>.
-        </p>
-      </CardContent>
-    </Card>
   )
 }

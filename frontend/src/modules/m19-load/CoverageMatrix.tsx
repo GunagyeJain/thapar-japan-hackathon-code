@@ -4,9 +4,10 @@ import { AlertTriangle, CheckCircle2, XCircle, type LucideIcon } from "lucide-re
 import { t } from "@/lib/i18n"
 import type { Verdict } from "@/lib/types"
 import { cn } from "@/lib/utils"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, StatusChip } from "@/ui"
+import { Card, CardContent, CardHeader, CardTitle, StatusChip } from "@/ui"
 
 import { s } from "./i18n"
+import { More } from "./More"
 import { cellFor, coverLabel, failReasons, splitName } from "./logic"
 import type { Candidate, Universal } from "./types"
 
@@ -37,7 +38,7 @@ function CandidateRow({ c, profiles }: { c: Candidate; profiles: Universal["prof
       <th scope="row" className="py-2 pr-3 text-left align-middle font-normal">
         <div className={cn("text-sm", c.reserve ? "font-semibold text-navy" : "font-medium")}>{title}</div>
         {detail && <div className="text-xs">{detail}</div>}
-        {c.reserve && <div className="text-xs text-muted-foreground">Loaded now as the reserve · galley 2</div>}
+        {c.reserve && <div className="text-xs text-muted-foreground">On board · galley 2</div>}
       </th>
       {c.matrix.map((v, i) => (
         <VerdictCell key={profiles[i].id} verdict={v} label={t(profiles[i].label)} why={failReasons(c.fired[i]).join(", ")} />
@@ -59,10 +60,6 @@ export function CoverageMatrix({ universal }: { universal: Universal }) {
     <Card>
       <CardHeader>
         <CardTitle>{t(s.universalTitle)}</CardTitle>
-        <CardDescription>
-          Every cell is the rules engine's verdict for that diet against that dish, computed now. Hover a cell for the rule
-          that fired.
-        </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         <div className="overflow-x-auto">
@@ -85,11 +82,15 @@ export function CoverageMatrix({ universal }: { universal: Universal }) {
             </tbody>
           </table>
         </div>
-        <ul className="flex flex-col gap-1 text-xs text-muted-foreground">
-          {notes.map((n) => (
-            <li key={n.en}>{t(n)}</li>
-          ))}
-        </ul>
+        {notes.length > 0 && (
+          <More title="Notes">
+            <ul className="flex flex-col gap-1 text-muted-foreground">
+              {notes.map((n) => (
+                <li key={n.en}>{t(n)}</li>
+              ))}
+            </ul>
+          </More>
+        )}
       </CardContent>
     </Card>
   )

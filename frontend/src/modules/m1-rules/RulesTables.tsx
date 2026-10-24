@@ -30,7 +30,6 @@ export function DietsTable({ lang }: { lang: Lang }) {
           <TableHead className="w-48">Diet</TableHead>
           <TableHead>Never contains</TableHead>
           <TableHead className="w-56">Eats</TableHead>
-          <TableHead>In plain words</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -43,10 +42,9 @@ export function DietsTable({ lang }: { lang: Lang }) {
             <TableCell className="whitespace-normal">
               <TagList tags={d.forbid} lang={lang} tone="out" />
             </TableCell>
-            <TableCell className="whitespace-normal">
+            <TableCell className="whitespace-normal" title={d.notes ? t(d.notes, lang) : undefined}>
               <TagList tags={d.allow} lang={lang} />
             </TableCell>
-            <TableCell className="whitespace-normal text-grey">{d.notes ? t(d.notes, lang) : "—"}</TableCell>
           </TableRow>
         ))}
       </TableBody>

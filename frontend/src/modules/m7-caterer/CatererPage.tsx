@@ -20,15 +20,13 @@ function CatererInbox() {
       {inbox.isError ? (
         <p className="text-sm text-unsafe">Couldn't load messages: {inbox.error.message}</p>
       ) : notes.length === 0 ? (
-        <p className="text-sm text-muted-foreground">New meal lists and delay alerts from JAL show up here.</p>
+        <p className="text-sm text-muted-foreground">Nothing yet.</p>
       ) : (
         <ul className="flex flex-col divide-y text-sm">
           {notes.slice(0, 8).map((n) => (
-            <li key={n.id} className="py-2">
+            <li key={n.id} className="py-2" title={n.body}>
               <div className="font-medium">{n.title}</div>
-              <div className="text-muted-foreground">
-                <span className="tabular">{fmtTime(n.at, "IST", { date: true })}</span> · {n.body}
-              </div>
+              <div className="text-xs text-muted-foreground tabular">{fmtTime(n.at, "IST", { date: true })}</div>
             </li>
           ))}
         </ul>
@@ -49,7 +47,7 @@ export function CatererPage() {
       <PageHeader
         eyebrow="Skyline Flight Kitchens, Delhi · JL740 · 25 Oct"
         title="Meal lists"
-        subtitle="Every list JAL sends is numbered, timestamped and hashed. Acknowledging one confirms the kitchen has it."
+        subtitle="Numbered lists the kitchen acknowledges"
       />
       {lists.isError ? (
         <EmptyState
@@ -64,7 +62,7 @@ export function CatererPage() {
       ) : lists.isPending ? (
         <div className="h-96 animate-pulse rounded-xl bg-ice" aria-busy="true" />
       ) : !selected ? (
-        <EmptyState title="No meal list yet" body="The first list arrives at the special-meal cutoff, 25 hours before departure (24 Oct 03:35 IST)." />
+        <EmptyState title="No meal list yet" body="First list at the cutoff, 24 Oct 03:35 IST." />
       ) : (
         <div className="grid gap-6 lg:grid-cols-[220px_minmax(0,1fr)_300px]">
           <section className="self-start rounded-xl border bg-card p-2">

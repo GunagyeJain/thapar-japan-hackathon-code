@@ -1,10 +1,9 @@
-// The JL740 story v2 (docs/plan/v2.md), end to end: passport chat, Calendar Radar, Chaos Mode, crew copilot, the numbers.
+// The JL740 story v2 (docs/plan/v2.md), end to end: JAL booking form, Calendar Radar, Chaos Mode, seat screens, crew copilot, the numbers.
 // Clicks go through the real screens; each step's server side goes through /api/demo/step, so a slow click never
 // breaks the run.
 import { expect, test, type APIRequestContext } from "@playwright/test"
 
 const FLIGHT = "JL740-20261025"
-const PRIYA_SAYS = "pure veg, no onion-garlic, aur Purnima ka vrat rakhti hoon"
 
 interface Promise {
   code: string
@@ -44,21 +43,26 @@ test.describe.serial("JL740 story v2", () => {
     await expect(page.getByRole("img", { name: /QR code for .*\/j$/ })).toBeVisible()
   })
 
-  test("Act 1 · Priya says it her way on /chat → AVML + NO ONION NO GARLIC", async ({ page, request }) => {
+  test("Act 1 · Priya fills JAL's special-meal form in My Booking → AVML + NO ONION NO GARLIC", async ({ page, request }) => {
     await step(request, 1, false)
-    await page.goto("/chat?pnr=6XK2QP&surname=SHARMA")
-    await expect(page).toHaveURL(/passenger=PX-0057/)
-    await page.getByLabel("Type what you eat…").fill(PRIYA_SAYS)
-    await page.getByRole("button", { name: "Send" }).click()
-    await expect(page.getByText(/garlic/i).first()).toBeVisible()
-    await page.getByRole("button", { name: "That's right" }).click()
+    await page.goto("/jal")
+    await page.getByLabel("Booking reference").fill("6XK2QP")
+    await page.getByLabel("Last name").fill("SHARMA")
+    await page.getByRole("button", { name: /Find booking/ }).click()
+    await expect(page).toHaveURL(/\/jal\/booking\?passenger=PX-0057/)
+    await page.getByRole("link", { name: /Special meal/ }).click()
+    for (const tile of ["Vegetarian", "Onion & garlic", "Purnima fast"]) {
+      await page.getByRole("checkbox", { name: tile, exact: true }).click()
+      await expect(page.getByRole("checkbox", { name: tile, exact: true })).toHaveAttribute("aria-checked", "true")
+    }
+    await page.getByRole("button", { name: "Save meal" }).click()
     await expect.poll(async () => (await promiseOf(request, "23C"))?.kitchen_note ?? "").toContain("NO ONION NO GARLIC")
     expect((await promiseOf(request, "23C"))?.code).toBe("AVML")
   })
 
   test("Act 1 · the Radar asks about Sharad Purnima; Yes switches the meal before the cutoff", async ({ page, request }) => {
     await step(request, 2, false)
-    await page.goto("/chat?passenger=PX-0057")
+    await page.goto("/jal/meal?passenger=PX-0057")
     await expect(page.getByText(/Sharad Purnima/).first()).toBeVisible()
     await page.getByRole("button", { name: /Yes/ }).first().click()
     await expect.poll(async () => (await promiseOf(request, "23C"))?.kitchen_note ?? "").toContain("NO GRAIN")
