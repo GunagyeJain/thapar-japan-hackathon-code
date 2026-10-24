@@ -1,0 +1,484 @@
+{
+ "profiles": [
+  {
+   "id": "PF-0063",
+   "passenger_id": "PX-0063",
+   "lang": "hi",
+   "presets": [
+    "vegetarian"
+   ],
+   "forbid": [
+    "meat",
+    "seafood",
+    "egg",
+    "gelatin",
+    "lard",
+    "meat_extract"
+   ],
+   "allow": [
+    "dairy"
+   ],
+   "fasting_dates": [],
+   "allergens": [],
+   "consent": {
+    "this_trip": true,
+    "save_profile": false,
+    "share_with_caterer": true,
+    "cross_border_ack": true,
+    "at": "2026-10-20T10:00:00+05:30"
+   },
+   "created_at": "2026-10-20T10:00:00+05:30",
+   "expires_at": "2026-11-24T23:59:00+05:30"
+  },
+  {
+   "id": "PF-0087",
+   "passenger_id": "PX-0087",
+   "lang": "hi",
+   "presets": [
+    "jain"
+   ],
+   "forbid": [
+    "meat",
+    "seafood",
+    "egg",
+    "gelatin",
+    "lard",
+    "meat_extract",
+    "allium",
+    "root_veg",
+    "honey"
+   ],
+   "allow": [
+    "dairy"
+   ],
+   "fasting_dates": [],
+   "allergens": [],
+   "consent": {
+    "this_trip": true,
+    "save_profile": false,
+    "share_with_caterer": true,
+    "cross_border_ack": true,
+    "at": "2026-10-20T10:00:00+05:30"
+   },
+   "created_at": "2026-10-20T10:00:00+05:30",
+   "expires_at": "2026-11-24T23:59:00+05:30"
+  },
+  {
+   "id": "PF-0007",
+   "passenger_id": "PX-0007",
+   "lang": "hi",
+   "presets": [
+    "jain",
+    "diabetic"
+   ],
+   "forbid": [
+    "meat",
+    "seafood",
+    "egg",
+    "gelatin",
+    "lard",
+    "meat_extract",
+    "allium",
+    "root_veg",
+    "honey",
+    "sugar"
+   ],
+   "allow": [
+    "dairy"
+   ],
+   "fasting_dates": [],
+   "allergens": [],
+   "consent": {
+    "this_trip": true,
+    "save_profile": false,
+    "share_with_caterer": true,
+    "cross_border_ack": true,
+    "at": "2026-10-20T10:00:00+05:30"
+   },
+   "created_at": "2026-10-20T10:00:00+05:30",
+   "expires_at": "2026-11-24T23:59:00+05:30"
+  },
+  {
+   "id": "PF-0026",
+   "passenger_id": "PX-0026",
+   "lang": "en",
+   "presets": [
+    "halal"
+   ],
+   "forbid": [
+    "pork",
+    "lard",
+    "alcohol",
+    "gelatin"
+   ],
+   "allow": [
+    "halal_certified"
+   ],
+   "fasting_dates": [],
+   "allergens": [],
+   "consent": {
+    "this_trip": true,
+    "save_profile": false,
+    "share_with_caterer": true,
+    "cross_border_ack": true,
+    "at": "2026-10-20T10:00:00+05:30"
+   },
+   "created_at": "2026-10-20T10:00:00+05:30",
+   "expires_at": "2026-11-24T23:59:00+05:30"
+  },
+  {
+   "id": "PF-0044",
+   "passenger_id": "PX-0044",
+   "lang": "en",
+   "presets": [
+    "vegan"
+   ],
+   "forbid": [
+    "meat",
+    "seafood",
+    "egg",
+    "gelatin",
+    "lard",
+    "meat_extract",
+    "dairy",
+    "honey"
+   ],
+   "allow": [],
+   "fasting_dates": [],
+   "allergens": [],
+   "consent": {
+    "this_trip": true,
+    "save_profile": false,
+    "share_with_caterer": true,
+    "cross_border_ack": true,
+    "at": "2026-10-20T10:00:00+05:30"
+   },
+   "created_at": "2026-10-20T10:00:00+05:30",
+   "expires_at": "2026-11-24T23:59:00+05:30"
+  },
+  {
+   "id": "PF-0083",
+   "passenger_id": "PX-0083",
+   "lang": "en",
+   "presets": [
+    "eggetarian"
+   ],
+   "forbid": [
+    "meat",
+    "seafood",
+    "gelatin",
+    "lard",
+    "meat_extract"
+   ],
+   "allow": [
+    "egg",
+    "dairy"
+   ],
+   "fasting_dates": [],
+   "allergens": [],
+   "consent": {
+    "this_trip": true,
+    "save_profile": false,
+    "share_with_caterer": true,
+    "cross_border_ack": true,
+    "at": "2026-10-20T10:00:00+05:30"
+   },
+   "created_at": "2026-10-20T10:00:00+05:30",
+   "expires_at": "2026-11-24T23:59:00+05:30"
+  },
+  {
+   "id": "PF-0106",
+   "passenger_id": "PX-0106",
+   "lang": "hi",
+   "presets": [
+    "vegetarian",
+    "vrat"
+   ],
+   "forbid": [
+    "meat",
+    "seafood",
+    "egg",
+    "gelatin",
+    "lard",
+    "meat_extract",
+    "grain",
+    "legume",
+    "allium"
+   ],
+   "allow": [
+    "dairy",
+    "potato",
+    "peanut"
+   ],
+   "fasting_dates": [
+    "2026-10-25"
+   ],
+   "allergens": [],
+   "consent": {
+    "this_trip": true,
+    "save_profile": false,
+    "share_with_caterer": true,
+    "cross_border_ack": true,
+    "at": "2026-10-20T10:00:00+05:30"
+   },
+   "created_at": "2026-10-20T10:00:00+05:30",
+   "expires_at": "2026-11-24T23:59:00+05:30"
+  }
+ ],
+ "promises": [
+  {
+   "id": "MP-0063",
+   "profile_id": "PF-0063",
+   "passenger_id": "PX-0063",
+   "flight_id": "JL740-20261025",
+   "code": "AVML",
+   "kitchen_note": null,
+   "label_mark": {
+    "en": "VEG · no meat, fish or egg",
+    "hi": "शाकाहारी · मांस, मछली, अंडा नहीं",
+    "ja": "ベジ · 肉・魚・卵なし"
+   },
+   "status": "ok",
+   "checkpoints": {
+    "C1": "ok",
+    "C2": "pending",
+    "C3": "pending",
+    "C4": "pending",
+    "C5": "pending"
+   }
+  },
+  {
+   "id": "MP-0087",
+   "profile_id": "PF-0087",
+   "passenger_id": "PX-0087",
+   "flight_id": "JL740-20261025",
+   "code": "VJML",
+   "kitchen_note": null,
+   "label_mark": {
+    "en": "VEG · no root veg, no onion, no garlic",
+    "hi": "शाकाहारी · जड़ वाली सब्ज़ी, प्याज़, लहसुन नहीं",
+    "ja": "ベジ · 根菜・玉ねぎ・にんにくなし"
+   },
+   "status": "ok",
+   "checkpoints": {
+    "C1": "ok",
+    "C2": "pending",
+    "C3": "pending",
+    "C4": "pending",
+    "C5": "pending"
+   }
+  },
+  {
+   "id": "MP-0007",
+   "profile_id": "PF-0007",
+   "passenger_id": "PX-0007",
+   "flight_id": "JL740-20261025",
+   "code": "VJML",
+   "kitchen_note": "DIABETIC",
+   "label_mark": {
+    "en": "VEG · no root veg, no onion, no garlic · low sugar",
+    "hi": "शाकाहारी · जड़ वाली सब्ज़ी, प्याज़, लहसुन नहीं · कम चीनी",
+    "ja": "ベジ · 根菜・玉ねぎ・にんにくなし · 低糖"
+   },
+   "status": "ok",
+   "checkpoints": {
+    "C1": "ok",
+    "C2": "pending",
+    "C3": "pending",
+    "C4": "pending",
+    "C5": "pending"
+   }
+  },
+  {
+   "id": "MP-0026",
+   "profile_id": "PF-0026",
+   "passenger_id": "PX-0026",
+   "flight_id": "JL740-20261025",
+   "code": "MOML",
+   "kitchen_note": null,
+   "label_mark": {
+    "en": "HALAL · no pork, no alcohol",
+    "hi": "हलाल · सूअर का मांस, शराब नहीं",
+    "ja": "ハラール · 豚肉・アルコールなし"
+   },
+   "status": "ok",
+   "checkpoints": {
+    "C1": "ok",
+    "C2": "pending",
+    "C3": "pending",
+    "C4": "pending",
+    "C5": "pending"
+   }
+  },
+  {
+   "id": "MP-0044",
+   "profile_id": "PF-0044",
+   "passenger_id": "PX-0044",
+   "flight_id": "JL740-20261025",
+   "code": "VGML",
+   "kitchen_note": null,
+   "label_mark": {
+    "en": "VEGAN · no animal products",
+    "hi": "वीगन · कोई पशु उत्पाद नहीं",
+    "ja": "ヴィーガン · 動物性食品なし"
+   },
+   "status": "ok",
+   "checkpoints": {
+    "C1": "ok",
+    "C2": "pending",
+    "C3": "pending",
+    "C4": "pending",
+    "C5": "pending"
+   }
+  },
+  {
+   "id": "MP-0083",
+   "profile_id": "PF-0083",
+   "passenger_id": "PX-0083",
+   "flight_id": "JL740-20261025",
+   "code": "VLML",
+   "kitchen_note": "EGGETARIAN",
+   "label_mark": {
+    "en": "VEG + EGG · no meat, no fish",
+    "hi": "शाकाहारी + अंडा · मांस, मछली नहीं",
+    "ja": "ベジ＋卵 · 肉・魚なし"
+   },
+   "status": "ok",
+   "checkpoints": {
+    "C1": "ok",
+    "C2": "pending",
+    "C3": "pending",
+    "C4": "pending",
+    "C5": "pending"
+   }
+  },
+  {
+   "id": "MP-0106",
+   "profile_id": "PF-0106",
+   "passenger_id": "PX-0106",
+   "flight_id": "JL740-20261025",
+   "code": "AVML",
+   "kitchen_note": "VRAT",
+   "label_mark": {
+    "en": "FASTING · no grains, no onion, no garlic",
+    "hi": "व्रत · अनाज, प्याज़, लहसुन नहीं",
+    "ja": "断食 · 穀物・玉ねぎ・にんにくなし"
+   },
+   "status": "ok",
+   "checkpoints": {
+    "C1": "ok",
+    "C2": "pending",
+    "C3": "pending",
+    "C4": "pending",
+    "C5": "pending"
+   }
+  }
+ ],
+ "events": [
+  {
+   "id": "CE-0063C1",
+   "promise_id": "MP-0063",
+   "passenger_id": "PX-0063",
+   "flight_id": "JL740-20261025",
+   "checkpoint": "C1",
+   "result": "ok",
+   "at": "2026-10-20T10:00:00+05:30",
+   "source": "passenger_app",
+   "detail": "Profile saved: vegetarian → AVML",
+   "data": {
+    "code": "AVML"
+   },
+   "key": "seed:C1:MP-0063"
+  },
+  {
+   "id": "CE-0087C1",
+   "promise_id": "MP-0087",
+   "passenger_id": "PX-0087",
+   "flight_id": "JL740-20261025",
+   "checkpoint": "C1",
+   "result": "ok",
+   "at": "2026-10-20T10:00:00+05:30",
+   "source": "passenger_app",
+   "detail": "Profile saved: no meat, egg, root veg, onion, garlic → VJML",
+   "data": {
+    "code": "VJML"
+   },
+   "key": "seed:C1:MP-0087"
+  },
+  {
+   "id": "CE-0007C1",
+   "promise_id": "MP-0007",
+   "passenger_id": "PX-0007",
+   "flight_id": "JL740-20261025",
+   "checkpoint": "C1",
+   "result": "ok",
+   "at": "2026-10-20T10:00:00+05:30",
+   "source": "passenger_app",
+   "detail": "Profile saved: Jain rules + low sugar → VJML, note DIABETIC",
+   "data": {
+    "code": "VJML"
+   },
+   "key": "seed:C1:MP-0007"
+  },
+  {
+   "id": "CE-0026C1",
+   "promise_id": "MP-0026",
+   "passenger_id": "PX-0026",
+   "flight_id": "JL740-20261025",
+   "checkpoint": "C1",
+   "result": "ok",
+   "at": "2026-10-20T10:00:00+05:30",
+   "source": "passenger_app",
+   "detail": "Profile saved: halal only, no pork or alcohol → MOML",
+   "data": {
+    "code": "MOML"
+   },
+   "key": "seed:C1:MP-0026"
+  },
+  {
+   "id": "CE-0044C1",
+   "promise_id": "MP-0044",
+   "passenger_id": "PX-0044",
+   "flight_id": "JL740-20261025",
+   "checkpoint": "C1",
+   "result": "ok",
+   "at": "2026-10-20T10:00:00+05:30",
+   "source": "passenger_app",
+   "detail": "Profile saved: vegan → VGML",
+   "data": {
+    "code": "VGML"
+   },
+   "key": "seed:C1:MP-0044"
+  },
+  {
+   "id": "CE-0083C1",
+   "promise_id": "MP-0083",
+   "passenger_id": "PX-0083",
+   "flight_id": "JL740-20261025",
+   "checkpoint": "C1",
+   "result": "ok",
+   "at": "2026-10-20T10:00:00+05:30",
+   "source": "passenger_app",
+   "detail": "Profile saved: eggs OK, no meat or fish → VLML, note EGGETARIAN",
+   "data": {
+    "code": "VLML"
+   },
+   "key": "seed:C1:MP-0083"
+  },
+  {
+   "id": "CE-0106C1",
+   "promise_id": "MP-0106",
+   "passenger_id": "PX-0106",
+   "flight_id": "JL740-20261025",
+   "checkpoint": "C1",
+   "result": "ok",
+   "at": "2026-10-20T10:00:00+05:30",
+   "source": "passenger_app",
+   "detail": "Profile saved: fasting on 25 Oct, no grains → AVML, note VRAT",
+   "data": {
+    "code": "AVML"
+   },
+   "key": "seed:C1:MP-0106"
+  }
+ ]
+}
