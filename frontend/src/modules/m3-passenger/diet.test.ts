@@ -74,7 +74,7 @@ describe("DietSummary chips", () => {
       "No root vegetables",
       "No honey",
       "No alcohol",
-      "Also no gelatin, mushrooms",
+      "Also no mushrooms, gelatin",
       "Dairy OK",
     ])
   })

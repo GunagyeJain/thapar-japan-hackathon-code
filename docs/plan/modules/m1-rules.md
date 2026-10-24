@@ -77,6 +77,7 @@ m3, m4, m6, m8 and m9 call the engine instead of mocks, and the parity count is 
 
 ## Notes
 _Owner's running notes._
+- **No religion on trays (19:31):** label_bases no longer has "jain"; a Jain profile's mark lists what's excluded ("VEG · no onion family, no root vegetables, no mushrooms, no honey, no alcohol"). Jain rules are ordered onion family and root vegetables first. HALAL stays (a food certification). The meal code itself (VJML, JAL's "Vegetarian Jain meal") is JAL's and still travels.
 - **Python is on main** (`app.modules.m1_rules.engine`): `evaluate(forbid, tags, diet=None)`, `evaluate_diet(diet_id, tags)`, `combine_presets(preset_ids) -> {forbid, allow}`, `code_options(forbid, allow)`, `check_booking(forbid, booked_code)`, `label_mark(forbid, allow)`, `resolve(word)`, `rules_payload()`. Unknown forbid/allow ids raise `UnknownTagError` (a `ValueError`).
 - **Dish tags may be Japanese or English words**: `evaluate` maps `synonyms_ja`/`synonyms_en` to tags, so m9 can pass `出汁` straight in (`via: "出汁 → bonito → fish → seafood"`). Unknown words give NEEDS_HUMAN (`rule_id: "unknown_tag"`).
 - **Fired** carries an extra `effect` (`UNSAFE` or `NEEDS_HUMAN`) so the UI can colour each line. One fired rule per dish tag. Rule ids: `forbid.<tag>`, `unclear.<tag>` (dish says only "meat" and beef is forbidden), `halal.certification`, `unknown_tag`.

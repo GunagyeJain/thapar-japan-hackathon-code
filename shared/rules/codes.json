@@ -46,7 +46,6 @@
   },
   "preference_groups": ["meat", "seafood", "egg", "dairy", "root_veg", "allium", "grain", "legume"],
   "label_bases": [
-    {"id": "jain", "requires": ["meat", "seafood", "egg", "allium", "root_veg"], "implies": ["honey", "gelatin", "alcohol", "fungi"], "labels": {"en": "JAIN", "ja": "ジャイナ", "hi": "जैन"}},
     {"id": "vegan", "requires": ["meat", "seafood", "egg", "dairy"], "implies": ["honey", "gelatin"], "labels": {"en": "VEGAN", "ja": "ヴィーガン", "hi": "वीगन"}},
     {"id": "veg", "requires": ["meat", "seafood", "egg"], "implies": ["gelatin"], "labels": {"en": "VEG", "ja": "ベジ", "hi": "शाकाहारी"}},
     {"id": "egg_veg", "requires": ["meat", "seafood"], "implies": ["gelatin"], "labels": {"en": "EGG-VEG", "ja": "卵可ベジ", "hi": "अंडा-शाकाहारी"}},

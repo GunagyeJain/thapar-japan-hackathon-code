@@ -14,7 +14,8 @@ const PER_SHEET = 8
 function markSize(mark: string): string {
   if (mark.length <= 18) return "text-[28pt]"
   if (mark.length <= 30) return "text-[20pt]"
-  return "text-[15pt]"
+  if (mark.length <= 55) return "text-[15pt]"
+  return "text-[12pt]"
 }
 const DATE = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" })
 
@@ -43,7 +44,7 @@ function TrayLabel({ label }: { label: Label }) {
       <div>
         <div className={`font-display leading-none font-bold tracking-tight ${markSize(label.mark.en)}`}>{label.mark.en}</div>
         {label.mark.ja && (
-          <div lang="ja" className="mt-1 text-[11pt] font-medium">
+          <div lang="ja" className={`mt-1 font-medium ${label.mark.ja.length > 30 ? "text-[9pt]" : "text-[11pt]"}`}>
             {label.mark.ja}
           </div>
         )}

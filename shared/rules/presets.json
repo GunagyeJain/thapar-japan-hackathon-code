@@ -2,8 +2,8 @@
   "notes": "One-tap presets for the diet picker. Each preset copies its diet's forbid and allow (a test keeps them in step). Picking several presets unions their forbid lists; allow keeps only what no picked preset forbids. picker_groups are the checkboxes under 'Tell us exactly'.",
   "presets": [
     {"id": "vegetarian", "diet": "vegetarian", "labels": {"en": "Vegetarian", "ja": "ベジタリアン", "hi": "शाकाहारी"}, "forbid": ["meat", "seafood", "egg", "gelatin"], "allow": ["dairy"]},
-    {"id": "jain", "diet": "jain", "labels": {"en": "Jain", "ja": "ジャイナ", "hi": "जैन"}, "forbid": ["meat", "seafood", "egg", "honey", "gelatin", "alcohol", "allium", "root_veg", "fungi"], "allow": ["dairy"]},
-    {"id": "jain_no_dairy", "diet": "jain_no_dairy", "labels": {"en": "Jain, no dairy", "ja": "ジャイナ（乳製品なし）", "hi": "जैन (दूध रहित)"}, "forbid": ["meat", "seafood", "egg", "honey", "gelatin", "alcohol", "allium", "root_veg", "fungi", "dairy"], "allow": []},
+    {"id": "jain", "diet": "jain", "labels": {"en": "Jain", "ja": "ジャイナ", "hi": "जैन"}, "forbid": ["meat", "seafood", "egg", "allium", "root_veg", "fungi", "honey", "gelatin", "alcohol"], "allow": ["dairy"]},
+    {"id": "jain_no_dairy", "diet": "jain_no_dairy", "labels": {"en": "Jain, no dairy", "ja": "ジャイナ（乳製品なし）", "hi": "जैन (दूध रहित)"}, "forbid": ["meat", "seafood", "egg", "allium", "root_veg", "fungi", "honey", "gelatin", "alcohol", "dairy"], "allow": []},
     {"id": "no_onion_garlic", "diet": "no_onion_garlic", "labels": {"en": "No onion, no garlic", "ja": "玉ねぎ・にんにくなし", "hi": "बिना प्याज़-लहसुन"}, "forbid": ["onion", "garlic"], "allow": []},
     {"id": "eggetarian", "diet": "eggetarian", "labels": {"en": "Eggetarian", "ja": "卵可ベジタリアン", "hi": "अंडा-शाकाहारी"}, "forbid": ["meat", "seafood", "gelatin"], "allow": ["egg", "dairy"]},
     {"id": "no_beef", "diet": "no_beef", "labels": {"en": "No beef", "ja": "牛肉なし", "hi": "गोमांस नहीं"}, "forbid": ["beef"], "allow": ["meat", "seafood", "egg", "dairy"]},
