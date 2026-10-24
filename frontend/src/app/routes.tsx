@@ -22,6 +22,7 @@ import { routes as m11 } from "@/modules/m11-demo"
 import { routes as m14 } from "@/modules/m14-groups"
 import { routes as m16 } from "@/modules/m16-days"
 import { routes as m21 } from "@/modules/m21-sun"
+import { routes as m19 } from "@/modules/m19-load"
 
 const MODULE_ROUTES: ModuleRoute[] = [
   ...m0,
@@ -38,6 +39,7 @@ const MODULE_ROUTES: ModuleRoute[] = [
   ...m14,
   ...m16,
   ...m21,
+  ...m19,
 ]
 
 const LAYOUTS: Record<Surface, ComponentType> = {

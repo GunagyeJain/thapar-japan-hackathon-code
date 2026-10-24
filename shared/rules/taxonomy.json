@@ -64,6 +64,7 @@
     {"id": "lotus_root", "parent": "root_veg", "labels": {"en": "Lotus root", "ja": "れんこん", "hi": "कमल ककड़ी"}, "synonyms_ja": ["れんこん", "蓮根"], "synonyms_en": ["lotus root", "kamal kakdi"]},
     {"id": "burdock", "parent": "root_veg", "labels": {"en": "Burdock", "ja": "ごぼう"}, "synonyms_ja": ["ごぼう", "牛蒡"], "synonyms_en": ["burdock", "gobo"]},
     {"id": "konjac", "parent": "root_veg", "labels": {"en": "Konjac", "ja": "こんにゃく"}, "synonyms_ja": ["こんにゃく", "蒟蒻"], "synonyms_en": ["konjac", "konnyaku"]},
+    {"id": "tapioca", "parent": "root_veg", "labels": {"en": "Tapioca pearls (sabudana)", "ja": "タピオカ（サブダナ）", "hi": "साबूदाना"}, "synonyms_ja": ["タピオカ"], "synonyms_en": ["tapioca", "tapioca pearls", "cassava"]},
 
     {"id": "fungi", "parent": null, "labels": {"en": "Mushrooms", "ja": "きのこ類", "hi": "मशरूम"}, "synonyms_ja": ["きのこ", "きのこ類"], "synonyms_en": ["fungi"]},
     {"id": "mushroom", "parent": "fungi", "labels": {"en": "Mushroom", "ja": "マッシュルーム", "hi": "मशरूम"}, "synonyms_ja": ["マッシュルーム", "しいたけ", "椎茸", "しめじ", "えのき"], "synonyms_en": ["mushroom", "shiitake"]},
@@ -83,6 +84,7 @@
     {"id": "barley", "parent": "grain", "labels": {"en": "Barley", "ja": "大麦", "hi": "जौ"}, "synonyms_ja": ["大麦", "麦"], "synonyms_en": ["barley"]},
     {"id": "corn", "parent": "grain", "labels": {"en": "Corn", "ja": "とうもろこし", "hi": "मक्का"}, "synonyms_ja": ["とうもろこし", "コーン"], "synonyms_en": ["corn", "maize", "makka"]},
     {"id": "buckwheat", "parent": null, "allergen_jp": "mandatory", "labels": {"en": "Buckwheat", "ja": "そば", "hi": "कुट्टू"}, "synonyms_ja": ["そば", "蕎麦", "そば粉"], "synonyms_en": ["buckwheat", "kuttu", "soba"]},
+    {"id": "samak", "parent": null, "labels": {"en": "Barnyard millet (samak)", "ja": "サマク（インドビエ）", "hi": "सामक (समा के चावल)"}, "synonyms_ja": ["サマク"], "synonyms_en": ["samak", "samak rice", "barnyard millet", "sama ke chawal", "vrat ke chawal"]},
 
     {"id": "legume", "parent": null, "labels": {"en": "Lentils and beans", "ja": "豆類", "hi": "दालें"}, "synonyms_ja": ["豆", "豆類"], "synonyms_en": ["legume", "pulses", "dal"]},
     {"id": "lentil", "parent": "legume", "labels": {"en": "Lentils", "ja": "レンズ豆", "hi": "मसूर"}, "synonyms_ja": ["レンズ豆"], "synonyms_en": ["lentil", "lentils", "masoor"]},
@@ -100,6 +102,7 @@
     {"id": "macadamia", "parent": "tree_nut", "allergen_jp": "recommended", "labels": {"en": "Macadamia", "ja": "マカダミアナッツ"}, "synonyms_ja": ["マカダミアナッツ", "マカダミア"], "synonyms_en": ["macadamia"]},
     {"id": "pistachio", "parent": "tree_nut", "labels": {"en": "Pistachio", "ja": "ピスタチオ", "hi": "पिस्ता"}, "synonyms_ja": ["ピスタチオ"], "synonyms_en": ["pistachio", "pista"]},
     {"id": "sesame", "parent": null, "allergen_jp": "recommended", "labels": {"en": "Sesame", "ja": "ごま", "hi": "तिल"}, "synonyms_ja": ["ごま", "胡麻", "ゴマ", "ごま油"], "synonyms_en": ["sesame", "til"]},
+    {"id": "makhana", "parent": null, "labels": {"en": "Makhana (fox nut)", "ja": "マカナ（オニバスの実）", "hi": "मखाना"}, "synonyms_ja": ["マカナ"], "synonyms_en": ["makhana", "phool makhana", "fox nut", "fox nuts", "lotus seed", "lotus seeds"]},
 
     {"id": "fruit", "parent": null, "labels": {"en": "Fruit", "ja": "果物", "hi": "फल"}, "synonyms_ja": ["果物", "フルーツ"], "synonyms_en": ["fruit"]},
     {"id": "orange", "parent": "fruit", "allergen_jp": "recommended", "labels": {"en": "Orange", "ja": "オレンジ", "hi": "संतरा"}, "synonyms_ja": ["オレンジ", "みかん"], "synonyms_en": ["orange"]},
@@ -118,6 +121,7 @@
     {"id": "eggplant", "parent": "vegetable", "labels": {"en": "Eggplant", "ja": "なす", "hi": "बैंगन"}, "synonyms_ja": ["なす", "茄子"], "synonyms_en": ["eggplant", "aubergine", "brinjal", "baingan"]},
     {"id": "bell_pepper", "parent": "vegetable", "labels": {"en": "Bell pepper", "ja": "ピーマン", "hi": "शिमला मिर्च"}, "synonyms_ja": ["ピーマン", "パプリカ"], "synonyms_en": ["bell pepper", "capsicum"]},
     {"id": "cucumber", "parent": "vegetable", "labels": {"en": "Cucumber", "ja": "きゅうり", "hi": "खीरा"}, "synonyms_ja": ["きゅうり", "胡瓜"], "synonyms_en": ["cucumber"]},
+    {"id": "bottle_gourd", "parent": "vegetable", "labels": {"en": "Bottle gourd (lauki)", "ja": "ユウガオ", "hi": "लौकी"}, "synonyms_ja": ["ユウガオ", "夕顔"], "synonyms_en": ["bottle gourd", "lauki", "dudhi", "ghiya", "calabash"]},
 
     {"id": "seaweed", "parent": null, "labels": {"en": "Seaweed", "ja": "海藻"}, "synonyms_ja": ["海藻"], "synonyms_en": ["seaweed"]},
     {"id": "kombu", "parent": "seaweed", "labels": {"en": "Kombu", "ja": "昆布"}, "synonyms_ja": ["昆布", "こんぶ", "昆布だし"], "synonyms_en": ["kombu", "kelp", "kombu dashi"]},
@@ -129,6 +133,7 @@
     {"id": "turmeric", "parent": "spice", "labels": {"en": "Turmeric", "ja": "ターメリック", "hi": "हल्दी"}, "synonyms_ja": ["ターメリック", "ウコン"], "synonyms_en": ["turmeric", "haldi"]},
     {"id": "asafoetida", "parent": "spice", "labels": {"en": "Asafoetida", "ja": "ヒング", "hi": "हींग"}, "synonyms_ja": ["ヒング", "アサフェティダ"], "synonyms_en": ["asafoetida", "hing"]},
     {"id": "salt", "parent": "spice", "labels": {"en": "Salt", "ja": "塩", "hi": "नमक"}, "synonyms_ja": ["塩", "食塩"], "synonyms_en": ["salt"]},
+    {"id": "rock_salt", "parent": "salt", "labels": {"en": "Rock salt (sendha namak)", "ja": "岩塩", "hi": "सेंधा नमक"}, "synonyms_ja": ["岩塩"], "synonyms_en": ["rock salt", "sendha namak", "sendha", "himalayan salt"]},
 
     {"id": "halal_certified", "parent": null, "kind": "property", "labels": {"en": "Halal certified", "ja": "ハラール認証", "hi": "हलाल प्रमाणित"}, "synonyms_ja": ["ハラール認証"], "synonyms_en": ["halal certified", "halal"]}
   ]

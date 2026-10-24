@@ -117,8 +117,10 @@ SPECS = {
                   ["legume", "rice", "wheat", "onion", "garlic", "ginger"], False),
     "SPEC-VLML": ("Vegetable frittata, roast potatoes, bread roll", "野菜のフリッタータ、ローストポテト、パン", "VLML",
                   "special", ["egg", "cheese", "milk", "butter", "potato", "onion", "wheat"], False),
-    "SPEC-BACKUP": ("Paneer and peas with jeera rice (sealed backup)", "パニールとグリーンピース、ジーラライス（密封予備食）",
-                    None, "backup", ["paneer", "legume", "rice", "ghee"], False),
+    # m19: the reserve is the universal plate, safe for every diet on the route (no dairy, onion, garlic, roots, grain).
+    "SPEC-BACKUP": ("Universal plate (retort, shelf-stable): samak millet, makhana, lauki",
+                    "ユニバーサル・プレート（レトルト・常温保存）：サマク、マカナ、ユウガオ",
+                    None, "backup", ["samak", "makhana", "bottle_gourd", "rock_salt"], False),
     "SPEC-C-JAIN": ("Jain thali", "ジャイナ式ターリー", None, "main",
                     ["legume", "rice", "wheat", "paneer", "ghee"], False),
     "SPEC-C-CHANA": ("Vegan chana masala with rice", "ヴィーガン・チャナマサラとご飯", None, "main",

@@ -182,7 +182,14 @@ Passenger answers go out through `outbox.notify("whatsapp", passenger_id, …, r
 ## m19 · smart load
 | Method | Path | Request | Response |
 |---|---|---|---|
-| GET | `/load/{flight_id}` | – | `{families: [{family, label: Text, known, forecast, p90, loaded}], reserve: {fresh: {q, cu, co, ratio}, pouch: {q, cu, co, ratio}, loaded}, universal: {profiles: [{id, label: Text}], candidates: [{id, name: Text, covers, matrix: Verdict[]}]}, bento: {components: [...], spares: [...]}}` |
+| GET | `/load/{flight_id}` | – | `{families: [{family, label: Text, known, forecast, p90, loaded}], reserve: {fresh: {q, cu, co, ratio}, pouch: {q, cu, co, ratio}, loaded}, universal: {profiles: [{id, label: Text}], candidates: [{id, name: Text, covers, matrix: Verdict[]}]}, bento: {components: [...], spares: [...]}}` (404 for an unknown flight) |
+
+Everything is computed live on each call (no m19 tables). Extra fields on top of the row above:
+- top level: `flight_id, flight_no, date, passengers, known, unknown, assumptions: [{id, label: Text, value, source: Text}], method: Text`. `known + unknown = passengers`; `Σ families.forecast = passengers`.
+- `families[]`: `family` is one of `non_veg no_beef halal vegetarian veg_no_onion_garlic jain vegan eggetarian fasting diabetic allergy` (each passenger in exactly one, from their rules on the flight date); also `tier, loaded_from: {special, main, spare}, risk: boolean (p90 > loaded), share` (the route prior for passengers who told us nothing). `loaded` = their own special meals + main dishes left after everyone else in the cabin picked + spares and reserve pouches that m1 calls SAFE for the family.
+- `reserve`: `lambda, base, factors: [{label: Text, factor, source}], loaded_covered, formula: Text, point: Text`; each of `fresh`/`pouch` also has `covered, expected_unused, expected_waste, expected_short, cost_per_flight`.
+- `universal`: 13 profiles × 5 candidates; candidate `id` is `universal` (the live `SPEC-BACKUP`), `jain_thali`, `vrat_plate`, `paneer_rice`, `chicken_rice`; also `tags, reserve: boolean, checks` (NEEDS_HUMAN count), `fired: Fired[][]` (parallel to `matrix`); plus `notes: Text[]`.
+- `bento`: `slots, tray: Cup[]` (the standard veg tray), `components: Cup[]` (`Cup = {id, slot, name: Text, tags, standard, safe_for: need[]}`), `needs: [{id, label: Text, lambda, fails: slot[]}]`, `spares: [{cup_id, slot, name: Text, covers: need[], lambda, count}]`, `total_cups, cups_if_stocked_apart, design: Text`.
 
 ## m20 · crew copilot (inside m8)
 The crew package (`GET /api/crew/{flight_id}/package`) gains `copilot: {seats: [{seat, passenger_id, tier, flex, card: {ja, en, hi}, may_eat_from\|null, sunrise_box, assigned: {item_id, spec_id, spec_name: Text, rung}\|null}], serve_order: string[]}` from m17, m18 and m21. Taps go back as crew events `eaten`, `refused`, `swapped`.
