@@ -3,7 +3,7 @@
 **Owner:** Bhavyam · **Branch:** `bhavyam/m4-watcher` · **Phase:** 1, 17:00–19:30 IST. T1–T2 parsing can start earlier, in new files only (see PLAN.md).
 **Status:** blocked: code done on `bhavyam/m4-watcher`, ship waits on one m3 test (see below) <!-- not started | in progress | blocked: <why> | done -->
 
-### Where it stands (24 Oct, 18:05 IST)
+### Where it stands (24 Oct, 17:58 IST)
 - **Code:** T1 to T4 done and tested on `bhavyam/m4-watcher` (pushed). All m4 tests pass, and Act 2 ran end to end on a live server.
 - **Not on main yet.** `ship.sh` stops at one failing test outside m4: `backend/tests/test_m3_api.py::test_verma_on_hnml_raises_wrong_code`.
 - **Why it fails:** m4's seed reconciles the PNL and opens WRONG_CODE for 24A (Anil Verma), as T4 asks and as Act 1 needs (his profile is seeded, so nobody saves it live). The m3 test then saves his profile and expects the open-alert count to go up by 1; `raise_alert` correctly reuses the open alert, so it stays the same.
