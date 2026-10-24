@@ -10,6 +10,14 @@ from itertools import cycle
 
 from .paths import SEED_DIR
 
+
+def presets_rules(preset_ids: list[str]) -> tuple[list[str], list[str]]:
+    """forbid/allow exactly as m1 combines the presets, so seeded profiles match the passenger app."""
+    from app.modules.m1_rules.engine import combine_presets
+
+    combined = combine_presets(preset_ids)
+    return combined["forbid"], combined["allow"]
+
 FLIGHT_ID = "JL740-20261025"
 CODE_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ"
 BUSINESS = {"rows": (1, 5), "letters": "ACDGHK"}
@@ -121,6 +129,7 @@ FIXED_ITEM_IDS = {"23C": "TB-7K2Q9F"}  # Priya's tray: the id used in the docs a
 VEG = ["meat", "seafood", "egg", "gelatin", "lard", "meat_extract"]
 JAIN = VEG + ["allium", "root_veg", "honey"]
 # seat: (lang, presets, forbid, allow, fasting_dates, code, kitchen_note, mark_en, mark_hi, mark_ja, detail)
+# forbid/allow here document intent; the written profile takes m1's combine_presets(presets).
 CAST_PROFILES = {
     "24A": ("hi", ["vegetarian"], VEG, ["dairy"], [], "AVML", None,
             "VEG · no meat, fish or egg", "शाकाहारी · मांस, मछली, अंडा नहीं", "ベジ · 肉・魚・卵なし",
@@ -217,7 +226,8 @@ def random_name(rng: random.Random) -> tuple[str, str, str]:
 def build_profiles(passengers: list[dict]) -> dict:
     by_seat = {p["seat"]: p for p in passengers}
     profiles, promises, events = [], [], []
-    for seat, (lang, presets, forbid, allow, fasting, meal_code, note, en, hi, ja, detail) in CAST_PROFILES.items():
+    for seat, (lang, presets, _forbid, _allow, fasting, meal_code, note, en, hi, ja, detail) in CAST_PROFILES.items():
+        forbid, allow = presets_rules(presets)
         pax = by_seat[seat]
         num = pax["id"][3:]
         pf_id, mp_id = f"PF-{num}", f"MP-{num}"

@@ -11,9 +11,7 @@
     "meat",
     "seafood",
     "egg",
-    "gelatin",
-    "lard",
-    "meat_extract"
+    "gelatin"
    ],
    "allow": [
     "dairy"
@@ -41,12 +39,12 @@
     "meat",
     "seafood",
     "egg",
+    "honey",
     "gelatin",
-    "lard",
-    "meat_extract",
+    "alcohol",
     "allium",
     "root_veg",
-    "honey"
+    "fungi"
    ],
    "allow": [
     "dairy"
@@ -75,12 +73,12 @@
     "meat",
     "seafood",
     "egg",
+    "honey",
     "gelatin",
-    "lard",
-    "meat_extract",
+    "alcohol",
     "allium",
     "root_veg",
-    "honey",
+    "fungi",
     "sugar"
    ],
    "allow": [
@@ -107,12 +105,15 @@
    ],
    "forbid": [
     "pork",
-    "lard",
+    "non_halal_meat",
     "alcohol",
     "gelatin"
    ],
    "allow": [
-    "halal_certified"
+    "meat",
+    "seafood",
+    "egg",
+    "dairy"
    ],
    "fasting_dates": [],
    "allergens": [],
@@ -137,11 +138,9 @@
     "meat",
     "seafood",
     "egg",
-    "gelatin",
-    "lard",
-    "meat_extract",
     "dairy",
-    "honey"
+    "honey",
+    "gelatin"
    ],
    "allow": [],
    "fasting_dates": [],
@@ -166,9 +165,7 @@
    "forbid": [
     "meat",
     "seafood",
-    "gelatin",
-    "lard",
-    "meat_extract"
+    "gelatin"
    ],
    "allow": [
     "egg",
@@ -199,16 +196,18 @@
     "seafood",
     "egg",
     "gelatin",
-    "lard",
-    "meat_extract",
+    "alcohol",
     "grain",
     "legume",
-    "allium"
+    "onion",
+    "garlic"
    ],
    "allow": [
     "dairy",
     "potato",
-    "peanut"
+    "buckwheat",
+    "peanut",
+    "fruit"
    ],
    "fasting_dates": [
     "2026-10-25"
