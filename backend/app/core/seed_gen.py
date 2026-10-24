@@ -18,6 +18,14 @@ def presets_rules(preset_ids: list[str]) -> tuple[list[str], list[str]]:
     combined = combine_presets(preset_ids)
     return combined["forbid"], combined["allow"]
 
+
+def c1_detail(forbid: list[str], code: str) -> str:
+    """The C1 line exactly as the passenger app writes it: the food rules, never the diet's name."""
+    from app.modules.m3_passenger.options import profile_line
+
+    return profile_line(forbid, code)
+
+
 FLIGHT_ID = "JL740-20261025"
 CODE_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ"
 BUSINESS = {"rows": (1, 5), "letters": "ACDGHK"}
@@ -128,32 +136,27 @@ FIXED_ITEM_IDS = {"23C": "TB-7K2Q9F"}  # Priya's tray: the id used in the docs a
 
 VEG = ["meat", "seafood", "egg", "gelatin", "lard", "meat_extract"]
 JAIN = VEG + ["allium", "root_veg", "honey"]
-# seat: (lang, presets, forbid, allow, fasting_dates, code, kitchen_note, mark_en, mark_hi, mark_ja, detail)
+# seat: (lang, presets, forbid, allow, fasting_dates, code, kitchen_note, mark_en, mark_hi, mark_ja)
 # forbid/allow here document intent; the written profile takes m1's combine_presets(presets).
 CAST_PROFILES = {
     "24A": ("hi", ["vegetarian"], VEG, ["dairy"], [], "AVML", None,
-            "VEG · no meat, fish or egg", "शाकाहारी · मांस, मछली, अंडा नहीं", "ベジ · 肉・魚・卵なし",
-            "Profile saved: vegetarian → AVML"),
+            "VEG · no meat, fish or egg", "शाकाहारी · मांस, मछली, अंडा नहीं", "ベジ · 肉・魚・卵なし"),
     "27D": ("hi", ["jain"], JAIN, ["dairy"], [], "VJML", None,
             "VEG · no root veg, no onion, no garlic", "शाकाहारी · जड़ वाली सब्ज़ी, प्याज़, लहसुन नहीं",
-            "ベジ · 根菜・玉ねぎ・にんにくなし", "Profile saved: no meat, egg, root veg, onion, garlic → VJML"),
+            "ベジ · 根菜・玉ねぎ・にんにくなし"),
     "2A": ("hi", ["jain", "diabetic"], JAIN + ["sugar"], ["dairy"], [], "VJML", "DIABETIC",
            "VEG · no root veg, no onion, no garlic · low sugar",
-           "शाकाहारी · जड़ वाली सब्ज़ी, प्याज़, लहसुन नहीं · कम चीनी", "ベジ · 根菜・玉ねぎ・にんにくなし · 低糖",
-           "Profile saved: no meat, egg, root veg, onion, garlic, sugar → VJML, note DIABETIC"),
+           "शाकाहारी · जड़ वाली सब्ज़ी, प्याज़, लहसुन नहीं · कम चीनी", "ベジ · 根菜・玉ねぎ・にんにくなし · 低糖"),
     "18C": ("en", ["halal"], ["pork", "lard", "alcohol", "gelatin"], ["halal_certified"], [], "MOML", None,
-            "HALAL · no pork, no alcohol", "हलाल · सूअर का मांस, शराब नहीं", "ハラール · 豚肉・アルコールなし",
-            "Profile saved: halal only, no pork or alcohol → MOML"),
+            "HALAL · no pork, no alcohol", "हलाल · सूअर का मांस, शराब नहीं", "ハラール · 豚肉・アルコールなし"),
     "21E": ("en", ["vegan"], VEG + ["dairy", "honey"], [], [], "VGML", None,
-            "VEGAN · no animal products", "वीगन · कोई पशु उत्पाद नहीं", "ヴィーガン · 動物性食品なし",
-            "Profile saved: vegan → VGML"),
+            "VEGAN · no animal products", "वीगन · कोई पशु उत्पाद नहीं", "ヴィーガン · 動物性食品なし"),
     "26G": ("en", ["eggetarian"], ["meat", "seafood", "gelatin", "lard", "meat_extract"], ["egg", "dairy"], [],
             "VLML", "EGGETARIAN", "VEG + EGG · no meat, no fish", "शाकाहारी + अंडा · मांस, मछली नहीं",
-            "ベジ＋卵 · 肉・魚なし", "Profile saved: eggs OK, no meat or fish → VLML, note EGGETARIAN"),
+            "ベジ＋卵 · 肉・魚なし"),
     "29H": ("hi", ["vegetarian", "vrat"], VEG + ["grain", "legume", "allium"], ["dairy", "potato", "peanut"],
             ["2026-10-25"], "AVML", "VRAT", "FASTING · no grains, no onion, no garlic",
-            "व्रत · अनाज, प्याज़, लहसुन नहीं", "断食 · 穀物・玉ねぎ・にんにくなし",
-            "Profile saved: fasting on 25 Oct, no grains → AVML, note VRAT"),
+            "व्रत · अनाज, प्याज़, लहसुन नहीं", "断食 · 穀物・玉ねぎ・にんにくなし"),
 }
 
 
@@ -226,8 +229,9 @@ def random_name(rng: random.Random) -> tuple[str, str, str]:
 def build_profiles(passengers: list[dict]) -> dict:
     by_seat = {p["seat"]: p for p in passengers}
     profiles, promises, events = [], [], []
-    for seat, (lang, presets, _forbid, _allow, fasting, meal_code, note, en, hi, ja, detail) in CAST_PROFILES.items():
+    for seat, (lang, presets, _forbid, _allow, fasting, meal_code, note, en, hi, ja) in CAST_PROFILES.items():
         forbid, allow = presets_rules(presets)
+        detail = c1_detail(forbid, meal_code)
         pax = by_seat[seat]
         num = pax["id"][3:]
         pf_id, mp_id = f"PF-{num}", f"MP-{num}"

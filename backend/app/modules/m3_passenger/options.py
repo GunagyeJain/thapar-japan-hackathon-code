@@ -10,6 +10,7 @@ from app.modules.m1_rules import engine
 
 FALLBACK_CODE = "SPML"
 NOTE_MAX = 60  # SSR free text has to fit one PNL line
+RULES_SHOWN = 5  # food rules spelled out in the C1 line before "+N more"
 
 FALLBACK_WHY = {
     "en": "No standard meal code covers all of these, so the kitchen makes a special meal from the note.",
@@ -22,14 +23,37 @@ def _word(tag: str) -> str:
     return tag.replace("_", " ").upper()
 
 
+def _outer_tags(forbid: list[str]) -> list[str]:
+    """Forbidden tags minus the ones another forbidden tag already covers (shrimp under seafood)."""
+    r = engine.rules()
+    tags = list(dict.fromkeys(engine.check_tags(forbid)))
+    return [t for t in tags if not any(g != t and g in r.paths(t) for g in tags)]
+
+
+def rules_text(forbid: list[str]) -> str:
+    """The food rules in words, e.g. "no meat, seafood, egg, onion family, root vegetables +4 more".
+
+    Never the diet's name ("jain", "halal"): that would record the person's creed.
+    """
+    r = engine.rules()
+    words = [r.label(t, "en").lower() for t in _outer_tags(forbid)]
+    if not words:
+        return "no food rules"
+    more = f" +{len(words) - RULES_SHOWN} more" if len(words) > RULES_SHOWN else ""
+    return "no " + ", ".join(words[:RULES_SHOWN]) + more
+
+
+def profile_line(forbid: list[str], code: str) -> str:
+    """The C1 checkpoint text: the food rules and the meal code. The kitchen note stays on the order."""
+    return f"Profile saved: {rules_text(forbid)} → {code}"
+
+
 def fallback_note(forbid: list[str]) -> str:
     """"NO MEAT/SEAFOOD/EGG/PEANUT", cut to one PNL line with "+N MORE" when it's long.
 
     Tags another forbidden tag already covers (shrimp under seafood) are left out.
     """
-    r = engine.rules()
-    tags = list(dict.fromkeys(engine.check_tags(forbid)))
-    words = [_word(t) for t in tags if not any(g != t and g in r.paths(t) for g in tags)]
+    words = [_word(t) for t in _outer_tags(forbid)]
     note = "NO " + words[0] if words else ""
     for i, w in enumerate(words[1:], start=1):
         more = f" +{len(words) - i} MORE"

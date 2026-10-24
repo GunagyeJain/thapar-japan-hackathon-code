@@ -52,3 +52,13 @@ def test_changing_answers_after_a_reset_asks_to_join_again(client):
     client.post("/api/demo/reset", json={"keep_judges": False})
     res = _join(client, ["egg"], passenger_id="PX-9999")
     assert res.status_code == 404
+
+
+def test_halal_judge_profile_line_lists_rules_not_the_diet(client):
+    client.post("/api/demo/reset", json={"keep_judges": False})
+    halal = {"presets": ["halal"], "forbid": ["pork", "non_halal_meat", "alcohol", "gelatin"], "allow": ["halal_certified"]}
+    out = _join(client, halal["forbid"], presets=halal["presets"], allow=halal["allow"]).json()
+    assert out["profile"]["presets"] == []
+    events = client.get(f"/api/promises/{out['promise']['id']}/timeline").json()["events"]
+    c1 = next(e for e in events if e["checkpoint"] == "C1")
+    assert c1["detail"].startswith("Profile saved: no pork,") and "HALAL" not in c1["detail"]

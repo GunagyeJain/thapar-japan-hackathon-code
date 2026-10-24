@@ -15,7 +15,7 @@ from app.core.models import Alert, Flight, MealItem, MealPromise, Passenger, Pro
 from app.core.seed import FLIGHT_ID
 from app.modules.m1_rules import engine
 
-from .options import meal_options
+from .options import meal_options, profile_line
 from .seats import NoSeatLeft, cabin_for, clean_pnr, clean_surname, next_judge_seat
 
 router = APIRouter(prefix="/api", tags=["m3 · passenger + judge join"])
@@ -143,8 +143,6 @@ def _save(
     session.add(passenger)
     session.flush()
 
-    note = f" + {option['kitchen_note']}" if option["kitchen_note"] else ""
-    rules = option["label_mark"]["en"]
     events.record_checkpoint(
         promise.id,
         passenger.id,
@@ -152,7 +150,7 @@ def _save(
         "C1",
         "ok",
         source=source,
-        detail=f"Profile saved: {rules} → {option['code']}{note}",
+        detail=profile_line(forbid, option["code"]),
         data={"code": option["code"], "kitchen_note": option["kitchen_note"], "forbid": list(forbid)},
         session=session,
     )

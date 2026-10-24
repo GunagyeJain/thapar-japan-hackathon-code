@@ -132,4 +132,4 @@ def test_profile_keeps_food_rules_not_diet_names(client):
     with new_session() as s:
         c1 = s.exec(select(CheckpointEvent).where(CheckpointEvent.passenger_id == pid, CheckpointEvent.checkpoint == "C1")).all()
     assert c1 and all("vegetarian" not in e.detail for e in c1)
-    assert any("VEG · no onion, no garlic" in e.detail for e in c1)
+    assert any(e.detail == "Profile saved: no meat, fish and seafood, egg, onion, garlic → AVML" for e in c1)
