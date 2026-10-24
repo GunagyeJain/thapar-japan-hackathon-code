@@ -1,14 +1,13 @@
-// "What don't you eat?": one-tap presets, then the boxes they tick, then allergies.
+// Three plain questions: "Do you follow a diet?" (optional shortcut), "What can't you eat?", "Any food allergies?".
+// Every choice is the same kind of tile with a tick, so it's obvious what's selected.
 // Also used by the late-request desk (m6) and group upload (m14), so it only edits `value`.
 import { Check } from "lucide-react"
-import { useState } from "react"
+import { useState, type ReactNode } from "react"
 
-import type { PickerGroup } from "@/lib/rules"
 import type { Lang } from "@/lib/types"
 import { cn } from "@/lib/utils"
-import { Checkbox } from "@/ui"
 
-import { isAllergenOn, isGroupOn, pickerGroups, presets, toggleAllergen, toggleGroup, togglePreset } from "./diet"
+import { dietPresets, foodGroups, isAllergenOn, isGroupOn, pickerGroups, toggleAllergen, toggleGroup, togglePreset } from "./diet"
 import { breakable, fill, jaWrap, pick, s } from "./i18n"
 import type { DietValue } from "./types"
 
@@ -23,100 +22,80 @@ export interface DietPickerProps {
 export function DietPicker({ value, onChange, lang, compact = false }: DietPickerProps) {
   const [allAllergens, setAllAllergens] = useState(false)
   const allergens = pickerGroups("allergen")
-  const shownAllergens = allAllergens
-    ? allergens
-    : allergens.filter((g) => g.jp_class === "mandatory" || isAllergenOn(value, g))
+  const shownAllergens = allAllergens ? allergens : allergens.filter((g) => g.jp_class === "mandatory" || isAllergenOn(value, g))
 
   return (
-    <div lang={lang} className={cn("flex flex-col", compact ? "gap-4" : "gap-6")}>
-      <section aria-labelledby="dp-presets">
-        <h3 id="dp-presets" className="mb-2 text-sm font-medium text-grey">
-          {pick(s.picker.presets, lang)}
-        </h3>
-        <div className="grid grid-cols-2 gap-2">
-          {presets().map((p) => {
-            const on = value.presets.includes(p.id)
-            return (
-              <button
-                key={p.id}
-                type="button"
-                aria-pressed={on}
-                onClick={() => onChange(togglePreset(value, p))}
-                className={cn(
-                  "flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-left leading-tight font-medium transition-colors duration-150",
-                  compact ? "min-h-9 text-sm" : "min-h-11 text-base",
-                  on ? "border-blue bg-ice text-navy" : "border-line bg-card text-foreground hover:border-sky",
-                )}
-              >
-                {on && <Check aria-hidden="true" className="size-4 shrink-0 text-blue" />}
-                <span className={cn(lang === "ja" && jaWrap)}>{breakable(pick(p.labels, lang), lang)}</span>
-              </button>
-            )
-          })}
-        </div>
-      </section>
+    <div lang={lang} className={cn("flex flex-col", compact ? "gap-4" : "gap-7")}>
+      <Question id="dp-diet" title={pick(s.picker.dietTitle, lang)} sub={pick(s.picker.dietSub, lang)} compact={compact}>
+        {dietPresets().map((p) => (
+          <Tile
+            key={p.id}
+            label={pick(p.labels, lang)}
+            on={value.presets.includes(p.id)}
+            onToggle={() => onChange(togglePreset(value, p))}
+            lang={lang}
+            compact={compact}
+          />
+        ))}
+      </Question>
 
-      <GroupList
-        id="dp-groups"
-        title={pick(s.picker.groups, lang)}
-        groups={pickerGroups("diet")}
-        isOn={(g) => isGroupOn(value, g)}
-        onToggle={(g) => onChange(toggleGroup(value, g))}
-        lang={lang}
-        compact={compact}
-      />
+      <Question id="dp-foods" title={pick(s.picker.foodsTitle, lang)} sub={pick(s.picker.foodsSub, lang)} compact={compact}>
+        {foodGroups().map((g) => (
+          <Tile key={g.id} label={pick(g.labels, lang)} on={isGroupOn(value, g)} onToggle={() => onChange(toggleGroup(value, g))} lang={lang} compact={compact} />
+        ))}
+      </Question>
 
-      <div>
-        <GroupList
-          id="dp-allergens"
-          title={pick(s.picker.allergens, lang)}
-          groups={shownAllergens}
-          isOn={(g) => isAllergenOn(value, g)}
-          onToggle={(g) => onChange(toggleAllergen(value, g))}
-          lang={lang}
-          compact={compact}
-        />
-        <button
-          type="button"
-          onClick={() => setAllAllergens((v) => !v)}
-          className="mt-2 min-h-11 text-sm font-medium text-blue underline-offset-4 hover:underline"
-        >
-          {allAllergens ? pick(s.picker.fewerAllergens, lang) : fill(s.picker.allAllergens, lang, { n: allergens.length })}
-        </button>
-      </div>
+      <Question id="dp-allergens" title={pick(s.picker.allergensTitle, lang)} sub={pick(s.picker.allergensSub, lang)} compact={compact}>
+        {shownAllergens.map((g) => (
+          <Tile key={g.id} label={pick(g.labels, lang)} on={isAllergenOn(value, g)} onToggle={() => onChange(toggleAllergen(value, g))} lang={lang} compact={compact} />
+        ))}
+      </Question>
+      <button
+        type="button"
+        onClick={() => setAllAllergens((v) => !v)}
+        className="-mt-4 min-h-11 self-start text-sm font-medium text-blue underline-offset-4 hover:underline"
+      >
+        {allAllergens ? pick(s.picker.fewerAllergens, lang) : fill(s.picker.allAllergens, lang, { n: allergens.length })}
+      </button>
     </div>
   )
 }
 
-interface GroupListProps {
-  id: string
-  title: string
-  groups: PickerGroup[]
-  isOn: (g: PickerGroup) => boolean
-  onToggle: (g: PickerGroup) => void
-  lang: Lang
-  compact: boolean
-}
-
-function GroupList({ id, title, groups, isOn, onToggle, lang, compact }: GroupListProps) {
+function Question({ id, title, sub, compact, children }: { id: string; title: string; sub: string; compact: boolean; children: ReactNode }) {
   return (
     <section aria-labelledby={id}>
-      <h3 id={id} className="mb-2 text-sm font-medium text-grey">
+      <h3 id={id} className={cn("font-display font-semibold text-navy", compact ? "text-sm" : "text-lg")}>
         {title}
       </h3>
-      <ul className={cn("grid gap-x-3 rounded-[10px] border border-line bg-card px-3", compact ? "grid-cols-3" : "grid-cols-2")}>
-        {groups.map((g) => {
-          const boxId = `${id}-${g.id}`
-          return (
-            <li key={g.id}>
-              <label htmlFor={boxId} className={cn("flex cursor-pointer items-center gap-3", compact ? "min-h-9 text-sm" : "min-h-11")}>
-                <Checkbox id={boxId} checked={isOn(g)} onCheckedChange={() => onToggle(g)} className="size-5" />
-                <span className={cn("leading-tight", lang === "ja" && jaWrap)}>{breakable(pick(g.labels, lang), lang)}</span>
-              </label>
-            </li>
-          )
-        })}
-      </ul>
+      <p className={cn("mb-2.5 text-grey", compact ? "text-xs" : "text-sm")}>{sub}</p>
+      <div className={cn("grid gap-2", compact ? "grid-cols-3" : "grid-cols-2")}>{children}</div>
     </section>
+  )
+}
+
+function Tile({ label, on, onToggle, lang, compact }: { label: string; on: boolean; onToggle: () => void; lang: Lang; compact: boolean }) {
+  return (
+    <button
+      type="button"
+      role="checkbox"
+      aria-checked={on}
+      onClick={onToggle}
+      className={cn(
+        "flex items-center gap-2.5 rounded-md border px-3 text-left leading-tight transition-colors duration-150",
+        compact ? "min-h-9 py-1 text-sm" : "min-h-12 py-2 text-base",
+        on ? "border-blue bg-ice font-medium text-navy" : "border-line bg-card text-foreground hover:border-sky",
+      )}
+    >
+      <span
+        aria-hidden="true"
+        className={cn(
+          "flex size-5 shrink-0 items-center justify-center rounded-[4px] border transition-colors duration-150",
+          on ? "border-blue bg-blue text-primary-foreground" : "border-line bg-card",
+        )}
+      >
+        {on && <Check className="size-3.5" />}
+      </span>
+      <span className={cn(lang === "ja" && jaWrap)}>{breakable(label, lang)}</span>
+    </button>
   )
 }

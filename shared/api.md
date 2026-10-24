@@ -44,6 +44,9 @@ Example: Priya's `forbid: [meat, seafood, egg, onion, garlic]` with dairy allowe
 | GET | `/passenger/lookup` | `?pnr=6XK2QP&surname=SHARMA` | `Passenger` (404 if no match) |
 | POST | `/profiles` | `{passenger_id, lang, presets, forbid, allow, fasting_dates?, allergens?, consent, chosen_code}` | `{profile: Profile, promise: MealPromise, booking_check: {ok, problem?, suggested_code?}}`. Writes C1. If the booked SSR breaks the rules (m1 `check-booking`), it also raises WRONG_CODE with `alerts.raise_alert` |
 | POST | `/join` | `{display_name, lang, presets, forbid, allow, consent}` | `{passenger: Passenger, profile: Profile, promise: MealPromise}`. Takes the next free seat in row 5 (then row 20), sets `is_judge`, writes C1 |
+| POST | `/passenger/meal-options` | `{forbid, allow?}` | `{options: CodeOption[]}`: `/rules/code-options`, but never empty. When no standard code fits, one option `SPML` with a kitchen note listing what to leave out |
+
+`/join` also takes optional `allergens` (kept in `Profile.allergens`) and `passenger_id`: a judge changing their answers keeps the same seat, the meal m6 reserved for the old answers is released, and the profile and promise are updated. `/profiles` and `/join` fall back to `SPML` when no standard code fits; `chosen_code` on `/profiles` is optional (default: the recommended one).
 
 ## m4 · lost-meal watcher
 | Method | Path | Request | Response |
@@ -108,10 +111,13 @@ Seat numbers are not printed on labels: the QR carries the item id and the crew 
 |---|---|---|---|
 | POST | `/recipes/extract` | multipart `file` (image) or `{text, name?}` | `RecipeSheet` |
 | POST | `/recipes/{id}/approve` | `{by}` | `{sheet: RecipeSheet, spec: MealSpec}` |
-| GET | `/recipes` | – | `RecipeSheet[]` |
+| GET | `/recipes` | – | `RecipeSheet[]` (newest first) |
+| GET | `/recipes/{id}` | – | `RecipeSheet` |
 | GET | `/recipes/eval` | – | `{rows: [{dish, truth: string[], dictionary: string[], model: string[], combined: string[]}], metrics: {dictionary, model, combined}}` |
 
 `RecipeSheet = {id, name: Text, source_hash, cached: boolean, engine: "dictionary"|"gemini"|"dictionary+gemini", ingredients: [{name_ja, name_en, tags, confidence, evidence}], verdicts: [{diet, verdict, fired}], status: "needs_review"|"approved", created_at}`
+
+Optional on `RecipeSheet`: `text` (the sheet as read, for the side-by-side view), `model_note` (e.g. "Model offline: dictionary only"), `spec_id` and `approved_by` (set by approve). Approve creates `MealSpec` `SPEC-R-…` with `kind: "main"`, `source: "recipe_check"`.
 
 ## m10 · insights
 | Method | Path | Request | Response |

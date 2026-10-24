@@ -13,7 +13,9 @@
     "demo": "npm run build && node scripts/py.mjs -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port 8000",
     "seed": "node scripts/py.mjs -m app.core.seed_gen",
     "test": "npm --prefix frontend run test && node scripts/py.mjs -m pytest -q backend/tests",
-    "check": "bash scripts/check.sh"
+    "check": "bash scripts/check.sh",
+    "tunnel": "bash scripts/tunnel.sh",
+    "e2e": "npm --prefix e2e test"
   },
   "devDependencies": {
     "concurrently": "^10.0.6"
