@@ -3,16 +3,17 @@
 **Owner:** Bhavyam · **Branch:** `bhavyam/m13-pitch` · **Phase:** final, 05:00–09:30 IST (two early tasks today)
 **Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
-### Where it stands (24 Oct, 19:09 IST)
+### Where it stands (24 Oct, 19:13 IST)
 - **T5 Q&A sheet** (docs repo `06-deliverables/final-pitch/qa-sheet.md`): question 6 now has the recipe-check numbers from Shefali's m9 line, checked against `GET /api/recipes/eval` (dictionary 79%, model 96% with 0 false alarms, both 100%; 23 hand-labelled sheets). Not ticked until Gunagye and Shefali have read it.
 - **T3 deck outline** (`06-deliverables/final-pitch/v1/outline.md`): written; `[FILL 05:00]` slots still open. `deck.html` + PDF not started.
 - **T2 demo script:** Gunagye shipped `docs/demo-script.md` (18:57). The deck's demo slide must follow it.
-- **Waiting on Bhavyam's notes:** survey results (T0) and the Checkpoint 1 mentor answers (T1) are not written down anywhere yet. The midnight mentor round is still ahead (00:00).
-- **Next:** record survey + mentor answers in Notes; at 05:00 fill the outline and build the deck.
+- **No survey (T0 skipped, team decision):** the deck's problem slide now uses sourced public cases only, and the pilot's month 1 is pitched as how JAL gets the failure rate. Logged in the docs repo's `08-log/decisions.md`.
+- **Waiting on Bhavyam's notes:** the Checkpoint 1 mentor answers (T1) are not written down yet. The midnight mentor round is still ahead (00:00).
+- **Next:** record mentor answers in Notes; at 05:00 fill the outline (mentor quote, matcher ms, recipe table) and build the deck.
 
 ## Goal
 Win the room. A pitch that maps every minute to the judging rubric (Technical first), shows the live demo from `/demo`, and backs each claim with:
-- one real number from our flyer survey
+- sourced public cases of meals lost or wrong (no survey was run; see T0)
 - what the JAL mentors told us at the checkpoint
 - our own measurements: rule tests that agree on the server and the tablet, matcher speed, recipe-check results
 
@@ -29,7 +30,7 @@ Win the room. A pitch that maps every minute to the judging rubric (Technical fi
 - The submission package (whatever the organisers ask for at 10:00)
 
 ## Tasks
-- [ ] **T0 (today, before 15:30, no code): flyer survey.** A Google Form with 5 questions: did you pre-order a special meal; did it arrive; did you carry your own food; what did you worry about; which diet. Share it in family and college groups. Read the results at 05:00.
+- [x] **T0 skipped (24 Oct, team decision): no time to run it, and we won't show invented results.** Was: flyer survey. A Google Form with 5 questions: did you pre-order a special meal; did it arrive; did you carry your own food; what did you worry about; which diet. Share it in family and college groups. Read the results at 05:00.
 - [ ] **T1 (Checkpoint 1 at 16:00–17:30, and the 00:00 mentorship round; no code): ask the JAL mentors.** The talk itself follows `06-deliverables/checkpoint-1/brief.md` in the docs repo.
   - Do special meals really drop when a codeshare booking is reissued?
   - What is the real caterer cutoff at DEL?
