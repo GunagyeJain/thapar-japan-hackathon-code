@@ -131,3 +131,14 @@ def test_solver_matches_greedy_without_swaps():
     cands = [Candidate("M", 3, 2, pool="Y"), Candidate("S", 1, 5), Candidate("B", 5, 1)]
     assert solve(cands, cands, {"Y": 1}, []).item_id == greedy(cands).item_id == "S"
     assert solve([Candidate("M", 3, 2, pool="Y")], [], {"Y": 0}, []).item_id is None
+
+
+def test_backup_forecast_bumps_around_diwali(client):
+    body = client.get("/api/backups/forecast", params={"flight_no": "JL740", "days": 16}).json()
+    assert body["service_level"] == pytest.approx(0.95, abs=0.01)
+    rows = {r["date"]: r for r in body["rows"]}
+    assert len(rows) == 16 and rows["2026-10-26"]["recommended"] == 4
+    assert rows["2026-11-08"]["recommended"] > rows["2026-10-27"]["recommended"]
+    assert rows["2026-11-08"]["festival"]["en"] == "Diwali"
+    assert client.get("/api/backups/forecast", params={"flight_no": "XX999"}).status_code == 404
+    assert client.get("/api/backups/forecast", params={"days": 0}).status_code == 422
