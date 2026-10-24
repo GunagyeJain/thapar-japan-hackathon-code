@@ -1,4 +1,4 @@
-// /seat?seat=23C: the seatback display for one seat (cabin dark, 16:9 on a laptop, full screen on a phone).
+// /seat?seat=23C: the seatback display for one seat (16:9 in a navy bezel on a laptop, full screen on a phone).
 // Without a seat it lists the seats that have a question, so the presenter can open one.
 import { MonitorPlay } from "lucide-react"
 import { useState, type FormEvent } from "react"
