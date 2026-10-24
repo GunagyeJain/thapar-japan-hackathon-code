@@ -1,7 +1,7 @@
 # m5: ops console
 
-**Owner:** Bhavyam · **Branch:** `bhavyam/m5-ops` · **Phase:** 2, 19:30–22:30 IST
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Owner:** Gunagye (lane b, taken over from Bhavyam) · **Branch:** `gunagye/m5-ops` · **Phase:** 2, 19:30–22:30 IST
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 The screen ground staff at Delhi watch overnight; it's on the projector in Act 2. It shows a flight board with live deadlines and an alert queue, and each alert opens with its **evidence**: the raw PNL and ADL lines, a before/after diff, the SSR draft. A clear "Request again" step makes it obvious a human approves every fix.
@@ -37,13 +37,13 @@ The screen ground staff at Delhi watch overnight; it's on the projector in Act 2
   - `Timeline` of the audit trail (`alert.actions`) and the C2 result.
 
 ## Tasks
-- [ ] **T1 Board + queue (45 min).** Context bar, KPI row, alert queue against `mock.ts`, switched to the real API with one flag when m4 ships.
+- [x] **T1 Board + queue (45 min).** Context bar, KPI row, alert queue against `mock.ts`, switched to the real API with one flag when m4 ships.
 
   _Done when:_ `/ops` shows both alerts with live countdowns at 1440 px, and new alerts appear within 2 s without a full-page flash.
 - [ ] **T2 Alert detail + request again (50 min).** Evidence panel, actions with the confirm dialog, audit timeline.
 
   _Done when:_ against the real API, `POST /api/sim/booking-events {type: "rebook_drop_meal", passenger_id: <Priya>}` shows the LOST_MEAL alert; "Request again" ends with the alert resolved, C2 fixed, and the passenger notification listed.
-- [ ] **T3 Feed + states (30 min).** A raw message list (click to view the full text), plus loading, empty and error states per `docs/design.md`. A "Notify kitchen" button on DELAY_HOLD alerts if m4 shipped them.
+- [x] **T3 Feed + states (30 min).** A raw message list (click to view the full text), plus loading, empty and error states per `docs/design.md`. A "Notify kitchen" button on DELAY_HOLD alerts if m4 shipped them.
 
   _Done when:_ the design checklist in `docs/design.md` passes at 1440 px and on the projector (1920 × 1080).
 
@@ -52,3 +52,8 @@ Act 2 can be run from `/ops` by the presenter in under a minute, with the eviden
 
 ## Notes
 _Owner's running notes: what's mocked, open questions._
+- **Taken over by lane B at 17:38** (see docs/decisions.md); nothing had been started on `bhavyam/m5-ops`.
+- **Live or stand-in by itself:** `data.ts` calls m4's `GET /api/alerts?flight_id=`, `GET /flights/{id}/messages` and `POST /alerts/{id}/actions` (actor "JAL ground ops, Delhi"). While they answer 404/405 it serves `mock.ts` (LOST_MEAL 23C and WRONG_CODE 24A, with m4's own PNL/ADL fixture lines), applies actions locally on the sim clock, and shows a "Rehearsal data" banner. No flag to flip.
+- **Evidence reading** (`evidence.ts`): finds the passenger's block by `1SURNAME/GIVEN` in each message listed in `evidence.message_ids` (plus later ADLs for the same name), highlights PNL lines (mark), ADL DEL (remove) and ADD/CHG (add), and diffs the PNL block against the latest ADL block. Falls back to `evidence.line_before/line_after`. Reads `old_pnr`, `new_pnr`, `ssr_draft` if m4 sets them (Request again shows `.R/<code> HK1 <note>` from the promise otherwise).
+- **T2 is built and checked against the stand-in** (Request again → dialog with the SSR line and "A staff member approves every fix…" → resolved, ADL #8 shown). Its done-when needs m4's real routes: re-check then, with `npm run e2e` and one click-through.
+- Checked at 1440 and 1920 px: table fits, no page overflow. The audit trail lists `alert.actions` plus the promise's C2 state (no checkpoint-events endpoint exists, so m2's `Timeline` isn't used here).

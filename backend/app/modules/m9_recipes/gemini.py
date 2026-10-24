@@ -1,12 +1,14 @@
 """Gemini reads a recipe sheet into a fixed schema. It only reads; the rules engine decides."""
 import os
+import time
 from functools import lru_cache
 
 from pydantic import BaseModel, Field, ValidationError
 
 from app.modules.m1_rules import engine
 
-TIMEOUT_MS = 25_000
+TIMEOUT_MS = 60_000
+RETRY_AFTER_S = 3
 
 
 class ModelUnavailable(Exception):
@@ -30,7 +32,7 @@ class Extraction(BaseModel):
 
 
 def model_name() -> str:
-    return os.environ.get("GEMINI_MODEL") or "gemini-2.5-flash"
+    return os.environ.get("GEMINI_MODEL") or "gemini-3.5-flash"
 
 
 def has_key() -> bool:
@@ -47,9 +49,21 @@ def _prompt() -> str:
         "For each ingredient give name_ja as written, name_en in plain English, tags from this list only "
         f"(use the most specific one that fits; an empty list if none fits): {tags}.\n"
         "confidence is how sure you are of the tags (0 to 1). evidence is the exact text you read it from.\n"
-        "transcription is the full sheet text exactly as written (for a photo; for text, leave it empty).\n"
+        "transcription is the full sheet text exactly as written. For a photo it is required, line by line; "
+        "for text input, leave it empty.\n"
         "Do not judge whether the dish suits any diet. Only report what is in it."
     )
+
+
+def _generate(client, errors, **kwargs):
+    """One retry after a short pause when Gemini is busy (503) or the free tier's per-minute limit hits (429)."""
+    try:
+        return client.models.generate_content(**kwargs)
+    except errors.APIError as exc:
+        if exc.code not in (429, 503):
+            raise
+        time.sleep(RETRY_AFTER_S)
+        return client.models.generate_content(**kwargs)
 
 
 def extract(*, text: str | None = None, image: bytes | None = None, mime_type: str = "image/png") -> dict:
@@ -66,11 +80,15 @@ def extract(*, text: str | None = None, image: bytes | None = None, mime_type: s
     contents: list = [types.Part.from_bytes(data=image, mime_type=mime_type)] if image else [text or ""]
     contents.append(_prompt())
     try:
-        response = client.models.generate_content(
+        response = _generate(
+            client,
+            errors,
             model=model_name(),
             contents=contents,
             config=types.GenerateContentConfig(
                 temperature=0,
+                # Reading a sheet needs little reasoning; low thinking keeps a photo near 5 s.
+                thinking_config=types.ThinkingConfig(thinking_level=types.ThinkingLevel.LOW),
                 response_mime_type="application/json",
                 response_schema=Extraction,
             ),

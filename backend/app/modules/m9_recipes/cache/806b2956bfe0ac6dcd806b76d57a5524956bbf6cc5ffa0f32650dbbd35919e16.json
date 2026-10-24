@@ -1,0 +1,79 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "味噌汁",
+  "dish_name_en": "Miso soup",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "出汁",
+    "name_en": "Dashi",
+    "tags": [
+     "fish"
+    ],
+    "confidence": 0.9,
+    "evidence": "出汁 600ml（鰹節 15g、昆布 5g）"
+   },
+   {
+    "name_ja": "鰹節",
+    "name_en": "Bonito flakes",
+    "tags": [
+     "bonito",
+     "fish"
+    ],
+    "confidence": 1.0,
+    "evidence": "鰹節 15g"
+   },
+   {
+    "name_ja": "昆布",
+    "name_en": "Kombu kelp",
+    "tags": [
+     "kombu",
+     "seaweed"
+    ],
+    "confidence": 1.0,
+    "evidence": "昆布 5g"
+   },
+   {
+    "name_ja": "豆腐",
+    "name_en": "Tofu",
+    "tags": [
+     "soy",
+     "legume"
+    ],
+    "confidence": 1.0,
+    "evidence": "豆腐 1/2丁"
+   },
+   {
+    "name_ja": "わかめ（乾燥）",
+    "name_en": "Dried wakame seaweed",
+    "tags": [
+     "seaweed"
+    ],
+    "confidence": 1.0,
+    "evidence": "わかめ（乾燥）4g"
+   },
+   {
+    "name_ja": "長ねぎ",
+    "name_en": "Japanese long onion",
+    "tags": [
+     "spring_onion",
+     "allium"
+    ],
+    "confidence": 1.0,
+    "evidence": "長ねぎ 1/2本"
+   },
+   {
+    "name_ja": "味噌",
+    "name_en": "Miso paste",
+    "tags": [
+     "soy",
+     "legume"
+    ],
+    "confidence": 1.0,
+    "evidence": "味噌 大さじ3"
+   }
+  ]
+ }
+}

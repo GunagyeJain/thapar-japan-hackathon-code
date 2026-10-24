@@ -9,6 +9,7 @@ import { Button, Input, StatusChip } from "@/ui"
 import { Bi } from "@/modules/m8-crew/Bi"
 import { Camera } from "@/modules/m8-crew/Camera"
 import { COPY, type Bilingual } from "@/modules/m8-crew/i18n"
+import { useCrewLang, useSay } from "@/modules/m8-crew/lang"
 import { lookup, normaliseCode, verdictFor } from "@/modules/m8-crew/logic"
 
 interface SeatScanProps {
@@ -35,42 +36,54 @@ const LOOK: Record<Verdict, { icon: typeof CheckCircle2; text: Bilingual; classN
   NEEDS_HUMAN: { icon: AlertTriangle, text: COPY.needsHuman, className: "bg-warn text-background" },
 }
 
+/** One block of text in the chosen language: big first line, smaller second line when both are shown. */
+function Two({ text, big, small }: { text: Bilingual; big: string; small: string }) {
+  const mode = useCrewLang()
+  if (mode !== "both") return <span lang={mode} className={cn("block", big)}>{text[mode]}</span>
+  return (
+    <>
+      <span lang="ja" className={cn("block", big)}>{text.ja}</span>
+      <span className={cn("block", small)}>{text.en}</span>
+    </>
+  )
+}
+
 function ResultScreen({ result, onNext }: { result: Result; onNext: () => void }) {
   const look = LOOK[result.verdict]
+  const say = useSay()
   return (
     <div role="alertdialog" aria-live="assertive" className={cn("fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 p-8 text-center animate-arrive", look.className)}>
       <look.icon className="size-24" aria-hidden="true" />
       <div className="flex flex-col gap-1">
-        <span lang="ja" className="text-5xl font-bold">{look.text.ja}</span>
-        <span className="text-2xl opacity-90">{look.text.en}</span>
+        <Two text={look.text} big="text-5xl font-bold" small="text-2xl opacity-90" />
       </div>
       <div className="font-display text-6xl font-bold tabular">{result.seat}</div>
       <div className="text-lg opacity-90">
-        {result.name} · <span lang="ja">{result.dish.ja}</span> · {result.dish.en} · <span className="code">{result.itemId}</span>
+        {result.name} · {say(result.dish)} · <span className="code">{result.itemId}</span>
       </div>
       {result.reasons.length > 0 && (
         <ul className="flex flex-col gap-2 rounded-xl bg-black/15 px-6 py-4 text-left">
           {result.reasons.map((r, i) => (
             <li key={i}>
-              <span lang="ja" className="block text-xl font-semibold">{r.ja}</span>
-              <span className="block opacity-90">{r.en}</span>
+              <Two text={r} big="text-xl font-semibold" small="opacity-90" />
             </li>
           ))}
         </ul>
       )}
       {result.note && (
         <p className="text-lg">
-          <span lang="ja">{result.note.ja}</span> · {result.note.en}
+          {say(result.note)}
         </p>
       )}
       <Button size="lg" variant="outline" className="h-14 min-w-48 border-current bg-transparent text-lg text-inherit hover:bg-black/10" onClick={onNext} autoFocus>
-        {COPY.next.ja} · {COPY.next.en}
+        {say(COPY.next)}
       </Button>
     </div>
   )
 }
 
 export function SeatScan({ pkg, seat, onSeat, now, record }: SeatScanProps) {
+  const say = useSay()
   const L = useMemo(() => lookup(pkg), [pkg])
   const [code, setCode] = useState("")
   const [result, setResult] = useState<Result | null>(null)
@@ -129,16 +142,16 @@ export function SeatScan({ pkg, seat, onSeat, now, record }: SeatScanProps) {
           <Input
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            placeholder={`${COPY.codePlaceholder.ja} · ${COPY.codePlaceholder.en}`}
+            placeholder={say(COPY.codePlaceholder)}
             className="code h-14 text-2xl uppercase md:text-2xl"
             autoCapitalize="characters"
             autoComplete="off"
           />
         </label>
         <Button type="submit" size="lg" className="h-14 text-lg" disabled={!code.trim() || !seat.trim()}>
-          {COPY.check.ja} · {COPY.check.en}
+          {say(COPY.check)}
         </Button>
-        {problem && <StatusChip status="warn" label={`${problem.ja} · ${problem.en}`} />}
+        {problem && <StatusChip status="warn" label={say(problem)} />}
       </form>
       <div className="lg:w-[420px]">
         <Camera onCode={check} />

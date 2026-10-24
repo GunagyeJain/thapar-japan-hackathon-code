@@ -92,7 +92,23 @@ export const s = {
   },
 
   picker: {
-    title: { en: "What don't you eat?", hi: "आप क्या नहीं खाते?", ja: "召し上がれないものは？" },
+    title: { en: "Tell us about your food", hi: "अपने खाने के बारे में बताएँ", ja: "お食事について教えてください" },
+    dietTitle: { en: "Do you follow a diet?", hi: "क्या आप कोई खास आहार मानते हैं?", ja: "特定の食事スタイルはありますか？" },
+    dietSub: {
+      en: "Optional. Tap one and we tick its foods below for you.",
+      hi: "ज़रूरी नहीं। एक चुनें, हम नीचे उसके खाने अपने आप चुन देंगे।",
+      ja: "任意です。選ぶと、下の食材に自動でチェックが入ります。",
+    },
+    foodsTitle: { en: "What can't you eat?", hi: "आप क्या नहीं खा सकते?", ja: "召し上がれない食材は？" },
+    foodsSub: { en: "Tick every food you don't eat.", hi: "जो भी नहीं खाते, उन सब पर निशान लगाएँ।", ja: "召し上がれない食材をすべて選んでください。" },
+    allergensTitle: { en: "Any food allergies?", hi: "कोई खाने की एलर्जी?", ja: "食物アレルギーはありますか？" },
+    allergensSub: { en: "The kitchen keeps these out completely.", hi: "किचन इन्हें पूरी तरह बाहर रखेगा।", ja: "厨房でこれらを完全に取り除きます。" },
+    yourAnswer: { en: "Your answer so far", hi: "अब तक आपका जवाब", ja: "現在のご回答" },
+    needFood: {
+      en: "Tick at least one food you can't eat, or choose a diet.",
+      hi: "कम से कम एक खाना चुनें जो आप नहीं खा सकते, या कोई आहार चुनें।",
+      ja: "召し上がれない食材を1つ以上、または食事スタイルを選んでください。",
+    },
     sub: {
       en: "Tap one that fits, then untick anything that doesn't apply.",
       hi: "जो आप पर लागू हो उसे चुनें, फिर जो लागू न हो उसका निशान हटा दें।",
@@ -145,6 +161,7 @@ export const s = {
       ja: "予約、機内食会社のリスト、ギャレー、お座席の各段階で確認します。",
     },
     updates: { en: "Updates", hi: "अपडेट", ja: "お知らせ" },
+    change: { en: "Change my answers", hi: "अपने जवाब बदलें", ja: "回答を変更する" },
     statusLabel: { en: "Promise status", hi: "वादे की स्थिति", ja: "お約束の状況" },
     empty: {
       en: "No updates yet. If anything changes before your flight, it shows up here.",
@@ -156,13 +173,22 @@ export const s = {
   judge: {
     title: { en: "Join flight JL740", hi: "फ़्लाइट JL740 से जुड़ें", ja: "JL740便に参加" },
     sub: {
-      en: "Pick what you don't eat. The crew tablet will show your seat, and we'll find you a safe meal on board.",
-      hi: "बताइए आप क्या नहीं खाते। क्रू के टैबलेट पर आपकी सीट दिखेगी और हम विमान में आपके लिए सुरक्षित भोजन खोजेंगे।",
-      ja: "食べられないものを選んでください。乗務員のタブレットに座席が表示され、機内で安全な食事をお探しします。",
+      en: "Tell us what you can't eat. You get a seat on JL740, and we find you a safe meal on board.",
+      hi: "बताइए आप क्या नहीं खा सकते। आपको JL740 पर सीट मिलेगी और हम विमान में आपके लिए सुरक्षित भोजन खोजेंगे।",
+      ja: "召し上がれないものを教えてください。JL740の座席をご用意し、機内で安全なお食事をお探しします。",
     },
     name: { en: "Your name (shown to the crew)", hi: "आपका नाम (क्रू को दिखेगा)", ja: "お名前（乗務員に表示）" },
     namePlaceholder: { en: "Judge 1", hi: "जज 1", ja: "審査員 1" },
     join: { en: "Join and get a seat", hi: "जुड़ें और सीट पाएँ", ja: "参加して座席を取る" },
+    saveNew: { en: "Save my new answers", hi: "नए जवाब सेव करें", ja: "新しい回答を保存" },
+    cancel: { en: "Cancel", hi: "रद्द करें", ja: "キャンセル" },
+    tryAgain: { en: "Try a different diet", hi: "कोई और आहार आज़माएँ", ja: "別の食事で試す" },
+    tryAgainSub: {
+      en: "You keep seat {seat}. We'll find a meal for your new answers.",
+      hi: "आपकी सीट {seat} वही रहेगी। हम नए जवाबों के लिए भोजन खोजेंगे।",
+      ja: "座席{seat}はそのままです。新しい回答に合う食事をお探しします。",
+    },
+    editTitle: { en: "Change your answers", hi: "अपने जवाब बदलें", ja: "回答を変更" },
     joining: { en: "Getting your seat", hi: "आपकी सीट तय हो रही है", ja: "座席を確保しています" },
     full: {
       en: "All demo seats are taken. Watch the crew tablet on the big screen.",
