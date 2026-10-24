@@ -74,3 +74,4 @@ One line per ship to `main`, added by `scripts/ship.sh`. Newest at the bottom. L
 - 2026-10-24 19:33 · Gunagye Jain · `gunagye/m1-rules` · m3 notes: the privacy change made by lane B
 - 2026-10-24 21:27 · Gunagye Jain · `gunagye/m3-passenger` · saved-profile (C1) line now lists the food rules only: no diet names like halal or vegan, no kitchen note; seed cast lines use the same wording
 - 2026-10-24 21:30 · Gunagye Jain · `gunagye/m12-polish` · m12 notes: Q&A Q5 privacy line now matches the app (docs only)
+- 2026-10-24 21:37 · Bhavyam Misra · `bhavyam/m13-pitch` · m13: questions for the 00:00 mentor round (m15/m16 and open T1); pitch hook rewritten in the docs repo · **Heads-up:** Lane B: slide 3 lists m15 and m16 as [CHECK 02:00]; they stay in the pitch only if on main and in docs/demo-script.md by the freeze
