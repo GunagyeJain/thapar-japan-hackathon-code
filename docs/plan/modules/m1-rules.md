@@ -1,7 +1,7 @@
 # m1: rules engine
 
 **Owner:** Gunagye (lane b) · **Branch:** `gunagye/m1-rules` · **Phase:** 1, 15:45–19:00 IST (Python engine + code options on main by 17:45)
-**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 The decision core. Diets are ingredient rules, not codes. Every verdict (SAFE / UNSAFE / NEEDS_HUMAN) names the rule that fired. The engine:
@@ -65,7 +65,7 @@ Python and TypeScript give identical answers, proven by one shared vector file.
 - [x] **T4 TypeScript parity (35 min).** `frontend/src/lib/rules/` evaluator, plus `vectors.json` with 150+ cases: every diet × typical dishes, and edge cases (Jain + dairy, vrat, dashi, gelatin, uncertified halal, combined Jain + diabetic). Both pytest and vitest read the same file.
 
   _Done when:_ both suites pass on all vectors and print the count. **Ship.**
-- [ ] **T5 `/rules` explorer (30 min).**
+- [x] **T5 `/rules` explorer (30 min).**
   - A diets table with the rules spelled out.
   - A "try it" panel: diet(s) + a dish's tags → VerdictBadge + fired rules.
   - A parity line: "N rule tests · server and offline tablet agree".
@@ -85,4 +85,5 @@ _Owner's running notes._
 - `check_booking` returns `{ok: true, kitchen_note}` when the booked code works (note may be null), else `{ok: false, problem: {contains, message}, suggested_code}`.
 - **Spec certificate**: `engine.spec_tags(spec.tags, spec.certified)` adds `halal_certified` for certified specs; use it before `evaluate` (the `{profile_id, spec_id}` endpoint does).
 - **TypeScript** (`@/lib/rules`): `loadRules()`, `evaluate(forbid, tags, diet?)`, `evaluateDiet()`, `combinePresets()`, `resolve()`, `label(tag, lang)`. Same answers as Python on every vector.
+- **`/rules` page**: Try it (presets + tonight's seed dishes + free ingredient words, EN/HI/JA), server-vs-offline agreement line, diets and meal-code tables. `VerdictBadge.tsx` here is a stand-in until m2's `ui/VerdictBadge` lands.
 - **Vectors**: `cd backend && python -m app.modules.m1_rules.make_vectors` rewrites `shared/rules/vectors.json` (625 cases; hand-checked verdicts are pinned in the script).

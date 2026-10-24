@@ -201,6 +201,11 @@ export function evaluate(forbidIn: readonly string[], tags: readonly string[], d
   return { verdict, fired: out }
 }
 
+/** A MealSpec's tags for evaluate(): `certified` counts as the halal certificate. */
+export function specTags(tags: readonly string[], certified = false): string[] {
+  return certified && !tags.includes(HALAL_CERTIFIED) ? [...tags, HALAL_CERTIFIED] : [...tags]
+}
+
 /** evaluate() with a named diet's forbid list; every fired rule carries the diet id. */
 export function evaluateDiet(dietId: string, tags: readonly string[]): Evaluation {
   const diet = loadRules().diets.get(dietId)
