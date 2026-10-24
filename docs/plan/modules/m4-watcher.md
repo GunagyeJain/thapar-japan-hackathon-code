@@ -1,7 +1,7 @@
 # m4: lost-meal watcher
 
 **Owner:** Bhavyam · **Branch:** `bhavyam/m4-watcher` · **Phase:** 1, 17:00–19:30 IST. T1–T2 parsing can start earlier, in new files only (see PLAN.md).
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Act 2, the heart of the pilot. ThaliBento reads **copies of the passenger-list messages** (PNL, then ADLs) that the airline already sends to the airport and the caterer. It notices that a rebooking from an IndiGo codeshare silently dropped Priya's AVML, and raises a LOST_MEAL alert with the evidence and the time left before the caterer's final list. Staff approve "request again"; a corrected ADL arrives; checkpoint C2 turns green. Read-only: we never write into the booking system.
@@ -89,3 +89,4 @@ Act 2 runs from the API alone: rebook → alert with evidence and deadline → r
 
 ## Notes
 _Owner's running notes._
+- 24 Oct: `parser.py` (parse PNL/ADL, `render_pnl`) and the rebook/restore ADL fixtures are in, with tests. Waiting on m0 for: `pnl_jl740.txt` and the 186-passenger round-trip test (need the seed), `adl_seat_change.txt` (needs a seeded PNR), apply/rebooking detection (needs Passenger rows).
