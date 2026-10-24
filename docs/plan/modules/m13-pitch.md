@@ -3,11 +3,12 @@
 **Owner:** Bhavyam · **Branch:** `bhavyam/m13-pitch` · **Phase:** final, 05:00–09:30 IST (two early tasks today)
 **Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
-### Where it stands (24 Oct, 18:36 IST)
+### Where it stands (24 Oct, 18:41 IST, paused for a break)
 - **T5 Q&A sheet written** (docs repo `06-deliverables/final-pitch/qa-sheet.md`): the six questions plus three likely follow-ups, each with a sourced answer. Not ticked until every teammate has read it: **Gunagye and Shefali, please read it before dry run 1 (07:00).**
 - **T3 deck outline written** (`06-deliverables/final-pitch/v1/outline.md`): 9 slides mapped to the rubric, a 5-minute cut, and `[FILL 05:00]` slots for the survey number, the mentor quote, matcher ms and the recipe-check table. Still to do: `deck.html` and the PDF export.
 - **Open:** pitch length and submission format (organiser question, T1); survey results (T0) and mentor answers (T1) not yet recorded in Notes.
-- **Next for Bhavyam:** T2 demo script, then T3 `deck.html` once the [FILL] numbers are in.
+- **T2 demo script is Gunagye's** (lane B, 18:38). m4 and m10 are both done and on main, so nothing from Bhavyam blocks Act 2 or Act 6.
+- **Next for Bhavyam:** (1) record survey results (T0) and the mentor answers from Checkpoint 1 and the 00:00 round (T1) in Notes; (2) at 05:00 fill the `[FILL 05:00]` slots in the outline; (3) build `deck.html` + PDF (T3).
 
 ## Goal
 Win the room. A pitch that maps every minute to the judging rubric (Technical first), shows the live demo from `/demo`, and backs each claim with:
@@ -59,3 +60,6 @@ Submitted by 09:30, rehearsed twice, and every rubric line has a slide or demo m
 
 ## Notes
 _Mentor answers (attributed), survey results, organiser answers._
+- 24 Oct 18:41 (wrap): T5 Q&A sheet and T3 outline are pushed to the docs repo (`06-deliverables/final-pitch/`). Neither is ticked: T5 waits for both teammates to read it, T3 still needs `deck.html` and the PDF.
+- Not yet recorded here: survey numbers, mentor answers, organiser answers (pitch length, submission format, HDMI, Wi-Fi). The outline's `[FILL 05:00]` slots depend on them.
+- To measure at 05:00 for slide 6: `solver.ms` from `POST /api/match` (the 31K Jain request) and the table from `GET /api/recipes/eval`.
