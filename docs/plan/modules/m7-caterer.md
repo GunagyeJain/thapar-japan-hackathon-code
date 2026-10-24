@@ -1,7 +1,7 @@
 # m7: caterer portal + labels
 
-**Owner:** Shefali · **Branch:** `shefali/m7-caterer` · **Phase:** 2, 19:30–22:30 IST
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Owner:** Gunagye (lane b, taken over from Shefali) · **Branch:** `gunagye/m7-caterer` · **Phase:** 2, 19:30–22:30 IST
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Act 3. The kitchen gets every meal list as a **numbered, timestamped, hashed version** with a diff from the last one, and acknowledges it. That acknowledgement is checkpoint C3, and fair proof if there's ever a dispute. It prints **labels that are hard to misread**: a big diet mark, name, booking ref, flight, and an opaque QR. Seats aren't printed, because they change after the truck leaves; the crew tablet looks the seat up live.

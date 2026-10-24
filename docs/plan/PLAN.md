@@ -84,9 +84,9 @@ Each person works top to bottom. Take the first module in your queue whose Statu
 | Person | Queue |
 |---|---|
 | gunagye (lane a) | m0 → m2 → m8 → m12 |
-| gunagye (lane b) | m1 → m6 → m11 |
+| gunagye (lane b) | m1 → m6 → m11 → m7 |
 | bhavyam | m4 → m5 → m10 → m13 |
-| shefali | m3 → m7 → m9 → m14 |
+| shefali | m3 → m9 → m14 |
 
 Before m0 ships (≈17:00), nobody edits files the scaffold creates. Get ready instead:
 - Read your module spec.
