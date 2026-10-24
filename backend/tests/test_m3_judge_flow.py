@@ -62,3 +62,12 @@ def test_halal_judge_profile_line_lists_rules_not_the_diet(client):
     events = client.get(f"/api/promises/{out['promise']['id']}/timeline").json()["events"]
     c1 = next(e for e in events if e["checkpoint"] == "C1")
     assert c1["detail"].startswith("Profile saved: no pork,") and "HALAL" not in c1["detail"]
+
+
+def test_old_pnr_still_finds_priya_after_rebooking(client):
+    client.post("/api/demo/reset", json={"keep_judges": False})
+    for n in (0, 1, 2):
+        client.post("/api/demo/step", json={"n": n, "auto": False})
+    r = client.get("/api/passenger/lookup", params={"pnr": "6XK2QP", "surname": "SHARMA"})
+    assert r.status_code == 200, r.text
+    assert r.json()["seat"] == "23C" and r.json()["pnr"] == "8MZ2TN"

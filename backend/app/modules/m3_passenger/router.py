@@ -167,10 +167,20 @@ def passenger_meal_options(body: OptionsIn) -> dict[str, Any]:
 def lookup(pnr: str, surname: str, session: SessionDep) -> Passenger:
     passenger = session.exec(
         select(Passenger).where(Passenger.pnr == clean_pnr(pnr), Passenger.surname == clean_surname(surname))
-    ).first()
+    ).first() or _rebooked(clean_pnr(pnr), clean_surname(surname), session)
     if passenger is None:
         raise HTTPException(status_code=404, detail="No booking with that reference and surname")
     return passenger
+
+
+def _rebooked(pnr: str, surname: str, session: Session) -> Passenger | None:
+    """A rebooking gives a new PNR. The old one still finds the passenger: the alert keeps both."""
+    for alert in session.exec(select(Alert).where(Alert.passenger_id.is_not(None))).all():  # type: ignore[union-attr]
+        if (alert.evidence or {}).get("old_pnr") == pnr:
+            passenger = session.get(Passenger, alert.passenger_id)
+            if passenger and passenger.surname == surname:
+                return passenger
+    return None
 
 
 @router.post("/profiles")
