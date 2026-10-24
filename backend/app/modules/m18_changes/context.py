@@ -34,6 +34,7 @@ class Ctx:
     change_id: str
     mark: dict[str, str] = field(default_factory=dict)
     rows: tuple[int, int] | None = None  # a run-out: the trolley's rows
+    long_lead: bool = False  # an allergy or a kosher meal: JAL's special-meal line is 49 h, not 25 h
 
     @property
     def seat(self) -> str:

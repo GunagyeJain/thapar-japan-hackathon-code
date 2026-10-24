@@ -1,7 +1,11 @@
 """What is still physically possible at a given minute: one flight's windows, their rungs, and airport config.
 
 Windows come from the core Flight milestones (docs/plan/v2.md, "Time windows"). A delay moves dispatch,
-boarding and departure; the special-meal cutoff and the caterer's final list stay where they were.
+boarding and departure; the special-meal cutoffs and the caterer's final list stay where they were.
+
+JAL takes kosher and minimal-allergen meals until 49 h before departure (48 h by phone) and every other special
+meal until 25 h (jal.co.jp, "Special inflight meals"). A need with an allergy, or a kosher meal, leaves the `ssr`
+window a day early; in the 24 hours between the two lines it goes to the caterer's list instead.
 """
 from datetime import datetime, timedelta
 from typing import Any
@@ -36,19 +40,37 @@ STANDBY_BANK: dict[str, dict[str, Any]] = {
     "JL740": {"caterer": "Skyline Flight Kitchens", "stock": {"AVML": 2, "VJML": 1, "DBML": 1, "VGML": 1}},
 }
 FLEX_MILES = 300
+LONG_LEAD = timedelta(hours=49)  # kosher and minimal-allergen meals, from the scheduled departure
+LONG_LEAD_WORDS = ("KOSHER", "KSML")  # the rules engine has no kosher rule: a desk says so in the note
 
 
 def _late(flight: Flight) -> timedelta:
     return timedelta(minutes=flight.delay_min or 0)
 
 
-def edges(flight: Flight) -> list[tuple[str, datetime | None, datetime | None]]:
-    """(window, from, to) in order; `from` of the first and `to` of the last are open."""
+def long_lead(rules: dict[str, Any] | None, note: str | None = None) -> bool:
+    """A need JAL only takes 49 h ahead: an allergy (the minimal-allergen meal) or a kosher meal."""
+    return bool((rules or {}).get("allergens")) or any(word in (note or "").upper() for word in LONG_LEAD_WORDS)
+
+
+def ssr_cutoff(flight: Flight, long: bool = False) -> datetime:
+    """The last moment the airline takes this need as a special-meal request."""
+    return flight.std - LONG_LEAD if long else flight.special_meal_cutoff
+
+
+def closed_early(flight: Flight, at: datetime, long: bool) -> bool:
+    """Between the 49 h and the 25 h line: everyone else can still book, this need can't."""
+    return long and ssr_cutoff(flight, True) <= at < flight.special_meal_cutoff
+
+
+def edges(flight: Flight, long: bool = False) -> list[tuple[str, datetime | None, datetime | None]]:
+    """(window, from, to) in order; `from` of the first and `to` of the last are open. `long`: a 49 h need."""
     late = _late(flight)
     dispatch, boarding, std = flight.dispatch_at + late, flight.boarding_at + late, flight.std + late
+    cutoff = ssr_cutoff(flight, long)
     return [
-        ("ssr", None, flight.special_meal_cutoff),
-        ("caterer_list", flight.special_meal_cutoff, flight.caterer_final_list_at),
+        ("ssr", None, cutoff),
+        ("caterer_list", cutoff, flight.caterer_final_list_at),
         ("standby_uplift", flight.caterer_final_list_at, dispatch),
         ("airport", dispatch, boarding),
         ("onboard", boarding, std),
@@ -69,15 +91,23 @@ def milestones(flight: Flight) -> list[dict[str, Any]]:
     return [{"window": w, "from": _ist(a), "to": _ist(b), "rungs": list(RUNGS[w])} for w, a, b in edges(flight)]
 
 
-def window_at(flight: Flight, at: datetime) -> str:
-    for window, start, end in edges(flight):
+def long_lead_cutoff(flight: Flight) -> dict[str, Any]:
+    """The earlier line, for screens that draw it next to the 25 h cutoff."""
+    return {"at": _ist(ssr_cutoff(flight, True)), "hours": int(LONG_LEAD.total_seconds() // 3600),
+            "applies_to": ["kosher", "minimal_allergen"]}
+
+
+def window_at(flight: Flight, at: datetime, long: bool = False) -> str:
+    for window, start, end in edges(flight, long):
         if (start is None or at >= start) and (end is None or at < end):
             return window
     return "inflight"
 
 
-def rungs_for(window: str, kind: str) -> tuple[str, ...]:
-    rungs = RUNGS[window]
+def rungs_for(window: str, kind: str, early: bool = False) -> tuple[str, ...]:
+    """The ladder for a window, best first. `early`: a 49 h need that missed its line while others still book,
+    so the ladder shows the special-meal rung it can no longer use."""
+    rungs = ("ssr_change", *RUNGS[window]) if early and window == "caterer_list" else RUNGS[window]
     if kind != "run_out":
         return rungs
     return (*(r for r in rungs if r not in ONBOARD_RUNGS), *RUN_OUT_RUNGS)

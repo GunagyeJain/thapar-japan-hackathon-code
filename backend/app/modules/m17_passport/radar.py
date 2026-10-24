@@ -183,6 +183,15 @@ def _meal_text(session: Session, plan: dict[str, Any]) -> dict[str, str]:
     return {"en": "anything from the trolley", "hi": "ट्रॉली से कुछ भी", "ja": "カートのどのお食事でも"}
 
 
+def _cutoff(flight: Flight, rules: dict[str, Any]) -> Any:
+    """The special-meal line for these rules: 49 h for an allergy (m18's windows), else the flight's 25 h cutoff."""
+    try:
+        from app.modules.m18_changes.windows import long_lead, ssr_cutoff
+    except ImportError:
+        return flight.special_meal_cutoff
+    return ssr_cutoff(flight, long_lead(rules))
+
+
 def _submit_change(session: Session, flight: Flight, passenger: Passenger, rules: dict[str, Any], question: RadarQuestion,
                    lang: str, quiet: bool = False) -> Any:
     """Hand the confirmed fast to the change router (m18) when it is installed; it logs the prediction or routes it."""
@@ -270,7 +279,7 @@ def answer(session: Session, question_id: str, option_id: str) -> dict[str, Any]
     flight = session.get(Flight, passenger.flight_id)
     core = flight is not None and flight.date == question.date and flight.flight_no == question.flight_no
     plan = service.plan_for(session, passenger, new_rules)
-    before_cutoff = bool(flight) and now < flight.special_meal_cutoff
+    before_cutoff = bool(flight) and now < _cutoff(flight, new_rules)
     lang = _lang(passport.lang)
     change = None
     if core and option_id == "yes":

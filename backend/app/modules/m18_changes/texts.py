@@ -155,6 +155,10 @@ TEXTS: dict[str, tuple[str, str, str]] = {
         "Sun times at the aircraft aren't available.", "विमान पर सूर्य का समय उपलब्ध नहीं।", "機体位置での日の出時刻を取得できません。"),
     "skip.sun_can_eat": (
         "There is time to eat on board from {time}.", "{time} से विमान में खाने का समय है।", "{time}から機内で食べられます。"),
+    "skip.long_lead": (
+        "JAL takes minimal-allergen and kosher meals until 49 h before departure ({when} IST); that line has passed.",
+        "JAL न्यूनतम-एलर्जन और कोशर भोजन प्रस्थान से 49 घंटे पहले ({when} IST) तक ही लेता है; वह समय निकल चुका है।",
+        "JALの低アレルゲン食とコーシャ食の受付は出発の49時間前（{when} IST）までで、すでに締め切られています。"),
     "skipped": (" Skipped: ", " छोड़े गए: ", "見送り："),
     # ---- what the passenger is told
     "msg.ssr_change": (
@@ -228,6 +232,10 @@ TEXTS: dict[str, tuple[str, str, str]] = {
         "Before the cutoff a special-meal request works today too.",
         "कटऑफ़ से पहले आज भी विशेष भोजन का अनुरोध काम करता है।",
         "締切前なら現在の運用でも特別食のリクエストは通ります。"),
+    "today.long_lead": (
+        "Minimal-allergen and kosher meals close 49 h before departure: the website won't take it any more.",
+        "न्यूनतम-एलर्जन और कोशर भोजन प्रस्थान से 49 घंटे पहले बंद हो जाते हैं: वेबसाइट अब इसे नहीं लेती।",
+        "低アレルゲン食とコーシャ食は出発の49時間前に締め切られ、ウェブサイトではもう受け付けられません。"),
     "today.no_channel": (
         "No channel after the 25 h cutoff: the request goes nowhere.",
         "25 घंटे के कटऑफ़ के बाद कोई रास्ता नहीं: अनुरोध कहीं नहीं जाता।",

@@ -7,6 +7,7 @@ from typing import Any
 
 from sqlmodel import select
 
+from app.core import clock
 from app.core.models import MealItem, MealSpec, Passenger
 from app.modules.m3_passenger.options import meal_options
 from app.modules.m6_matcher import inventory, matcher
@@ -78,7 +79,10 @@ def _book(ctx: Ctx, rung: str) -> Choice:
                   apply=apply)
 
 
-def plan_ssr_change(ctx: Ctx) -> Choice:
+def plan_ssr_change(ctx: Ctx) -> Choice | Skip:
+    if windows.closed_early(ctx.flight, ctx.at, ctx.long_lead):
+        line = windows.ssr_cutoff(ctx.flight, True).astimezone(clock.IST)
+        return Skip("ssr_change", txt("skip.long_lead", when=f"{line:%d %b %H:%M}"))
     return _book(ctx, "ssr_change")
 
 
