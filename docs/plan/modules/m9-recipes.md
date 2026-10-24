@@ -4,17 +4,17 @@
 **Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Where it stands
-_Updated 24 Oct 18:26 IST by Shefali. Read this first; the Notes below are the history._
+_Updated 24 Oct 18:36 IST by Shefali. Read this first; the Notes below are the history._
 
 **Shefali's queue:** m3 `done` → m9 `done` → m14 cut. m3 open item 1 (MatchResult on `/j`) and the review of lane A's picker rework are shipped. Nothing in progress.
 
 | | |
 |---|---|
 | **State** | `done`. T1–T4 shipped. Demo-ready: yes. `/caterer/recipes` goes photo → verdicts → approved meal spec; the 4 demo sheets work with Wi-Fi off (cached). The **Accuracy** tab has the eval table |
-| **Pitch numbers** (12 sheets all three readers have read, vegetarian) | Dictionary finds 11 of 13 hidden families (85%), 2 false alarms. Model: 12 of 13 (92%), 0 false alarms. Both together: 13 of 13 (100%), 2 false alarms (the dictionary's). Say it's a hand-labelled stress set, not a random sample |
-| **Left** | 11 of the 23 eval sheets aren't read by the model yet: the free tier allows **20 requests a day** and today's are used up (resets about 12:30 IST on 25 Oct). Then run `cd backend && .venv/bin/python -m app.modules.m9_recipes.evaluation --fill` and commit the new cache files. Until then the tab says how many sheets are compared |
+| **Pitch numbers** (all 23 sheets, vegetarian) | Dictionary finds 19 of 24 hidden families (79%) with 5 false alarms, and catches 11 of 16 non-veg dishes. Model: 23 of 24 (96%), 0 false alarms, 16 of 16 dishes. Both together: 24 of 24 (100%), 16 of 16 dishes, but keeps the dictionary's 5 false alarms (5 of 7 veg dishes flagged), which is why a person approves. Say it's a hand-labelled stress set, not a random sample |
+| **Left** | Nothing. All 23 eval sheets are read by the model and cached; a test fails if one loses its cache file |
 | **Setup each laptop needs** | `GEMINI_API_KEY` and `GEMINI_MODEL=gemini-3.5-flash` in `.env` (as in `.env.example`), only for new (uncached) sheets |
-| **Demo risk** | Today's quota on Shefali's key is used up, so a live **uncached** photo falls back to "model offline" until it resets. Use the 4 cached demo sheets, or another teammate's key |
+| **Demo risk** | Shefali's own key hit the free tier's 20-a-day cap (resets about 12:30 IST on 25 Oct); the eval was finished with a teammate's key. The 4 demo sheets are cached either way. For a live new photo, use a key with requests left |
 | **Waiting on others** | Nothing |
 | **Others waiting on m9** | Nothing known. Approved dishes become `MealSpec` rows (`SPEC-R-…`, source `recipe_check`) |
 | **For m2** | VerdictBadge's "N rules" link is English-only, so it stays English on the Japanese page |
@@ -92,4 +92,4 @@ _Owner's running notes._
 - T4 done: `shared/seed/recipes/eval.json` has 23 hand-labelled sheets (the 4 demo ones plus 19 more), built around known hard cases: hidden stock (白だし, おでんだし, 削り粉), product names (ウェイパー, マシュマロ, ちくわ, ウインナー) and words that only look like an ingredient (精進だし, 野菜ブイヨン, かき = 柿, 肉桂, えび芋). A family counts as found when the rules call the dish UNSAFE for vegetarian; NEEDS_HUMAN doesn't count. `evaluation.py` builds the table from the committed cache only (never calls the model); `GET /api/recipes/eval` serves it and the Accuracy tab shows it. The three readers are scored on the same sheets (the ones the model has read).
 - What the table shows: the dictionary is fooled by look-alike words (精進だし → bonito, 野菜ブイヨン → meat extract) and misses product names (ウェイパー, 削り粉). The model got those right but missed コンソメ as meat in the croquette. Combined catches everything but keeps the dictionary's false alarms, which is why a person approves every sheet.
 - The free tier also has a daily cap of 20 requests (on top of 5 a minute). The eval fill hit it after 8 new sheets.
-
+- 18:36 eval finished with a teammate's key: all 23 sheets read. The model's only miss is still コンソメ in the croquette; every dictionary false alarm is a look-alike word (精進だし, 野菜ブイヨン, かき = 柿, 肉桂, えび芋), and its misses are product names (ウェイパー, 削り粉, マシュマロ, ちくわ, ウインナー).
