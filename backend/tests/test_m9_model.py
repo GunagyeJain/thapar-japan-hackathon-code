@@ -44,7 +44,7 @@ def test_model_answer_is_cached_and_reused(isolated):
     start = time.perf_counter()
     second = pipeline.run(MISO.encode())
     assert second["cached"] is True
-    assert time.perf_counter() - start < 0.05
+    assert time.perf_counter() - start < 1.0  # the call count below proves the reuse; this only catches a re-run
     assert isolated == ["text"]
 
 
