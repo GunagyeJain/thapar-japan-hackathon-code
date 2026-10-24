@@ -1,5 +1,6 @@
 // Nav menu. Shared zone: one line per entry, add yours, don't reorder.
 import {
+  CalendarDays,
   ChefHat,
   ClipboardList,
   Clock4,
@@ -34,6 +35,7 @@ export const NAV: NavEntry[] = [
   { to: "/", label: "Home", module: "m0", group: "Overview", surface: "desktop", icon: LayoutGrid, blurb: "JL740 at a glance" },
   { to: "/ops", label: "Ops console", module: "m5", group: "Operations", surface: "desktop", icon: ClipboardList, blurb: "Lost-meal alerts, PNL/ADL evidence, fixes" },
   { to: "/ops/late", label: "Late requests", module: "m6", group: "Operations", surface: "desktop", icon: Clock4, blurb: "Find a safe meal on board for a last-minute request" },
+  { to: "/ops/days", label: "Fast days", module: "m16", group: "Operations", surface: "desktop", icon: CalendarDays, blurb: "Legs where a passenger's fast day changes the meal" },
   { to: "/caterer", label: "Caterer", module: "m7", group: "Operations", surface: "desktop", icon: ChefHat, blurb: "Meal list versions, acknowledgement, labels" },
   { to: "/caterer/recipes", label: "Recipe check", module: "m9", group: "Operations", surface: "desktop", icon: FlaskConical, blurb: "Hidden ingredients in Japanese recipe sheets" },
   { to: "/insights", label: "Insights", module: "m10", group: "Operations", surface: "desktop", icon: LineChart, blurb: "C1–C5 timeline of every promise" },
