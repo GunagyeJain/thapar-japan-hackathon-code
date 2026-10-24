@@ -78,7 +78,7 @@ export const COPY = {
     ja: "座席を選び、配膳前にトレーをスキャン。緑なら提供、赤なら提供しないでください。",
     en: "Pick the seat, then scan the tray before you serve it. Green: serve. Red: don't serve.",
   },
-  howSeats: { ja: "座席をタップすると、その座席のトレーを確認できます。", en: "Tap a seat to check a tray for it." },
+  howSeats: { ja: "座席をタップすると、乗客・食事・トレーの状況が表示されます。審査員は「J」です。", en: "Tap a seat to see who sits there, their meal and their tray. Judges show as J." },
   scanLabel: { ja: "ラベルをスキャン", en: "Scan a label" },
   step1: { ja: "① 座席を選ぶ", en: "1 · Pick the seat" },
   step2: { ja: "② トレーをスキャン", en: "2 · Scan the tray" },
