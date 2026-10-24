@@ -90,7 +90,7 @@ function Row({ row, on, onSeat, answer }: { row: ServeRow; on: boolean; onSeat: 
         )}
       </span>
       {seat.may_eat_from && (
-        <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-1 text-xs font-semibold text-sky tabular">
+        <span className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-1 text-xs font-semibold text-blue tabular">
           <Sunrise className="size-3.5" aria-hidden="true" />
           {fmtTime(seat.may_eat_from, "IST")}
         </span>

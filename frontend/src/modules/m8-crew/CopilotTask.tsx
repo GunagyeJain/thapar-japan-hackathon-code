@@ -76,7 +76,7 @@ export function CopilotTask({ pkg, now, onTap, onScan, online = true }: CopilotT
                 on ? "border-blue bg-secondary ring-1 ring-blue" : "border-border bg-card hover:border-sky",
               )}
             >
-              <v.icon className={cn("size-5", on ? "text-blue dark:text-sky" : "text-muted-foreground")} aria-hidden="true" />
+              <v.icon className={cn("size-5", on ? "text-blue" : "text-muted-foreground")} aria-hidden="true" />
               <Bi text={v.text} size="sm" className="font-semibold" />
             </button>
           )

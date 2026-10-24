@@ -90,7 +90,7 @@ function SeatDetail({ pkg, seat, live, onServe }: { pkg: CrewPackage; seat: stri
         <dl className="grid gap-3 text-sm sm:grid-cols-2">
           <div>
             <dt className="text-muted-foreground">{say(COPY.cantEat)}</dt>
-            <dd className="mt-0.5">{cantEat || say(COPY.noDiet)}</dd>
+            <dd className="mt-0.5 [word-break:keep-all] [overflow-wrap:anywhere]">{cantEat || say(COPY.noDiet)}</dd>
           </div>
           <div>
             <dt className="text-muted-foreground">{say(COPY.tray)}</dt>
@@ -99,7 +99,7 @@ function SeatDetail({ pkg, seat, live, onServe }: { pkg: CrewPackage; seat: stri
               {items.map((i) => (
                 <span key={i.id} className="flex flex-wrap items-center gap-2">
                   <span className="code font-semibold">{i.id}</span>
-                  <span className="text-muted-foreground">
+                  <span className="text-muted-foreground [word-break:keep-all] [overflow-wrap:anywhere]">
                     {dish(L.specs.get(i.spec_id)?.name, true)} · {i.galley}
                   </span>
                   <StatusChip size="sm" status={TRAY[i.status].status} label={say(TRAY[i.status].text)} />
@@ -168,10 +168,10 @@ export function CrewSeats({ pkg, online, onSeat }: CrewSeatsProps) {
         variant="plane"
       />
       <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-        <span><span className="mr-1 inline-block size-3 rounded-sm bg-ice align-middle dark:bg-secondary" /><Bi text={COPY.legendSpecial} inline /></span>
-        <span><span className="mr-1 inline-block size-3 rounded-sm bg-warn-bg align-middle" /><Bi text={COPY.legendJudge} inline /></span>
-        <span><span className="mr-1 inline-block size-3 rounded-sm bg-safe-bg align-middle" /><Bi text={COPY.legendServed} inline /></span>
-        <span><span className="mr-1 inline-block size-3 rounded-sm bg-unsafe-bg align-middle" /><Bi text={COPY.legendMissing} inline /></span>
+        <span><span className="mr-1 inline-block size-3.5 rounded-sm border align-middle border-blue/50 bg-ice" /><Bi text={COPY.legendSpecial} inline /></span>
+        <span><span className="mr-1 inline-block size-3.5 rounded-sm border align-middle border-warn/50 bg-warn-bg" /><Bi text={COPY.legendJudge} inline /></span>
+        <span><span className="mr-1 inline-block size-3.5 rounded-sm border align-middle border-safe/50 bg-safe-bg" /><Bi text={COPY.legendServed} inline /></span>
+        <span><span className="mr-1 inline-block size-3.5 rounded-sm border align-middle border-unsafe/50 bg-unsafe-bg" /><Bi text={COPY.legendMissing} inline /></span>
       </div>
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         {selected ? (

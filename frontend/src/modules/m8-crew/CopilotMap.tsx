@@ -71,7 +71,7 @@ function Legend() {
         )
       })}
       <li className="flex items-center gap-1.5">
-        <span className="inline-flex size-5 items-center justify-center rounded-[5px] border border-dashed border-sky text-[10px] font-semibold text-sky">F</span>
+        <span className="inline-flex size-5 items-center justify-center rounded-[5px] border border-dashed border-sky text-[10px] font-semibold text-blue">F</span>
         <Repeat className="size-3.5 text-sky" aria-hidden="true" />
         <Bi text={COPILOT.flex} inline />
       </li>

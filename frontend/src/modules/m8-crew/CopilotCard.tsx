@@ -146,7 +146,7 @@ function SunTimer({ seat }: { seat: CopilotSeat }) {
         {seat.sun_note && <p className="mt-1 text-sm text-muted-foreground">{say({ ja: seat.sun_note.ja ?? seat.sun_note.en, en: seat.sun_note.en })}</p>}
       </div>
       {left !== null && (
-        <span className={cn("rounded-md px-3 py-2 font-display text-xl font-bold tabular", left > 0 ? "bg-card text-sky" : "bg-safe-bg text-safe")}>
+        <span className={cn("rounded-md px-3 py-2 font-display text-xl font-bold tabular", left > 0 ? "bg-card text-blue" : "bg-safe-bg text-safe")}>
           {left > 0 ? say(COPILOT.mayEatIn(fmtDuration(left))) : say(COPILOT.mayEatNow)}
         </span>
       )}
