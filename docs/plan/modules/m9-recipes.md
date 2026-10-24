@@ -52,7 +52,7 @@ The PNGs are recipe cards rendered from the text (an HTML page + screenshot is f
 - [x] **T2 Gemini + cache (40 min).** Client, schema, validation, cache, timeouts, clear errors.
 
   _Done when:_ with a key, the miso PNG is extracted once, and the second call returns `cached: true` in under 50 ms. The cache files for the 4 demo sheets are committed.
-- [ ] **T3 Page (50 min).** Upload (drag-drop an image or paste text). Result view: the sheet on the left; the ingredient table on the right (JA, EN, tags, confidence, evidence highlighted); a verdict chip per diet with the fired rule; **Approve**.
+- [x] **T3 Page (50 min).** Upload (drag-drop an image or paste text). Result view: the sheet on the left; the ingredient table on the right (JA, EN, tags, confidence, evidence highlighted); a verdict chip per diet with the fired rule; **Approve**.
 
   _Done when:_ uploading the miso PNG shows the dashi flag and approve creates a MealSpec, at 1440 px.
 - [ ] **T4 Eval table (30 min, cut first).** `eval.json` with about 20 Japanese dishes and hand-labelled "not vegetarian" tags. Recall and precision for dictionary vs. model vs. combined.
@@ -70,3 +70,6 @@ _Owner's running notes._
 - T2 done with `gemini-3.5-flash`: `gemini-2.5-flash` is closed to new keys, and `gemini-3.8-flash` took 70 to 120 s per call on our key. 3.5-flash reads a photo in about 5 to 9 s with thinking set to LOW. The 8 demo inputs (4 PNG + 4 TXT) are cached; a repeat call is about 10 ms, and a test fails if any demo sheet loses its cache file.
 - Free tier is 5 requests a minute. On 429 or 503 the client retries once after 3 s, then falls back to the dictionary with the reason in `model_note`.
 - Verdicts list one fired rule per forbidden family, with the Japanese word first (ラード → lard → pork). Rows nobody could read (揚げ油 frying oil, サラダ油) stay NEEDS_HUMAN on purpose.
+- T3 done, checked at 1440 px in EN and JA: the miso photo (demo button or drag-drop) loads from cache in about 0.6 s, verdicts show "出汁 → bonito → fish → seafood", 出汁 and 鰹節 are marked red in the sheet, and Approve creates `SPEC-R-…` (kind main, source recipe_check). A new, uncached photo took 10.6 s live on the free tier.
+- If Gemini leaves a photo's transcription empty, the sheet text is rebuilt from its evidence lines so the dictionary still checks it.
+- For m2: VerdictBadge's "N rules" link is English-only, so it reads in English on the Japanese page.

@@ -91,3 +91,12 @@ def test_photo_upload_over_http(client):
     assert res.status_code == 200, res.text
     assert res.json()["name"]["ja"] == "味噌汁"
     assert client.post("/api/recipes/extract", files={"file": ("a.txt", b"hi", "text/plain")}).status_code == 415
+
+
+def test_photo_without_transcription_still_gets_the_dictionary(monkeypatch):
+    model = {**MISO_MODEL, "transcription": ""}
+    monkeypatch.setattr(gemini, "extract", lambda **_: model)
+    result = pipeline.run(b"\x89PNG other", is_image=True)
+    assert result["engine"] == "dictionary+gemini"
+    assert "出汁 600ml" in result["text"]
+    assert any(f["via"].startswith("出汁 → bonito → fish") for f in verdict(result, "vegetarian")["fired"])
