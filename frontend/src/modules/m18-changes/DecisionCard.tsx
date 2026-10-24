@@ -94,7 +94,7 @@ export function DecisionCard({ event: e, place, className }: DecisionCardProps) 
                       <span className="sr-only">{s.chosen ? " (chosen)" : " (skipped)"}</span>
                     </span>
                     {s.reason && (
-                      <span className="line-clamp-2 block text-xs text-muted-foreground" title={s.reason}>
+                      <span className="line-clamp-2 text-xs text-muted-foreground" title={s.reason}>
                         {s.reason}
                       </span>
                     )}
