@@ -1,0 +1,26 @@
+# Same line endings on Windows, macOS and Linux (avoids whole-file diffs)
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.pptx binary
+*.zip binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.mp4 binary
+*.mov binary
+
+# Append-only logs: on merge keep both sides' lines automatically
+docs/changelog.md merge=union
+docs/decisions.md merge=union
