@@ -1,7 +1,7 @@
 # m12: polish + hardening
 
 **Owner:** Gunagye (lane a) · **Branch:** `gunagye/m12-polish` · **Phase:** freeze, 02:00–05:30 IST
-**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress (T1 done; T2–T4 wait for the 02:00 freeze) <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Make the five surfaces look like one finished product on the projector, the iPad and the judges' phones, and make the demo setup boring and repeatable.
@@ -18,7 +18,7 @@ Make the five surfaces look like one finished product on the projector, the iPad
 - A finished look across `/p`, `/j`, `/ops`, `/caterer`, `/crew`, `/insights`, `/demo`.
 
 ## Tasks
-- [ ] **T1 Tunnel + demo build (20 min).** `tunnel.sh`, and a check that `npm run demo` serves everything from one origin.
+- [x] **T1 Tunnel + demo build (20 min).** `tunnel.sh`, and a check that `npm run demo` serves everything from one origin.
 
   _Done when:_ a phone on mobile data opens `/j` over the tunnel and joins.
 - [ ] **T2 Visual pass (90 min).** Walk every screen against the `docs/design.md` checklist at 1440 px, 1920 × 1080 (projector), 390 px and 1024 × 768. Fix alignment, hierarchy, copy, and empty/loading/error states.
@@ -31,6 +31,25 @@ Make the five surfaces look like one finished product on the projector, the iPad
 
   _Done when:_ `/j` loads in under 3 s on a phone over the tunnel, and `/crew` reloads offline.
 
+## Start here (next lane A session, written 19:00 IST)
+Lane A's queue (m0 → m2 → m8 → m12): m0, m2 and m8 are **done**; m12 is the last module. Lane A also took over the m3 form from Shefali (see `docs/decisions.md`), so m3 fixes are lane A's too. Everything below is on main; nothing is only on the laptop.
+
+**Running on Gunagye's laptop (started by the lane A session):**
+- Demo server: `bash scripts/demo.sh --reset` → :8000 (built frontend + API, one origin). After pulling new code: stop it, `npm install`, `uv pip install --python backend/.venv -r backend/requirements.txt`, start it again.
+- Tunnel: `bash scripts/tunnel.sh` → **https://losing-plasma-colour-combined.trycloudflare.com** (`/j`, `/crew`, `/demo`, `/ops`). If the tunnel restarts the address changes: reopen `/demo` (judge QR) and `/crew` online on the new address before airplane mode.
+- If port 8000 is taken by an old run: `netstat -ano | findstr :8000`, then `taskkill /PID <pid> /T /F`. Stopping background `npm run dev` runs can leave watchfiles/uvicorn orphans behind; kill those too (leave lane B's Vite on :5180 alone).
+
+**Next steps, in order:**
+1. **Bug (open, flagged by Shefali):** the late-request desk drops allergies. `frontend/src/modules/m6-matcher/LateDesk.tsx` sends `forbid: diet.forbid` (lines ~107 and ~126); use `toRequest(diet)` from `@/modules/m3-passenger/diet` so allergens go in as forbidden too (the judge join already does this). m6 is lane B's module and lane B is on m13 T2 (demo script): ask lane B, or do it on `gunagye/m6-matcher` once lane B isn't using that branch.
+2. **Before dry run 1 (07:00):** read the judge Q&A sheet in the docs repo, `06-deliverables/final-pitch/qa-sheet.md`.
+3. **After the 02:00 freeze, T2 visual pass:** every story screen (`/p`, `/j`, `/ops`, `/ops/late`, `/caterer`, `/caterer/labels`, `/caterer/recipes`, `/crew`, `/insights`, `/demo`) at 1440, 1920×1080, 390 and 1024×768 against the `docs/design.md` checklist; style-only edits in any module (owners sync first). Screenshots for the deck.
+4. **T3 device pass:** iPad Safari (download → airplane mode → galley check + 2 scans → reconnect), Android Chrome, both iPhones on mobile data joining `/j`; the full story twice in a row; projector readable from 5 m.
+5. **T4 re-test:** `/j` first load measured 1.4–2.5 s over the tunnel (one cold run ~4 s); re-measure after the visual pass, plus a fresh offline run on the iPad.
+
+**How lane A tested (works well here):** Playwright scripts with `playwright-core` and the installed Chrome (`chromium.launch({ channel: "chrome" })`), at `devices["Pixel 7"]` and `devices["iPad Pro 11 landscape"]` with touch. The in-app preview browser can't register service workers, so offline checks must run in real Chrome/Safari. A worktree under the scratchpad needs `git -c core.longpaths=true` on Windows.
+
+**Done so far this session (for context):** crew tablet redesign (app bar, numbered tasks, guided seat service, `SeatMap variant="plane"`, 日+EN / 日本語 / EN switch), m3 form rework (three questions, SPML fallback, judges change answers on the same seat), gzip + asset caching for the tunnel, the m3 test fix that let m4 ship.
+
 ## Done when
 The 07:00 dry run needs no fixes to visuals or setup.
 
@@ -40,3 +59,4 @@ The 07:00 dry run needs no fixes to visuals or setup.
 - Gzip + immutable caching for `/assets/*` in `main.py`: `/j` over the tunnel went from ~5 s to 1.6–2.5 s on a phone-sized Chrome (Playwright); the crew package from 194 KB to 13 KB.
 - Crew offline flow verified over the tunnel address in Chrome (download → offline reload → galley + swap + 2 scans → reconnect → synced). Still to do on real devices: iPad Safari, Android Chrome, the iPhones on mobile data.
 - Projector: connect it to Shefali's MacBook. It shows `/demo` and the other screens over the tunnel, plus the iPad mirrored with QuickTime over a cable. Gunagye's laptop only runs the server.
+- 19:00: T1 done. `npm run tunnel` works with cloudflared 2026.10.3 (winget); Gunagye's phone opened `/j` over the tunnel and joined (passenger and judge views "look fine and work"). Mobile data specifically still to confirm in T3.
