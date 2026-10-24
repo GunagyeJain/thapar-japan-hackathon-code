@@ -19,7 +19,7 @@ const DEVICE_ICONS: Record<Device, LucideIcon> = { projector: Laptop, phone: Sma
 
 function Stepper({ steps, current }: { steps: Step[]; current: number }) {
   return (
-    <ol className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-9" aria-label="Story steps">
+    <ol className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-6" aria-label="Story steps">
       {steps.map((s) => (
         <li
           key={s.n}
