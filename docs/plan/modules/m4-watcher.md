@@ -1,13 +1,13 @@
 # m4: lost-meal watcher
 
 **Owner:** Bhavyam · **Branch:** `bhavyam/m4-watcher` · **Phase:** 1, 17:00–19:30 IST. T1–T2 parsing can start earlier, in new files only (see PLAN.md).
-**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
-### Where it stands (24 Oct, 18:18 IST)
-- **Code:** T1 to T4 done, plus the `delay` stretch (DELAY_HOLD, caterer told, new dispatch time as deadline). All checks pass.
-- **Shipping now** to main. Unblocked by Gunagye's m3 test fix (3ec7850).
-- **Next:** live Act 2 check on `/demo` (Reset, steps 0 to 3) and `/ops` (23C LOST_MEAL evidence, Request again ends resolved, C2 fixed, SMS). Then Status goes to done.
-- **For m5 / m11:** `/ops` and the `/demo` story use m4's real routes once this is on main; m11's stand-ins switch off by themselves (they only run on a 404).
+### Where it stands (24 Oct, 18:22 IST)
+- **Done and on main.** T1 to T4 plus the `delay` stretch (DELAY_HOLD).
+- **Act 2 checked live** (`/demo` Reset, steps 0 to 2, then Request again on `/ops` at 23:09): 23C LOST_MEAL with the PNL/ADL diff and the 00:40 countdown; Request again ended with the alert resolved (audit: raised 23:02, requested 23:09, resolved by the corrected ADL 23:09), Priya's C2 `fixed` and the SMS "Your veg meal (no onion, no garlic) is back on JL740."
+- **For m5 (Gunagye):** once the alert is resolved, the evidence diff compares the PNL with the *latest* ADL (the restore), so seat and inbound show as removed. Diffing against `evidence.lines_before` / `lines_after` (or `message_ids[1]`) keeps showing the rebooking.
+- **Bhavyam next:** m10 T1 (Priya's timeline), then m13.
 
 ## Goal
 Act 2, the heart of the pilot. ThaliBento reads **copies of the passenger-list messages** (PNL, then ADLs) that the airline already sends to the airport and the caterer. It notices that a rebooking from an IndiGo codeshare silently dropped Priya's AVML, and raises a LOST_MEAL alert with the evidence and the time left before the caterer's final list. Staff approve "request again"; a corrected ADL arrives; checkpoint C2 turns green. Read-only: we never write into the booking system.
