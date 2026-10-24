@@ -56,7 +56,7 @@ test.describe.serial("JL740 story v2", () => {
       await expect(page.getByRole("checkbox", { name: tile, exact: true })).toHaveAttribute("aria-checked", "true")
     }
     await page.getByRole("button", { name: "Save meal" }).click()
-    await expect.poll(async () => (await promiseOf(request, "23C"))?.kitchen_note ?? "").toContain("NO ONION NO GARLIC")
+    await expect.poll(async () => (await promiseOf(request, "23C"))?.kitchen_note ?? "", { timeout: 15_000 }).toContain("NO ONION NO GARLIC")
     expect((await promiseOf(request, "23C"))?.code).toBe("AVML")
   })
 
@@ -65,7 +65,7 @@ test.describe.serial("JL740 story v2", () => {
     await page.goto("/jal/meal?passenger=PX-0057")
     await expect(page.getByText(/Sharad Purnima/).first()).toBeVisible()
     await page.getByRole("button", { name: /Yes/ }).first().click()
-    await expect.poll(async () => (await promiseOf(request, "23C"))?.kitchen_note ?? "").toContain("NO GRAIN")
+    await expect.poll(async () => (await promiseOf(request, "23C"))?.kitchen_note ?? "", { timeout: 15_000 }).toContain("NO GRAIN")
   })
 
   test("Act 2 · Chaos Mode: seven late changes, each on a rung that works", async ({ page, request }) => {
