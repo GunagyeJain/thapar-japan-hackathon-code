@@ -4,14 +4,14 @@
 **Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Where it stands
-_Updated 24 Oct 18:45 IST by Shefali. Read this first; the Notes below are the history._
+_Updated 24 Oct 18:26 IST by Shefali. Read this first; the Notes below are the history._
 
 **Shefali's queue:** m3 `done` → m9 `done` → m14 cut. m3 open item 1 (MatchResult on `/j`) and the review of lane A's picker rework are shipped. Nothing in progress.
 
 | | |
 |---|---|
 | **State** | `done`. T1–T5 shipped. `/j` now shows m6's `MatchResult` (compact). Demo-ready: yes |
-| **Changed by someone else** | Gunagye (lane A) reworked the diet picker (commit `3fafd27`). Reviewed 18:45: two bugs, see the last note. One is fixed here (stale match on `/j`); one is in m6 and needs Gunagye (lane B) |
+| **Changed by someone else** | Gunagye (lane A) reworked the diet picker (commit `3fafd27`). Reviewed 18:26: two bugs, see the last note. One is fixed here (stale match on `/j`); one is in m6 and needs Gunagye (lane B) |
 | **Waiting on others** | **Gunagye (lane B, m6):** the late-request desk drops allergies (last note). **Gunagye (m6):** `MatchResult` has English-only text ("Galley", "CP-SAT · … meals checked") and the Japanese ladder labels break mid-word at 375 px ("通常メニ／ュー") |
 | **Open, not started** | 1. Japanese copy needs a native speaker's read. 2. Passenger messages arrive in English because m4 writes them (`Profile.lang` is saved) |
 | **Others waiting on m3** | Nothing known |
@@ -88,8 +88,8 @@ _Owner's running notes: what's mocked, open questions._
 - Open: notifications are written by the sending module in English (e.g. m4's "Your meal is back on JL740"), even when Profile.lang is hi or ja. The /p page shows them as sent.
 - Hindi and Japanese copy is a first draft: get a native speaker to read the Japanese before the demo.
 - 17:50 (lane A, after the first real phone test): the picker is now three plain questions with one tile style: "Do you follow a diet?" (optional; "No beef" and "No onion, no garlic" moved into the food list), "What can't you eat?" (Beef, Pork, Chicken, All meat, then m1's groups), "Any food allergies?". A live "Your answer so far" summary sits under it, and a disabled button always says why. The old "Tick at least one thing you don't eat" error came from combinations no meal code covers; those now get `SPML` + a kitchen note (`POST /api/passenger/meal-options`). `/j` has "Try a different diet" (same seat, old meal released, fresh match); `/p` has "Change my answers" after saving. Judges' allergies are sent as `allergens`.
-- 18:45 `/j` shows m6's `MatchResult` (`compact`) instead of the plain explanation: tier ladder, the chosen meal with its galley position, the why, and the solver line. Checked at 375 px in Japanese: joined as a vegetarian judge, got 5C with a Jain thali from galley 1.
-- 18:45 review of lane A's picker rework (`3fafd27`). The three questions, the SPML fallback and the same-seat rejoin all work. Found:
+- 18:26 `/j` shows m6's `MatchResult` (`compact`) instead of the plain explanation: tier ladder, the chosen meal with its galley position, the why, and the solver line. Checked at 375 px in Japanese: joined as a vegetarian judge, got 5C with a Jain thali from galley 1.
+- 18:26 review of lane A's picker rework (`3fafd27`). The three questions, the SPML fallback and the same-seat rejoin all work. Found:
   1. **Fixed here:** after "Try a different diet", saving the same food answers (or changing only what's allowed) reused the cached match, because the late-request query key only had `forbid` and `staleTime` is Infinity. The server had already released that meal and deleted the late request, so the judge saw a meal that was no longer reserved. Now a save drops the old match and the key includes `allow`.
   2. **For Gunagye (lane B, m6):** `LateDesk.tsx` sends `diet.forbid` only. Since the rework, the picker keeps allergies in `diet.allergens`, so allergies ticked at the desk never reach the matcher, and an allergy-only request can't be sent. Fix: send `toRequest(diet)` from `@/modules/m3-passenger/diet` (forbid with allergens merged).
   3. **Worth a look, not urgent:** `_release_judge_meal` in m3's router imports m6's `LateRequest` and deletes its rows, and resolves its alerts. It works, but m3 now writes m6's tables; a `release(passenger_id)` helper in m6 would keep that in one place.
