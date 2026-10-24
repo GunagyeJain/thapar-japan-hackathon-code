@@ -29,3 +29,31 @@ export type RecipeSheet = {
 }
 
 export type ApproveOut = { sheet: RecipeSheet; spec: MealSpec }
+
+// GET /recipes/eval. A family list is what the rules call UNSAFE for a vegetarian; null means
+// the model has no cached answer for that sheet yet.
+export type EvalRow = {
+  id: string
+  dish: Text & { ja?: string }
+  truth: string[]
+  dictionary: string[]
+  model: string[] | null
+  combined: string[] | null
+}
+
+export type EvalMetrics = {
+  dishes: number
+  hits: number
+  misses: number
+  false_alarms: number
+  recall: number | null
+  precision: number | null
+  unsafe_dishes: number
+  unsafe_dishes_caught: number
+  safe_dishes: number
+  safe_dishes_flagged: number
+}
+
+export type EvalReader = "dictionary" | "model" | "combined"
+
+export type EvalTable = { diet: string; rows: EvalRow[]; compared: number; metrics: Record<EvalReader, EvalMetrics | null> }

@@ -1,0 +1,93 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "野菜ラーメン",
+  "dish_name_en": "Vegetable ramen",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "中華麺",
+    "name_en": "Chinese noodles",
+    "tags": [
+     "wheat",
+     "grain"
+    ],
+    "confidence": 0.95,
+    "evidence": "・中華麺 4玉"
+   },
+   {
+    "name_ja": "もやし",
+    "name_en": "bean sprouts",
+    "tags": [
+     "legume",
+     "vegetable"
+    ],
+    "confidence": 0.95,
+    "evidence": "・もやし 1袋"
+   },
+   {
+    "name_ja": "キャベツ",
+    "name_en": "cabbage",
+    "tags": [
+     "cabbage",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "・キャベツ 1/4個"
+   },
+   {
+    "name_ja": "人参",
+    "name_en": "carrot",
+    "tags": [
+     "carrot",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "・人参 1/2本"
+   },
+   {
+    "name_ja": "ウェイパー",
+    "name_en": "Weipa (Chinese seasoning paste)",
+    "tags": [
+     "pork",
+     "pork_extract",
+     "chicken",
+     "chicken_extract",
+     "meat_extract",
+     "meat"
+    ],
+    "confidence": 0.9,
+    "evidence": "・ウェイパー 大さじ2"
+   },
+   {
+    "name_ja": "醤油",
+    "name_en": "soy sauce",
+    "tags": [
+     "soy_sauce",
+     "soy",
+     "wheat"
+    ],
+    "confidence": 0.95,
+    "evidence": "・醤油 大さじ2"
+   },
+   {
+    "name_ja": "ごま油",
+    "name_en": "sesame oil",
+    "tags": [
+     "sesame"
+    ],
+    "confidence": 1.0,
+    "evidence": "・ごま油 小さじ2"
+   },
+   {
+    "name_ja": "水",
+    "name_en": "water",
+    "tags": [],
+    "confidence": 1.0,
+    "evidence": "・水 1.6L"
+   }
+  ]
+ }
+}

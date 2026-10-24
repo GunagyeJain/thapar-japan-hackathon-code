@@ -1,0 +1,57 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "野菜茶碗蒸し",
+  "dish_name_en": "Vegetable chawanmushi",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "卵",
+    "name_en": "egg",
+    "tags": [
+     "egg"
+    ],
+    "confidence": 1.0,
+    "evidence": "卵 2個"
+   },
+   {
+    "name_ja": "白だし",
+    "name_en": "shirodashi",
+    "tags": [
+     "soy_sauce",
+     "bonito",
+     "kombu"
+    ],
+    "confidence": 0.8,
+    "evidence": "白だし 300ml"
+   },
+   {
+    "name_ja": "しいたけ",
+    "name_en": "shiitake mushroom",
+    "tags": [
+     "mushroom",
+     "fungi"
+    ],
+    "confidence": 1.0,
+    "evidence": "しいたけ 2枚"
+   },
+   {
+    "name_ja": "銀杏",
+    "name_en": "ginkgo nut",
+    "tags": [],
+    "confidence": 1.0,
+    "evidence": "銀杏 8粒"
+   },
+   {
+    "name_ja": "三つ葉",
+    "name_en": "mitsuba",
+    "tags": [
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "三つ葉 適量"
+   }
+  ]
+ }
+}

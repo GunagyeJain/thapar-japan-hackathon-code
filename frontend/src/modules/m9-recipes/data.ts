@@ -12,7 +12,7 @@ import udonTxt from "@shared/seed/recipes/kitsune_udon.txt?raw"
 import tempuraPng from "@shared/seed/recipes/vegetable_tempura.png"
 import tempuraTxt from "@shared/seed/recipes/vegetable_tempura.txt?raw"
 
-import type { ApproveOut, RecipeSheet } from "./types"
+import type { ApproveOut, EvalTable, RecipeSheet } from "./types"
 
 /** The four demo sheets. Their Gemini answers are cached on the server, so they work offline. */
 export const DEMO_SHEETS = [
@@ -43,6 +43,10 @@ async function uploadPhoto(file: File): Promise<RecipeSheet> {
 
 export function useRecipeSheets() {
   return useQuery({ queryKey: ["recipes"], queryFn: () => api.get<RecipeSheet[]>("/recipes") })
+}
+
+export function useEvalTable() {
+  return useQuery({ queryKey: ["recipes", "eval"], queryFn: () => api.get<EvalTable>("/recipes/eval") })
 }
 
 export function useExtract() {

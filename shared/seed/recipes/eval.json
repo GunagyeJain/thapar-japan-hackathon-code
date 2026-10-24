@@ -1,0 +1,167 @@
+{
+  "notes": "Evaluation set for the hidden-ingredient check. Each dish is a Japanese recipe sheet, hand-labelled with the food families in it that an Indian vegetarian can't eat (meat, seafood, egg, gelatin). `why` says which line each label comes from. The set is built around known hard cases (hidden stock, product names, words that look like an ingredient but aren't), so it is a stress test, not a random sample of real menus. The first four are the demo sheets.",
+  "diet": "vegetarian",
+  "dishes": [
+    {
+      "id": "miso_soup",
+      "name": {"en": "Miso soup", "ja": "味噌汁"},
+      "file": "miso_soup.txt",
+      "truth": ["seafood"],
+      "why": {"seafood": "出汁 made with 鰹節 (bonito flakes)"}
+    },
+    {
+      "id": "vegetable_curry",
+      "name": {"en": "Vegetable curry", "ja": "野菜カレー"},
+      "file": "vegetable_curry.txt",
+      "truth": ["meat"],
+      "why": {"meat": "the curry roux lists ラード (lard) and ポークエキス (pork extract)"}
+    },
+    {
+      "id": "kitsune_udon",
+      "name": {"en": "Kitsune udon", "ja": "きつねうどん"},
+      "file": "kitsune_udon.txt",
+      "truth": ["seafood"],
+      "why": {"seafood": "つゆ made with 鰹節"}
+    },
+    {
+      "id": "vegetable_tempura",
+      "name": {"en": "Vegetable tempura", "ja": "野菜天ぷら"},
+      "file": "vegetable_tempura.txt",
+      "truth": ["egg", "seafood"],
+      "why": {"egg": "卵 in the batter", "seafood": "天つゆ made with 鰹節"}
+    },
+    {
+      "id": "vegetable_ramen",
+      "name": {"en": "Vegetable ramen", "ja": "野菜ラーメン"},
+      "text": "料理名：野菜ラーメン\n英語名：Vegetable ramen\n\n材料（4人分）\n・中華麺 4玉\n・もやし 1袋\n・キャベツ 1/4個\n・人参 1/2本\n・ウェイパー 大さじ2\n・醤油 大さじ2\n・ごま油 小さじ2\n・水 1.6L\n\n作り方\n1. 野菜を食べやすく切り、ごま油で炒める。\n2. 水とウェイパーを加えて煮立て、醤油で味を調える。\n3. ゆでた中華麺にスープを注ぎ、野菜をのせる。",
+      "truth": ["meat"],
+      "why": {"meat": "ウェイパー is a Chinese soup base made from pork and chicken"}
+    },
+    {
+      "id": "chawanmushi",
+      "name": {"en": "Vegetable chawanmushi", "ja": "野菜茶碗蒸し"},
+      "text": "料理名：野菜茶碗蒸し\n英語名：Vegetable chawanmushi\n\n材料（4人分）\n・卵 2個\n・白だし 300ml\n・しいたけ 2枚\n・銀杏 8粒\n・三つ葉 適量\n\n作り方\n1. 卵を溶きほぐし、白だしと合わせてこす。\n2. 器にしいたけと銀杏を入れ、卵液を注ぐ。\n3. 弱火で12分蒸し、三つ葉をのせる。",
+      "truth": ["egg", "seafood"],
+      "why": {"egg": "卵", "seafood": "白だし is a bonito stock"}
+    },
+    {
+      "id": "shojin_nimono",
+      "name": {"en": "Temple-style simmered vegetables", "ja": "精進煮物"},
+      "text": "料理名：精進煮物\n英語名：Temple-style simmered vegetables\n\n材料（4人分）\n・里芋 6個\n・人参 1本\n・ごぼう 1/2本\n・こんにゃく 1枚\n・精進だし 400ml（昆布、干ししいたけ）\n・醤油 大さじ2\n・みりん 大さじ2\n\n作り方\n1. 野菜とこんにゃくを一口大に切る。\n2. 精進だしで野菜を煮て、醤油とみりんで味を含ませる。",
+      "truth": [],
+      "why": {"none": "精進だし is a kombu and shiitake stock with no fish"}
+    },
+    {
+      "id": "goma_dofu",
+      "name": {"en": "Sesame tofu", "ja": "ごま豆腐"},
+      "text": "料理名：ごま豆腐\n英語名：Sesame tofu\n\n材料（4人分）\n・練りごま 50g\n・葛粉 50g\n・水 400ml\n・塩 少々\n・わさび 適量\n・醤油 適量\n\n作り方\n1. 葛粉を水で溶き、練りごまと塩を加えてこす。\n2. 中火で20分練り、型に流して冷やし固める。\n3. わさびと醤油を添える。",
+      "truth": [],
+      "why": {"none": "sesame, kudzu starch and soy sauce only"}
+    },
+    {
+      "id": "yakisoba",
+      "name": {"en": "Vegetable yakisoba", "ja": "野菜焼きそば"},
+      "text": "料理名：野菜焼きそば\n英語名：Vegetable yakisoba\n\n材料（4人分）\n・中華蒸し麺 4玉\n・キャベツ 1/4個\n・もやし 1袋\n・人参 1/2本\n・焼きそばソース 大さじ6\n・サラダ油 大さじ2\n・青のり 適量\n・削り粉 適量\n\n作り方\n1. 野菜をサラダ油で炒め、麺を加えてほぐす。\n2. 焼きそばソースで味をつける。\n3. 皿に盛り、青のりと削り粉をふる。",
+      "truth": ["seafood"],
+      "why": {"seafood": "削り粉 is powdered dried fish (bonito or sardine)"}
+    },
+    {
+      "id": "okonomiyaki",
+      "name": {"en": "Okonomiyaki", "ja": "お好み焼き"},
+      "text": "料理名：お好み焼き\n英語名：Okonomiyaki\n\n材料（4人分）\n・小麦粉 200g\n・キャベツ 1/2個\n・卵 4個\n・長芋 100g\n・桜えび 10g\n・天かす 30g\n・お好みソース 適量\n・マヨネーズ 適量\n・青のり 適量\n\n作り方\n1. 小麦粉、すりおろした長芋、卵を混ぜる。\n2. キャベツ、桜えび、天かすを加えて焼く。\n3. ソースとマヨネーズをかけ、青のりをふる。",
+      "truth": ["egg", "seafood"],
+      "why": {"egg": "卵 and マヨネーズ", "seafood": "桜えび (dried shrimp)"}
+    },
+    {
+      "id": "croquette",
+      "name": {"en": "Vegetable croquette", "ja": "野菜コロッケ"},
+      "text": "料理名：野菜コロッケ\n英語名：Vegetable croquette\n\n材料（4人分）\n・じゃがいも 4個\n・玉ねぎ 1/2個\n・人参 1/3本\n・コンソメ（顆粒）小さじ2\n・小麦粉 適量\n・卵 1個\n・パン粉 適量\n・揚げ油 適量\n\n作り方\n1. じゃがいもをゆでてつぶし、炒めた玉ねぎと人参、コンソメを混ぜる。\n2. 小判形にまとめ、小麦粉、溶き卵、パン粉の順につける。\n3. 170℃の油で揚げる。",
+      "truth": ["meat", "egg"],
+      "why": {"meat": "コンソメ granules are made with chicken or beef extract", "egg": "卵 in the coating"}
+    },
+    {
+      "id": "vegetable_pilaf",
+      "name": {"en": "Vegetable pilaf", "ja": "野菜ピラフ"},
+      "text": "料理名：野菜ピラフ\n英語名：Vegetable pilaf\n\n材料（4人分）\n・米 2合\n・玉ねぎ 1/2個\n・人参 1/3本\n・ピーマン 2個\n・コーン 50g\n・バター 20g\n・野菜ブイヨン（顆粒・動物性原料不使用）小さじ2\n・水 360ml\n\n作り方\n1. 野菜を刻み、バターで炒める。\n2. 米を加えて炒め、水と野菜ブイヨンを入れて炊く。",
+      "truth": [],
+      "why": {"none": "the stock is a vegetable bouillon marked free of animal ingredients"}
+    },
+    {
+      "id": "almond_jelly",
+      "name": {"en": "Almond jelly", "ja": "杏仁豆腐"},
+      "text": "料理名：杏仁豆腐\n英語名：Almond jelly\n\n材料（4人分）\n・牛乳 400ml\n・砂糖 40g\n・杏仁霜 20g\n・粉ゼラチン 5g\n・みかん（缶）適量\n\n作り方\n1. 粉ゼラチンを水でふやかす。\n2. 牛乳、砂糖、杏仁霜を温め、ゼラチンを溶かす。\n3. 冷やし固め、みかんを添える。",
+      "truth": ["gelatin"],
+      "why": {"gelatin": "粉ゼラチン"}
+    },
+    {
+      "id": "fruit_yogurt",
+      "name": {"en": "Fruit yogurt salad", "ja": "フルーツヨーグルト"},
+      "text": "料理名：フルーツヨーグルト\n英語名：Fruit yogurt salad\n\n材料（4人分）\n・ヨーグルト 400g\n・みかん（缶）1缶\n・バナナ 1本\n・キウイ 1個\n・マシュマロ 12個\n・はちみつ 大さじ1\n\n作り方\n1. 果物を一口大に切る。\n2. ヨーグルト、はちみつ、マシュマロと合わせ、冷蔵庫で1時間おく。",
+      "truth": ["gelatin"],
+      "why": {"gelatin": "マシュマロ (marshmallows are set with gelatin)"}
+    },
+    {
+      "id": "takikomi_gohan",
+      "name": {"en": "Mixed rice", "ja": "五目炊き込みご飯"},
+      "text": "料理名：五目炊き込みご飯\n英語名：Mixed rice\n\n材料（4人分）\n・米 2合\n・人参 1/3本\n・ごぼう 1/3本\n・油揚げ 1枚\n・しいたけ 2枚\n・ちくわ 1本\n・醤油 大さじ2\n・みりん 大さじ1\n・昆布 5cm\n\n作り方\n1. 具材を細かく刻む。\n2. 米に調味料と水、昆布を入れ、具材をのせて炊く。",
+      "truth": ["seafood"],
+      "why": {"seafood": "ちくわ is a fish-paste tube"}
+    },
+    {
+      "id": "oden",
+      "name": {"en": "Oden", "ja": "おでん"},
+      "text": "料理名：おでん\n英語名：Oden\n\n材料（4人分）\n・大根 1/2本\n・こんにゃく 1枚\n・厚揚げ 2枚\n・ゆで卵 4個\n・はんぺん 2枚\n・ちくわぶ 1本\n・おでんだし 1.5L\n\n作り方\n1. 大根を下ゆでする。\n2. おでんだしで具材を弱火で1時間煮込む。",
+      "truth": ["egg", "seafood"],
+      "why": {"egg": "ゆで卵", "seafood": "はんぺん (fish cake) and おでんだし (bonito stock)"}
+    },
+    {
+      "id": "soy_nikujaga",
+      "name": {"en": "Soy-meat nikujaga", "ja": "大豆ミートの肉じゃが"},
+      "text": "料理名：大豆ミートの肉じゃが\n英語名：Soy-meat nikujaga\n\n材料（4人分）\n・大豆ミート（乾燥）60g\n・じゃがいも 3個\n・玉ねぎ 1個\n・人参 1本\n・しらたき 1袋\n・昆布だし 400ml\n・醤油 大さじ3\n・砂糖 大さじ2\n・みりん 大さじ2\n\n作り方\n1. 大豆ミートを湯で戻し、水気をしぼる。\n2. 野菜としらたきを昆布だしで煮る。\n3. 大豆ミートと調味料を加え、煮汁が少なくなるまで煮る。",
+      "truth": [],
+      "why": {"none": "大豆ミート is soy protein; the stock is kombu"}
+    },
+    {
+      "id": "chuka_don",
+      "name": {"en": "Vegetable rice bowl", "ja": "野菜中華丼"},
+      "text": "料理名：野菜中華丼\n英語名：Vegetable rice bowl\n\n材料（4人分）\n・白菜 1/4個\n・人参 1/2本\n・しいたけ 4枚\n・たけのこ（水煮）100g\n・うずらの卵 8個\n・オイスターソース 大さじ2\n・鶏ガラスープの素 小さじ2\n・片栗粉 大さじ1\n・ご飯 600g\n\n作り方\n1. 野菜を炒め、水とスープの素、オイスターソースを加えて煮る。\n2. うずらの卵を加え、水溶き片栗粉でとろみをつける。\n3. ご飯にかける。",
+      "truth": ["meat", "egg", "seafood"],
+      "why": {"meat": "鶏ガラスープの素 (chicken stock)", "egg": "うずらの卵", "seafood": "オイスターソース"}
+    },
+    {
+      "id": "spinach_saute",
+      "name": {"en": "Spinach and corn saute", "ja": "ほうれん草とコーンのソテー"},
+      "text": "料理名：ほうれん草とコーンのソテー\n英語名：Spinach and corn saute\n\n材料（4人分）\n・ほうれん草 1束\n・コーン 100g\n・ウインナー 4本\n・バター 10g\n・塩 少々\n・こしょう 少々\n\n作り方\n1. ほうれん草をざく切りにし、ウインナーは斜め切りにする。\n2. バターでウインナーを炒め、ほうれん草とコーンを加えて塩、こしょうで調える。",
+      "truth": ["meat"],
+      "why": {"meat": "ウインナー (sausage)"}
+    },
+    {
+      "id": "hiyashi_chuka",
+      "name": {"en": "Cold ramen salad", "ja": "冷やし中華"},
+      "text": "料理名：冷やし中華\n英語名：Cold ramen salad\n\n材料（4人分）\n・中華麺 4玉\n・きゅうり 1本\n・トマト 1個\n・錦糸卵 卵2個分\n・カニカマ 8本\n・タレ：醤油 大さじ4、酢 大さじ4、砂糖 大さじ2、ごま油 小さじ2\n\n作り方\n1. 中華麺をゆでて冷水でしめる。\n2. 具材を細切りにして麺にのせ、タレをかける。",
+      "truth": ["egg", "seafood"],
+      "why": {"egg": "錦糸卵 (shredded omelette)", "seafood": "カニカマ is made from fish paste"}
+    },
+    {
+      "id": "kaki_shiraae",
+      "name": {"en": "Persimmon with tofu dressing", "ja": "柿の白和え"},
+      "text": "料理名：柿の白和え\n英語名：Persimmon with tofu dressing\n\n材料（4人分）\n・木綿豆腐 1/2丁\n・かき（柿）1個\n・白ごま 大さじ2\n・砂糖 大さじ1\n・白味噌 小さじ2\n・塩 少々\n\n作り方\n1. 豆腐の水気を切り、すった白ごま、砂糖、白味噌、塩と合わせる。\n2. 角切りにしたかきを和える。",
+      "truth": [],
+      "why": {"none": "かき here is 柿, persimmon, not oyster"}
+    },
+    {
+      "id": "apple_compote",
+      "name": {"en": "Apple compote", "ja": "りんごのコンポート"},
+      "text": "料理名：りんごのコンポート\n英語名：Apple compote\n\n材料（4人分）\n・りんご 2個\n・砂糖 60g\n・レモン汁 大さじ1\n・シナモンスティック（肉桂）1本\n・水 300ml\n\n作り方\n1. りんごを8等分に切る。\n2. 水、砂糖、レモン汁、シナモンスティックと一緒に、りんごが透き通るまで煮る。",
+      "truth": [],
+      "why": {"none": "肉桂 is cinnamon"}
+    },
+    {
+      "id": "ebiimo_nimono",
+      "name": {"en": "Simmered ebi-imo taro", "ja": "えび芋の煮物"},
+      "text": "料理名：えび芋の煮物\n英語名：Simmered ebi-imo taro\n\n材料（4人分）\n・えび芋 4個\n・昆布だし 500ml\n・薄口醤油 大さじ2\n・みりん 大さじ2\n・砂糖 大さじ1\n\n作り方\n1. えび芋の皮をむき、米のとぎ汁で下ゆでする。\n2. 昆布だしと調味料で30分煮含める。",
+      "truth": [],
+      "why": {"none": "えび芋 is a kind of taro; the stock is kombu"}
+    }
+  ]
+}
