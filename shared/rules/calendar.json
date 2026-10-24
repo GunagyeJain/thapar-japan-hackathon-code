@@ -1,0 +1,49 @@
+{
+  "version": "2026-10-24",
+  "source": {
+    "ekadashi": "https://www.drikpanchang.com/vrats/ekadashidates.html?year=2026 and ?year=2027 (Smarta dates, New Delhi; read 24 Oct 2026)",
+    "navratri": "https://dekhopanchang.com/en/festivals/chaitra-navratri/2027 (New Delhi; read 24 Oct 2026)"
+  },
+  "note": {
+    "en": "Dates follow one panchang for New Delhi. Your family's fast may fall a day earlier or later; you can move it.",
+    "hi": "तारीखें नई दिल्ली के एक पंचांग से हैं। आपके परिवार का व्रत एक दिन आगे या पीछे हो सकता है; आप इसे बदल सकते हैं।",
+    "ja": "日付はニューデリーの暦（パンチャーング）に基づきます。ご家庭の断食日が1日前後する場合は変更できます。"
+  },
+  "observances": [
+    {
+      "id": "ekadashi",
+      "labels": {"en": "Ekadashi", "hi": "एकादशी", "ja": "エーカーダシー"},
+      "rules": "vrat",
+      "days": [
+        {"date": "2026-11-05", "name": {"en": "Rama Ekadashi", "hi": "रमा एकादशी"}},
+        {"date": "2026-11-20", "name": {"en": "Devutthana Ekadashi", "hi": "देवउठनी एकादशी"}, "alt": "2026-11-21"},
+        {"date": "2026-12-04", "name": {"en": "Utpanna Ekadashi", "hi": "उत्पन्ना एकादशी"}},
+        {"date": "2026-12-20", "name": {"en": "Mokshada Ekadashi", "hi": "मोक्षदा एकादशी"}},
+        {"date": "2027-01-03", "name": {"en": "Saphala Ekadashi", "hi": "सफला एकादशी"}},
+        {"date": "2027-01-18", "name": {"en": "Pausha Putrada Ekadashi", "hi": "पौष पुत्रदा एकादशी"}, "alt": "2027-01-19"},
+        {"date": "2027-02-02", "name": {"en": "Shattila Ekadashi", "hi": "षटतिला एकादशी"}},
+        {"date": "2027-02-17", "name": {"en": "Jaya Ekadashi", "hi": "जया एकादशी"}},
+        {"date": "2027-03-04", "name": {"en": "Vijaya Ekadashi", "hi": "विजया एकादशी"}},
+        {"date": "2027-03-18", "name": {"en": "Amalaki Ekadashi", "hi": "आमलकी एकादशी"}},
+        {"date": "2027-04-02", "name": {"en": "Papamochani Ekadashi", "hi": "पापमोचनी एकादशी"}},
+        {"date": "2027-04-17", "name": {"en": "Kamada Ekadashi", "hi": "कामदा एकादशी"}}
+      ]
+    },
+    {
+      "id": "navratri",
+      "labels": {"en": "Navratri", "hi": "नवरात्रि", "ja": "ナヴァラートリ"},
+      "rules": "vrat",
+      "days": [
+        {"date": "2027-04-07", "name": {"en": "Chaitra Navratri, day 1", "hi": "चैत्र नवरात्रि, पहला दिन"}},
+        {"date": "2027-04-08", "name": {"en": "Chaitra Navratri, day 2", "hi": "चैत्र नवरात्रि, दूसरा दिन"}},
+        {"date": "2027-04-09", "name": {"en": "Chaitra Navratri, day 3", "hi": "चैत्र नवरात्रि, तीसरा दिन"}},
+        {"date": "2027-04-10", "name": {"en": "Chaitra Navratri, day 4", "hi": "चैत्र नवरात्रि, चौथा दिन"}},
+        {"date": "2027-04-11", "name": {"en": "Chaitra Navratri, day 5", "hi": "चैत्र नवरात्रि, पाँचवाँ दिन"}},
+        {"date": "2027-04-12", "name": {"en": "Chaitra Navratri, day 6", "hi": "चैत्र नवरात्रि, छठा दिन"}},
+        {"date": "2027-04-13", "name": {"en": "Chaitra Navratri, day 7", "hi": "चैत्र नवरात्रि, सातवाँ दिन"}},
+        {"date": "2027-04-14", "name": {"en": "Chaitra Navratri, day 8", "hi": "चैत्र नवरात्रि, आठवाँ दिन"}},
+        {"date": "2027-04-15", "name": {"en": "Chaitra Navratri, day 9", "hi": "चैत्र नवरात्रि, नौवाँ दिन"}}
+      ]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 # m16: diets that change by date
 
 **Owner:** Gunagye (lane b) · **Branch:** `gunagye/m16-days` · **Phase:** late add, 22:00–01:30 IST (on main by 01:30; freeze 02:00)
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Many Indian diets change with the calendar. On Ekadashi (twice a month) or during Navratri, people who fast skip grains, lentils, onion and garlic but eat fruit, potato, peanuts and dairy. On every other day they eat their usual meal. A 4-letter meal code can't say "only on 20 Nov", so today this lives in someone's memory, or the passenger skips the meal.
@@ -36,16 +36,16 @@ Demo moment: Priya's return flight JL749 Tokyo → Delhi on 20 Nov 2026 is Prabo
 - **Story:** `docs/demo-script.md` gets the `/p/days` moment (Act 6, or Act 1 if it fits the 4 minutes).
 
 ## Tasks
-- [ ] **T1 Calendar + date-aware rules (40 min).** `calendar.json` with dates from one named panchang for New Delhi (source URL in the file, "your family's date may differ by a day" in `note`). `rules_on` adds the `vrat` preset's forbid and allow on a fast day (forbid wins over allow, as in `combine_presets`). TS mirror. Vectors: Priya on 25 Oct (not a fast day) and 20 Nov (fast day), a Jain on a fast day.
+- [x] **T1 Calendar + date-aware rules (40 min).** `calendar.json` with dates from one named panchang for New Delhi (source URL in the file, "your family's date may differ by a day" in `note`). `rules_on` adds the `vrat` preset's forbid and allow on a fast day (forbid wins over allow, as in `combine_presets`). TS mirror. Vectors: Priya on 25 Oct (not a fast day) and 20 Nov (fast day), a Jain on a fast day.
 
   _Done when:_ pytest and vitest agree on the new vectors.
-- [ ] **T2 Trips + endpoints (45 min).** Module table `TripLeg` with a seed: Priya PX-0057 (JL740 DEL→NRT 25 Oct, caterer DEL; JL749 NRT→DEL 20 Nov, caterer NRT) plus 4 cast passengers with legs in the next 30 days. The three endpoints above; the Japanese note from taxonomy `labels.ja`. If time: m6's backup forecast reads festival dates from `calendar.json` instead of its own approximate table.
+- [x] **T2 Trips + endpoints (45 min).** Module table `TripLeg` with a seed: Priya PX-0057 (JL740 DEL→NRT 25 Oct, caterer DEL; JL749 NRT→DEL 20 Nov, caterer NRT) plus 4 cast passengers with legs in the next 30 days. The three endpoints above; the Japanese note from taxonomy `labels.ja`. If time: m6's backup forecast reads festival dates from `calendar.json` instead of its own approximate table.
 
   _Done when:_ `GET /api/days/trips?passenger_id=PX-0057` returns two legs, and after saving 20 Nov the return leg reads AVML + `NO GRAIN NO LENTILS OR BEANS NO ONION NO GARLIC` with a Japanese note.
-- [ ] **T3 Screens (60 min).** `/p/days` (mobile, EN/HI/JA): "Do you keep any fasts?" chips (Ekadashi, Navratri; the choice stays on the phone), then each leg as a boarding-pass row with its date and meal, the fast-day leg highlighted with "Is 20 Nov right for you?" (move ±1 day), **Save**. `/ops/days` (desktop): the ahead list with usual vs. on-the-day meal and the caterer cutoff. Nav line for `/ops/days`. Run the design.md checklist.
+- [x] **T3 Screens (60 min).** `/p/days` (mobile, EN/HI/JA): "Do you keep any fasts?" chips (Ekadashi, Navratri; the choice stays on the phone), then each leg as a boarding-pass row with its date and meal, the fast-day leg highlighted with "Is 20 Nov right for you?" (move ±1 day), **Save**. `/ops/days` (desktop): the ahead list with usual vs. on-the-day meal and the caterer cutoff. Nav line for `/ops/days`. Run the design.md checklist.
 
   _Done when:_ both screens work at 390 px and 1440 px, with real seed data and no new colours.
-- [ ] **T4 Story + ship (25 min).** Demo-script lines for the moment and its fallback, `shared/api.md` rows, Notes, `npm run e2e` 7/7, ship.
+- [x] **T4 Story + ship (25 min).** Demo-script lines for the moment and its fallback, `shared/api.md` rows, Notes, `npm run e2e` 7/7, ship.
 
   _Done when:_ on main by 01:30 and the smoke is green.
 
@@ -55,4 +55,10 @@ On main by 01:30: Priya can tell her phone she keeps Ekadashi, see that her 20 N
 ## Notes
 _Owner's running notes._
 - 24 Oct 21:40, planned after the team decided the pitch needs two more new things (see `docs/decisions.md`).
+- 21:55: T1–T3 done on `gunagye/m16-days`. Calendar: Ekadashi from Drik Panchang (Smarta, New Delhi) 5 Nov 2026 → 17 Apr 2027, with the Vaishnava day after as `alt` where Drik lists one (20/21 Nov, 18/19 Jan); Chaitra Navratri 7–15 Apr 2027 from Dekho Panchang. Sharad Navratri 2026 is already over, so Navratri has no dates before April.
+- What the server stores is `TripLeg.fast_day` per leg (module table), not `Profile.fasting_dates` (m3 writes profiles). The observance the person picked stays in the phone's localStorage (`tb.m16.keeps`).
+- Priya's fast-day return: AVML + `NO ONION NO GARLIC NO ALCOHOL NO GRAIN NO LENTILS OR BEANS` (vrat forbids alcohol and AVML may contain it); Tokyo note 玉ねぎ・にんにく・アルコール・穀物・豆類不使用. Seed: 24A and 27D fast on 5 Nov, 2A on 20 Nov, so `/ops/days` isn't empty before Priya saves.
+- `/ops/days` shows days to go, not the caterer cutoff: future legs have no cutoff time in the seed and we don't invent one.
+- Demo: optional +20 s row after Act 8 in `docs/demo-script.md` (phone tab `/p/days?pnr=6XK2QP&surname=SHARMA`, tap Ekadashi, Save).
+- 22:05: T4 done. Story smoke 8/8 on :8100 (new last step: Priya's return on `/p/days`). Act 2 changes her booking reference (6XK2QP → 8MZ2TN), so `/p/days` keeps `?passenger=PX-0057` in the address once it finds her; open it from the 6XK2QP link before Act 2 and reloads keep working.
 - Not built (slide only): Ramadan timing (iftar after sunset, suhoor before a pre-dawn departure, expected 9 Feb to 10 Mar 2027), and Paryushan's stricter Jain days.

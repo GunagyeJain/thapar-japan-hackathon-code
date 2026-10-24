@@ -243,6 +243,34 @@ def combine_presets(preset_ids) -> dict:
     return {"forbid": forbid, "allow": allow}
 
 
+# ---------------------------------------------------------------- fast days
+
+
+@lru_cache(maxsize=1)
+def calendar() -> dict:
+    """Public fast-day calendar (Ekadashi, Navratri). Which fasts a person keeps never leaves their phone."""
+    return _load("calendar")
+
+
+def fast_days(observance_ids, dates) -> list:
+    """The given travel dates that fall on a fast day of any of these observances."""
+    picked = [o for o in calendar()["observances"] if o["id"] in set(observance_ids)]
+    days = {d["date"] for o in picked for d in o["days"]}
+    return [d for d in (str(x)[:10] for x in dates) if d in days]
+
+
+def rules_on(forbid, allow, fasting_dates, on_date) -> dict:
+    """A person's rules on one date: on a fast day the vrat preset is added. Forbid wins, as in combine_presets."""
+    day = str(on_date)[:10]
+    if day not in {str(d)[:10] for d in fasting_dates or []}:
+        return {"forbid": list(forbid), "allow": list(allow or []), "fast_day": False}
+    r = rules()
+    vrat = r.presets["vrat"]
+    out_forbid = _dedupe([*forbid, *vrat["forbid"]])
+    out_allow = [a for a in _dedupe([*(allow or []), *vrat["allow"]]) if not any(_covers(r, f, a) for f in out_forbid)]
+    return {"forbid": out_forbid, "allow": out_allow, "fast_day": True}
+
+
 # ---------------------------------------------------------------- meal codes
 
 

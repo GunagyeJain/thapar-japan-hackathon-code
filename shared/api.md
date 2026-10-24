@@ -142,3 +142,13 @@ Reset and the clock are m0 endpoints (above).
 |---|---|---|---|
 | POST | `/groups/upload` | multipart CSV | `{group_id, rows: [{name, pnr, forbid, allow, problems: string[]}]}` |
 | POST | `/groups/{id}/confirm` | – | `{profiles: number}` |
+
+## m16 · diets that change by date
+| Method | Path | Request | Response |
+|---|---|---|---|
+| GET | `/days/trips` | `?passenger_id=PX-0057` | `{passenger_id, has_profile, legs: Leg[]}` (404 if no passenger) |
+| POST | `/days/save` | `{passenger_id, fast_dates: iso_date[]}` | `{passenger_id, has_profile, legs: Leg[]}`. Only dates of the passenger's own legs (422 otherwise); which fast it is never leaves the phone |
+| GET | `/days/ahead` | `?days=30` (1–120) | `{today, legs: (Leg & {passenger_id, name, seat, days_to_go})[]}`: fast-day legs from the sim clock's today, soonest first |
+
+- `Leg = {flight_no, date, from, to, catered_in, fast_day, code|null, kitchen_note|null, kitchen_note_ja|null, label_mark: Text|null, usual: {code, kitchen_note}|null}`. Meal fields are null until the passenger has a profile. On a fast day the rules are the profile's plus m1's `vrat` preset (forbid wins); `kitchen_note_ja` is the same note in Japanese for a Tokyo-catered leg.
+- Rules (m1): `engine.rules_on(forbid, allow, fasting_dates, date)` / `rulesOn()` and `fast_days(observance_ids, dates)` / `fastDays()`, on the public calendar `shared/rules/calendar.json`.
