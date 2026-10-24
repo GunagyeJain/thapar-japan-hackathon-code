@@ -27,10 +27,10 @@ export function RulesPage() {
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm text-grey tabular">
-            Rules {rules.version} · {rules.tags.size} ingredient tags · {rules.diets.size} diets · {rules.codes.length} meal codes
+            {rules.tags.size} ingredients · {rules.diets.size} diets · {rules.codes.length} meal codes
           </p>
           <h1 className="mt-1 text-[32px] leading-tight font-bold tracking-tight text-navy">Diet rules</h1>
-          <p className="mt-1 text-grey">Diets are ingredient rules, not codes. Every verdict names the rule that fired.</p>
+          <p className="mt-1 text-grey">Every verdict names the rule that fired</p>
         </div>
         <div className="flex flex-col items-end gap-2">
           <ParityLine />
