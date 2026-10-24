@@ -85,5 +85,6 @@ _Owner's running notes._
 - `check_booking` returns `{ok: true, kitchen_note}` when the booked code works (note may be null), else `{ok: false, problem: {contains, message}, suggested_code}`.
 - **Spec certificate**: `engine.spec_tags(spec.tags, spec.certified)` adds `halal_certified` for certified specs; use it before `evaluate` (the `{profile_id, spec_id}` endpoint does).
 - **TypeScript** (`@/lib/rules`): `loadRules()`, `evaluate(forbid, tags, diet?)`, `evaluateDiet()`, `combinePresets()`, `resolve()`, `label(tag, lang)`. Same answers as Python on every vector.
-- **`/rules` page**: Try it (presets + tonight's seed dishes + free ingredient words, EN/HI/JA), server-vs-offline agreement line, diets and meal-code tables. `VerdictBadge.tsx` here is a stand-in until m2's `ui/VerdictBadge` lands.
+- **`/rules` page**: Try it (presets + tonight's seed dishes + free ingredient words, EN/HI/JA), server-vs-offline agreement line, diets and meal-code tables. Uses m2's `ui/VerdictBadge`.
+- **Honey is its own family** (not under sugar), so a dish tagged `sugar` doesn't make a Jain check ask about honey. Diabetic forbids `sugar` and `honey`.
 - **Vectors**: `cd backend && python -m app.modules.m1_rules.make_vectors` rewrites `shared/rules/vectors.json` (625 cases; hand-checked verdicts are pinned in the script).

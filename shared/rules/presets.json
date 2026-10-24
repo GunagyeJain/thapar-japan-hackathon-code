@@ -10,7 +10,7 @@
     {"id": "halal", "diet": "halal", "labels": {"en": "Halal", "ja": "ハラール", "hi": "हलाल"}, "forbid": ["pork", "non_halal_meat", "alcohol", "gelatin"], "allow": ["meat", "seafood", "egg", "dairy"]},
     {"id": "vegan", "diet": "vegan", "labels": {"en": "Vegan", "ja": "ヴィーガン", "hi": "वीगन"}, "forbid": ["meat", "seafood", "egg", "dairy", "honey", "gelatin"], "allow": []},
     {"id": "vrat", "diet": "vrat", "labels": {"en": "Vrat (fasting)", "ja": "ヴラット（断食）", "hi": "व्रत"}, "forbid": ["meat", "seafood", "egg", "gelatin", "alcohol", "grain", "legume", "onion", "garlic"], "allow": ["dairy", "potato", "buckwheat", "peanut", "fruit"]},
-    {"id": "diabetic", "diet": "diabetic", "labels": {"en": "Diabetic", "ja": "糖尿病対応", "hi": "मधुमेह"}, "forbid": ["sugar"], "allow": []}
+    {"id": "diabetic", "diet": "diabetic", "labels": {"en": "Diabetic", "ja": "糖尿病対応", "hi": "मधुमेह"}, "forbid": ["sugar", "honey"], "allow": []}
   ],
   "picker_groups": [
     {"id": "meat", "kind": "diet", "labels": {"en": "Meat", "ja": "肉", "hi": "मांस"}, "tags": ["meat"]},

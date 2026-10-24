@@ -2,11 +2,6 @@
 import type { Text } from "@/lib/types"
 
 export const STR = {
-  verdict: {
-    SAFE: { en: "Safe", hi: "सुरक्षित", ja: "安全" },
-    UNSAFE: { en: "Not safe", hi: "असुरक्षित", ja: "不可" },
-    NEEDS_HUMAN: { en: "Needs a person", hi: "व्यक्ति जाँचे", ja: "要確認" },
-  },
   noRuleFired: {
     en: "No rule fired: nothing in this dish is on the forbidden list.",
     hi: "कोई नियम लागू नहीं हुआ: इस व्यंजन में कुछ भी वर्जित नहीं है।",
