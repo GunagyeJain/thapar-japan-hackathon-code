@@ -3,6 +3,7 @@ import { AlertTriangle, CheckCircle2, XCircle } from "lucide-react"
 import { useCallback, useMemo, useState, type FormEvent } from "react"
 
 import type { CrewEvent, CrewPackage } from "@/lib/offline/types"
+import { label } from "@/lib/rules"
 import type { Verdict } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { Button, Input, StatusChip } from "@/ui"
@@ -130,13 +131,48 @@ export function SeatScan({ pkg, seat, onSeat, now, record }: SeatScanProps) {
     check(code)
   }
 
+  const seatId = seat.trim().toUpperCase()
+  const quick = useMemo(
+    () =>
+      pkg.passengers
+        .filter((p) => pkg.forbid[p.id])
+        .map((p) => p.seat)
+        .sort((x, y) => parseInt(x) - parseInt(y) || x.localeCompare(y)),
+    [pkg],
+  )
+
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_auto]">
-      <form onSubmit={onSubmit} className="flex flex-col gap-4 rounded-xl border bg-card p-5">
-        <label className="flex flex-col gap-1.5">
+    <div className="grid gap-5 lg:grid-cols-2">
+      <section className="flex flex-col gap-4 rounded-xl border bg-card p-5">
+        <Bi text={COPY.step1} size="lg" />
+        <label className="flex items-center gap-3">
           <Bi text={COPY.seat} size="sm" inline />
-          <Input value={seat} onChange={(e) => onSeat(e.target.value.toUpperCase())} className="h-14 w-40 font-display text-3xl font-bold tabular md:text-3xl" maxLength={3} />
+          <Input value={seat} onChange={(e) => onSeat(e.target.value.toUpperCase())} className="h-14 w-32 font-display text-3xl font-bold tabular md:text-3xl" maxLength={3} />
         </label>
+        <div>
+          <Bi text={COPY.specialSeats} size="sm" className="mb-2 text-muted-foreground" />
+          <div className="flex max-h-32 flex-wrap gap-1.5 overflow-y-auto">
+            {quick.map((q) => (
+              <button
+                key={q}
+                type="button"
+                onClick={() => onSeat(q)}
+                className={cn(
+                  "h-10 min-w-12 rounded-md border px-2 text-sm font-semibold tabular transition-colors duration-150",
+                  q === seatId ? "border-blue bg-blue text-primary-foreground" : "border-border bg-muted hover:border-sky",
+                )}
+              >
+                {q}
+              </button>
+            ))}
+          </div>
+        </div>
+        <PassengerCard pkg={pkg} seat={seatId} />
+      </section>
+
+      <form onSubmit={onSubmit} className="flex flex-col gap-4 rounded-xl border bg-card p-5">
+        <Bi text={COPY.step2} size="lg" />
+        <Camera onCode={check} />
         <label className="flex flex-col gap-1.5">
           <Bi text={COPY.scanOrType} size="sm" inline />
           <Input
@@ -148,15 +184,38 @@ export function SeatScan({ pkg, seat, onSeat, now, record }: SeatScanProps) {
             autoComplete="off"
           />
         </label>
-        <Button type="submit" size="lg" className="h-14 text-lg" disabled={!code.trim() || !seat.trim()}>
+        <Button type="submit" size="lg" className="h-14 text-lg" disabled={!code.trim() || !seatId}>
           {say(COPY.check)}
         </Button>
         {problem && <StatusChip status="warn" label={say(problem)} />}
       </form>
-      <div className="lg:w-[420px]">
-        <Camera onCode={check} />
-      </div>
       {result && <ResultScreen result={result} onNext={() => setResult(null)} />}
+    </div>
+  )
+}
+
+/** Who sits there and what they can't eat, so crew know before they scan. */
+function PassengerCard({ pkg, seat }: { pkg: CrewPackage; seat: string }) {
+  const mode = useCrewLang()
+  const say = useSay()
+  const pax = pkg.passengers.find((p) => p.seat === seat)
+  if (!pax) return <StatusChip status="neutral" label={say(COPY.noSeat)} />
+  const promise = pkg.promises.find((p) => p.passenger_id === pax.id)
+  const forbid = pkg.forbid[pax.id]?.forbid ?? []
+  const tagLang = mode === "en" ? "en" : "ja"
+  const cantEat = forbid.map((t) => label(t, tagLang)).join(tagLang === "ja" ? "、" : ", ")
+  const mark = promise?.label_mark
+  return (
+    <div className="rounded-lg border border-border bg-background/40 p-4">
+      <div className="flex items-baseline justify-between gap-3">
+        <span className="font-display text-lg font-semibold">{pax.display_name ?? `${pax.surname}/${pax.given} ${pax.title}`}</span>
+        {(promise?.code ?? pax.ssr_meal) && <span className="code rounded bg-muted px-1.5 py-0.5 text-sm font-semibold">{promise?.code ?? pax.ssr_meal}</span>}
+      </div>
+      {mark && <p className="mt-1 font-medium">{say({ ja: mark.ja ?? mark.en, en: mark.en })}</p>}
+      <dl className="mt-2 text-sm">
+        <dt className="text-muted-foreground">{say(COPY.cantEat)}</dt>
+        <dd>{cantEat || say(COPY.noDiet)}</dd>
+      </dl>
     </div>
   )
 }

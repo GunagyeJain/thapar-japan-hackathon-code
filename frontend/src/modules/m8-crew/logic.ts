@@ -47,6 +47,9 @@ export interface GalleyRow {
   replacement: MealItem | undefined
 }
 
+export const isDone = (r: GalleyRow): boolean =>
+  r.item.status === "loaded" || r.item.status === "served" || r.replacement !== undefined
+
 export function galleyRows(pkg: CrewPackage, L: Lookup): Map<string, GalleyRow[]> {
   const rows = new Map<string, GalleyRow[]>()
   for (const id of pkg.expected_specials) {

@@ -8,15 +8,13 @@ import { Button, Input, StatusChip } from "@/ui"
 import { Bi } from "@/modules/m8-crew/Bi"
 import { COPY } from "@/modules/m8-crew/i18n"
 import { useCrewLang, useDish, useSay } from "@/modules/m8-crew/lang"
-import { galleyRows, lookup, normaliseCode, pickBackup, type GalleyRow, type Lookup } from "@/modules/m8-crew/logic"
+import { galleyRows, isDone, lookup, normaliseCode, pickBackup, type GalleyRow, type Lookup } from "@/modules/m8-crew/logic"
 
 interface GalleyCheckProps {
   pkg: CrewPackage
   now: () => string
   record: (event: Omit<CrewEvent, "client_id">) => Promise<void>
 }
-
-const isDone = (r: GalleyRow) => r.item.status === "loaded" || r.item.status === "served" || r.replacement !== undefined
 
 function RowStatus({ row }: { row: GalleyRow }) {
   const say = useSay()
@@ -91,45 +89,56 @@ export function GalleyCheck({ pkg, now, record }: GalleyCheckProps) {
   }
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div className="flex flex-col gap-3">
-          <div role="radiogroup" aria-label="Galley" className="inline-flex w-fit rounded-lg bg-muted p-1">
-            {[...galleys.entries()].map(([g, rows]) => (
+    <div className="grid gap-5 lg:grid-cols-[260px_1fr]">
+      <aside className="flex flex-col gap-3">
+        <div role="radiogroup" aria-label="Galley" className="flex flex-col gap-2">
+          {[...galleys.entries()].map(([g, rows]) => {
+            const ok = rows.filter(isDone).length
+            const on = g === galley
+            return (
               <button
                 key={g}
                 type="button"
                 role="radio"
-                aria-checked={g === galley}
+                aria-checked={on}
                 onClick={() => setGalley(g)}
-                className={cn("h-12 min-w-32 rounded-md px-4 text-left transition-colors duration-150", g === galley ? "bg-card ring-1 ring-border" : "text-muted-foreground")}
+                className={cn(
+                  "flex min-h-16 flex-col gap-1.5 rounded-xl border px-4 py-3 text-left transition-colors duration-150",
+                  on ? "border-blue bg-secondary ring-1 ring-blue" : "border-border bg-card hover:border-sky",
+                )}
               >
-                <Bi text={COPY.galley(g)} size="sm" inline />
-                <span className="ml-2 text-sm tabular"> · {rows.filter(isDone).length}/{rows.length}</span>
+                <span className="flex items-baseline justify-between gap-2">
+                  <Bi text={COPY.galley(g)} size="sm" inline className="font-semibold" />
+                  <span className="text-sm font-semibold tabular">
+                    {ok}/{rows.length}
+                  </span>
+                </span>
+                <span className="h-1.5 overflow-hidden rounded-full bg-background" aria-hidden="true">
+                  <span className="block h-full rounded-full bg-safe transition-[width] duration-200" style={{ width: `${rows.length ? (ok / rows.length) * 100 : 0}%` }} />
+                </span>
               </button>
-            ))}
-          </div>
-          <Bi text={COPY.found(found, shown.length)} size="xl" className="tabular" />
+            )
+          })}
         </div>
-        <form onSubmit={onScan} className="flex items-end gap-2">
-          <label className="flex flex-col gap-1">
-            <Bi text={COPY.scanOrType} size="sm" inline />
-            <Input
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder={say(COPY.codePlaceholder)}
-              className="code h-12 w-60 text-lg uppercase md:text-lg"
-              autoCapitalize="characters"
-              autoComplete="off"
-            />
-          </label>
-          <Button type="submit" size="lg" className="h-12">
-            {say(COPY.markFound)}
+        <form onSubmit={onScan} className="flex flex-col gap-2 rounded-xl border bg-card p-4">
+          <Bi text={COPY.scanLabel} size="sm" className="font-semibold" />
+          <Input
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder={say(COPY.codePlaceholder)}
+            className="code h-12 text-lg uppercase md:text-lg"
+            autoCapitalize="characters"
+            autoComplete="off"
+          />
+          <Button type="submit" size="lg" className="h-12" disabled={!code.trim()}>
+            <CheckCircle2 /> {say(COPY.markFound)}
           </Button>
+          {miss && <StatusChip status="warn" className="h-auto py-1 whitespace-normal" label={`${miss}: ${say(COPY.unknownCode)}`} />}
         </form>
-      </div>
-      {miss && <StatusChip status="warn" label={`${miss}: ${say(COPY.unknownCode)}`} />}
+      </aside>
 
+      <div className="flex min-w-0 flex-col gap-4">
+        <Bi text={COPY.found(found, shown.length)} size="xl" className="tabular" />
       <section className="rounded-xl border bg-card">
             <ul>
               {shown.map((row) => (
@@ -145,7 +154,7 @@ export function GalleyCheck({ pkg, now, record }: GalleyCheckProps) {
                         {row.passenger && `${row.passenger.surname}/${row.passenger.given}`}{mode === "both" && ` · ${row.spec?.name.en ?? ""}`} · <span className="code">{row.item.id}</span> · {row.item.position}
                       </span>
                     </span>
-                    <RowStatus row={row} />
+                    {row.item.status !== "planned" && <RowStatus row={row} />}
                     {row.item.status === "planned" && (
                       <span className="flex gap-2">
                         <Button size="lg" className="h-12 min-w-24" onClick={() => void record({ type: "galley_found", item_id: row.item.id, at: now() })}>
@@ -162,7 +171,8 @@ export function GalleyCheck({ pkg, now, record }: GalleyCheckProps) {
               ))}
             </ul>
           </section>
-      <AlsoOnBoard pkg={pkg} L={L} galley={galley} />
+        <AlsoOnBoard pkg={pkg} L={L} galley={galley} />
+      </div>
     </div>
   )
 }
