@@ -1,0 +1,94 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "精進煮物",
+  "dish_name_en": "Temple-style simmered vegetables",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "里芋",
+    "name_en": "taro",
+    "tags": [
+     "taro",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 0.95,
+    "evidence": "里芋 6個"
+   },
+   {
+    "name_ja": "人参",
+    "name_en": "carrot",
+    "tags": [
+     "carrot",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 0.95,
+    "evidence": "人参 1本"
+   },
+   {
+    "name_ja": "ごぼう",
+    "name_en": "burdock",
+    "tags": [
+     "burdock",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 0.95,
+    "evidence": "ごぼう 1/2本"
+   },
+   {
+    "name_ja": "こんにゃく",
+    "name_en": "konjac",
+    "tags": [
+     "konjac"
+    ],
+    "confidence": 0.95,
+    "evidence": "こんにゃく 1枚"
+   },
+   {
+    "name_ja": "昆布",
+    "name_en": "kombu kelp",
+    "tags": [
+     "kombu",
+     "seaweed"
+    ],
+    "confidence": 0.95,
+    "evidence": "精進だし 400ml（昆布、干ししいたけ）"
+   },
+   {
+    "name_ja": "干ししいたけ",
+    "name_en": "dried shiitake mushroom",
+    "tags": [
+     "mushroom",
+     "fungi"
+    ],
+    "confidence": 0.95,
+    "evidence": "精進だし 400ml（昆布、干ししいたけ）"
+   },
+   {
+    "name_ja": "醤油",
+    "name_en": "soy sauce",
+    "tags": [
+     "soy_sauce",
+     "soy",
+     "wheat"
+    ],
+    "confidence": 0.95,
+    "evidence": "醤油 大さじ2"
+   },
+   {
+    "name_ja": "みりん",
+    "name_en": "mirin",
+    "tags": [
+     "mirin",
+     "alcohol"
+    ],
+    "confidence": 0.95,
+    "evidence": "みりん 大さじ2"
+   }
+  ]
+ }
+}

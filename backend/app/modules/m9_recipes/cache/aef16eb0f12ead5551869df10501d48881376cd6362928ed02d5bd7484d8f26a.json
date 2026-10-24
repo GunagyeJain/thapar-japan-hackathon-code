@@ -1,0 +1,99 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "お好み焼き",
+  "dish_name_en": "Okonomiyaki",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "小麦粉",
+    "name_en": "wheat flour",
+    "tags": [
+     "wheat",
+     "grain"
+    ],
+    "confidence": 1.0,
+    "evidence": "小麦粉 200g"
+   },
+   {
+    "name_ja": "キャベツ",
+    "name_en": "cabbage",
+    "tags": [
+     "cabbage",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "キャベツ 1/2個"
+   },
+   {
+    "name_ja": "卵",
+    "name_en": "egg",
+    "tags": [
+     "egg"
+    ],
+    "confidence": 1.0,
+    "evidence": "卵 4個"
+   },
+   {
+    "name_ja": "長芋",
+    "name_en": "Japanese yam",
+    "tags": [
+     "yam",
+     "root_veg"
+    ],
+    "confidence": 1.0,
+    "evidence": "長芋 100g"
+   },
+   {
+    "name_ja": "桜えび",
+    "name_en": "sakura shrimp",
+    "tags": [
+     "shrimp",
+     "shellfish",
+     "seafood"
+    ],
+    "confidence": 1.0,
+    "evidence": "桜えび 10g"
+   },
+   {
+    "name_ja": "天かす",
+    "name_en": "tempura flakes",
+    "tags": [
+     "wheat"
+    ],
+    "confidence": 0.9,
+    "evidence": "天かす 30g"
+   },
+   {
+    "name_ja": "お好みソース",
+    "name_en": "okonomiyaki sauce",
+    "tags": [
+     "fruit",
+     "vegetable"
+    ],
+    "confidence": 0.8,
+    "evidence": "お好みソース 適量"
+   },
+   {
+    "name_ja": "マヨネーズ",
+    "name_en": "mayonnaise",
+    "tags": [
+     "egg"
+    ],
+    "confidence": 0.9,
+    "evidence": "マヨネーズ 適量"
+   },
+   {
+    "name_ja": "青のり",
+    "name_en": "green laver",
+    "tags": [
+     "seaweed",
+     "nori"
+    ],
+    "confidence": 1.0,
+    "evidence": "青のり 適量"
+   }
+  ]
+ }
+}

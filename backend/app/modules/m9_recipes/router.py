@@ -12,7 +12,7 @@ from app.core.db import SessionDep
 from app.core.ids import new_id
 from app.core.models import MealSpec
 
-from . import pipeline
+from . import evaluation, pipeline
 from .models import RecipeSheet
 
 router = APIRouter(prefix="/api", tags=["m9 · hidden-ingredient check"])
@@ -89,6 +89,12 @@ async def extract(request: Request, session: SessionDep) -> dict[str, Any]:
 def list_sheets(session: SessionDep) -> list[dict[str, Any]]:
     rows = session.exec(select(RecipeSheet).order_by(RecipeSheet.created_at.desc())).all()  # type: ignore[attr-defined]
     return [_out(r) for r in rows]
+
+
+@router.get("/recipes/eval")
+def eval_table() -> dict[str, Any]:
+    """Dictionary vs model vs both on the hand-labelled sheets in eval.json. Reads the cache only."""
+    return evaluation.table()
 
 
 @router.get("/recipes/{sheet_id}")

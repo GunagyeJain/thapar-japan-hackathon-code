@@ -1,20 +1,22 @@
 # m9: hidden-ingredient check
 
 **Owner:** Shefali · **Branch:** `shefali/m9-recipes` · **Phase:** 3, 22:30–01:30 IST
-**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Where it stands
-_Updated 24 Oct 17:57 IST by Shefali. Read this first; the Notes below are the history._
+_Updated 24 Oct 18:40 IST by Shefali. Read this first; the Notes below are the history._
 
-**Shefali's queue:** m3 `done` → **m9 `in progress` (T1–T3 shipped, only T4 left)** → m14 `not started`. Shefali is not coding anything right now: waiting for Gunagye to say what to do next.
+**Shefali's queue:** m3 `done` (fixing open item 1 now) → **m9 `done`** → m14 cut.
 
 | | |
 |---|---|
-| **State** | `in progress`. T1, T2, T3 shipped to main (last ship 17:48). Demo-ready: yes. `/caterer/recipes` goes photo → verdicts → approved meal spec; the 4 demo sheets work with Wi-Fi off (cached) |
-| **Left** | T4 eval table, not started. It is #4 on the PLAN.md cut list, so m9 can be called done for the demo without it |
-| **Setup each laptop needs** | `GEMINI_API_KEY` and `GEMINI_MODEL=gemini-3.5-flash` in `.env`, only for new (uncached) sheets. The 2.5 model in the old `.env.example` no longer works |
+| **State** | `done`. T1–T4 shipped. Demo-ready: yes. `/caterer/recipes` goes photo → verdicts → approved meal spec; the 4 demo sheets work with Wi-Fi off (cached). The **Accuracy** tab has the eval table |
+| **Pitch numbers** (12 sheets all three readers have read, vegetarian) | Dictionary finds 11 of 13 hidden families (85%), 2 false alarms. Model: 12 of 13 (92%), 0 false alarms. Both together: 13 of 13 (100%), 2 false alarms (the dictionary's). Say it's a hand-labelled stress set, not a random sample |
+| **Left** | 11 of the 23 eval sheets aren't read by the model yet: the free tier allows **20 requests a day** and today's are used up (resets about 12:30 IST on 25 Oct). Then run `cd backend && .venv/bin/python -m app.modules.m9_recipes.evaluation --fill` and commit the new cache files. Until then the tab says how many sheets are compared |
+| **Setup each laptop needs** | `GEMINI_API_KEY` and `GEMINI_MODEL=gemini-3.5-flash` in `.env` (as in `.env.example`), only for new (uncached) sheets |
+| **Demo risk** | Today's quota on Shefali's key is used up, so a live **uncached** photo falls back to "model offline" until it resets. Use the 4 cached demo sheets, or another teammate's key |
 | **Waiting on others** | Nothing |
-| **Others waiting on m9** | Nothing known. Approved dishes become `MealSpec` rows (`SPEC-R-…`, source `recipe_check`); no other module uses them yet (they aren't loaded on JL740 as meal items) |
+| **Others waiting on m9** | Nothing known. Approved dishes become `MealSpec` rows (`SPEC-R-…`, source `recipe_check`) |
 | **For m2** | VerdictBadge's "N rules" link is English-only, so it stays English on the Japanese page |
 
 ## Goal
@@ -34,7 +36,7 @@ The model only reads; it never decides.
 ## Uses (contracts it reads)
 - **m1:** `taxonomy.json` (tag ids, `synonyms_ja`) and `evaluate()`. Diets checked: vegetarian, Jain, vegan, no onion/garlic, halal.
 - **m0:** core `MealSpec` (approve adds one with `source: "recipe_check"`).
-- **Gemini:** the `google-genai` package with `GEMINI_API_KEY` and `GEMINI_MODEL` (default `gemini-2.5-flash`) from `.env`.
+- **Gemini:** the `google-genai` package with `GEMINI_API_KEY` and `GEMINI_MODEL` (default `gemini-3.5-flash`; 2.5-flash is closed to new keys) from `.env`.
   - Structured output: `response_mime_type: application/json` with a response schema `{dish_name_ja, dish_name_en, ingredients: [{name_ja, name_en, tags: [taxonomy ids], confidence: 0-1, evidence}]}`.
   - Usage is light: one request per new sheet, about 50–150 for the whole event.
 - **m2:** `@/ui` components.
@@ -69,7 +71,7 @@ The PNGs are recipe cards rendered from the text (an HTML page + screenshot is f
 - [x] **T3 Page (50 min).** Upload (drag-drop an image or paste text). Result view: the sheet on the left; the ingredient table on the right (JA, EN, tags, confidence, evidence highlighted); a verdict chip per diet with the fired rule; **Approve**.
 
   _Done when:_ uploading the miso PNG shows the dashi flag and approve creates a MealSpec, at 1440 px.
-- [ ] **T4 Eval table (30 min, cut first).** `eval.json` with about 20 Japanese dishes and hand-labelled "not vegetarian" tags. Recall and precision for dictionary vs. model vs. combined.
+- [x] **T4 Eval table (30 min, cut first).** `eval.json` with about 20 Japanese dishes and hand-labelled "not vegetarian" tags. Recall and precision for dictionary vs. model vs. combined.
 
   _Done when:_ the Eval tab shows the 3 rows with numbers.
 
@@ -87,3 +89,7 @@ _Owner's running notes._
 - T3 done, checked at 1440 px in EN and JA: the miso photo (demo button or drag-drop) loads from cache in about 0.6 s, verdicts show "出汁 → bonito → fish → seafood", 出汁 and 鰹節 are marked red in the sheet, and Approve creates `SPEC-R-…` (kind main, source recipe_check). A new, uncached photo took 10.6 s live on the free tier.
 - If Gemini leaves a photo's transcription empty, the sheet text is rebuilt from its evidence lines so the dictionary still checks it.
 - For m2: VerdictBadge's "N rules" link is English-only, so it reads in English on the Japanese page.
+- T4 done: `shared/seed/recipes/eval.json` has 23 hand-labelled sheets (the 4 demo ones plus 19 more), built around known hard cases: hidden stock (白だし, おでんだし, 削り粉), product names (ウェイパー, マシュマロ, ちくわ, ウインナー) and words that only look like an ingredient (精進だし, 野菜ブイヨン, かき = 柿, 肉桂, えび芋). A family counts as found when the rules call the dish UNSAFE for vegetarian; NEEDS_HUMAN doesn't count. `evaluation.py` builds the table from the committed cache only (never calls the model); `GET /api/recipes/eval` serves it and the Accuracy tab shows it. The three readers are scored on the same sheets (the ones the model has read).
+- What the table shows: the dictionary is fooled by look-alike words (精進だし → bonito, 野菜ブイヨン → meat extract) and misses product names (ウェイパー, 削り粉). The model got those right but missed コンソメ as meat in the croquette. Combined catches everything but keeps the dictionary's false alarms, which is why a person approves every sheet.
+- The free tier also has a daily cap of 20 requests (on top of 5 a minute). The eval fill hit it after 8 new sheets.
+
