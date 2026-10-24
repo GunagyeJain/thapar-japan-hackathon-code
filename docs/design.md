@@ -27,6 +27,22 @@ Rules for colour:
 - Red is never decoration.
 - Crew cabin mode (dark) uses `--cabin-bg #0B1220`, `--cabin-surface #131C2E`, `--cabin-line #24324D`, with the same status colours lifted for contrast.
 
+## Brand themes
+Two palettes on the same variable names, switched by `data-brand` (tokens only; components never change):
+| Token | ThaliBento (`:root`) | JAL (`[data-brand="jal"]`) |
+|---|---|---|
+| `--navy` (headings, text, app bars) | `#0A2A66` | `#1A1A1A` JAL black |
+| `--blue` (info text, selection, first chart series) | `#1F5FD1` | `#333333` charcoal |
+| `--sky` (secondary accents, icons, second series) | `#5E95EC` | `#8C8C8C` JAL silver |
+| `--ice` / `--mist` / `--line` / `--grey` | `#EAF1FC` / `#F5F8FD` / `#C7D6EF` / `#55617D` | `#F0F0F0` / `#F7F7F7` / `#D6D6D6` / `#595959` |
+| `--primary` (buttons, `text-primary` links) | `--blue` | `#C00000` JAL red |
+| `--ring` (focus) | `--blue` | `#1A1A1A` (a red ring reads as "invalid") |
+
+- **Default is JAL.** `frontend/index.html` sets `data-brand` on `<html>` before the app loads: `?brand=jal|thalibento` (remembered), else the last choice (`localStorage` key `tb.brand`), else `jal`. The **Palette** switch on `/demo` writes the same key, and every open tab follows it at once.
+- **Status colours never change with the brand**, and under JAL they are the only colours on screen besides the red buttons; text stays at WCAG AA (JAL pairs: text 17.4:1 navy, 7.0:1 grey, 6.5:1 white on red; icons 3.4:1 silver).
+- **The crew cabin keeps ThaliBento** under the JAL brand (`[data-brand="jal"] .cabin`), because there blue means "strict" and red only "do not serve". Any other screen can opt out with the class `brand-thalibento`.
+- `/jal` (m23) sets `data-brand="jal"` on its own root, so the JAL concept page is JAL whatever the switch says.
+
 ## Type
 - **Archivo** for headings and big numbers (600–700; tight letter-spacing on display sizes).
 - **Inter** for UI text.

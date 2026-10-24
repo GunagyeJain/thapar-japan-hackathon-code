@@ -5,8 +5,9 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
-from sqlmodel import select
+from sqlmodel import Session, select
 
+from app.core import clock
 from app.core.models import MealItem, MealSpec, Passenger
 from app.modules.m3_passenger.options import meal_options
 from app.modules.m6_matcher import inventory, matcher
@@ -78,7 +79,10 @@ def _book(ctx: Ctx, rung: str) -> Choice:
                   apply=apply)
 
 
-def plan_ssr_change(ctx: Ctx) -> Choice:
+def plan_ssr_change(ctx: Ctx) -> Choice | Skip:
+    if windows.closed_early(ctx.flight, ctx.at, ctx.long_lead):
+        line = windows.ssr_cutoff(ctx.flight, True).astimezone(clock.IST)
+        return Skip("ssr_change", txt("skip.long_lead", when=f"{line:%d %b %H:%M}"))
     return _book(ctx, "ssr_change")
 
 
@@ -194,30 +198,38 @@ def plan_onboard_spare(ctx: Ctx) -> Choice | Skip:
                   message=txt("msg.onboard", **values), apply=apply)
 
 
-def released(ctx: Ctx) -> list[tuple[NoShow, MealItem]]:
-    """Meals freed by no-shows that nobody holds yet."""
+def _free(item: MealItem | None) -> bool:
+    return bool(item and item.assigned_passenger_id is None and item.status in USABLE)
+
+
+def released_on(session: Session, flight_id: str) -> list[tuple[str, MealItem, str]]:
+    """Meals nobody holds any more, as (seat, tray, how): freed by a no-show, or skipped at the seat (m22)."""
     out = []
-    for ns in ctx.session.exec(select(NoShow).where(NoShow.flight_id == ctx.flight.id)).all():
-        item = ctx.session.get(MealItem, ns.released_item_id) if ns.released_item_id else None
-        if item and item.assigned_passenger_id is None and item.status in USABLE:
-            out.append((ns, item))
-    return out
+    for ns in session.exec(select(NoShow).where(NoShow.flight_id == flight_id)).all():
+        item = session.get(MealItem, ns.released_item_id) if ns.released_item_id else None
+        if _free(item):
+            out.append((session.get(Passenger, ns.passenger_id).seat, item, "no_show"))
+    try:
+        from app.modules.m22_seatback.service import released_items
+    except ImportError:
+        return out
+    return out + [(seat, item, "seat") for seat, item in released_items(session, flight_id) if _free(item)]
 
 
 def plan_noshow_release(ctx: Ctx) -> Choice | Skip:
-    freed = released(ctx)
+    freed = released_on(ctx.session, ctx.flight.id)
     if not freed:
         return Skip("noshow_release", txt("skip.release_none"))
-    for ns, item in freed:
+    for seat, item, how in freed:
         spec = spec_of(ctx.session, item)
-        seat = ctx.session.get(Passenger, ns.passenger_id).seat
         if fits(spec, ctx.strict):
             values = {"spec": spec.name, **_where(item), "seat": seat, "mark": ctx.mark}
-            return Choice("noshow_release", txt("why.noshow_release", **values), item=item, spec=spec,
+            why = "why.noshow_release" if how == "no_show" else "why.seat_release"
+            return Choice("noshow_release", txt(why, **values), item=item, spec=spec,
                           message=txt("msg.onboard", **values),
                           apply=_assign(ctx, "noshow_release", item, spec) if ctx.passenger else None)
-    ns, item = freed[0]
-    return Skip("noshow_release", txt("skip.release_unsafe", seat=ctx.session.get(Passenger, ns.passenger_id).seat,
+    seat, item, _ = freed[0]
+    return Skip("noshow_release", txt("skip.release_unsafe", seat=seat,
                                       fired=fired_text(spec_of(ctx.session, item), ctx.strict)))
 
 

@@ -4,7 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0A2A66" />
+    <meta name="robots" content="noindex" />
     <title>ThaliBento · JL740 meal promises</title>
+    <script>
+      // Brand palette (docs/design.md, "Brand themes"): ?brand=jal|thalibento, else the last choice, else JAL.
+      // The /demo switch (m11 BrandToggle.tsx) writes the same key; other open tabs follow through the storage event.
+      ;(function () {
+        var KEY = "tb.brand"
+        var THEME_COLOR = { jal: "#1a1a1a", thalibento: "#0A2A66" }
+        function apply(value) {
+          var brand = value === "thalibento" ? "thalibento" : "jal"
+          document.documentElement.dataset.brand = brand
+          var meta = document.querySelector('meta[name="theme-color"]')
+          if (meta) meta.setAttribute("content", THEME_COLOR[brand])
+        }
+        var asked = new URLSearchParams(location.search).get("brand")
+        var brand = asked
+        try {
+          if (asked === "jal" || asked === "thalibento") localStorage.setItem(KEY, asked)
+          else brand = localStorage.getItem(KEY)
+        } catch (e) {
+          // storage blocked (private mode): the address or the default still decides
+        }
+        apply(brand)
+        window.addEventListener("storage", function (e) {
+          if (e.key === KEY) apply(e.newValue)
+        })
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

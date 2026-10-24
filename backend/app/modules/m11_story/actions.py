@@ -360,6 +360,34 @@ def radar_yes(did: list[str]) -> None:
     did.append(f"Priya said yes: {((out or {}).get('plan') or {}).get('kitchen_note') or 'fasting meal'}")
 
 
+def seat_check(did: list[str]) -> None:
+    """The crew ask the seat screens before the meal; Priya taps Yes at 23C (m22). Before the tray scans, which
+    mark her tray served."""
+    status, asked = _call("GET", f"/seatback/{FLIGHT_ID}")
+    if status == NOT_THERE:
+        did.append("Seat screens not on this build yet")
+        return
+    priya = next((s for s in asked["seats"] if s["seat"] == PRIYA_SEAT), None)
+    if priya is None:
+        _, asked = _call("POST", "/seatback/ask", {"flight_id": FLIGHT_ID})
+        did.append(f"Seat screens asked {asked['counts']['asked']} passengers")
+        priya = next((s for s in asked["seats"] if s["seat"] == PRIYA_SEAT), None)
+    if priya is None:
+        did.append(f"{PRIYA_SEAT} has no special or held meal to confirm")
+        return
+    if priya["status"] in ("confirmed", "changed"):
+        did.append(f"{PRIYA_SEAT} already answered on the seat screen")
+        return
+    _call("POST", "/seatback/answer", {"flight_id": FLIGHT_ID, "seat": PRIYA_SEAT, "answer": "yes"})
+    did.append(f"{PRIYA_SEAT} said Yes on the seat screen: confirmed at seat")
+
+
+def in_the_air(did: list[str]) -> None:
+    """Step 4's "Do it for me": the seat screens' question, then the tablet's queued scans."""
+    seat_check(did)
+    crew_events(did)
+
+
 def chaos_run(did: list[str]) -> None:
     """Chaos Mode: the seven scripted late changes for JL740 go through the change router (Act 2)."""
     status, out = _call("POST", "/chaos/run", {"flight_id": FLIGHT_ID, "preset": "jl740"})

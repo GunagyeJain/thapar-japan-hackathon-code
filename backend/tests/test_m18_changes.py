@@ -154,6 +154,45 @@ def test_before_the_cutoff_a_proper_special_meal_is_booked(client):
     assert pax["ssr_meal"] == "DBML" and pax["promise"]["code"] == "DBML"
 
 
+PEANUT = {"forbid": ["peanut"], "allergens": ["peanut"]}
+
+
+def _new_need(client, rules, note=None, passenger_id="PX-0109"):
+    res = client.post("/api/changes", json={"flight_id": FLIGHT, "passenger_id": passenger_id, "channel": "chat",
+                                            "kind": "new_need", "rules": rules, "note": note})
+    assert res.status_code == 200, res.text
+    return res.json()
+
+
+def test_an_allergy_after_the_49_h_line_goes_to_the_caterers_list(client):
+    # 23 Oct 18:00 after a reset: past JAL's 49 h line for minimal-allergen meals, before the 25 h line for the rest.
+    ev = _new_need(client, PEANUT)
+    assert ev["window"] == "caterer_list" and ev["request"]["long_lead"]
+    assert ev["decision"]["steps_tried"] == ["ssr_change", "caterer_add"]
+    assert ev["decision"]["rung"] == "caterer_add" and ev["decision"]["ok"]
+    skipped = ev["decision"]["steps"][0]
+    assert not skipped["ok"] and "49 h" in skipped["reason"]["en"] and "23 Oct 03:35" in skipped["reason"]["en"]
+    assert not ev["today"]["ok"] and "49 h" in ev["today"]["outcome"]["en"]
+
+
+def test_a_kosher_note_has_the_49_h_line_too(client):
+    ev = _new_need(client, {"forbid": ["pork", "shellfish"]}, note="Kosher meal")
+    assert ev["window"] == "caterer_list" and ev["decision"]["steps_tried"][0] == "ssr_change"
+    plain = _new_need(client, {"forbid": ["pork", "shellfish"]}, passenger_id="PX-0122")
+    assert plain["window"] == "ssr" and plain["decision"]["rung"] == "ssr_change"
+
+
+def test_before_the_49_h_line_an_allergy_is_still_a_special_meal(client):
+    client.post("/api/clock", json={"now": "2026-10-22T12:00:00+05:30"})
+    ev = _new_need(client, PEANUT)
+    assert ev["window"] == "ssr" and ev["decision"]["rung"] == "ssr_change" and ev["today"]["ok"]
+
+
+def test_change_log_carries_the_49_h_line(client):
+    line = client.get(f"/api/changes?flight_id={FLIGHT}").json()["long_lead"]
+    assert line["at"].startswith("2026-10-23T03:35") and line["hours"] == 49
+
+
 def test_caterer_add_is_on_the_next_meal_list(client):
     events = _run(client)["events"]
     lists = client.get(f"/api/flights/{FLIGHT}/meal-lists").json()

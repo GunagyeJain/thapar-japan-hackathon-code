@@ -235,3 +235,25 @@ copilot: {
 - `EatWindow = {may_eat_from|null, may_eat_until|null, sunrise_box, note: Text}`. A rule is `{kind: "daylight", after_sunrise_min}` (eats from sunrise + N min until sunset) or `{kind: "fast_dawn_to_sunset"}` (eats from sunset until dawn). `may_eat_from` starts the first allowed stretch that reaches into the cabin service (after the 25 min climb, before the 30 min descent); `may_eat_until` is null when it lasts to arrival. `sunrise_box: true` when no allowed time falls in the cabin service: the passenger gets a sealed box at the door. `chauvihar` is the daylight rule with 48 min.
 - Times are ISO with an offset, rounded to the minute: computed times in the origin's zone, `arr` in the destination's. Route: great circle, linear in time; climb to 11,000 m in 25 min, descend in the last 30 min.
 - Front end (`@/modules/m21-sun`): `SunTimer` `{mayEatFrom, sunriseBox, lang, size?: "sm"|"md"}` (countdown on the sim clock, or "Sunrise Box at the door") and `useSunSeats(flightId)` (refetches every 30 s).
+
+## m18 · additions (25 Oct): the 49 h line
+- `GET /changes` also returns `long_lead: {at, hours: 49, applies_to: ["kosher", "minimal_allergen"]}`: JAL takes kosher and minimal-allergen meals until 49 h before departure (48 h by phone), every other special meal until the 25 h cutoff.
+- A need with an allergy (`rules.allergens` not empty) or a kosher meal (the word "kosher" or "KSML" in the change's `note`; the rules engine has no kosher rule) leaves the `ssr` window at T-49 h. Between the two lines its ladder is `ssr_change` (skipped, with the reason) → `caterer_add` → `unmet`, and Today says the website no longer takes it. `ChangeEvent.request.long_lead: boolean` is new (optional for readers).
+- The release rung (`noshow_release`) also takes trays skipped on a seat screen (m22); its reason then says so.
+
+## m22 · seatback meal check
+| Method | Path | Request | Response |
+|---|---|---|---|
+| POST | `/seatback/ask` | `{flight_id}` | `SeatbackStatus`: asks every passenger with a special or held meal (m18 `assignments`, first row each; held = `"main"` for a main course the passport plan holds). Seats that already answered keep their answer; each press is a new `round` |
+| GET | `/seatback/{flight_id}` | – | `SeatbackStatus` (the crew view; 404 unknown flight) |
+| GET | `/seatback/{flight_id}/seats/{seat}` | – | `SeatView`: what one seat screen shows (422 for a seat that isn't like `23C`) |
+| GET | `/seatback/{flight_id}/seats/{seat}/options` | – | `{seat, rules_known, options: SeatOption[]}`: what the passenger may change to (404 empty seat) |
+| POST | `/seatback/answer` | `{flight_id, seat, answer: "yes"\|"no"\|"change", item_id?}` (`item_id` from the options for a change) | `SeatView`. 404 empty seat, 409 not asked yet, 422 bad input or a meal that isn't free for this seat any more |
+
+- `SeatStatus = "asked" | "confirmed" | "skipped" | "changed" | "no_answer"`; `no_answer` is `asked` for 10 min or more on the sim clock: the crew ask in person.
+- `SeatbackStatus = {flight_id, now, round, asked_at|null, no_answer_after_min: 10, counts: {asked, confirmed, skipped, changed, no_answer}, seats: [{seat, passenger_id, status, held: "special"|"main", asked_at, answered_at|null, item_id|null, spec_id|null, new_item_id|null, released_item_id|null}]}`.
+- `SeatView = {flight: {id, flight_no, origin, dest, std, sta}, seat, now, occupied, initials: "P. S."|null, lang, ask: {id, status, held, asked_at, answered_at|null, meal: SeatMeal & {mark: Text|null}, choice: SeatMeal|null}|null}`, `SeatMeal = {item_id|null, spec_id|null, name: Text|null, code|null, galley|null}`. Privacy: initials only; the screen shows the meal only after a tap; `mark` is the tray's label mark (food rules, never a diet's name).
+- `SeatOption = {spec_id, name: Text, code|null, source: "freed"|"spare"|"main", count, item_id, galley}`: one per dish, nearest galley first; only trays nobody holds (a no-show's or another seat's freed meal, a spare special meal, a main above the count still owed in that cabin) that the rules engine calls SAFE for every rule the passenger has on the flight date. Reserve pouches are never offered. Rules: the passport, profile or booked code, else the router's last change for them, else an m6 late request; `rules_known: false` (no options) when none exists.
+- Yes: status `confirmed`, a crew notification and a C5 `info` line on the timeline (the checkpoint itself is set by the tray scan, which stays the final check). After a No, Yes takes the tray back if nobody holds it. No: every tray held for them is freed (`released_item_id`) for the router. Change: the chosen tray is assigned, the old one freed.
+- Python: `m22_seatback.service.released_items(session, flight_id) -> [(seat, MealItem)]` (m18's release rung reads it), `rules_of(session, passenger)`.
+- Front end (`@/modules/m22-seatback`): `useSeatbackStatus(flightId)` (2 s, keeps the last answers while off the network), `useAskSeats(flightId)`, `STATUS_LOOK`; page `/seat?seat=23C`.

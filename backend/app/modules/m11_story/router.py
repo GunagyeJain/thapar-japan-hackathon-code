@@ -16,7 +16,7 @@ RUNS: dict[int, tuple[Callable | None, Callable | None]] = {
     1: (None, actions.priya_passport),
     2: (actions.radar_scan, actions.radar_yes),
     3: (None, actions.chaos_run),
-    4: (None, actions.crew_events),
+    4: (None, actions.in_the_air),
     5: (None, None),
 }
 

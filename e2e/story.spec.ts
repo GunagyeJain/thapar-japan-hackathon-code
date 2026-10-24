@@ -81,12 +81,31 @@ test.describe.serial("JL740 story v2", () => {
     expect((await promiseOf(request, "23C"))?.checkpoints.C2).toBe("fixed")
   })
 
+  test("Act 3 · seat screens before the meal: 23C taps Yes, initials only, the meal after a tap", async ({ page, request }) => {
+    await step(request, 4, false)
+    const asked = await request.post("/api/seatback/ask", { data: { flight_id: FLIGHT } })
+    expect(asked.ok(), await asked.text()).toBeTruthy()
+    await page.goto("/seat?seat=23C")
+    await page.getByRole("radio", { name: "EN" }).click()
+    await expect(page.getByText("Your pre-ordered meal — still right?")).toBeVisible()
+    await expect(page.getByText("P. S. · Seat 23C")).toBeVisible()
+    await expect(page.getByText(/SHARMA|Sharma|Priya|PRIYA/)).toHaveCount(0)
+    await page.getByRole("button", { name: "Show my meal" }).click()
+    await expect(page.getByText(/no onion, no garlic/).first()).toBeVisible()
+    await page.getByRole("button", { name: "Yes" }).click()
+    await expect(page.getByText("Thank you. Your meal comes first.")).toBeVisible()
+    const status = (await (await request.get(`/api/seatback/${FLIGHT}`)).json()) as { seats: { seat: string; status: string }[] }
+    expect(status.seats.find((s) => s.seat === "23C")?.status).toBe("confirmed")
+  })
+
   test("Act 3 · crew copilot: galley check offline, serve list, 2A's sun time", async ({ page, request }) => {
     await step(request, 4)
     await page.goto("/crew")
     await page.getByRole("button", { name: /Download/ }).first().click()
     // Galley 1 carries one more special meal than v1: the Jain meal Chaos Mode added to the final list for 21D.
     await expect(page.getByText(/8 of 9 found/).first()).toBeVisible()
+    await page.getByText("Copilot", { exact: true }).first().click()
+    await expect(page.getByText(/Yes 1 · Changed 0/).first()).toBeVisible()
     const pkg = await (await request.get(`/api/flights/${FLIGHT}/crew-package`)).json()
     const seats = Object.fromEntries(pkg.copilot.seats.map((s: { seat: string }) => [s.seat, s]))
     expect(pkg.copilot.sources).toEqual({ trays: "m18", sun: "m21" })

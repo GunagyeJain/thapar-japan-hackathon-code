@@ -8,6 +8,7 @@ import type { Verdict } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { Button, Input, StatusChip } from "@/ui"
 import { Bi } from "@/modules/m8-crew/Bi"
+import { BoardingPassFind } from "@/modules/m8-crew/BoardingPassFind"
 import { Camera } from "@/modules/m8-crew/Camera"
 import { COPY, type Bilingual } from "@/modules/m8-crew/i18n"
 import { useCrewLang, useSay } from "@/modules/m8-crew/lang"
@@ -167,6 +168,7 @@ export function SeatScan({ pkg, seat, onSeat, now, record }: SeatScanProps) {
             ))}
           </div>
         </div>
+        <BoardingPassFind pkg={pkg} seat={seatId} onSeat={onSeat} />
         <PassengerCard pkg={pkg} seat={seatId} />
       </section>
 

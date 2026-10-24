@@ -78,6 +78,8 @@ Folder pattern: `frontend/src/modules/mN-slug/` · `backend/app/modules/mN_slug/
 | m19 | smart load (v2) | Gunagye (lane b) | `gunagye/m16-days` | `backend/app/modules/m19_load/`, `frontend/src/modules/m19-load/` | m1, m17 | v2 | yes |
 | m20 | crew copilot (v2, inside m8) | Gunagye (lane b) | `gunagye/m16-days` | additions in `m8-crew` / `m8_crew` | m8, m17, m18, m21 | v2 | yes |
 | m21 | sun at the aircraft (v2) | Gunagye (lane b) | `gunagye/m16-days` | `backend/app/modules/m21_sun/`, `frontend/src/modules/m21-sun/` | m17 | v2 | yes |
+| m22 | seatback meal check (v2 addition) | Gunagye (lane b) | `gunagye/m22-seatback` | `backend/app/modules/m22_seatback/`, `frontend/src/modules/m22-seatback/`, seat-screen and boarding-pass additions in `m8-crew` | m6, m8, m18, m20 | v2 addition | optional beat |
+| m23 | JAL booking concept + brand palette (v2 addition) | Gunagye (lane b) | `gunagye/m22-seatback` | `frontend/src/modules/m23-jal/`, the JAL block in `frontend/src/styles/tokens.css` (add-only), `BrandToggle.tsx` in m11 | m2, m17 | v2 addition | optional beat |
 
 **Shared zone** (add-only; see CONTRIBUTING.md), in addition to the defaults:
 - `backend/app/core/`, `backend/app/main.py`, `backend/app/registry.py`
@@ -94,7 +96,7 @@ Each person works top to bottom. Take the first module in your queue whose Statu
 | Person | Queue |
 |---|---|
 | gunagye (lane a) | m0 → m2 → m8 → m12 |
-| gunagye (lane b) | m1 → m6 → m11 → m7 → m5 → m16 → m17 → m18 → m19 → m20 → m21 |
+| gunagye (lane b) | m1 → m6 → m11 → m7 → m5 → m16 → m17 → m18 → m19 → m20 → m21 → m22 → m23 |
 | bhavyam | m4 → m10 → m13 |
 | shefali | m3 → m9 (m14 cut) |
 

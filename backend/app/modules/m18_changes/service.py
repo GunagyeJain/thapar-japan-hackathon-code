@@ -63,10 +63,11 @@ def make_ctx(session: Session, flight: Flight, passenger: Passenger | None, *, k
              rules: dict[str, Any], note: str | None, lang: str | None, change_id: str,
              rows: tuple[int, int] | None = None) -> Ctx:
     day, tiers, strict = day_rules(rules, flight)
+    long = windows.long_lead(rules, note)
     return Ctx(session=session, flight=flight, passenger=passenger, kind=kind, channel=channel, at=at,
-               window=windows.window_at(flight, at), rules=rules, day=day, tiers=tiers, strict=strict,
+               window=windows.window_at(flight, at, long), rules=rules, day=day, tiers=tiers, strict=strict,
                tier=strictest(tiers), lang=passenger_lang(session, passenger, lang), note=note, change_id=change_id,
-               mark=mark_for(day), rows=rows)
+               mark=mark_for(day), rows=rows, long_lead=long)
 
 
 def decide(ctx: Ctx) -> tuple[Choice, list[dict[str, Any]]]:
@@ -74,7 +75,7 @@ def decide(ctx: Ctx) -> tuple[Choice, list[dict[str, Any]]]:
     if ctx.kind == "no_show":
         choice = onboard.no_show(ctx)
         return choice, [{"rung": choice.rung, "ok": True, "reason": choice.reason}]
-    ladder = windows.rungs_for(ctx.window, ctx.kind)
+    ladder = windows.rungs_for(ctx.window, ctx.kind, windows.closed_early(ctx.flight, ctx.at, ctx.long_lead))
     if not ctx.day["forbid"]:
         choice = Choice(ladder[0], txt("why.no_rules"))
         return choice, [{"rung": choice.rung, "ok": True, "reason": choice.reason}]
@@ -172,7 +173,8 @@ def submit_change(session: Session, *, flight_id: str, passenger_id: str | None 
         request={"forbid": ctx.day["forbid"], "allow": ctx.day["allow"], "tiers": ctx.tiers,
                  "tier": "none" if kind == "no_show" else ctx.tier,
                  "note": note, "lang": ctx.lang, "allergens": (full or {}).get("allergens", []),
-                 "time_rules": (full or {}).get("time_rules", []), "flex": bool((full or {}).get("flex"))},
+                 "time_rules": (full or {}).get("time_rules", []), "flex": bool((full or {}).get("flex")),
+                 "long_lead": ctx.long_lead},
         status="done" if pax is not None else "waiting", chaos_key=chaos_key,
     )
     session.add(event)

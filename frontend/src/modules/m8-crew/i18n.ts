@@ -185,3 +185,47 @@ export const RUNGS: Record<string, Bilingual> = {
 export function rungLabel(rung: string): Bilingual {
   return RUNGS[rung] ?? { ja: rung.replaceAll("_", " "), en: rung.replaceAll("_", " ") }
 }
+
+/** m22 on the copilot: the seat screens ask "still right?" before the meal; answers arrive while on the cabin network. */
+export const SEATBACK = {
+  title: { ja: "座席モニターでの確認", en: "Seat screens" },
+  why: {
+    ja: "食事サービスの30〜45分前に、特別食・お取り置きのある座席に「このままでよいですか？」と表示します。",
+    en: "30–45 min before the meal, every seat with a special or held meal asks “still right?”.",
+  },
+  ask: { ja: "座席に確認する", en: "Ask seats now" },
+  askRest: { ja: "未回答の座席に再確認", en: "Ask the rest again" },
+  needsNetwork: { ja: "機内ネットワーク接続時のみ（回答は接続中に届きます）", en: "Needs the cabin network: answers arrive while connected" },
+  counts: (yes: number, changed: number, skipped: number, waiting: number, none: number): Bilingual => ({
+    ja: `はい ${yes} · 変更 ${changed} · 辞退 ${skipped} · 確認中 ${waiting} · 未回答 ${none}`,
+    en: `Yes ${yes} · Changed ${changed} · Skipped ${skipped} · Waiting ${waiting} · No answer ${none}`,
+  }),
+  deliverNow: { ja: "座席で確認済：すぐにお届け", en: "Confirmed at seat: deliver now" },
+  askInPerson: { ja: "未回答：口頭で確認", en: "No answer: ask in person" },
+  confirmed: { ja: "座席で確認済", en: "Confirmed at seat" },
+  changed: { ja: "座席で変更", en: "Changed at seat" },
+  skipped: { ja: "座席で辞退 · トレーは他の方へ", en: "Skipped at seat · tray free" },
+  asked: { ja: "確認中", en: "Asked on screen" },
+  noAnswer: { ja: "未回答 · 口頭で確認", en: "No answer · ask in person" },
+  scanStill: {
+    ja: "「はい」は着席者の確認にはなりません。お渡し前にトレーをスキャンしてください。",
+    en: "A Yes doesn't prove who is sitting there: scan the tray at the seat before handing it over.",
+  },
+  failed: { ja: "送信できませんでした。機内ネットワークを確認してください", en: "Couldn't ask the seats. Check the cabin network" },
+} as const
+
+/** Seat service: find the passenger from their boarding pass, or the booking reference printed on it. */
+export const PASS = {
+  title: { ja: "搭乗券で探す", en: "Or find by boarding pass" },
+  label: { ja: "搭乗券のコードまたは予約番号", en: "Boarding-pass code or booking reference" },
+  placeholder: { ja: "例 6XK2QP", en: "e.g. 6XK2QP" },
+  find: { ja: "検索", en: "Find" },
+  scan: { ja: "搭乗券をスキャン", en: "Scan the boarding pass" },
+  found: (name: string, seat: string): Bilingual => ({ ja: `${name} · ${seat}`, en: `${name} · ${seat}` }),
+  pick: { ja: "同じ予約の方：該当の方を選んでください", en: "Same booking: pick the passenger" },
+  seatMoved: (onPass: string, now: string): Bilingual => ({ ja: `搭乗券は${onPass}、現在の座席は${now}`, en: `Pass says ${onPass}; seat now ${now}` }),
+  rebooked: { ja: "予約番号が変わっています（再予約）。氏名で照合しました", en: "Booking reference changed (rebooked): matched by name" },
+  otherFlight: (flight: string): Bilingual => ({ ja: `${flight}の搭乗券です。この便ではありません`, en: `This pass is for ${flight}, not this flight` }),
+  notFound: { ja: "この便にこの搭乗券の乗客はいません", en: "No passenger on this flight with that pass" },
+  unreadable: { ja: "読み取れません。予約番号を入力してください", en: "Can't read that. Type the booking reference" },
+} as const
