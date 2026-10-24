@@ -20,12 +20,12 @@ function Stat({ value, label }: { value: number | string; label: string }) {
 function SurfaceTiles() {
   const surfaces = NAV.filter((n) => n.to !== "/" && n.group !== "Team")
   return (
-    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {surfaces.map((n) => (
         <Link
           key={n.to}
           to={n.to}
-          className="group flex items-start gap-3 rounded-xl border bg-card p-4 transition-colors duration-150 hover:border-blue hover:bg-ice/40"
+          className="group flex items-center gap-3 rounded-xl border bg-card p-3 transition-colors duration-150 hover:border-blue hover:bg-ice/40"
         >
           <span className="rounded-md bg-ice p-2 text-blue">
             <n.icon className="size-5" aria-hidden="true" />
@@ -35,8 +35,7 @@ function SurfaceTiles() {
               {n.label}
               <ArrowUpRight className="size-3.5 text-grey opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true" />
             </span>
-            <span className="mt-0.5 block text-sm text-grey">{n.blurb}</span>
-            <span className="code mt-1.5 block text-xs text-grey/80">{n.to}</span>
+            <span className="code block text-xs text-grey/80">{n.to}</span>
           </span>
         </Link>
       ))}

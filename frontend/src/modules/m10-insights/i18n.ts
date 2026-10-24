@@ -4,11 +4,7 @@ import type { Text } from "@/lib/types"
 export const copy = {
   eyebrow: { en: "JL740 · DEL → NRT · 25 Oct", hi: "JL740 · DEL → NRT · 25 अक्टूबर", ja: "JL740 · DEL → NRT · 10月25日" },
   title: { en: "Insights", hi: "इनसाइट्स", ja: "インサイト" },
-  subtitle: {
-    en: "Every meal promise, hand-off by hand-off, and where it nearly broke.",
-    hi: "हर भोजन वादा, हर हैंड-ऑफ़ पर, और कहाँ यह लगभग टूटा।",
-    ja: "各機内食の約束を受け渡しごとに追跡し、途切れかけた箇所を示します。",
-  },
+  subtitle: { en: "Every promise, hand-off by hand-off.", hi: "हर वादा, हर हैंड-ऑफ़ पर।", ja: "各お約束を受け渡しごとに。" },
   promises: { en: "Meal promises", hi: "भोजन वादे", ja: "機内食の約束" },
   seat: { en: "Seat", hi: "सीट", ja: "座席" },
   passenger: { en: "Passenger", hi: "यात्री", ja: "乗客" },
@@ -23,11 +19,7 @@ export const copy = {
   fixed: { en: "Fixed", hi: "ठीक हुआ", ja: "復旧" },
   notFixed: { en: "Not fixed yet", hi: "अभी ठीक नहीं", ja: "未復旧" },
   learns: { en: "What JAL learns", hi: "JAL क्या सीखता है", ja: "JALが得る知見" },
-  held: {
-    en: "Every hand-off so far held: no checkpoint failed.",
-    hi: "अब तक हर हैंड-ऑफ़ सही रहा: कोई चेकपॉइंट विफल नहीं हुआ।",
-    ja: "これまでの受け渡しはすべて問題なし。失敗したチェックポイントはありません。",
-  },
+  held: { en: "Every hand-off held.", hi: "हर हैंड-ऑफ़ सही रहा।", ja: "すべての受け渡しが問題なし。" },
   noPromises: { en: "No meal promises yet", hi: "अभी कोई भोजन वादा नहीं", ja: "機内食の約束はまだありません" },
   noPromisesBody: {
     en: "A promise appears when a passenger saves their food rules on /p.",
