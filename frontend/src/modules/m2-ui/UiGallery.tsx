@@ -16,6 +16,7 @@ import {
   StatusChip,
   VerdictBadge,
 } from "@/ui"
+import { DataExamples } from "@/modules/m2-ui/DataExamples"
 import { DASHI_CHECK, PRIYA_AVML_SPARE } from "@/modules/m2-ui/examples"
 import { Specimen } from "@/modules/m2-ui/Specimen"
 
@@ -132,6 +133,8 @@ export function UiGallery() {
         <Badge variant="secondary" className="code">AVML</Badge>
         <Badge variant="outline" className="code">VJML</Badge>
       </Specimen>
+
+      <DataExamples lang={lang} />
     </div>
   )
 }
