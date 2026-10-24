@@ -15,6 +15,7 @@ Two rules for whoever speaks: **rules decide** (the system names the rule that f
 1. **Server laptop:** `bash scripts/demo.sh --reset` (serves everything on :8000), then in a second terminal `npm run tunnel` and note the `https://….trycloudflare.com` address.
 2. **Projector MacBook**, all on the tunnel address, one tab each: `/demo`, `/ops`, `/caterer`, `/ops/late`, `/insights`.
 3. **Priya's phone:** open `/p` on the tunnel address. Leave it on "Find your booking".
+   In a second tab on the same phone, open `/p/days?pnr=6XK2QP&surname=SHARMA` (Priya's fast days). It says "Tell us what you eat first" until Act 1 is done; that's expected.
 4. **iPad:** open `/crew` on the tunnel address while online (loads the app for airplane mode). Don't download yet. Mirror it over the cable.
 5. **`/demo`:** if it says "Start: reset to 23 Oct 18:00", leave it for Act 0. If a rehearsal ran, press **Reset** (keep judges) first.
 6. Check the tunnel: `<address>/api/health` shows `{"ok":true}`.
@@ -33,7 +34,8 @@ Two rules for whoever speaks: **rules decide** (the system names the rule that f
 | 2:50 | **6 · 25 Oct 03:35** | `/demo` **Next: /crew**. iPad `/crew` → **Download for flight** → turn on **airplane mode**. | "At boarding the crew download the flight once. From here the tablet is offline." | **Saved 03:35**, then **Offline** |
 | 3:00 | **7 · 25 Oct 05:20** | `/demo` **Next: /crew**. iPad **1 · Galley check**, Galley 1: **Found** on each tray, **Missing** on **27D** → **Use backup**. **2 · Seat service**: tap **23C** → type `CTUS6P` → **Check** (red) → **Next** → **23C** → type `7K2Q9F` (or scan Priya's printed label) → **Check** (green) → **Next**. Airplane mode off. | "27D's tray didn't make it on board; the tablet offers the sealed backup in galley 2. At the seat, the wrong tray is stopped before it's served, offline, with the same rules as the server." | **7 of 8 found** → backup used; red **Do not serve · contains onion, contains garlic**; green **Safe to serve** |
 | 3:40 | **8 · 15:20 JST** | `/demo` **Next: /insights**. | "Landed in Tokyo. Priya's meal promise held at all five hand-offs. It broke once, at 23:02, and was fixed in 7 minutes. That record is the data JAL doesn't have today." | **5/5**, *Caught before the caterer's list 1 h 38 m*, *Time to fix 7 min*, breakpoint C2, journey C1 → C5 |
-| 4:00 | | Back to the deck. | | |
+| 3:55 | **+ · 20 Nov, flight home** (optional, +20 s) | Phone: switch to the `/p/days` tab → tap **Ekadashi** (skip if it's already blue) → **Save fast days**. | "One more thing a 4-letter code can't say. Priya fasts on Ekadashi, and her flight home on 20 Nov is one. Her phone sends only the date, never which fast. That leg gets the fasting note, in Japanese for the Tokyo kitchen; her flight out is unchanged." | JL749 · 20 Nov · **Fast day**: AVML, `NO ONION NO GARLIC NO ALCOHOL NO GRAIN NO LENTILS OR BEANS`, 東京のキッチンへ：玉ねぎ・にんにく・アルコール・穀物・豆類不使用; *Usual meal: AVML · NO ONION NO GARLIC* |
+| 4:15 | | Back to the deck. | | |
 
 ## Fallback lines (say these while Driver presses **Do it for me**)
 | Act | If this fails | Do | Say |
@@ -44,6 +46,7 @@ Two rules for whoever speaks: **rules decide** (the system names the rule that f
 | 4 | Acknowledge errors | **Do it for me: Acknowledge v3** | "The kitchen confirmed list v3." |
 | 5 | `/ops/late` errors | **Do it for me: Reserve for 31K** | "Reserved: spare Jain meal, galley 2." |
 | 7 | iPad camera or tablet trouble | Type the 6-character code; or **Do it for me: Sync the crew's scans** and show the seat map on the laptop | "Same check, from the label code." |
+| + | `/p/days` shows "Tell us what you eat first" | Reload that tab once (Act 1 saved her profile after it opened) | "Her answers from Act 1 are in; here are her flights." |
 | any | Tunnel or Wi-Fi down | Laptop hotspot; or play the backup video | "Here's the same run from this morning." |
 
 ## 2-minute cut (Acts 1, 2, 4, 5)

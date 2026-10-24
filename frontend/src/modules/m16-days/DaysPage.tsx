@@ -55,21 +55,27 @@ export function DaysPage() {
   const [manual, setManual] = useState<Record<string, boolean>>({})
   const queryClient = useQueryClient()
 
+  // Once found, the passenger id stays in the address: a rebooking changes the booking reference (Act 2).
+  const pinned = params.get("passenger")
   const wanted = { pnr: params.get("pnr") ?? "", surname: params.get("surname") ?? "" }
   const lookup = useQuery({
     queryKey: ["m16", "lookup", wanted.pnr, wanted.surname],
     queryFn: () => api.get<Passenger>(`/passenger/lookup?pnr=${encodeURIComponent(wanted.pnr)}&surname=${encodeURIComponent(wanted.surname)}`),
-    enabled: Boolean(wanted.pnr && wanted.surname),
+    enabled: !pinned && Boolean(wanted.pnr && wanted.surname),
     retry: false,
   })
-  const passenger = lookup.data ?? null
+  const passengerId = pinned ?? lookup.data?.id ?? null
   const trips = useQuery({
-    queryKey: ["m16", "trips", passenger?.id],
-    queryFn: () => api.get<TripsOut>(`/days/trips?passenger_id=${passenger?.id}`),
-    enabled: passenger !== null,
+    queryKey: ["m16", "trips", passengerId],
+    queryFn: () => api.get<TripsOut>(`/days/trips?passenger_id=${encodeURIComponent(passengerId ?? "")}`),
+    enabled: passengerId !== null,
+    retry: false,
   })
 
   useEffect(() => writeKeeps(keeps), [keeps])
+  useEffect(() => {
+    if (!pinned && lookup.data) setParams({ passenger: lookup.data.id }, { replace: true })
+  }, [pinned, lookup.data, setParams])
 
   const legs = trips.data?.legs ?? []
   const suggested = useMemo(() => new Set(fastDays(keeps, legs.map((l) => l.date))), [keeps, legs])
@@ -78,9 +84,9 @@ export function DaysPage() {
   const dirty = legs.some((l) => ticked(l) !== l.fast_day)
 
   const save = useMutation({
-    mutationFn: () => api.post<TripsOut>("/days/save", { passenger_id: passenger?.id, fast_dates: fastDates }),
+    mutationFn: () => api.post<TripsOut>("/days/save", { passenger_id: passengerId, fast_dates: fastDates }),
     onSuccess: (out) => {
-      queryClient.setQueryData(["m16", "trips", passenger?.id], out)
+      queryClient.setQueryData(["m16", "trips", passengerId], out)
       setManual({})
       toast.success(t(s.saved, lang))
     },
@@ -95,7 +101,7 @@ export function DaysPage() {
   return (
     <div lang={lang} className="flex flex-col gap-2 pb-28">
       <LangSwitch value={lang} onChange={setLang} />
-      {!passenger ? (
+      {!passengerId ? (
         <Step lang={lang} title={t(s.title, lang)} sub={t(s.sub, lang)}>
           <form onSubmit={find} className="flex flex-col gap-3">
             <label className="flex flex-col gap-1 text-sm text-grey">

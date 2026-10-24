@@ -95,4 +95,17 @@ test.describe.serial("JL740 story", () => {
     expect(Object.values(priya?.checkpoints ?? {}).every((c) => c === "ok" || c === "fixed")).toBeTruthy()
     if (await openBuilt(page, "/insights")) await expect(page.getByText("C5").first()).toBeVisible()
   })
+
+  test("Flight home · Priya's 20 Nov return is a fast day; only the date is sent", async ({ page, request }) => {
+    // Act 2 rebooked her, so look her up by today's booking reference; the page then keeps her id in the address.
+    const rows = (await (await request.get(`/api/flights/${FLIGHT}/passengers`)).json()) as { seat: string; pnr: string }[]
+    const pnr = rows.find((p) => p.seat === "23C")?.pnr
+    await page.goto(`/p/days?pnr=${pnr}&surname=SHARMA`)
+    await expect(page).toHaveURL(/passenger=PX-0057/)
+    await page.getByRole("button", { name: "Ekadashi" }).click()
+    await expect(page.getByText("Sends: 2026-11-20")).toBeVisible()
+    await page.getByRole("button", { name: "Save fast days" }).click()
+    await expect(page.getByText(/NO GRAIN NO LENTILS OR BEANS/)).toBeVisible()
+    await expect(page.getByText(/穀物・豆類不使用/)).toBeVisible()
+  })
 })
