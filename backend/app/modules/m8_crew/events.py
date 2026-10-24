@@ -23,6 +23,7 @@ class CrewEvent(BaseModel):
     verdict: Literal["SAFE", "UNSAFE", "NEEDS_HUMAN"] | None = None
     reason: str | None = None
     at: datetime
+    wall_at: datetime | None = None  # the device's real clock; the server turns it into sim time
 
     @field_validator("at")
     @classmethod
@@ -149,6 +150,9 @@ def apply_events(session: Session, flight: Flight, body: CrewEventsIn) -> dict[s
         item = session.get(MealItem, ev.item_id) if ev.item_id else None
         if not item or item.flight_id != flight.id:
             raise ValueError(f"unknown item {ev.item_id} for {flight.id}")
+        if ev.wall_at and ev.wall_at.tzinfo:
+            # The tablet's own sim time is stale if the clock moved while it was offline.
+            ev = ev.model_copy(update={"at": clock.at_wall(ev.wall_at, session=session)})
         HANDLERS[ev.type](session, flight, ev, item)
         session.add(CrewEventLog(client_id=ev.client_id, flight_id=flight.id, seed_epoch=body.seed_epoch,
                                  type=ev.type, at=ev.at, payload=ev.model_dump(mode="json")))

@@ -51,3 +51,19 @@ def test_helpers(client):
         s.refresh(promise)
         assert promise.checkpoints["C2"] == "fail" and promise.status == "broken"
     assert client.get("/api/notifications?to=PX-0063").json()[0]["title"] == "Hello"
+
+
+def test_at_wall_uses_the_clock_setting_in_effect_then(client, monkeypatch):
+    from datetime import datetime, timedelta, timezone
+
+    from app.core import clock
+
+    t0 = datetime(2026, 10, 24, 16, 0, tzinfo=timezone.utc)
+    boarding = datetime(2026, 10, 25, 3, 35, tzinfo=clock.IST)
+    in_the_air = datetime(2026, 10, 25, 5, 20, tzinfo=clock.IST)
+    monkeypatch.setattr(clock, "_wall", lambda: t0)
+    clock.set(boarding)
+    monkeypatch.setattr(clock, "_wall", lambda: t0 + timedelta(minutes=10))
+    clock.set(in_the_air)
+    assert clock.at_wall(t0 + timedelta(minutes=5)) == boarding + timedelta(minutes=5)
+    assert clock.at_wall(t0 + timedelta(minutes=12)) == in_the_air + timedelta(minutes=2)
