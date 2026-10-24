@@ -1,19 +1,6 @@
-import { ModulePlaceholder } from "@/app/ModulePlaceholder"
 import type { ModuleRoute } from "@/app/types"
+import { LateDesk } from "@/modules/m6-matcher/LateDesk"
 
-// m6 owns this folder. Replace the placeholders with the real pages; keep exporting `routes`.
-export const routes: ModuleRoute[] = [
-  {
-    path: "/ops/late",
-    layout: "desktop",
-    element: (
-      <ModulePlaceholder
-        module="m6"
-        route="/ops/late"
-        owner="Gunagye"
-        title="Late requests"
-        purpose="Find a safe meal already on board for a last-minute request, and explain every alternative."
-      />
-    ),
-  },
-]
+export { MatchResult } from "@/modules/m6-matcher/MatchResult"
+
+export const routes: ModuleRoute[] = [{ path: "/ops/late", layout: "desktop", element: <LateDesk /> }]
