@@ -18,6 +18,7 @@ CLASS_HEADER = re.compile(r"^-([A-Z]{3})(\d{3})([A-Z])$")
 NAME = re.compile(r"^1([A-Z' -]+)/([A-Z' -]+?) \.L/([A-Z0-9]{6})$")
 REMARK = re.compile(r"^\.R/([A-Z]{4}) HK1(?: (.*))?$")
 GROUP = re.compile(r"^\.R/GRP (.+)$")
+CONTINUATION = re.compile(r"^\.RN/(.+)$")
 INBOUND = re.compile(r"^\.I/([A-Z0-9]{2}\d{1,4})([A-Z])(\d{2})([A-Z]{3})([A-Z]{3})$")
 
 
@@ -88,6 +89,10 @@ def parse(text: str, year: int) -> dict:
                     row["seat"] = text_
                 else:
                     row["ssr"].append({"code": code, "status": "HK1", "text": text_ or ""})
+            elif m := CONTINUATION.match(line):
+                if not row["ssr"]:
+                    raise ValueError(f"line {n}: continuation with no remark before it: {line!r}")
+                row["ssr"][-1]["text"] = f"{row['ssr'][-1]['text']} {m.group(1)}".strip()
             elif m := INBOUND.match(line):
                 in_flight, _, in_day, in_from, _ = m.groups()
                 # The inbound lands the day of departure or the day before; a day number above ours is last month.
@@ -121,8 +126,24 @@ def passenger_lines(p, origin: str) -> list[str]:
     return out
 
 
+def wrap(line: str) -> list[str]:
+    """A remark longer than a Type-B line goes on .RN/ continuation lines, split between words."""
+    if len(line) <= MAX_LINE or not line.startswith(".R/"):
+        return [line]
+    out, cur = [], ""
+    for word in line.split(" "):
+        candidate = f"{cur} {word}" if cur else word
+        if len(candidate) > MAX_LINE and cur and cur not in (".RN/",):
+            out.append(cur)
+            cur = f".RN/{word}"
+        else:
+            cur = candidate
+    out.append(cur)
+    return out
+
+
 def finish(out: list[str]) -> str:
-    # shortcut: long free text fails loudly instead of wrapping onto .RN/ continuation lines; add those if real notes run long
+    out = [part for line in out for part in wrap(line)]
     too_long = [ln for ln in out if len(ln) > MAX_LINE]
     if too_long:
         raise ValueError(f"lines over {MAX_LINE} characters: {too_long}")

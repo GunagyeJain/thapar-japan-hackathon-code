@@ -135,8 +135,10 @@ def submit_change(session: Session, *, flight_id: str, passenger_id: str | None 
                   rules: dict[str, Any] | None = None, note: str | None = None, lang: str | None = None,
                   at: datetime | None = None, chaos_key: str | None = None, change_id: str | None = None,
                   rows: tuple[int, int] | None = None, run_out_seats: str | None = None,
-                  also: list[dict[str, Any]] | None = None) -> ChangeEvent:
-    """Decide one change and record it. Raises LookupError (unknown flight/passenger), ValueError (bad input)."""
+                  also: list[dict[str, Any]] | None = None, quiet: bool = False) -> ChangeEvent:
+    """Decide one change and record it. Raises LookupError (unknown flight/passenger), ValueError (bad input).
+
+    `quiet`: the caller answers the passenger itself (the Calendar Radar replies to its own question)."""
     if channel not in CHANNELS or kind not in KINDS:
         raise ValueError(f"Unknown channel {channel!r} or kind {kind!r}")
     flight = session.get(Flight, flight_id)
@@ -175,7 +177,7 @@ def submit_change(session: Session, *, flight_id: str, passenger_id: str | None 
     )
     session.add(event)
     session.flush()
-    if message:
+    if message and not quiet:
         kitchen.tell_passenger(session, pax, message, ctx.lang, change_id,
                                {lang_: tpl.format(flight=flight.flight_no) for lang_, tpl in TITLE.items()})
     return event
