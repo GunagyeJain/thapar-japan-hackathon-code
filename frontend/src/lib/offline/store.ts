@@ -19,9 +19,10 @@ export interface SyncResult {
   ignored_old_epoch: number
 }
 
-export async function downloadPackage(flightId: string, simNow: Date | null): Promise<StoredPackage> {
+export async function downloadPackage(flightId: string): Promise<StoredPackage> {
   const pkg = await api.get<CrewPackage>(`/flights/${flightId}/crew-package`)
-  const stored: StoredPackage = { flight_id: flightId, pkg, downloaded_at: (simNow ?? new Date(pkg.generated_at)).toISOString() }
+  // The server's sim time: the tablet's own clock can be a poll behind right after the demo moves it.
+  const stored: StoredPackage = { flight_id: flightId, pkg, downloaded_at: new Date(pkg.generated_at).toISOString() }
   await db.packages.put(stored)
   return stored
 }
@@ -99,7 +100,7 @@ export interface CrewStore {
   pending: number
   lastSync: SyncResult | null
   error: string | null
-  download: (simNow: Date | null) => Promise<void>
+  download: () => Promise<void>
   record: (event: Omit<CrewEvent, "client_id">) => Promise<void>
   syncNow: () => Promise<void>
 }
@@ -150,10 +151,10 @@ export function useCrewStore(flightId: string): CrewStore {
   }, [online, syncNow])
 
   const download = useCallback(
-    async (simNow: Date | null) => {
+    async () => {
       try {
         await syncNow() // send anything queued first, so the new package includes it
-        setStored(await downloadPackage(flightId, simNow))
+        setStored(await downloadPackage(flightId))
         setError(null)
       } catch (e: unknown) {
         setError(e instanceof Error ? e.message : "Download failed")
