@@ -19,7 +19,7 @@ interface TierLook {
 export const TIER_LOOK: Record<Tier, TierLook> = {
   hard: { icon: Lock, word: COPILOT.tierHard, why: COPILOT.whyHard, tone: "border-blue bg-blue text-primary-foreground", tag: "Strict" },
   firm: { icon: Stethoscope, word: COPILOT.tierFirm, why: COPILOT.whyFirm, tone: "border-sky bg-sky text-navy", tag: "Medical" },
-  soft: { icon: Heart, word: COPILOT.tierSoft, why: COPILOT.whySoft, tone: "border-sky bg-transparent text-sky", tag: "Preference" },
+  soft: { icon: Heart, word: COPILOT.tierSoft, why: COPILOT.whySoft, tone: "border-sky bg-transparent text-blue", tag: "Preference" },
   none: { icon: Circle, word: COPILOT.tierNone, why: COPILOT.whyNone, tone: "border-transparent bg-muted text-muted-foreground", tag: "No rules" },
 }
 
@@ -32,7 +32,7 @@ export const TIER_ORDER: Tier[] = ["hard", "firm", "soft", "none"]
 export const TIER_MAP = [
   "[&_button[title^='Strict']]:border-blue [&_button[title^='Strict']]:bg-blue [&_button[title^='Strict']]:text-primary-foreground",
   "[&_button[title^='Medical']]:border-sky [&_button[title^='Medical']]:bg-sky [&_button[title^='Medical']]:text-navy",
-  "[&_button[title^='Preference']]:border-sky [&_button[title^='Preference']]:bg-transparent [&_button[title^='Preference']]:text-sky",
+  "[&_button[title^='Preference']]:border-sky [&_button[title^='Preference']]:bg-transparent [&_button[title^='Preference']]:text-blue",
 ].join(" ")
 
 export function TierChip({ tier, size = "md", className }: { tier: Tier; size?: "sm" | "md" | "lg"; className?: string }) {
@@ -60,7 +60,7 @@ export function FlexChip({ size = "md" }: { size?: "sm" | "md" }) {
   return (
     <span
       className={cn(
-        "inline-flex w-fit shrink-0 items-center rounded-md border border-dashed border-sky font-medium whitespace-nowrap text-sky",
+        "inline-flex w-fit shrink-0 items-center rounded-md border border-dashed border-sky font-medium whitespace-nowrap text-blue",
         size === "sm" ? "h-6 gap-1 px-2 text-xs [&_svg]:size-3.5" : "h-7 gap-1.5 px-2.5 text-sm [&_svg]:size-4",
       )}
     >

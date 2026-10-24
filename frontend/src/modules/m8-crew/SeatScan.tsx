@@ -216,7 +216,7 @@ function PassengerCard({ pkg, seat }: { pkg: CrewPackage; seat: string }) {
       {mark && <p className="mt-1 font-medium">{say({ ja: mark.ja ?? mark.en, en: mark.en })}</p>}
       <dl className="mt-2 text-sm">
         <dt className="text-muted-foreground">{say(COPY.cantEat)}</dt>
-        <dd>{cantEat || say(COPY.noDiet)}</dd>
+        <dd className="[word-break:keep-all] [overflow-wrap:anywhere]">{cantEat || say(COPY.noDiet)}</dd>
       </dl>
     </div>
   )

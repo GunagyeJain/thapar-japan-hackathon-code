@@ -2,7 +2,7 @@
 import type { Text } from "@/lib/types"
 
 export const s = {
-  eyebrow: { en: "Caterer · dishes cooked in Japan for the Tokyo → Delhi leg", ja: "機内食会社・東京発デリー行きの日本調理メニュー" },
+  eyebrow: { en: "Caterer · Tokyo → Delhi dishes", ja: "機内食会社・東京発デリー行き" },
   title: { en: "Recipe check", ja: "レシピチェック" },
   subtitle: { en: "Rules judge every ingredient; a person approves.", ja: "全食材をルールで判定し、担当者が承認します。" },
   upload: { en: "Add a recipe sheet", ja: "レシピを追加" },
@@ -36,13 +36,13 @@ export const s = {
   approved: { en: "Approved", ja: "承認済み" },
   unsafeFor: { en: "Unsafe for {n}", ja: "{n}件で不適合" },
   needsReview: { en: "Needs review", ja: "確認待ち" },
-  specMade: { en: "Meal spec {id} is ready for the matcher and crew.", ja: "機内食仕様 {id} をマッチングと乗務員向けに登録しました。" },
+  specMade: { en: "Meal spec {id} ready for matcher and crew.", ja: "機内食仕様 {id} をマッチングと乗務員向けに登録しました。" },
   rulesNote: { en: "The extraction model only reads; our rules decide.", ja: "モデルは読み取りのみ。判定はルール。" },
   tabCheck: { en: "Check a sheet", ja: "レシピをチェック" },
   tabEval: { en: "Accuracy", ja: "精度" },
-  evalTitle: { en: "How well each reader finds what a vegetarian can't eat", ja: "ベジタリアンが食べられない食材の検出精度" },
-  evalIntro: { en: "{n} hand-labelled sheets, most of them hard on purpose.", ja: "手作業でラベル付けした{n}件（多くは難問）。" },
-  evalCompared: { en: "All rows compare the {m} of {n} sheets the extraction model has read.", ja: "モデルが読んだ{n}件中{m}件で比較。" },
+  evalTitle: { en: "Finding what vegetarians can't eat", ja: "ベジタリアンが食べられない食材の検出精度" },
+  evalIntro: { en: "{n} hand-labelled sheets, mostly hard ones.", ja: "手作業でラベル付けした{n}件（多くは難問）。" },
+  evalCompared: { en: "Compared on the {m} of {n} sheets read.", ja: "{n}件中{m}件で比較。" },
   evalReader: { en: "Reader", ja: "読み取り方法" },
   evalFound: { en: "Found", ja: "検出" },
   evalMissed: { en: "Missed", ja: "見逃し" },
