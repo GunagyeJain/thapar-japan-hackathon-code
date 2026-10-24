@@ -29,3 +29,4 @@ One line per ship to `main`, added by `scripts/ship.sh`. Newest at the bottom. L
 - 2026-10-24 16:55 · Gunagye Jain · `gunagye/m11-story` · m11 done: story engine, /demo, one-command demo script and the Playwright smoke
 - 2026-10-24 17:00 · Gunagye Jain · `gunagye/m7-caterer` · m7 caterer moves to Gunagye's lane B (Shefali goes on to m9) · **Heads-up:** Shefali: m7 is now lane B's (PLAN.md Queues); your next module is m9. Don't start m7
 - 2026-10-24 17:04 · Gunagye Jain · `gunagye/m12-polish` · gzip and long-lived caching for the demo server: /j loads in under 3 s over the tunnel, crew package 13 KB
+- 2026-10-24 17:04 · Gunagye Jain · `gunagye/m7-caterer` · caterer backend: meal-list versions (hash, diff), acknowledge writes C3, labels endpoint; v1 and v2 seeded · **Heads-up:** m8: MealListVersion exists now, so expected_specials uses the latest acknowledged list. m11's C3 stand-in is off
