@@ -6,7 +6,7 @@
 ## Where it stands
 _Updated 24 Oct 19:13 IST by Shefali. Read this first; the Notes below are the history._
 
-**Shefali's queue:** m3 `done` → m9 `done` → m14 cut. Now helping with demo prep: screen review for m12 is at the end of this file; Hindi on /p and /j fixed (shipped 19:08).
+**Shefali's queue:** m3 `done` → m9 `done` → m14 cut. Now helping with demo prep: screen review for m12 is at the end of this file; Hindi on /p and /j fixed (shipped 19:12).
 
 | | |
 |---|---|
