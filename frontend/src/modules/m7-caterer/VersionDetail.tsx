@@ -27,15 +27,7 @@ function Changes({ version, previous }: { version: MealListVersion; previous: Me
   if (!previous) return <p className="text-sm text-muted-foreground">First list for this flight: {version.lines.length} special meals.</p>
   return (
     <div className="flex flex-col gap-3">
-      {sentences.length === 0 ? (
-        <p className="text-sm text-muted-foreground">No changes since v{previous.version}.</p>
-      ) : (
-        <ul className="flex flex-col gap-1 text-sm font-medium">
-          {sentences.map((s) => (
-            <li key={s}>{s}</li>
-          ))}
-        </ul>
-      )}
+      {sentences.length === 0 && <p className="text-sm text-muted-foreground">No changes since v{previous.version}.</p>}
       <DiffView
         before={previous.lines.map(lineText)}
         after={version.lines.map(lineText)}
