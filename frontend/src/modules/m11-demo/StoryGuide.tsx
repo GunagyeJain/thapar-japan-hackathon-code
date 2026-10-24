@@ -8,15 +8,16 @@ import { t } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
 import { PromiseSteps } from "@/ui"
 import { usePriya, useScenario, when } from "@/modules/m11-demo/data"
-import { CUES, ON_DEVICE, screenHelp } from "@/modules/m11-demo/script"
+import { CUES, ON_DEVICE } from "@/modules/m11-demo/script"
 
 const HIDE_KEY = "thalibento.guide-hidden"
 
+/** Folded unless the presenter opened it: the bar alone says which act we're in. */
 function readHidden(): boolean {
   try {
-    return localStorage.getItem(HIDE_KEY) === "1"
+    return localStorage.getItem(HIDE_KEY) !== "0"
   } catch {
-    return false
+    return true
   }
 }
 
@@ -39,7 +40,6 @@ export function StoryGuide() {
   if (!data || !started || pathname.startsWith("/demo")) return null
   const step = data.steps[data.current]
   const cue = CUES[step.n]
-  const help = screenHelp(pathname)
   const here = cue && pathname.startsWith(cue.screen) && cue.device === "projector"
   const handoff = cue?.handoff && cue.handoff !== "LATE" ? cue.handoff : null
 
@@ -69,13 +69,7 @@ export function StoryGuide() {
         </button>
       </div>
       {!hidden && (
-        <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-1.5 px-6 pb-3 text-sm md:grid-cols-2">
-          {help && (
-            <p>
-              <span className="font-semibold">This screen: </span>
-              {help}
-            </p>
-          )}
+        <div className="mx-auto max-w-7xl px-6 pb-3 text-sm">
           {cue && (
             <p className="flex items-start gap-1.5">
               <MousePointerClick className="mt-0.5 size-4 shrink-0 text-blue" aria-hidden="true" />

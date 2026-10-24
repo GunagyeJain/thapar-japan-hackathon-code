@@ -79,14 +79,14 @@ export function OpsDaysPage() {
         title="Fast days ahead"
         subtitle={
           ahead.data
-            ? `${legs.length} ${legs.length === 1 ? "leg" : "legs"} where the meal changes for one day. Passengers sent only the date.`
+            ? `${legs.length} fast-day ${legs.length === 1 ? "leg" : "legs"} · only dates sent`
             : undefined
         }
       />
       {ahead.isError ? (
         <EmptyState
           title="Couldn't load the fast-day list"
-          body="The list comes from the passengers' saved fast days."
+          body="Try again in a moment."
           action={<Button variant="outline" onClick={() => ahead.refetch()}>Retry</Button>}
         />
       ) : (
@@ -99,7 +99,7 @@ export function OpsDaysPage() {
             <EmptyState
               icon={CalendarDays}
               title="No fast days in the next 30 days"
-              body="When a passenger marks a flight date as a fast day, that leg appears here with its kitchen note."
+              body="Legs appear when a passenger saves a fast day."
             />
           }
         />

@@ -48,7 +48,6 @@ export function SeatScreen({ seat }: { seat: string }) {
         {answer.isError && !picking && <StatusChip status="warn" label={t(SEAT.failed, lang)} className="self-start" />}
         {body}
       </main>
-      <footer className="border-t px-5 py-2.5 text-xs text-muted-foreground md:px-8">{t(SEAT.privacy, lang)}</footer>
     </Frame>
   )
 }
@@ -115,7 +114,6 @@ function Answered({ q, lang, busy, onAnswer, onPick }: AnsweredProps) {
   return (
     <div className="grid items-center gap-8 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
       <section className="flex flex-col gap-6">
-        <p className="text-sm font-semibold tracking-wide text-muted-foreground uppercase">{t(SEAT.eyebrow, lang)}</p>
         <h1 className="flex items-start gap-3 font-display text-4xl leading-tight font-bold md:text-[44px]">
           <CheckCircle2 className="mt-1 size-10 shrink-0 text-safe" aria-hidden="true" />
           <span>{t(q.held === "main" ? SEAT.askMain : SEAT.askSpecial, lang)}</span>

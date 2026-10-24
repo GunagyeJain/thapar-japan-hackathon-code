@@ -4,9 +4,9 @@ import type { Text } from "@/lib/types"
 export const s = {
   title: { en: "Your fast days", hi: "आपके व्रत के दिन", ja: "断食の日" },
   sub: {
-    en: "Some days you eat differently. Tell your phone which fasts you keep; only the dates go to the airline.",
-    hi: "कुछ दिन आप अलग खाते हैं। बताइए आप कौन-से व्रत रखते हैं; एयरलाइन को सिर्फ़ तारीखें जाती हैं।",
-    ja: "食事が変わる日があります。守っている断食を選んでください。航空会社に送られるのは日付だけです。",
+    en: "Only the dates go to the airline.",
+    hi: "एयरलाइन को सिर्फ़ तारीखें जाती हैं।",
+    ja: "航空会社に送るのは日付だけです。",
   },
   find: { en: "Find your trip", hi: "अपनी यात्रा खोजें", ja: "旅程を検索" },
   pnr: { en: "Booking reference", hi: "बुकिंग संदर्भ", ja: "予約番号" },
@@ -20,9 +20,9 @@ export const s = {
   noProfileAction: { en: "Say what you don't eat", hi: "बताइए क्या नहीं खाते", ja: "食べられないものを登録" },
   keep: { en: "Which fasts do you keep?", hi: "आप कौन-से व्रत रखते हैं?", ja: "守っている断食" },
   keepNote: {
-    en: "Stays on this phone. We never store which fast you keep.",
-    hi: "यह इसी फ़ोन पर रहता है। हम कभी नहीं रखते कि आप कौन-सा व्रत रखते हैं।",
-    ja: "この端末にのみ保存されます。どの断食かは記録しません。",
+    en: "Stays on this phone.",
+    hi: "यह इसी फ़ोन पर रहता है।",
+    ja: "この端末にのみ保存されます。",
   },
   legs: { en: "Your flights", hi: "आपकी उड़ानें", ja: "ご搭乗便" },
   fasting: { en: "I'm fasting on this flight", hi: "इस उड़ान पर मेरा व्रत है", ja: "この便の日は断食します" },

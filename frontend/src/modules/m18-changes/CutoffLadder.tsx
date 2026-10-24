@@ -87,11 +87,6 @@ export function CutoffLadder({ events = [], selectedId, onSelect, compact = fals
       <figcaption className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
         <span>
           <span className={cn("font-display font-semibold", compact ? "text-base" : "text-lg")}>The cutoff ladder</span>
-          {!compact && (
-            <span className="ml-2 text-sm text-muted-foreground">
-              {f.flight_no} · T-48 h to landing · each window gets room to read; its length is under the name
-            </span>
-          )}
         </span>
         <Legend hasEvents={events.length > 0} />
       </figcaption>
@@ -179,7 +174,7 @@ function TodayRow({ x }: { x: number }) {
         Special meal (SSR)
       </span>
       <span className="flex min-w-0 flex-1 items-center truncate rounded-r-md border border-l-0 border-dashed px-3 text-muted-foreground">
-        No channel after the cutoff: passengers are told to “tell the crew”
+        No channel after the cutoff
       </span>
       <Marks cutoffX={x} />
     </div>
@@ -188,10 +183,10 @@ function TodayRow({ x }: { x: number }) {
 
 function rungLines(window: Window): { own: string[]; tail: string | null } {
   const rungs = WINDOW_RUNGS[window]
-  if (window === "inflight") return { own: [], tail: "Same rungs as on board; crew decide" }
+  if (window === "inflight") return { own: [], tail: "On-board rungs" }
   if (window === "onboard") return { own: rungs.map((r) => RUNGS[r].ladder ?? RUNGS[r].label), tail: null }
   const own = rungs.filter((r) => !ONBOARD_RUNGS.includes(r))
-  const tail = own.length < rungs.length ? "then the on-board rungs" : null
+  const tail = own.length < rungs.length ? "+ on-board rungs" : null
   return { own: own.map((r) => RUNGS[r].ladder ?? RUNGS[r].label), tail }
 }
 

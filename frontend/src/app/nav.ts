@@ -9,7 +9,6 @@ import {
   Globe,
   LayoutGrid,
   LineChart,
-  MessageCircle,
   MonitorPlay,
   Palette,
   PlayCircle,
@@ -20,7 +19,6 @@ import {
   Smartphone,
   Sunrise,
   Tablet,
-  Users,
   type LucideIcon,
 } from "lucide-react"
 
@@ -53,12 +51,10 @@ export const NAV: NavEntry[] = [
   { to: "/rules", label: "Diet rules", module: "m1", group: "Operations", surface: "desktop", icon: ShieldCheck, blurb: "The rules every verdict comes from" },
   { to: "/p", label: "Passenger", module: "m3", group: "Passenger", surface: "mobile", icon: Smartphone, blurb: "State your diet once, get the right code" },
   { to: "/j", label: "Judge join", module: "m3", group: "Passenger", surface: "mobile", icon: QrCode, blurb: "Scan, pick a diet, get a seat in row 5" },
-  { to: "/chat", label: "Meal chat", module: "m17", group: "Passenger", surface: "mobile", icon: MessageCircle, blurb: "Say what you eat in your own words; the Radar asks before fast days" },
-  { to: "/groups", label: "Group upload", module: "m14", group: "Passenger", surface: "desktop", icon: Users, blurb: "Tour operators upload a whole group" },
   { to: "/crew", label: "Crew tablet", module: "m8", group: "Crew", surface: "tablet", icon: Tablet, blurb: "Offline galley check and seat scan" },
   { to: "/demo", label: "Demo control", module: "m11", group: "Team", surface: "desktop", icon: PlayCircle, blurb: "Step the story, reset the data" },
   { to: "/ui", label: "UI kit", module: "m2", group: "Team", surface: "desktop", icon: Palette, blurb: "Components and tokens" },
-  { to: "/jal", label: "JAL booking (concept)", module: "m23", group: "Passenger", surface: "web", icon: Globe, blurb: "Manage booking → Special meal in JAL's look, with ThaliBento plugged in" },
+  { to: "/jal", label: "JAL booking", module: "m23", group: "Passenger", surface: "web", icon: Globe, blurb: "My Booking → special meal form" },
   { to: "/seat", label: "Seat screen", module: "m22", group: "Crew", surface: "tablet", icon: MonitorPlay, blurb: "Before the meal, each seat with a special meal asks: still right?" },
 ]
 

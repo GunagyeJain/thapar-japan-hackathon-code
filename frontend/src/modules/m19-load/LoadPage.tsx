@@ -4,13 +4,14 @@ import { Scale } from "lucide-react"
 
 import { api, FLIGHT_ID, POLL_MS } from "@/lib/api"
 import { t } from "@/lib/i18n"
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, EmptyState, KpiTile, PageHeader } from "@/ui"
+import { Button, Card, CardContent, CardHeader, CardTitle, EmptyState, KpiTile, PageHeader } from "@/ui"
 
 import { BentoSpares } from "./BentoSpares"
 import { CoverageMatrix } from "./CoverageMatrix"
 import { FamilyChart } from "./FamilyChart"
 import { s } from "./i18n"
 import { riskFamilies } from "./logic"
+import { More } from "./More"
 import { ReserveCard } from "./ReserveCard"
 import type { LoadPlan } from "./types"
 
@@ -19,19 +20,17 @@ function Kpis({ plan }: { plan: LoadPlan }) {
   const universal = plan.universal.candidates.find((c) => c.reserve)
   return (
     <div className="grid gap-4 lg:grid-cols-4">
-      <KpiTile label="Told us before the flight" value={`${plan.known}/${plan.passengers}`} hint="Passports and special meals; the rest are forecast." />
+      <KpiTile label="Told us before the flight" value={`${plan.known}/${plan.passengers}`} />
       <KpiTile
         label="Families at run-out risk"
         value={risks.length}
-        hint={risks.map((f) => t(f.label)).join(", ") || "Every family has enough on board"}
         status={risks.length ? { status: "warn", label: t(s.runOut) } : { status: "safe", label: t(s.covered) }}
       />
-      <KpiTile label="Reserve pouches to load" value={plan.reserve.pouch.q} delta={`${plan.reserve.loaded} on board`} hint="Newsvendor rule, retort pouch" />
+      <KpiTile label="Reserve pouches to load" value={plan.reserve.pouch.q} delta={`${plan.reserve.loaded} on board`} />
       <KpiTile
         label="Diets the reserve covers"
         value={universal ? `${universal.covers}/${plan.universal.profiles.length}` : "–"}
-        hint="Universal plate, checked by the rules engine"
-        status={universal && universal.covers === plan.universal.profiles.length ? { status: "safe", label: "Every diet on the route" } : undefined}
+        status={universal && universal.covers === plan.universal.profiles.length ? { status: "safe", label: "Every diet" } : undefined}
       />
     </div>
   )
@@ -39,13 +38,9 @@ function Kpis({ plan }: { plan: LoadPlan }) {
 
 function Assumptions({ plan }: { plan: LoadPlan }) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t(s.assumptionsTitle)}</CardTitle>
-        <CardDescription>{t(plan.method)}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <table className="w-full text-sm">
+    <More title={t(s.assumptionsTitle)}>
+      <p className="text-muted-foreground">{t(plan.method)}</p>
+      <table className="w-full text-sm">
           <tbody>
             {plan.assumptions.map((a) => (
               <tr key={a.id} className="h-9 border-b last:border-0">
@@ -56,8 +51,7 @@ function Assumptions({ plan }: { plan: LoadPlan }) {
             ))}
           </tbody>
         </table>
-      </CardContent>
-    </Card>
+    </More>
   )
 }
 
@@ -89,7 +83,6 @@ export function LoadPage() {
           <Card>
             <CardHeader>
               <CardTitle>{t(s.familiesTitle)}</CardTitle>
-              <CardDescription>{t(s.familiesSub)}</CardDescription>
             </CardHeader>
             <CardContent>
               <FamilyChart families={plan.families} />

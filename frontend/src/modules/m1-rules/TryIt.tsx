@@ -132,10 +132,10 @@ export function TryIt({ lang }: TryItProps) {
         </fieldset>
         <form onSubmit={addWord} className="flex flex-col gap-2">
           <label htmlFor="extra-word" className="text-sm font-medium text-grey">
-            Add an ingredient (English or Japanese, e.g. 出汁, mirin, ghee)
+            Add an ingredient
           </label>
           <div className="flex gap-2">
-            <Input id="extra-word" value={draft} maxLength={64} onChange={(e) => setDraft(e.target.value)} />
+            <Input id="extra-word" value={draft} maxLength={64} placeholder="e.g. 出汁, mirin, ghee" onChange={(e) => setDraft(e.target.value)} />
             <Button type="submit" variant="secondary" disabled={!draft.trim()}>
               <Plus /> Add
             </Button>

@@ -1,68 +1,96 @@
-// The concept page's frame: the "not a Japan Airlines website" banner, a header in JAL's layout feel with a plain
-// text wordmark (no logo, no crane), and the footer that says whose concept this is.
-import { Info } from "lucide-react"
+// The JAL-style frame: a text wordmark with a Demo tag (no logo here: this page has a booking form), the main nav,
+// the language switch, and a one-line footer. Our own code and the tokens; nothing copied from jal.co.jp.
+import { Search } from "lucide-react"
+import { createContext, useContext, useState, type ReactNode } from "react"
+import { Link } from "react-router"
 
+import { t } from "@/lib/i18n"
+import type { Lang } from "@/lib/types"
 import { cn } from "@/lib/utils"
-import { Badge, LangSwitch } from "@/ui"
+import { LangSwitch } from "@/ui"
 
-import { s, tr, type PageLang } from "./i18n"
+import { s } from "./i18n"
 
-/** The title stays pinned on every width; on a phone the explanation scrolls away under it. */
-export function ConceptBanner({ lang }: { lang: PageLang }) {
+const LangContext = createContext<Lang>("en")
+export const useJalLang = (): Lang => useContext(LangContext)
+
+const NAV = [
+  { text: s.navBook, to: "/jal", id: "book" },
+  { text: s.navManage, to: "/jal?tab=manage", id: "manage" },
+  { text: s.navExperience },
+  { text: s.navTravel },
+  { text: s.navMiles },
+  { text: s.navHelp },
+] as const
+
+const LANG_KEY = "jal.lang"
+
+function storedLang(): Lang {
+  try {
+    const v = sessionStorage.getItem(LANG_KEY)
+    return v === "hi" || v === "ja" ? v : "en"
+  } catch {
+    return "en" // storage blocked: English
+  }
+}
+
+export function JalShell({ active, children }: { active: "book" | "manage"; children: ReactNode }) {
+  const [lang, setLangState] = useState<Lang>(storedLang)
+  const setLang = (next: Lang) => {
+    setLangState(next)
+    try {
+      sessionStorage.setItem(LANG_KEY, next)
+    } catch {
+      // storage blocked: the choice lasts until the next page
+    }
+  }
   return (
-    <>
-      <div role="note" className="sticky top-0 z-40 bg-navy text-white">
-        <div className="mx-auto flex max-w-6xl items-center gap-2.5 px-4 py-2.5 md:px-8">
-          <Info className="size-4 shrink-0" aria-hidden="true" />
-          <p className="text-sm leading-snug">
-            <strong className="font-semibold">{tr(s.bannerTitle, lang)}</strong>
-            <span className="hidden text-white/80 md:inline"> · {tr(s.bannerBody, lang)}</span>
-          </p>
-        </div>
+    <LangContext.Provider value={lang}>
+      <div data-brand="jal" className="jal-site flex min-h-screen flex-col bg-background text-foreground">
+        <header className="border-b bg-card">
+          <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 pt-4 md:px-8">
+            <Link to="/jal" className="flex items-center gap-2.5">
+              <span className="font-display text-[22px] leading-none font-bold tracking-tight md:text-[26px]">JAPAN AIRLINES</span>
+              <span className="rounded-full border px-2 py-0.5 text-[11px] font-semibold text-muted-foreground uppercase">{t(s.demo, lang)}</span>
+            </Link>
+            <div className="ml-auto flex items-center gap-3">
+              <Search className="hidden size-5 text-muted-foreground sm:block" aria-hidden="true" />
+              <LangSwitch value={lang} onChange={setLang} />
+            </div>
+          </div>
+          <nav aria-label="Main" className="mx-auto max-w-6xl overflow-x-auto px-4 md:px-8">
+            <ul className="flex gap-6 text-sm font-semibold whitespace-nowrap">
+              {NAV.map((item) => {
+                const on = "id" in item && item.id === active
+                const cls = cn("block border-b-2 py-3", on ? "border-primary" : "border-transparent")
+                return (
+                  <li key={item.text.en}>
+                    {"to" in item ? (
+                      <Link to={item.to} className={cn(cls, "hover:border-line")}>
+                        {t(item.text, lang)}
+                      </Link>
+                    ) : (
+                      <span className={cn(cls, "text-muted-foreground")}>{t(item.text, lang)}</span>
+                    )}
+                  </li>
+                )
+              })}
+            </ul>
+          </nav>
+        </header>
+        <main className="flex-1">{children}</main>
+        <footer className="border-t bg-muted">
+          <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-muted-foreground md:px-8">{t(s.footer, lang)}</p>
+        </footer>
       </div>
-      <p className="bg-navy px-4 pb-3 text-sm leading-snug text-white/80 md:hidden">{tr(s.bannerBody, lang)}</p>
-    </>
+    </LangContext.Provider>
   )
 }
 
-const NAV_ITEMS = [s.navBook, s.navManage, s.navCheckin, s.navStatus] as const
-
-export function SiteHeader({ lang, onLang }: { lang: PageLang; onLang: (lang: PageLang) => void }) {
-  return (
-    <header className="border-b bg-card">
-      <div className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-3 md:px-8 md:py-4">
-        <div className="flex items-baseline gap-2">
-          <span className="font-display text-[28px] leading-none font-bold tracking-tight text-navy">JAL</span>
-          <span className="hidden text-xs font-medium text-grey sm:inline">Japan Airlines</span>
-          <Badge variant="outline" className="ml-1 self-center text-grey">
-            {tr(s.concept, lang)}
-          </Badge>
-        </div>
-        {/* What JAL's header would carry; only Manage booking exists in this concept. */}
-        <ul className="hidden flex-1 items-center gap-6 text-sm text-grey lg:flex" aria-label={tr(s.navManage, lang)}>
-          {NAV_ITEMS.map((item) => (
-            <li
-              key={item.en}
-              aria-current={item === s.navManage ? "page" : undefined}
-              className={cn("py-1.5", item === s.navManage && "border-b-2 border-primary font-semibold text-navy")}
-            >
-              {tr(item, lang)}
-            </li>
-          ))}
-        </ul>
-        <LangSwitch value={lang} onChange={(l) => onLang(l === "ja" ? "ja" : "en")} langs={["en", "ja"]} className="ml-auto" />
-      </div>
-    </header>
-  )
-}
-
-export function SiteFooter({ lang }: { lang: PageLang }) {
-  return (
-    <footer className="border-t bg-card">
-      <div className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-6 text-xs leading-relaxed text-grey md:px-8">
-        <p>{tr(s.footer1, lang)}</p>
-        <p>{tr(s.footer2, lang)}</p>
-      </div>
-    </footer>
+/** JAL's rounded pill: red for the main action, white with a border for the rest. */
+export function pill(main = true): string {
+  return cn(
+    "h-12 rounded-full px-7 text-base font-semibold",
+    main ? "bg-primary text-primary-foreground hover:bg-primary/90" : "border bg-card text-foreground hover:bg-muted",
   )
 }
