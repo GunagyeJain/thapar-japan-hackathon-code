@@ -97,16 +97,19 @@ Before m0 ships (≈17:00), nobody edits files the scaffold creates. Get ready i
 | Time | Milestone | Integration point |
 |---|---|---|
 | 15:40 | Plan and contracts on main | everyone has read their module spec |
-| 16:00–17:00 | **Mentor checkpoint.** Show the deck, this plan's module board, the architecture and a PNL/ADL fixture diff. **Use it to validate the problem with the JAL mentors** (m13 T1) and write their answers down. | Bhavyam leads; also ask about submission format, pitch length, HDMI and Wi-Fi |
+| 16:00–17:30 | **Checkpoint 1** (judged: Problem 35 · Idea 30 · Business 25 · Development 10). Bhavyam and Shefali lead with the checkpoint brief in the docs repo (`06-deliverables/checkpoint-1/`). Gunagye shows the module board, the architecture and the rules engine answering live. **Use it to validate the problem with the JAL mentors** (m13 T1) and write their answers down. | Also ask about submission format, pitch length, HDMI and Wi-Fi |
 | 17:00 | **m0 on main**: run it, install deps | everyone runs `/sync` and `npm run dev` |
 | 17:45 | m1 Python engine + code options on main | m3, m4 and m6 replace their mocks |
 | 19:30 | **Integration 1:** Acts 1–2 click through real endpoints (rough UI is fine) | everyone ships by 19:30 |
+| 21:45 | Hackspace gates close for exit: be inside with chargers, the iPad and both phones | |
 | 22:30 | **Integration 2:** Acts 1–5 on real endpoints; first full run from `/demo`; rough backup video v1 | everyone ships by 22:30 |
+| 00:00 | **Mentorship round:** run the story for the mentors and ask the m13 Q&A questions; note their feedback in m13 | |
 | 02:00 | **Feature freeze:** full story on the tunnel with the iPad offline and 3 phones joining | after this only fixes and polish |
 | 02:00–05:00 | Bhavyam and Shefali rest; Gunagye polishes (m12) | |
 | 05:00–07:00 | Fix list from the module notes; pitch deck (m13) | |
 | 07:00 | Dry run 1 · 07:30 record the backup video · 08:00 dry run 2 | |
-| 09:30 | Submit | |
+| 09:30 | Submit (deadline 10:00) | |
+| 11:00–12:30 | **Final judging** (Technical 30 · Problem 20 · Innovation 20 · Feasibility 20 · Impact 10) | rehearse 10:00–11:00 |
 
 Everyone ships at least every 90 minutes. Contract changes ship immediately, with a heads-up.
 
