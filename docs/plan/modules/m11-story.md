@@ -49,7 +49,7 @@ Every step is idempotent: running it twice changes nothing.
 - [x] **T1 Scenario + step runner (45 min).** Step definitions, `GET /scenario`, `POST /step` (sets the clock, runs the auto actions, marks done), tests.
 
   _Done when:_ stepping 0 → 8 by API alone ends with Priya's C1–C5 all green and 27D served from the backup.
-- [ ] **T2 `/demo` page (40 min).**
+- [x] **T2 `/demo` page (40 min).**
   - Step list with the current step, a big cue card ("Now: open Ops → click Request again"), Next / Back, and "Do it for me".
   - Reset (keep judges / full), with a confirm.
   - The judge QR built from the page's **current** address (`location.origin + "/j"`), and a live count of judges who joined.

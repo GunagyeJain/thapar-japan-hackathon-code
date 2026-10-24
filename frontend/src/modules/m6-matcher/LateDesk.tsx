@@ -7,8 +7,10 @@ import { api, FLIGHT_ID, POLL_MS } from "@/lib/api"
 import type { Lang, Passenger } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { Button, EmptyState, Input, KpiTile, LangSwitch, PageHeader, toast } from "@/ui"
+import { DietPicker } from "@/modules/m3-passenger/DietPicker"
+import { EMPTY_DIET } from "@/modules/m3-passenger/diet"
+import type { DietValue } from "@/modules/m3-passenger/types"
 import { BackupForecast } from "@/modules/m6-matcher/BackupForecast"
-import { DietChoice, NO_DIET, type DietValue } from "@/modules/m6-matcher/DietChoice"
 import { MatchResult } from "@/modules/m6-matcher/MatchResult"
 import type { InventoryResponse, LateRequestResponse, MatchResult as Result } from "@/modules/m6-matcher/types"
 
@@ -99,7 +101,7 @@ export function LateDesk() {
   const queryClient = useQueryClient()
   const [lang, setLang] = useState<Lang>("en")
   const [passenger, setPassenger] = useState<Passenger | null>(null)
-  const [diet, setDiet] = useState<DietValue>(NO_DIET)
+  const [diet, setDiet] = useState<DietValue>(EMPTY_DIET)
   const [result, setResult] = useState<{ match: Result; reservedId?: string } | null>(null)
 
   const body = () => ({ flight_id: FLIGHT_ID, passenger_id: passenger?.id, forbid: diet.forbid, allow: diet.allow, source: "gate" })
@@ -139,7 +141,8 @@ export function LateDesk() {
       <div className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <section className="flex flex-col gap-5 rounded-xl border bg-card p-5" aria-label="Request">
           <PassengerSearch selected={passenger} onSelect={choose} />
-          <DietChoice
+          <DietPicker
+            compact
             value={diet}
             lang={lang}
             onChange={(d) => {
