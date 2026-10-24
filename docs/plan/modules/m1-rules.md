@@ -1,7 +1,7 @@
 # m1: rules engine
 
 **Owner:** Gunagye (lane b) · **Branch:** `gunagye/m1-rules` · **Phase:** 1, 15:45–19:00 IST (Python engine + code options on main by 17:45)
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 The decision core. Diets are ingredient rules, not codes. Every verdict (SAFE / UNSAFE / NEEDS_HUMAN) names the rule that fired. The engine:
@@ -29,7 +29,7 @@ Python and TypeScript give identical answers, proven by one shared vector file.
 - **TypeScript:** `loadRules()` and `evaluate(forbid, tags)` from `@/lib/rules`. m8 uses them offline.
 
 ## Tasks
-- [ ] **T1 Rules data (45 min).**
+- [x] **T1 Rules data (45 min).**
   - **`taxonomy.json`:** about 90 tags with parents and EN/JA/HI labels:
     - `meat` → beef, pork, chicken, mutton, …
     - `seafood` → fish → bonito, sardine, …; shellfish
@@ -48,13 +48,13 @@ Python and TypeScript give identical answers, proven by one shared vector file.
   - **`codes.json`:** JAL codes with `excludes` / `may_contain` / `contains`: AVML, HNML, VJML, VLML, VGML, MOML, DBML, LSML, GFML, NLML, BLML, FPML.
 
   _Done when:_ a test proves every referenced tag exists and every preset maps to tags.
-- [ ] **T2 Python evaluator + API (35 min).**
+- [x] **T2 Python evaluator + API (35 min).**
   - Expand tags to their ancestors.
   - Verdict precedence: UNSAFE > NEEDS_HUMAN > SAFE. An unknown tag, or halal meat without certification, gives NEEDS_HUMAN.
   - `fired` carries EN/JA/HI messages and a `via` chain.
 
   _Done when:_ `POST /api/rules/evaluate` with the Jain preset and `[paneer, tomato, onion, garlic]` returns UNSAFE with onion and garlic fired. **Ship** (unblocks m3, m4, m6).
-- [ ] **T3 Code mapper + booking check (35 min).** Options are ranked by safety gaps a kitchen note can close, then by preference losses. `kitchen_note` comes from the gaps; `label_mark` is EN/JA/HI ("VEG · no onion, no garlic").
+- [x] **T3 Code mapper + booking check (35 min).** Options are ranked by safety gaps a kitchen note can close, then by preference losses. `kitchen_note` comes from the gaps; `label_mark` is EN/JA/HI ("VEG · no onion, no garlic").
 
   _Done when:_
   - Priya (veg + no onion/garlic, dairy OK) → AVML recommended with `NO ONION NO GARLIC`, then VJML with preference losses dairy and root vegetables.
@@ -62,10 +62,10 @@ Python and TypeScript give identical answers, proven by one shared vector file.
   - Mehta (Jain) → VJML.
 
   **Ship.**
-- [ ] **T4 TypeScript parity (35 min).** `frontend/src/lib/rules/` evaluator, plus `vectors.json` with 150+ cases: every diet × typical dishes, and edge cases (Jain + dairy, vrat, dashi, gelatin, uncertified halal, combined Jain + diabetic). Both pytest and vitest read the same file.
+- [x] **T4 TypeScript parity (35 min).** `frontend/src/lib/rules/` evaluator, plus `vectors.json` with 150+ cases: every diet × typical dishes, and edge cases (Jain + dairy, vrat, dashi, gelatin, uncertified halal, combined Jain + diabetic). Both pytest and vitest read the same file.
 
   _Done when:_ both suites pass on all vectors and print the count. **Ship.**
-- [ ] **T5 `/rules` explorer (30 min).**
+- [x] **T5 `/rules` explorer (30 min).**
   - A diets table with the rules spelled out.
   - A "try it" panel: diet(s) + a dish's tags → VerdictBadge + fired rules.
   - A parity line: "N rule tests · server and offline tablet agree".
@@ -77,3 +77,13 @@ m3, m4, m6, m8 and m9 call the engine instead of mocks, and the parity count is 
 
 ## Notes
 _Owner's running notes._
+- **Python is on main** (`app.modules.m1_rules.engine`): `evaluate(forbid, tags, diet=None)`, `evaluate_diet(diet_id, tags)`, `combine_presets(preset_ids) -> {forbid, allow}`, `code_options(forbid, allow)`, `check_booking(forbid, booked_code)`, `label_mark(forbid, allow)`, `resolve(word)`, `rules_payload()`. Unknown forbid/allow ids raise `UnknownTagError` (a `ValueError`).
+- **Dish tags may be Japanese or English words**: `evaluate` maps `synonyms_ja`/`synonyms_en` to tags, so m9 can pass `出汁` straight in (`via: "出汁 → bonito → fish → seafood"`). Unknown words give NEEDS_HUMAN (`rule_id: "unknown_tag"`).
+- **Fired** carries an extra `effect` (`UNSAFE` or `NEEDS_HUMAN`) so the UI can colour each line. One fired rule per dish tag. Rule ids: `forbid.<tag>`, `unclear.<tag>` (dish says only "meat" and beef is forbidden), `halal.certification`, `unknown_tag`.
+- **Halal** is the forbid tag `non_halal_meat`; any meat without the `halal_certified` property tag gives NEEDS_HUMAN.
+- **Code mapper**: a forbidden family the code doesn't exclude is a gap. Gaps listed in `codes.json` `note_phrases` can be closed by a kitchen note; anything else (meat, dairy, the whole root-vegetable family) rules the code out. Remaining codes sort by preference losses, then gaps; options another option beats on both counts go last. That gives Priya AVML + `NO ONION NO GARLIC`, then VJML (loses dairy, root vegetables).
+- `check_booking` returns `{ok: true, kitchen_note}` when the booked code works (note may be null), else `{ok: false, problem: {contains, message}, suggested_code}`.
+- **Spec certificate**: `engine.spec_tags(spec.tags, spec.certified)` adds `halal_certified` for certified specs; use it before `evaluate` (the `{profile_id, spec_id}` endpoint does).
+- **TypeScript** (`@/lib/rules`): `loadRules()`, `evaluate(forbid, tags, diet?)`, `evaluateDiet()`, `combinePresets()`, `resolve()`, `label(tag, lang)`. Same answers as Python on every vector.
+- **`/rules` page**: Try it (presets + tonight's seed dishes + free ingredient words, EN/HI/JA), server-vs-offline agreement line, diets and meal-code tables. `VerdictBadge.tsx` here is a stand-in until m2's `ui/VerdictBadge` lands.
+- **Vectors**: `cd backend && python -m app.modules.m1_rules.make_vectors` rewrites `shared/rules/vectors.json` (625 cases; hand-checked verdicts are pinned in the script).

@@ -1,0 +1,21 @@
+{
+  "name": "thalibento",
+  "private": true,
+  "version": "0.1.0",
+  "description": "ThaliBento: meal promises that survive every hand-off (JAL-PS-01)",
+  "type": "module",
+  "scripts": {
+    "postinstall": "npm install --prefix frontend",
+    "dev": "concurrently -k -n api,web -c blue,green \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "node scripts/py.mjs -m uvicorn app.main:app --app-dir backend --reload --reload-dir backend/app --host 0.0.0.0 --port 8000",
+    "dev:web": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "demo": "npm run build && node scripts/py.mjs -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port 8000",
+    "seed": "node scripts/py.mjs -m app.core.seed_gen",
+    "test": "npm --prefix frontend run test && node scripts/py.mjs -m pytest -q backend/tests",
+    "check": "bash scripts/check.sh"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}

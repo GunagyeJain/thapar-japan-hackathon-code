@@ -1,0 +1,140 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./tokens.css";
+
+@import "@fontsource/archivo/600.css";
+@import "@fontsource/archivo/700.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/noto-sans-jp/400.css";
+@import "@fontsource/noto-sans-jp/700.css";
+@import "@fontsource/hind/400.css";
+@import "@fontsource/hind/600.css";
+
+@custom-variant dark (&:is(.cabin *));
+
+@theme inline {
+  --font-sans: "Inter", "Noto Sans JP", "Hind", system-ui, sans-serif;
+  --font-display: "Archivo", "Inter", "Noto Sans JP", sans-serif;
+  --font-jp: "Noto Sans JP", "Inter", sans-serif;
+  --font-hi: "Hind", "Inter", sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Menlo, Consolas, monospace;
+
+  --color-navy: var(--navy);
+  --color-blue: var(--blue);
+  --color-sky: var(--sky);
+  --color-ice: var(--ice);
+  --color-mist: var(--mist);
+  --color-line: var(--line);
+  --color-grey: var(--grey);
+  --color-paper: var(--paper);
+  --color-safe: var(--safe);
+  --color-safe-bg: var(--safe-bg);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --color-unsafe: var(--unsafe);
+  --color-unsafe-bg: var(--unsafe-bg);
+  --color-cabin-bg: var(--cabin-bg);
+  --color-cabin-surface: var(--cabin-surface);
+  --color-cabin-line: var(--cabin-line);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: var(--radius-control);
+  --radius-md: var(--radius-control);
+  --radius-lg: var(--radius-card);
+  --radius-xl: var(--radius-card);
+  --shadow-overlay: var(--shadow-overlay);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 14px;
+  }
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  :lang(ja) {
+    font-family: var(--font-jp);
+  }
+  :lang(hi) {
+    font-family: var(--font-hi);
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  /* PNRs, item ids, raw messages */
+  .code {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Motion: 150–200 ms ease-out on state changes; the only loop is a live countdown under 15 min. */
+@keyframes tb-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+@keyframes tb-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@utility animate-live {
+  animation: tb-pulse 1.6s ease-in-out infinite;
+}
+@utility animate-arrive {
+  animation: tb-arrive 180ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-live,
+  .animate-arrive {
+    animation: none;
+  }
+}

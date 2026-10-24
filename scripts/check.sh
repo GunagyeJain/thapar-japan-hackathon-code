@@ -3,7 +3,7 @@
 #
 #   bash scripts/check.sh
 #
-# Module M0 (foundation) wires the real lint/test/build commands into "Project checks" below.
+# Project checks: tsc --noEmit, vite build, vitest, pytest (wired by m0).
 set -u
 . "$(dirname "$0")/_lib.sh"
 cd_root
@@ -54,28 +54,28 @@ step "no merge-conflict markers" no_conflict_markers
 step "no .env files in git" no_env_files
 step "no files over 10 MB" no_huge_files
 
-# ---------------- Project checks (M0 fills these in for the chosen stack) ----------------
+# ---------------- Project checks (m0) ----------------
 export CI=1
 if [ -f frontend/package.json ]; then
   if [ ! -d frontend/node_modules ]; then
-    step "frontend deps installed (run: npm install --prefix frontend)" false
+    step "frontend deps installed (run: npm install)" false
   else
-    step "frontend lint"  npm --prefix frontend run --silent --if-present lint
-    step "frontend build" npm --prefix frontend run --silent --if-present build
-    step "frontend tests" npm --prefix frontend run --silent --if-present test
+    step "frontend typecheck (tsc --noEmit)" npm --prefix frontend run --silent lint
+    step "frontend build" npm --prefix frontend run --silent build
+    step "frontend tests (vitest)" npm --prefix frontend run --silent test
   fi
 fi
 if [ -f backend/requirements.txt ] || [ -f backend/pyproject.toml ]; then
   PY=$(pick_python) || PY=""
   if [ -z "$PY" ]; then
-    step "python available for backend" false
+    step "backend venv (see README: uv venv --python 3.12 backend/.venv)" false
   else
-    step "backend imports compile" "$PY" -m compileall -q backend
+    step "backend imports compile" "$PY" -m compileall -q backend/app backend/tests
     if [ -d backend/tests ]; then
       if "$PY" -c 'import pytest' >/dev/null 2>&1; then
         step "backend tests" "$PY" -m pytest -q backend/tests
       else
-        step "pytest installed (run: pip install pytest)" false
+        step "pytest installed (run: uv pip install --python backend/.venv -r backend/requirements.txt)" false
       fi
     fi
   fi

@@ -66,6 +66,8 @@ Module-owned tables stay in their module folder: `MealListVersion` (m7), `LateRe
 | `outbox.notify(channel, to, title, body, lang="en", ref=None)` | Writes a Notification (shown on the passenger page and on the crew and caterer inboxes) |
 | `registry.MODULES` | Each module's `router` (FastAPI `APIRouter`) and `seed(session)`. Reset calls every `seed` in order m0 → m14 |
 
+Inside an endpoint that also writes, pass your session: `record_checkpoint(..., session=session)`, `raise_alert(..., session=session)`, `notify(..., session=session)`. Then it all commits together (and SQLite never waits on itself). Without `session=` the helper opens and commits its own. `record_checkpoint` also takes `key=` (idempotent retries) and `at=`. JSON columns (lists, dicts) only save when you assign a new value, not when you edit them in place.
+
 ## Who writes what
 | Data | Written by |
 |---|---|
@@ -87,6 +89,8 @@ JL740 · DEL 25 Oct 2026 04:35 (IST) → NRT 15:20 (JST) · B787-8 · business r
 - Caterer final list: 25 Oct 00:40.
 - Dispatch: 02:05.
 - Boarding: 03:35.
+
+Seat map in the seed: economy runs rows 18–39 (so the cast's 18C exists). Rows 5 and 20 are left empty for judges, plus 6 more free seats: 186 passengers, 24 special meals. Specials for rows 1–29 load in G1, rows 30–39 in G2. Priya's tray is `TB-7K2Q9F`.
 
 Caterer: Skyline Flight Kitchens, Delhi (fictional). Row 5 is held for judges (`POST /api/join`). The sim clock starts at 23 Oct 18:00 IST.
 
