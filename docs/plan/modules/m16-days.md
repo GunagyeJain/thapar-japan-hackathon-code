@@ -54,5 +54,5 @@ On main by 01:30: Priya can tell her phone she keeps Ekadashi, see that her 20 N
 
 ## Notes
 _Owner's running notes._
-- 24 Oct 21:40, planned with m15 (Shefali) after the team decided the pitch needs two more new things (see `docs/decisions.md`).
+- 24 Oct 21:40, planned after the team decided the pitch needs two more new things (see `docs/decisions.md`).
 - Not built (slide only): Ramadan timing (iftar after sunset, suhoor before a pre-dawn departure, expected 9 Feb to 10 Mar 2027), and Paryushan's stricter Jain days.
