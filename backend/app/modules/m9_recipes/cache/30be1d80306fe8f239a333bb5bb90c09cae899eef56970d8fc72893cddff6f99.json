@@ -1,0 +1,85 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "野菜ピラフ",
+  "dish_name_en": "Vegetable pilaf",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "米",
+    "name_en": "rice",
+    "tags": [
+     "grain",
+     "rice"
+    ],
+    "confidence": 1.0,
+    "evidence": "・米 2合"
+   },
+   {
+    "name_ja": "玉ねぎ",
+    "name_en": "onion",
+    "tags": [
+     "allium",
+     "onion"
+    ],
+    "confidence": 1.0,
+    "evidence": "・玉ねぎ 1/2個"
+   },
+   {
+    "name_ja": "人参",
+    "name_en": "carrot",
+    "tags": [
+     "carrot",
+     "root_veg"
+    ],
+    "confidence": 1.0,
+    "evidence": "・人参 1/3本"
+   },
+   {
+    "name_ja": "ピーマン",
+    "name_en": "green bell pepper",
+    "tags": [
+     "bell_pepper"
+    ],
+    "confidence": 1.0,
+    "evidence": "・ピーマン 2個"
+   },
+   {
+    "name_ja": "コーン",
+    "name_en": "corn",
+    "tags": [
+     "corn"
+    ],
+    "confidence": 1.0,
+    "evidence": "・コーン 50g"
+   },
+   {
+    "name_ja": "バター",
+    "name_en": "butter",
+    "tags": [
+     "butter",
+     "dairy"
+    ],
+    "confidence": 1.0,
+    "evidence": "・バター 20g"
+   },
+   {
+    "name_ja": "野菜ブイヨン（顆粒・動物性原料不使用）",
+    "name_en": "vegetable bouillon (granules, animal-free)",
+    "tags": [
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "・野菜ブイヨン（顆粒・動物性原料不使用）小さじ2"
+   },
+   {
+    "name_ja": "水",
+    "name_en": "water",
+    "tags": [],
+    "confidence": 1.0,
+    "evidence": "・水 360ml"
+   }
+  ]
+ }
+}

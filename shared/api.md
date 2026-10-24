@@ -117,7 +117,7 @@ Seat numbers are not printed on labels: the QR carries the item id and the crew 
 | POST | `/recipes/{id}/approve` | `{by}` | `{sheet: RecipeSheet, spec: MealSpec}` |
 | GET | `/recipes` | – | `RecipeSheet[]` (newest first) |
 | GET | `/recipes/{id}` | – | `RecipeSheet` |
-| GET | `/recipes/eval` | – | `{rows: [{dish, truth: string[], dictionary: string[], model: string[], combined: string[]}], metrics: {dictionary, model, combined}}` |
+| GET | `/recipes/eval` | – | `{diet, compared, rows: [{id, dish: Text, truth: string[], dictionary: string[], model: string[] \| null, combined: string[] \| null}], metrics: {dictionary, model, combined}}`. Each list holds the families the rules call UNSAFE for `diet` (vegetarian: meat, seafood, egg, gelatin); `null` = no cached model answer. `metrics` cover only the `compared` rows (the ones the model has read), so the three readers are scored on the same dishes. Each metric is `{dishes, hits, misses, false_alarms, recall, precision, unsafe_dishes, unsafe_dishes_caught, safe_dishes, safe_dishes_flagged}` or `null`. Reads the committed cache only, never calls the model |
 
 `RecipeSheet = {id, name: Text, source_hash, cached: boolean, engine: "dictionary"|"gemini"|"dictionary+gemini", ingredients: [{name_ja, name_en, tags, confidence, evidence}], verdicts: [{diet, verdict, fired}], status: "needs_review"|"approved", created_at}`
 
