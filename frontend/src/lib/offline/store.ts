@@ -48,8 +48,17 @@ async function writeEvent(flightId: string, event: Omit<CrewEvent, "client_id">)
   return next
 }
 
+// Syncs run one at a time too: quick taps, the 5 s timer and reconnecting would otherwise send the same events at once.
+let syncs: Promise<unknown> = Promise.resolve()
+
 /** Send queued events, one batch per seed epoch. Synced (or old-epoch) events leave the queue. */
-export async function syncQueue(flightId: string): Promise<SyncResult | null> {
+export function syncQueue(flightId: string): Promise<SyncResult | null> {
+  const run = syncs.then(() => sendQueue(flightId))
+  syncs = run.catch(() => undefined)
+  return run
+}
+
+async function sendQueue(flightId: string): Promise<SyncResult | null> {
   const pending = await db.queue.where("flight_id").equals(flightId).toArray()
   if (pending.length === 0) return null
   const byEpoch = new Map<number, QueuedEvent[]>()

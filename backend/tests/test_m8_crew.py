@@ -64,3 +64,35 @@ def test_red_scan_raises_alert(client):
     assert r.json()["accepted"] == 2
     notes = client.get("/api/notifications?to=crew:JL740").json()
     assert "contains onion" in json.dumps(notes)
+
+
+def test_same_events_from_two_syncs_at_once_count_as_duplicates(client, monkeypatch):
+    """Two syncs with the same events race: the one that saves second must not fail with a 500."""
+    import importlib
+
+    from sqlalchemy.exc import IntegrityError
+
+    from app.core.db import new_session
+    from app.core.models import Flight
+
+    crew_router = importlib.import_module("app.modules.m8_crew.router")  # the module, not the APIRouter
+
+    client.post("/api/demo/reset", json={"keep_judges": False})
+    epoch = _package(client).json()["seed_epoch"]
+    real = crew_router.apply_events
+    raced = []
+
+    def other_sync_saves_first(session, flight, body):
+        if not raced:
+            raced.append(True)
+            with new_session() as other:
+                real(other, other.get(Flight, flight.id), body)
+                other.commit()
+            raise IntegrityError("INSERT INTO creweventlog", {}, Exception("UNIQUE constraint failed"))
+        return real(session, flight, body)
+
+    monkeypatch.setattr(crew_router, "apply_events", other_sync_saves_first)
+    ev = {"client_id": "race-1", "type": "galley_found", "item_id": PRIYA_TRAY, "at": "2026-10-25T05:05:00+05:30"}
+    r = _events(client, epoch, [ev])
+    assert r.status_code == 200
+    assert r.json() == {"accepted": 0, "duplicates": 1, "ignored_old_epoch": 0}
