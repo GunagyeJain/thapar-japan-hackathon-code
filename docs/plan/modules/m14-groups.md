@@ -4,9 +4,9 @@
 **Status:** blocked: cut (stretch, #1 on the cut list), do not start <!-- not started | in progress | blocked: <why> | done -->
 
 ## Where it stands
-_Updated 24 Oct 18:26 IST by Shefali._
+_Updated 24 Oct 18:40 IST by Shefali._
 
-**Shefali's queue:** m3 `done` → m9 `done` → m14 cut. m3 open item 1 (MatchResult on `/j`) and the review of lane A's picker rework are shipped. Nothing in progress.
+**Shefali's queue:** m3 `done` → m9 `done` → m14 cut. Every module in the queue is finished. Nothing in progress: waiting for the team to say what's next. Before dry run 1 (07:00): read Bhavyam's Q&A sheet (docs repo `06-deliverables/final-pitch/qa-sheet.md`).
 
 | | |
 |---|---|

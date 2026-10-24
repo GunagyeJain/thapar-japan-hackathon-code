@@ -55,3 +55,4 @@ One line per ship to `main`, added by `scripts/ship.sh`. Newest at the bottom. L
 - 2026-10-24 18:37 · Shefali Sharma · `shefali/m9-recipes` · m9 status time corrected
 - 2026-10-24 18:37 · Bhavyam Misra · `bhavyam/m13-pitch` · m13 status: judge Q&A sheet and final deck outline written (docs repo, final-pitch/) · **Heads-up:** Gunagye, Shefali: please read 06-deliverables/final-pitch/qa-sheet.md in the docs repo before dry run 1 (07:00)
 - 2026-10-24 18:40 · Gunagye Jain · `gunagye/m13-pitch` · m13 T2 (demo script) moves to Gunagye's lane B · **Heads-up:** Bhavyam: don't write docs/demo-script.md, lane B is on it. Next for you is m10 T1 (/insights timeline): Act 6 needs it
+- 2026-10-24 18:40 · Shefali Sharma · `shefali/m9-recipes` · Shefali's status: m3 and m9 done, m14 cut, waiting for next steps · **Heads-up:** Bhavyam: the recipe eval numbers for Q&A question 6 are in the m9 status block. Gunagye: the late-desk allergy fix (m3 notes) is still open
