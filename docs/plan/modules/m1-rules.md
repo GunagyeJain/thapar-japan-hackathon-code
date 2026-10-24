@@ -1,7 +1,7 @@
 # m1: rules engine
 
 **Owner:** Gunagye (lane b) · **Branch:** `gunagye/m1-rules` · **Phase:** 1, 15:45–19:00 IST (Python engine + code options on main by 17:45)
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 The decision core. Diets are ingredient rules, not codes. Every verdict (SAFE / UNSAFE / NEEDS_HUMAN) names the rule that fired. The engine:
@@ -29,7 +29,7 @@ Python and TypeScript give identical answers, proven by one shared vector file.
 - **TypeScript:** `loadRules()` and `evaluate(forbid, tags)` from `@/lib/rules`. m8 uses them offline.
 
 ## Tasks
-- [ ] **T1 Rules data (45 min).**
+- [x] **T1 Rules data (45 min).**
   - **`taxonomy.json`:** about 90 tags with parents and EN/JA/HI labels:
     - `meat` → beef, pork, chicken, mutton, …
     - `seafood` → fish → bonito, sardine, …; shellfish
