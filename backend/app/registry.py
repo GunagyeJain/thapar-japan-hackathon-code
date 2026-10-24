@@ -22,6 +22,7 @@ from app.modules import (
     m11_story,
     m14_groups,
     m16_days,
+    m17_passport,
 )
 
 
@@ -46,4 +47,5 @@ MODULES: list[Module] = [
     Module("m11", "story engine", m11_story.router, m11_story.seed),
     Module("m14", "groups", m14_groups.router, m14_groups.seed),
     Module("m16", "diets that change by date", m16_days.router, m16_days.seed),
+    Module("m17", "dietary passport", m17_passport.router, m17_passport.seed),
 ]

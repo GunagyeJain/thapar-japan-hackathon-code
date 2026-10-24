@@ -152,3 +152,37 @@ Reset and the clock are m0 endpoints (above).
 
 - `Leg = {flight_no, date, from, to, catered_in, fast_day, code|null, kitchen_note|null, kitchen_note_ja|null, label_mark: Text|null, usual: {code, kitchen_note}|null}`. Meal fields are null until the passenger has a profile. On a fast day the rules are the profile's plus m1's `vrat` preset (forbid wins); `kitchen_note_ja` is the same note in Japanese for a Tokyo-catered leg.
 - Rules (m1): `engine.rules_on(forbid, allow, fasting_dates, date)` / `rulesOn()` and `fast_days(observance_ids, dates)` / `fastDays()`, on the public calendar `shared/rules/calendar.json`.
+
+## v2 shapes
+`Tier`, `TimeRule`, `Rules`, `Passport`, `Window`, `Rung`, `Channel`, `ChangeKind` and `ChangeEvent` are defined in `docs/plan/v2.md` ("Shared shapes").
+
+## m17 · dietary passport + calendar radar
+| Method | Path | Request | Response |
+|---|---|---|---|
+| GET | `/passport/cabin/{flight_id}` | – | `{flight_id, known, total, passengers: [{passenger_id, seat, cabin, name, known, source, tier: "hard"\|"firm"\|"soft"\|"none", flex, rules: Rules\|null, card: {ja, en, hi}}]}` |
+| GET | `/passport/{passenger_id}` | – | `Passport & {card, plan: {main_pick\|null, code\|null, kitchen_note\|null, forbid, allow, time_rules_active}}` (404 if none) |
+| POST | `/passport/understand` | `{text, lang?}` (≤ 500 chars) | `{rules: Rules, chips: [{tag, kind: "forbid"\|"allow"\|"allergen", tier, via, source: "dictionary"\|"model"}], time_rules: (TimeRule & {label: Text})[], unclear: string[], source: "dictionary"\|"model"\|"both"}`. Stores nothing |
+| POST | `/passport` | `{passenger_id, lang, rules: Rules, source}` | `{passport: Passport, plan, promise: MealPromise\|null}`. Writes the profile, the promise and C1 like `/profiles`; time-rule labels never stored |
+| GET | `/passport/booking/{passenger_id}` | – | `{pnr, passengers: [{passenger_id, name, seat, has_passport}]}`: the others on the same booking to ask |
+| POST | `/radar/scan` | `{flight_id?, passenger_id?}` | `{asked: [{question_id, passenger_id, date, flight_no, label: Text}], quiet: number}`; each question is a `whatsapp` notification with `ref: {kind: "radar_question", question_id, options: [{id, label: Text}]}` |
+| POST | `/radar/answer` | `{question_id, option_id}` | `{question_id, applied: boolean, plan, change: ChangeEvent\|null}` |
+
+## m18 · change router + chaos mode
+| Method | Path | Request | Response |
+|---|---|---|---|
+| POST | `/changes` | `{flight_id, passenger_id?, channel, kind, rules?: Rules, note?, lang?}` (rules default to the passport) | `ChangeEvent` (decided) |
+| GET | `/changes` | `?flight_id=` | `{now, window: Window, windows: [{window, from, to, rungs: Rung[]}], events: ChangeEvent[]}` (newest last) |
+| GET | `/changes/metrics` | `?flight_id=` | `{ours: Metrics, today: Metrics}`, `Metrics = {events, hard_total, hard_met, firm_total, firm_met, meals_wasted, known_before_cutoff, passengers}` |
+| GET | `/changes/assignments` | `?flight_id=` | `{assignments: [{seat, passenger_id, item_id, spec_id, spec_name: Text, rung, tier, order}]}`: the onboard plan, in service order |
+| POST | `/chaos/run` | `{flight_id, preset?: "jl740"}` | `{events: ChangeEvent[], metrics}`; idempotent per reset |
+| POST | `/chaos/reset` | `{flight_id}` | `{ok}`: clears change events and the chaos side effects |
+
+Passenger answers go out through `outbox.notify("whatsapp", passenger_id, …, ref={"kind": "change", "change_id"})` so `/chat` shows them.
+
+## m19 · smart load
+| Method | Path | Request | Response |
+|---|---|---|---|
+| GET | `/load/{flight_id}` | – | `{families: [{family, label: Text, known, forecast, p90, loaded}], reserve: {fresh: {q, cu, co, ratio}, pouch: {q, cu, co, ratio}, loaded}, universal: {profiles: [{id, label: Text}], candidates: [{id, name: Text, covers, matrix: Verdict[]}]}, bento: {components: [...], spares: [...]}}` |
+
+## m20 · crew copilot (inside m8)
+The crew package (`GET /api/crew/{flight_id}/package`) gains `copilot: {seats: [{seat, passenger_id, tier, flex, card: {ja, en, hi}, may_eat_from\|null, sunrise_box, assigned: {item_id, spec_id, spec_name: Text, rung}\|null}], serve_order: string[]}` from m17, m18 and m21. Taps go back as crew events `eaten`, `refused`, `swapped`.

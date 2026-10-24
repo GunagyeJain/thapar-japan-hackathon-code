@@ -1,5 +1,8 @@
 # Build plan · ThaliBento finals (24 Oct 15:00 → 25 Oct 10:00 IST)
 
+## v2 (25 Oct, 00:30 IST)
+The final build follows **[`docs/plan/v2.md`](v2.md)**: the airline keeps listening after the 25-hour cutoff (Dietary Passport + Calendar Radar m17, Change Router + Chaos Mode m18, Smart Load m19, Crew Copilot m20, sun at the aircraft m21). Where this plan and v2 disagree, v2 wins.
+
 ## Goal
 Prove, live and end to end on real-format data, that a meal promise survives every hand-off. A passenger states a diet once. ThaliBento catches the wrong code (HNML), spots the request that a codeshare rebooking silently dropped, gives the caterer a list and labels they can't misread, and lets crew check every tray offline in the galley. It finds a safe meal on board for a last-minute request. It must look like an ops product JAL could pilot on DEL→NRT tomorrow.
 
@@ -70,6 +73,11 @@ Folder pattern: `frontend/src/modules/mN-slug/` · `backend/app/modules/mN_slug/
 | m13 | pitch, video, props | Bhavyam | `bhavyam/m13-pitch` | `docs/demo-script.md` (+ final deck in the docs repo) | all | final | yes |
 | m14 | group upload (stretch) | Shefali | `shefali/m14-groups` | `frontend/src/modules/m14-groups/`, `backend/app/modules/m14_groups/` | m3 | stretch | no |
 | m16 | diets that change by date (late add) | Gunagye (lane b) | `gunagye/m16-days` | `shared/rules/calendar.json`, `frontend/src/modules/m16-days/`, `backend/app/modules/m16_days/` | m1, m3 | late add, by 01:30 | yes, if green by 01:30 |
+| m17 | dietary passport + calendar radar (v2) | Gunagye (lane b) | `gunagye/m16-days` | `backend/app/modules/m17_passport/`, `frontend/src/modules/m17-passport/` | m1, m3, m16 | v2 | yes |
+| m18 | change router + chaos mode (v2) | Gunagye (lane b) | `gunagye/m16-days` | `backend/app/modules/m18_changes/`, `frontend/src/modules/m18-changes/` | m6, m17 | v2 | yes |
+| m19 | smart load (v2) | Gunagye (lane b) | `gunagye/m16-days` | `backend/app/modules/m19_load/`, `frontend/src/modules/m19-load/` | m1, m17 | v2 | yes |
+| m20 | crew copilot (v2, inside m8) | Gunagye (lane b) | `gunagye/m16-days` | additions in `m8-crew` / `m8_crew` | m8, m17, m18, m21 | v2 | yes |
+| m21 | sun at the aircraft (v2) | Gunagye (lane b) | `gunagye/m16-days` | `backend/app/modules/m21_sun/`, `frontend/src/modules/m21-sun/` | m17 | v2 | yes |
 
 **Shared zone** (add-only; see CONTRIBUTING.md), in addition to the defaults:
 - `backend/app/core/`, `backend/app/main.py`, `backend/app/registry.py`
@@ -86,7 +94,7 @@ Each person works top to bottom. Take the first module in your queue whose Statu
 | Person | Queue |
 |---|---|
 | gunagye (lane a) | m0 → m2 → m8 → m12 |
-| gunagye (lane b) | m1 → m6 → m11 → m7 → m5 → m16 |
+| gunagye (lane b) | m1 → m6 → m11 → m7 → m5 → m16 → m17 → m18 → m19 → m20 → m21 |
 | bhavyam | m4 → m10 → m13 |
 | shefali | m3 → m9 (m14 cut) |
 
