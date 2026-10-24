@@ -4,7 +4,7 @@ Read-only towards the airline: we only read message copies. The simulator plays 
 agent and the departure control system, so the demo can produce the messages they would send.
 """
 import secrets
-from datetime import date
+from datetime import date, timedelta
 from types import SimpleNamespace
 from typing import Any
 
@@ -13,6 +13,7 @@ from sqlmodel import Session, func, select
 from app.core import alerts, clock, events, outbox
 from app.core.db import use_session
 from app.core.ids import ALPHABET, new_id
+from app.core.seed import FLIGHT_ID
 from app.core.models import Alert, Flight, MealPromise, Passenger, Profile, RawMessage
 from app.modules.m1_rules.engine import check_booking
 
@@ -262,11 +263,43 @@ def build_adl(session: Session, event_type: str, passenger_id: str, **params) ->
 
 
 def simulate(event_type: str, passenger_id: str | None = None, *, session: Session | None = None, **params) -> dict[str, Any]:
-    """Emit the ADL for a booking event and ingest it, as if it came off the feed."""
+    """Emit the ADL for a booking event and ingest it, as if it came off the feed. `delay` sends no message."""
     with use_session(session) as s:
+        if event_type == "delay":
+            return delay(s, params.get("flight_id", FLIGHT_ID), int(params.get("minutes", 0)))
         if not passenger_id:
             raise ValueError(f"{event_type} needs a passenger_id")
         return ingest(build_adl(s, event_type, passenger_id, **params), session=s)
+
+
+def delay(session: Session, flight_id: str, minutes: int) -> dict[str, Any]:
+    """A late departure: meal carts must wait, or chilled meals sit out too long. DELAY_HOLD + the caterer is told."""
+    flight = session.get(Flight, flight_id)
+    if not flight:
+        raise ValueError(f"no flight {flight_id}")
+    if minutes <= 0:
+        raise ValueError("delay needs minutes > 0")
+    before = {"delay_min": flight.delay_min, "status": flight.status}
+    flight.delay_min, flight.status = minutes, "delayed"
+    session.add(flight)
+    late = timedelta(minutes=minutes)
+    etd, dispatch = (flight.std + late).astimezone(clock.IST), (flight.dispatch_at + late).astimezone(clock.IST)
+    body = (f"{flight.flight_no} now departs {etd:%H:%M}, {minutes} min late. Hold the meal carts: "
+            f"dispatch moves from {flight.dispatch_at.astimezone(clock.IST):%H:%M} to {dispatch:%H:%M}.")
+    # A new delay replaces the old hold, so the latest times are the ones on screen.
+    for old in session.exec(select(Alert).where(Alert.flight_id == flight.id, Alert.type == "DELAY_HOLD",
+                                                Alert.status != "resolved")).all():
+        _resolve(old, "feed", f"Superseded by a {minutes} min delay", clock.now(session=session))
+        session.add(old)
+    session.flush()
+    alert = alerts.raise_alert(flight.id, "DELAY_HOLD", "warning", f"{flight.flight_no} delayed {minutes} min: hold meal dispatch",
+                               body, deadline_at=dispatch, evidence={"delay_min": minutes, "std": flight.std.isoformat(),
+                                                                     "etd": etd.isoformat(), "dispatch_at": dispatch.isoformat()},
+                               session=session)
+    outbox.notify("caterer", "caterer", alert.title, body, ref={"alert_id": alert.id}, session=session)
+    changes = [{"kind": "changed", "passenger_id": None, "pnr": None, "name": flight.flight_no, "field": f,
+                "before": before[f], "after": getattr(flight, f)} for f in before if before[f] != getattr(flight, f)]
+    return {"message": None, "changes": changes, "alerts": [alert]}
 
 
 def ssr_draft(flight: Flight, p: Passenger, code: str, note: str | None) -> str:

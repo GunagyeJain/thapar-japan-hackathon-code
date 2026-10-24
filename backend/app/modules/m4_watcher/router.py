@@ -24,7 +24,7 @@ class ActionIn(BaseModel):
 
 
 class BookingEventIn(BaseModel):
-    type: Literal["rebook_drop_meal", "restore_meal", "seat_change"]
+    type: Literal["rebook_drop_meal", "restore_meal", "seat_change", "delay"]
     passenger_id: str | None = None
     params: dict[str, Any] = {}
 

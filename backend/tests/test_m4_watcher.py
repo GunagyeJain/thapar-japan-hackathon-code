@@ -110,6 +110,20 @@ def test_seat_change_fixture(fresh):
     assert r["alerts"] == []
 
 
+def test_delay_holds_dispatch(fresh):
+    r = fresh.post("/api/sim/booking-events", json={"type": "delay", "params": {"minutes": 45}}).json()
+    (alert,) = r["alerts"]
+    assert (alert["type"], alert["deadline_at"]) == ("DELAY_HOLD", "2026-10-25T02:50:00+05:30")
+    assert "now departs 05:20, 45 min late" in alert["body"]
+    flight = fresh.get(f"/api/flights/{FLIGHT}").json()
+    assert (flight["delay_min"], flight["status"]) == (45, "delayed")
+    assert alert["body"] in [n["body"] for n in fresh.get("/api/notifications?to=caterer").json()]
+    second = fresh.post("/api/sim/booking-events", json={"type": "delay", "params": {"minutes": 90}}).json()["alerts"][0]
+    open_holds = fresh.get(f"/api/alerts?flight_id={FLIGHT}&type=DELAY_HOLD&status=open").json()
+    assert [a["id"] for a in open_holds] == [second["id"]]
+    assert fresh.post("/api/sim/booking-events", json={"type": "delay", "params": {"minutes": 0}}).status_code == 400
+
+
 def test_bad_input_is_400(fresh):
     assert fresh.post("/api/feed/messages", json={"text": "hello"}).status_code == 400
     assert fresh.post("/api/feed/messages", json={"text": fixture("adl_rebook_23C.txt").replace("JL740", "JL999")}).status_code == 400

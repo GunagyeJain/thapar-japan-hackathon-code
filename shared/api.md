@@ -56,7 +56,7 @@ Example: Priya's `forbid: [meat, seafood, egg, onion, garlic]` with dairy allowe
 | GET | `/flights/{id}/manifest` | – | `{as_of: RawMessage.id, passengers: ManifestRow[]}` |
 | GET | `/alerts` | `?flight_id=&status=open&type=` | `Alert[]` (newest first) |
 | POST | `/alerts/{id}/actions` | `{action: "acknowledge"\|"request_again"\|"notify_passenger"\|"notify_kitchen"\|"resolve", actor, note?}` | `Alert`. `request_again` stores `evidence.ssr_draft` and has the simulator emit the corrected ADL → C2 `fixed` + passenger notification |
-| POST | `/sim/booking-events` | `{type: "rebook_drop_meal"\|"restore_meal"\|"seat_change"\|"delay"\|"aircraft_swap", passenger_id?, params?}` | `{message: RawMessage, alerts: Alert[], changes: Change[]}`. Live now: `rebook_drop_meal` (params `new_pnr?`, `inbound_flight?`), `restore_meal` (`code`, `note?`), `seat_change` (`seat`) |
+| POST | `/sim/booking-events` | `{type: "rebook_drop_meal"\|"restore_meal"\|"seat_change"\|"delay"\|"aircraft_swap", passenger_id?, params?}` | `{message: RawMessage, alerts: Alert[], changes: Change[]}`. Live now: `rebook_drop_meal` (params `new_pnr?`, `inbound_flight?`), `restore_meal` (`code`, `note?`), `seat_change` (`seat`), `delay` (params `minutes`, `flight_id?`; no message, `message: null`; raises DELAY_HOLD with `deadline_at` = the new dispatch time and tells the caterer) |
 
 - `Change = {kind: "added"|"removed"|"changed", passenger_id|null, pnr, name, field?, before?, after?}`
 - `ManifestRow = {passenger_id, pnr, surname, given, title, seat, cabin, ssr: [{code, status, text}], inbound|null}`. Judges aren't in the feed, so they aren't listed
