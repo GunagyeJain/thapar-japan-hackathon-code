@@ -3,3 +3,6 @@ Append one line per decision: `- YYYY-MM-DD HH:MM · <name> · <decision> · <wh
 
 - 2026-10-24 · Gunagye · Branch per person per module, merged into main with `scripts/ship.sh`; main must always run · Three people build in parallel and main is the demo
 - 2026-10-24 15:06 · Gunagye · Build plan: 15 modules in per-person queues (Gunagye in two lanes), contracts v1 in shared/, UI rules in docs/design.md · one plan everyone builds against in parallel for the 25 Oct 10:00 submission
+- 2026-10-24 16:05 · Gunagye · Seed seat map: economy rows 18–39, rows 5 and 20 free for judges, 186 passengers · the cast has 18C and judges need empty rows, which the 156-seat economy can't give
+- 2026-10-24 16:05 · Gunagye · Latest majors kept (Vite 8, React Router 8, vitest 5, TypeScript 7): the scaffold builds and tests clean on them · no need to pin back
+- 2026-10-24 16:05 · Gunagye · Each frontend module exports `routes` from its `index.tsx` (path + layout + element); `routes.tsx` only spreads them · one line per module, so the route list never conflicts

@@ -1,0 +1,284 @@
+[
+ {
+  "id": "SPEC-AVML",
+  "name": {
+   "en": "Vegetable biryani, dal tadka, raita",
+   "ja": "野菜ビリヤニ、ダルタルカ、ライタ"
+  },
+  "code": "AVML",
+  "kind": "special",
+  "tags": [
+   "rice",
+   "legume",
+   "yogurt",
+   "onion",
+   "garlic",
+   "ginger",
+   "carrot",
+   "sugar"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-AVML-NOG",
+  "name": {
+   "en": "Jeera rice, paneer matar, dal (no onion, no garlic)",
+   "ja": "ジーラライス、パニールマタル、ダル（玉ねぎ・にんにく不使用）"
+  },
+  "code": "AVML",
+  "kind": "special",
+  "tags": [
+   "rice",
+   "paneer",
+   "legume",
+   "potato",
+   "ginger"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-AVML-VRAT",
+  "name": {
+   "en": "Sabudana khichdi, jeera aloo, fruit",
+   "ja": "サブダナのキチュリ、ジーラアルー、フルーツ"
+  },
+  "code": "AVML",
+  "kind": "special",
+  "tags": [
+   "potato",
+   "peanut",
+   "ghee",
+   "sugar"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-VJML",
+  "name": {
+   "en": "Jain dal, lauki sabzi, steamed rice, phulka",
+   "ja": "ジャイナ式ダル、ユウガオのサブジ、ご飯、プルカ"
+  },
+  "code": "VJML",
+  "kind": "special",
+  "tags": [
+   "legume",
+   "rice",
+   "wheat",
+   "ghee"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-VJML-DB",
+  "name": {
+   "en": "Jain low-sugar meal: moong dal, tinda, multigrain phulka",
+   "ja": "ジャイナ式低糖食：ムングダル、ティンダ、雑穀プルカ"
+  },
+  "code": "VJML",
+  "kind": "special",
+  "tags": [
+   "legume",
+   "wheat",
+   "ghee"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-HNML",
+  "name": {
+   "en": "Chicken curry with rice",
+   "ja": "チキンカレーとご飯"
+  },
+  "code": "HNML",
+  "kind": "special",
+  "tags": [
+   "chicken",
+   "rice",
+   "onion",
+   "garlic",
+   "ginger",
+   "yogurt"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-MOML",
+  "name": {
+   "en": "Halal chicken korma with rice",
+   "ja": "ハラール・チキンコルマとご飯"
+  },
+  "code": "MOML",
+  "kind": "special",
+  "tags": [
+   "chicken",
+   "halal_certified",
+   "rice",
+   "cream",
+   "tree_nut",
+   "onion",
+   "garlic",
+   "ginger"
+  ],
+  "certified": true,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-VGML",
+  "name": {
+   "en": "Chana masala, jeera rice, roti",
+   "ja": "チャナマサラ、ジーラライス、ロティ"
+  },
+  "code": "VGML",
+  "kind": "special",
+  "tags": [
+   "legume",
+   "rice",
+   "wheat",
+   "onion",
+   "garlic",
+   "ginger"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-VLML",
+  "name": {
+   "en": "Vegetable frittata, roast potatoes, bread roll",
+   "ja": "野菜のフリッタータ、ローストポテト、パン"
+  },
+  "code": "VLML",
+  "kind": "special",
+  "tags": [
+   "egg",
+   "cheese",
+   "milk",
+   "butter",
+   "potato",
+   "onion",
+   "wheat"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-BACKUP",
+  "name": {
+   "en": "Paneer and peas with jeera rice (sealed backup)",
+   "ja": "パニールとグリーンピース、ジーラライス（密封予備食）"
+  },
+  "code": null,
+  "kind": "backup",
+  "tags": [
+   "paneer",
+   "legume",
+   "rice",
+   "ghee"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-C-JAIN",
+  "name": {
+   "en": "Jain thali",
+   "ja": "ジャイナ式ターリー"
+  },
+  "code": null,
+  "kind": "main",
+  "tags": [
+   "legume",
+   "rice",
+   "wheat",
+   "paneer",
+   "ghee"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-C-CHANA",
+  "name": {
+   "en": "Vegan chana masala with rice",
+   "ja": "ヴィーガン・チャナマサラとご飯"
+  },
+  "code": null,
+  "kind": "main",
+  "tags": [
+   "legume",
+   "rice",
+   "onion",
+   "garlic",
+   "ginger"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-C-CHICKEN",
+  "name": {
+   "en": "Chicken biryani",
+   "ja": "チキンビリヤニ"
+  },
+  "code": null,
+  "kind": "main",
+  "tags": [
+   "chicken",
+   "rice",
+   "yogurt",
+   "onion",
+   "garlic",
+   "ginger"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-Y-CHICKEN",
+  "name": {
+   "en": "Chicken tikka masala with rice",
+   "ja": "チキンティッカマサラとご飯"
+  },
+  "code": null,
+  "kind": "main",
+  "tags": [
+   "chicken",
+   "cream",
+   "butter",
+   "yogurt",
+   "onion",
+   "garlic",
+   "ginger",
+   "rice"
+  ],
+  "certified": false,
+  "source": "caterer"
+ },
+ {
+  "id": "SPEC-Y-PANEER",
+  "name": {
+   "en": "Paneer butter masala with rice",
+   "ja": "パニールバターマサラとご飯"
+  },
+  "code": null,
+  "kind": "main",
+  "tags": [
+   "paneer",
+   "butter",
+   "cream",
+   "tree_nut",
+   "onion",
+   "garlic",
+   "ginger",
+   "rice"
+  ],
+  "certified": false,
+  "source": "caterer"
+ }
+]
