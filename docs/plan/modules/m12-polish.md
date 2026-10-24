@@ -67,3 +67,11 @@ The 07:00 dry run needs no fixes to visuals or setup.
   - "Saved 02:50" when Download was tapped right after a step: the label now uses the server's package time.
   - C1 line spells out six rules, so Priya's ends "…onion, garlic → AVML".
 - For Bhavyam (demo script): `/ops/late` now shows "CP-SAT · N ms · 0 swaps · **10** meals checked" for Mehta, not 11; read the number off the screen. The iPad caches the app about 12 s after `/crew` first opens; wait that long before airplane mode.
+- 23:00 · **Workflow rework** (Gunagye found the walk-through confusing; all on main, 620355d):
+  - `/demo` is a presenter cockpit: a step strip, then for the current step the device and screen (with Open), the clicks in order, the line to say, what the room sees, and Priya's five hand-offs filling in live. Next names the next step. The script lives in `frontend/src/modules/m11-demo/script.ts`.
+  - Every projector screen shows a **story guide bar** under the flight bar while the story runs: act and time, "This screen: …", "Do here: …", and Priya's hand-offs. "Hide guide" turns it off (remembered per browser).
+  - `/ops`: "How it works" in three steps, a plain line under each number, alerts as clickable rows, and a **meal-promise board** (every promise across Diet → Booking → Caterer → Galley → Seat). Judges' reserved-meal notes no longer count as open problems.
+  - Crew seat map: tap a seat to see who sits there, what they can't eat, their tray and its status. A judge who joined after the download shows with "Download again before departure".
+  - Priya's phone: "Where your meal is" with her five hand-offs. Her old PNR (6XK2QP) still finds her after the rebooking, so a reload mid-demo doesn't strand the phone.
+  - For Bhavyam: `docs/demo-script.md` still says "Next: /p" etc.; the buttons now read "Next: <step title>". The clicks themselves are unchanged.
+- 23:30 · **Walkthrough video** (`ThaliBento-demo-walkthrough.mp4`, about 5 min, 1080p): recorded from real screenshots of a full run over the tunnel (projector, Priya's phone, a judge's phone, crew iPad), with the cursor/finger on every click and captions with the narrator's lines. Kept outside the repo (too big for git).
