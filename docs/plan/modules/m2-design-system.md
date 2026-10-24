@@ -1,7 +1,7 @@
 # m2: design system
 
 **Owner:** Gunagye (lane a) · **Branch:** `gunagye/m2-design-system` · **Phase:** 1, 17:00–18:15 IST. Keep it tight: build only what the acts use, so m8 starts by 18:15.
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 One look across five surfaces, so the product reads as a real airline tool and not five student pages. It continues the deck's identity (navy/blue on ice, boarding-pass details) and gives every module ready-made status, data and layout components.
@@ -37,10 +37,10 @@ All exported from `@/ui`:
 Plus the final `docs/design.md`.
 
 ## Tasks
-- [ ] **T1 Tokens + type (30 min).** `tokens.css` (light + cabin dark), Tailwind theme mapping, fonts (two weights each; Japanese through fontsource unicode-range subsets), focus ring, tabular numbers utility.
+- [x] **T1 Tokens + type (30 min).** `tokens.css` (light + cabin dark), Tailwind theme mapping, fonts (two weights each; Japanese through fontsource unicode-range subsets), focus ring, tabular numbers utility.
 
   _Done when:_ the m0 home page uses the new tokens with no hard-coded hex anywhere in `src/`.
-- [ ] **T2 Status + chrome components (30 min).** StatusChip, VerdictBadge, Countdown, DualClock, FlightContextBar, PageHeader, EmptyState, LangSwitch; DesktopLayout nav styled.
+- [x] **T2 Status + chrome components (30 min).** StatusChip, VerdictBadge, Countdown, DualClock, FlightContextBar, PageHeader, EmptyState, LangSwitch; DesktopLayout nav styled.
 
   _Done when:_ the `/ui` gallery shows each one in light and cabin dark. **Ship** (heads-up: "use @/ui components; see docs/design.md").
 - [ ] **T3 Data components (45 min).** DataTable, Timeline, KpiTile, RawMessage, DiffView, SeatMap (with Priya 23C, Mehta 31K and the row-5 judge seats in the example).

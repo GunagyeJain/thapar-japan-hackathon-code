@@ -1,23 +1,10 @@
-// Desktop shell: left nav + content. m2 styles it further and adds the FlightContextBar.
+// Desktop shell: left nav, the JL740 context bar, then the page.
 import { NavLink, Outlet } from "react-router"
 
 import { NAV, NAV_GROUPS } from "@/app/nav"
 import { Brand } from "@/app/layouts/Brand"
-import { useSimClock } from "@/lib/clock"
-import { fmtTime } from "@/lib/format"
 import { cn } from "@/lib/utils"
-
-function SimClockBadge() {
-  const { now } = useSimClock()
-  return (
-    <div className="rounded-md border border-white/15 px-3 py-2 text-xs tabular">
-      <div className="text-white/60">Sim clock</div>
-      <div className="mt-0.5 font-medium text-white">
-        {now ? `${fmtTime(now, "IST", { date: true })} · ${fmtTime(now, "JST")}` : "—"}
-      </div>
-    </div>
-  )
-}
+import { FlightContextBar } from "@/ui/FlightContextBar"
 
 function SideNav() {
   return (
@@ -56,9 +43,7 @@ export function DesktopLayout() {
       <aside className="sticky top-0 hidden h-screen flex-col gap-6 overflow-y-auto bg-navy px-3 py-5 text-white md:flex">
         <Brand className="px-2 text-white" />
         <SideNav />
-        <div className="mt-auto">
-          <SimClockBadge />
-        </div>
+        <p className="mt-auto px-3 text-[11px] leading-relaxed text-white/50">Read-only copy of the PNL/ADL feed. A person approves every fix.</p>
       </aside>
       <header className="flex items-center gap-4 overflow-x-auto bg-navy px-4 py-3 text-white md:hidden">
         <Brand className="shrink-0 text-white" />
@@ -69,6 +54,7 @@ export function DesktopLayout() {
         ))}
       </header>
       <main className="min-w-0">
+        <FlightContextBar className="sticky top-0 z-30" />
         <Outlet />
       </main>
     </div>
