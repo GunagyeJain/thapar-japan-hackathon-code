@@ -1,10 +1,11 @@
 """Recipe sheet → ingredients → per-diet verdicts. The rules decide; a model (when there is one) only reads."""
 import hashlib
+import re
 
 from app.modules.m1_rules import engine
 
 from . import cache, gemini
-from .dictionary import read_sheet
+from .dictionary import NEUTRAL, read_sheet
 
 # Diets the caterer sees a verdict for (m9 spec).
 DIETS = ("vegetarian", "jain", "vegan", "no_onion_garlic", "halal")
@@ -14,20 +15,32 @@ def source_hash(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def _words_of(row: dict) -> list[str]:
+    """Japanese words that name a row's tags: the dictionary hits, or the name itself when the
+    model's name is a dictionary word (ラード)."""
+    words = list(row.get("words", []))
+    tag = engine.resolve(row["name_ja"])[0]
+    if not words and tag and tag in row.get("tags", []):
+        words = [row["name_ja"]]
+    return words
+
+
 def rule_words(ingredients: list[dict]) -> list[str]:
-    """What the rules engine reads for each row: the dictionary word (so the chain shows
-    "出汁 → bonito → fish"), else the tags, else the bare name (unknown → a person checks)."""
-    words: list[str] = []
-    for row in ingredients:
-        tags = row.get("tags", [])
-        covered = {engine.resolve(w)[0] for w in row.get("words", [])}
-        words += row.get("words", [])
-        # Tags the model added beyond the dictionary hits. A tag the taxonomy doesn't know
-        # goes in as it is, so the engine marks it NEEDS_HUMAN.
-        words += [t for t in tags if t not in covered]
-        if not row.get("words") and not tags:
-            words.append(row["name_ja"])
-    return list(dict.fromkeys(words))
+    """What the rules engine reads: every Japanese word first (so the chain shows
+    "出汁 → bonito → fish"), then tags no word already covers, then bare names nobody could
+    read (the engine marks those NEEDS_HUMAN, so a person checks them)."""
+    rows = [r for r in ingredients if not (r["name_ja"] in NEUTRAL and not r.get("words"))]
+    words: list[str] = [w for r in rows for w in _words_of(r)]
+    covered = {engine.resolve(w)[0] for w in words}
+    known = engine.rules().tags
+
+    def is_covered(tag: str) -> bool:
+        # bonito covers fish and seafood: they add nothing once bonito is in.
+        return tag in covered or (tag in known and any(c and tag in engine.rules().paths(c) for c in covered))
+
+    tags = [t for r in rows for t in r.get("tags", []) if not is_covered(t)]
+    unread = [r["name_ja"] for r in rows if not r.get("tags") and not _words_of(r)]
+    return list(dict.fromkeys(words + tags + unread))
 
 
 def verdicts(ingredients: list[dict]) -> list[dict]:
@@ -35,17 +48,33 @@ def verdicts(ingredients: list[dict]) -> list[dict]:
     out = []
     for diet in DIETS:
         result = engine.evaluate_diet(diet, words)
-        out.append({"diet": diet, "verdict": result["verdict"], "fired": result["fired"]})
+        # Dictionary words come first, so the first rule per family carries the fullest chain
+        # ("出汁 → bonito → fish → seafood"); later copies from the model's tags add nothing.
+        seen: set[tuple[str, str]] = set()
+        fired = []
+        for f in result["fired"]:
+            if (f["rule_id"], f["tag"]) not in seen:
+                seen.add((f["rule_id"], f["tag"]))
+                fired.append(f)
+        out.append({"diet": diet, "verdict": result["verdict"], "fired": fired})
     return out
+
+
+def _base(name: str) -> str:
+    """わかめ（乾燥） → わかめ"""
+    return re.split(r"[（(]", name, maxsplit=1)[0].strip()
 
 
 def merge(dictionary_rows: list[dict], model_rows: list[dict]) -> list[dict]:
     """Model rows first (they name every ingredient); dictionary hits are added to the row with
     the same name, or kept as their own row, so nothing the dictionary saw is ever dropped."""
     rows = [{**r, "words": list(r.get("words", []))} for r in model_rows]
-    by_name = {r["name_ja"]: r for r in rows}
+    by_name = {_base(r["name_ja"]): r for r in rows}
     for d in dictionary_rows:
-        target = by_name.get(d["name_ja"])
+        target = by_name.get(_base(d["name_ja"]))
+        if target is None and not d["tags"]:
+            # A line the dictionary couldn't read: keep it only if the model didn't name it either.
+            target = next((r for r in rows if _base(d["name_ja"]) in r["name_ja"] or _base(r["name_ja"]) in d["name_ja"]), None)
         if target is None:
             rows.append(d)
             by_name[d["name_ja"]] = d

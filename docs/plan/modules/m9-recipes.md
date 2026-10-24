@@ -49,7 +49,7 @@ The PNGs are recipe cards rendered from the text (an HTML page + screenshot is f
 - [x] **T1 Dictionary + verdicts on text (40 min).** Works with no model at all. Tests on the 4 `.txt` sheets.
 
   _Done when:_ the miso soup text shows UNSAFE for vegetarian and Jain via 出汁 → 鰹節 → fish.
-- [ ] **T2 Gemini + cache (40 min).** Client, schema, validation, cache, timeouts, clear errors.
+- [x] **T2 Gemini + cache (40 min).** Client, schema, validation, cache, timeouts, clear errors.
 
   _Done when:_ with a key, the miso PNG is extracted once, and the second call returns `cached: true` in under 50 ms. The cache files for the 4 demo sheets are committed.
 - [ ] **T3 Page (50 min).** Upload (drag-drop an image or paste text). Result view: the sheet on the left; the ingredient table on the right (JA, EN, tags, confidence, evidence highlighted); a verdict chip per diet with the fired rule; **Approve**.
@@ -67,4 +67,6 @@ _Owner's running notes._
 - T1 done: `dictionary.py` scans every `synonyms_ja` word (longest match first, so 玉ねぎ is onion and 昆布だし is kombu; "ただし" is ignored). Ingredient lines the dictionary can't read (わかめ, 油揚げ, うどん) go through the rules as unknown → NEEDS_HUMAN, so dictionary-only never says SAFE about something it didn't read. 水/湯 lines are skipped.
 - The four demo sheets are in `shared/seed/recipes/` as `.txt` and `.png` (printed cards rendered from the same text).
 - T2 code is in: `gemini.py` (fixed schema incl. a `transcription` for photos, temperature 0, 25 s timeout, schema-checked answer), `cache.py` (`cache/<sha256>.json`, model answers only), `pipeline.run` (cache → Gemini → dictionary on the text or transcription → merge → verdicts). Tests stub Gemini and use a temp cache, so they never call the API or write to the repo.
-- T2 still open: needs `GEMINI_API_KEY` in `.env` (team chat), then extract the 4 PNGs and 4 texts once and commit `backend/app/modules/m9_recipes/cache/`. Without a key: text works dictionary-only (with the "Model offline" note); a photo returns 503.
+- T2 done with `gemini-3.5-flash`: `gemini-2.5-flash` is closed to new keys, and `gemini-3.8-flash` took 70 to 120 s per call on our key. 3.5-flash reads a photo in about 5 to 9 s with thinking set to LOW. The 8 demo inputs (4 PNG + 4 TXT) are cached; a repeat call is about 10 ms, and a test fails if any demo sheet loses its cache file.
+- Free tier is 5 requests a minute. On 429 or 503 the client retries once after 3 s, then falls back to the dictionary with the reason in `model_note`.
+- Verdicts list one fired rule per forbidden family, with the Japanese word first (ラード → lard → pork). Rows nobody could read (揚げ油 frying oil, サラダ油) stay NEEDS_HUMAN on purpose.
