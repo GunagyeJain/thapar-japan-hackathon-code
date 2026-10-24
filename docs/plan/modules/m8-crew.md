@@ -1,7 +1,7 @@
 # m8: crew tablet (offline)
 
 **Owner:** Gunagye (lane a) · **Branch:** `gunagye/m8-crew` · **Phase:** 2, 18:00–23:30 IST
-**Status:** done  not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Act 5, the moment people remember. It's built as an extra screen for the crew iPad app JAL already uses (i-PAXINFO), in dark cabin mode, Japanese first with English underneath. Before departure it downloads the flight package; then in **airplane mode** it still runs:
