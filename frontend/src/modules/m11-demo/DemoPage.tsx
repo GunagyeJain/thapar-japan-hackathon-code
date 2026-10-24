@@ -10,6 +10,7 @@ import { t } from "@/lib/i18n"
 import type { Lang } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { Button, EmptyState, LangSwitch, PageHeader, PromiseSteps, toast } from "@/ui"
+import { BrandToggle } from "@/modules/m11-demo/BrandToggle"
 import { usePriya, useScenario, when, type Step } from "@/modules/m11-demo/data"
 import { JudgeQr } from "@/modules/m11-demo/JudgeQr"
 import { ResetButton } from "@/modules/m11-demo/ResetButton"
@@ -104,6 +105,7 @@ export function DemoPage() {
         subtitle="One step at a time: where to look, what to click, what to say. The other screens show a short guide while the story runs."
         actions={
           <>
+            <BrandToggle />
             <LangSwitch value={lang} onChange={setLang} />
             <ResetButton onDone={() => setDid([])} />
           </>
