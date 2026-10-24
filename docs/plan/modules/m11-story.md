@@ -58,7 +58,7 @@ Every step is idempotent: running it twice changes nothing.
 - [ ] **T3 Playwright smoke (40 min).** `e2e/story.spec.ts`: reset, then step through, checking the key text on each screen (alert title, "AVML", "v3", "VJML", "7 of 8", the timeline breakpoint).
 
   _Done when:_ `npx playwright test` passes against `npm run demo`.
-- [ ] **T4 Demo script (15 min).** `scripts/demo.sh`: build, start, print the local and tunnel instructions.
+- [x] **T4 Demo script (15 min).** `scripts/demo.sh`: build, start, print the local and tunnel instructions.
 
   _Done when:_ one command gets from a clean checkout to a running demo.
 
