@@ -19,6 +19,15 @@ export function tagList(tags: string[], lang: Lang): string {
   return tags.map((t) => (lang === "en" ? label(t, "en").toLowerCase() : label(t, lang))).join(lang === "ja" ? "、" : ", ")
 }
 
+const OR: Record<Lang, string> = { en: " or ", hi: " या ", ja: "または" }
+
+/** "chicken or fish": for what a wrong code contains. */
+export function orList(tags: string[], lang: Lang): string {
+  const words = tags.map((t) => (lang === "en" ? label(t, "en").toLowerCase() : label(t, lang)))
+  if (words.length < 2) return words.join("")
+  return `${words.slice(0, -1).join(lang === "ja" ? "、" : ", ")}${OR[lang]}${words[words.length - 1]}`
+}
+
 function Fact({ name, value, mono }: { name: string; value: ReactNode; mono?: boolean }) {
   return (
     <div className="min-w-0">

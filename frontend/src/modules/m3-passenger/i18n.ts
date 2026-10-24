@@ -162,7 +162,6 @@ export const s = {
       ja: "デモ用の座席はすべて埋まりました。大画面の乗務員タブレットをご覧ください。",
     },
     matching: { en: "Checking every meal on board", hi: "विमान का हर भोजन जाँचा जा रहा है", ja: "機内のすべての食事を確認しています" },
-    notYou: { en: "Not your seat? Join again", hi: "यह आपकी सीट नहीं? फिर से जुड़ें", ja: "別の方ですか？もう一度参加する" },
     crewWillConfirm: {
       en: "Crew will confirm your meal on board.",
       hi: "क्रू विमान में आपके भोजन की पुष्टि करेगा।",

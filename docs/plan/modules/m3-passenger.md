@@ -48,13 +48,13 @@ Act 1 of the demo, plus the moment judges take part.
   - Tests.
 
   _Done when:_ `pytest backend/tests/test_m3_*.py` passes, and two calls to `POST /api/join` return seats 5A then 5C.
-- [ ] **T2 DietPicker + DietSummary (45 min).** Uses `mock.ts` until `/api/rules` is live, then switches to it with one change in `mock.ts`. EN/HI/JA labels.
+- [x] **T2 DietPicker + DietSummary (45 min).** Uses `mock.ts` until `/api/rules` is live, then switches to it with one change in `mock.ts`. EN/HI/JA labels.
 
   _Done when:_ at 390 px, tapping "Jain" ticks meat, fish, egg, onion/garlic, root vegetables and honey; unticking works; the summary updates.
-- [ ] **T3 `/p` flow wired (50 min).** Steps 1–7 against the real API (m1 mocked if needed).
+- [x] **T3 `/p` flow wired (50 min).** Steps 1–7 against the real API (m1 mocked if needed).
 
   _Done when:_ Priya's flow ends with "AVML + NO ONION NO GARLIC", her promise appears in `GET /api/flights/JL740-20261025/passengers?with_promises=true`, and a C1 event exists.
-- [ ] **T4 `/j` judge join (35 min).** Short URL, fast on a phone, MatchResult slot.
+- [x] **T4 `/j` judge join (35 min).** Short URL, fast on a phone, MatchResult slot.
 
   _Done when:_ three phones on the tunnel URL join and get 5A, 5C, 5D within 2 s each.
 - [ ] **T5 Languages + states (20 min).** Hindi and Japanese strings for every step, plus loading, error and retry states, following `docs/design.md`.
@@ -67,5 +67,9 @@ Act 1 runs live on a phone, and a judge can join from a QR in under 30 seconds.
 ## Notes
 _Owner's running notes: what's mocked, open questions._
 - T1 done: lookup, profiles (C1, WRONG_CODE when the booked SSR breaks the rules, saving again updates the same promise) and join (seat lock, so judges joining at once never share a seat). A passenger with no SSR gets no WRONG_CODE.
-- `mock.ts` still feeds the picker; switch to `/api/rules` in T2.
+- T2: no mock needed. The picker reads presets, picker groups and the tag tree from `loadRules()` (the same shared/rules JSON the server uses), so it works instantly on a slow phone. It understands parents: Jain forbids `allium`, which ticks "Onion & garlic"; unticking it keeps leek, shallot, spring onion and chive. Allergies live in `DietValue.allergens` (optional) and are sent as forbidden too. The meal code always comes from the server (`/api/rules/code-options`).
+- T3/T4 checked at 390 px: Priya ends on AVML + NO ONION NO GARLIC with C1; Verma (HNML) gets the red card and a WRONG_CODE alert; three joins at once get 5A, 5C, 5D in under 10 ms each.
+- `/j` calls `POST /api/late-requests` after joining and shows m6's explanation; until m6 ships it shows "Crew will confirm your meal on board". Swap in m6's `MatchResult` component when it lands.
+- `/j` remembers the join on the phone (one seat per device). After a reset without judges, the phone shows the join form again.
+- T5 open: every step has loading, error and retry states, and Hindi was checked on every /p step. Still to do: Japanese on every /p step at 390 px.
 - Hindi and Japanese copy is a first draft: get a native speaker to read the Japanese before the demo.

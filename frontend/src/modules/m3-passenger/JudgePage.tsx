@@ -1,10 +1,10 @@
 // /j: a judge scans the QR, says what they don't eat, gets a seat in row 5 and a safe meal on board.
 // One seat per device: the join is remembered on the phone, so a refresh doesn't take a second seat.
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { api, ApiError } from "@/lib/api"
-import type { Lang, Text } from "@/lib/types"
+import type { Lang, Passenger, Text } from "@/lib/types"
 import { Button, Input, LangSwitch, StatusChip } from "@/ui"
 
 import { DietPicker } from "./DietPicker"
@@ -59,7 +59,11 @@ export function JudgePage() {
     },
   })
 
-  if (joined) return <Joined out={joined} lang={lang} onReset={() => { remember(null); setJoined(null) }} />
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [joined])
+
+  if (joined) return <Joined out={joined} lang={lang} onGone={() => { remember(null); setJoined(null) }} />
 
   const full = join.error instanceof ApiError && join.error.status === 409
   const canJoin = consent.this_trip && toRequest(diet).forbid.length > 0 && !join.isPending
@@ -78,7 +82,7 @@ export function JudgePage() {
         }
       >
         <div className="flex flex-col gap-6">
-          <LangSwitch value={lang} onChange={setLang} />
+          <LangSwitch value={lang} onChange={setLang} className="self-start" />
           <label className="flex flex-col gap-1.5">
             <span className="text-sm font-medium text-navy">{pick(s.judge.name, lang)}</span>
             <Input value={name} onChange={(e) => setName(e.target.value)} placeholder={pick(s.judge.namePlaceholder, lang)} maxLength={40} className="h-11 text-lg" />
@@ -100,7 +104,20 @@ export function JudgePage() {
 
 type LateOut = { late_request: { id: string }; match: { status: "matched" | "voucher"; explanation: Text } }
 
-function Joined({ out, lang, onReset }: { out: JoinOut; lang: Lang; onReset: () => void }) {
+function Joined({ out, lang, onGone }: { out: JoinOut; lang: Lang; onGone: () => void }) {
+  // A demo reset without judges removes this seat: show the join form again.
+  const stillThere = useQuery({
+    queryKey: ["judge-seat", out.passenger.id],
+    queryFn: async () => {
+      const rows = await api.get<Passenger[]>(`/flights/${out.passenger.flight_id}/passengers`)
+      return rows.some((p) => p.id === out.passenger.id && p.is_judge)
+    },
+    staleTime: Infinity,
+  })
+  useEffect(() => {
+    if (stillThere.data === false) onGone()
+  }, [stillThere.data, onGone])
+
   // m6 reserves a meal for the judge. Until its endpoint is live, crew confirm on board.
   const late = useQuery({
     queryKey: ["late-request", out.passenger.id],
@@ -135,9 +152,6 @@ function Joined({ out, lang, onReset }: { out: JoinOut; lang: Lang; onReset: () 
             )}
           </div>
         </PromiseView>
-        <button type="button" onClick={onReset} className="mt-6 min-h-11 text-sm text-grey underline-offset-4 hover:underline">
-          {pick(s.judge.notYou, lang)}
-        </button>
       </Step>
     </div>
   )

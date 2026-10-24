@@ -2,7 +2,7 @@
 // AVML + "NO ONION NO GARLIC" with what the other codes would lose.
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { XCircle } from "lucide-react"
-import { useState, type FormEvent, type ReactNode } from "react"
+import { useEffect, useState, type FormEvent, type ReactNode } from "react"
 
 import { api, ApiError } from "@/lib/api"
 import { LANGS } from "@/lib/i18n"
@@ -14,7 +14,7 @@ import { DietPicker } from "./DietPicker"
 import { DietSummary } from "./DietSummary"
 import { EMPTY_DIET, toRequest } from "./diet"
 import { fill, pick, s } from "./i18n"
-import { BoardingPass, CodeCard, ErrorBox, PromiseView, Step, tagList } from "./parts"
+import { BoardingPass, CodeCard, ErrorBox, orList, PromiseView, Step } from "./parts"
 import type { BookingCheck, CodeOption, ConsentIn, DietValue, ProfileOut } from "./types"
 
 type StepId = "find" | "lang" | "consent" | "diet" | "summary" | "result" | "promise"
@@ -29,6 +29,10 @@ export function PassengerPage() {
   const [consent, setConsent] = useState<ConsentIn>(NO_CONSENT)
   const [diet, setDiet] = useState<DietValue>(EMPTY_DIET)
   const [saved, setSaved] = useState<ProfileOut | null>(null)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [step])
 
   const n = NUMBERED.indexOf(step) + 1
   const frame = { lang, n: n || undefined, total: NUMBERED.length }
@@ -205,7 +209,7 @@ function FindBooking({ lang, setLang, frame, onFound }: { lang: Lang; setLang: (
         </Button>
       }
     >
-      <LangSwitch value={lang} onChange={setLang} className="mb-4" />
+      <LangSwitch value={lang} onChange={setLang} className="mb-4 self-start" />
       <form onSubmit={submit} className="flex flex-col gap-4">
         <label className="flex flex-col gap-1.5">
           <span className="text-sm font-medium text-navy">{pick(s.lookup.pnr, lang)}</span>
@@ -326,7 +330,7 @@ function MealResult({
             <p className="mt-1 text-sm">
               {fill(s.result.clash, lang, {
                 booked: passenger.ssr_meal ?? "",
-                list: clash.contains.length ? tagList(clash.contains, lang) : pick(clash.message, lang),
+                list: clash.contains.length ? orList(clash.contains, lang) : pick(clash.message, lang),
                 suggested: chosen.code,
               })}
             </p>

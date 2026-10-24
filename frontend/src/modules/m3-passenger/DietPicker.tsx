@@ -43,12 +43,12 @@ export function DietPicker({ value, onChange, lang, compact = false }: DietPicke
                 aria-pressed={on}
                 onClick={() => onChange(togglePreset(value, p))}
                 className={cn(
-                  "flex items-center gap-2 rounded-md border px-3 text-left font-medium transition-colors duration-150",
+                  "flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-left leading-tight font-medium transition-colors duration-150",
                   compact ? "min-h-9 text-sm" : "min-h-11 text-base",
                   on ? "border-blue bg-ice text-navy" : "border-line bg-card text-foreground hover:border-sky",
                 )}
               >
-                <Check aria-hidden="true" className={cn("size-4 shrink-0 text-blue", !on && "invisible")} />
+                {on && <Check aria-hidden="true" className="size-4 shrink-0 text-blue" />}
                 {pick(p.labels, lang)}
               </button>
             )
