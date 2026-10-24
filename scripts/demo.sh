@@ -58,9 +58,9 @@ cat <<EOF
 == ThaliBento demo (building first, then serving on :$PORT)
    Presenter:   http://localhost:$PORT/demo
    Same Wi-Fi:  http://${IP:-your-laptop-ip}:$PORT/demo   (judges scan the QR on /demo)
-   Over the internet, in a second terminal:
-     cloudflared tunnel --url http://localhost:$PORT
-     then open the https://….trycloudflare.com address it prints, so the QR on /demo points there.
+   HTTPS for phones and the iPad, in a second terminal:
+     PORT=$PORT npm run tunnel
+     then open /demo on the https://….trycloudflare.com address it prints, so the judge QR points there.
    Stop with Ctrl+C.
 EOF
 

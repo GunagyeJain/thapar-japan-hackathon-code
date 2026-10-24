@@ -1,7 +1,7 @@
 # m12: polish + hardening
 
 **Owner:** Gunagye (lane a) · **Branch:** `gunagye/m12-polish` · **Phase:** freeze, 02:00–05:30 IST
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Make the five surfaces look like one finished product on the projector, the iPad and the judges' phones, and make the demo setup boring and repeatable.
