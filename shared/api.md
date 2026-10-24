@@ -186,3 +186,17 @@ Passenger answers go out through `outbox.notify("whatsapp", passenger_id, …, r
 
 ## m20 · crew copilot (inside m8)
 The crew package (`GET /api/crew/{flight_id}/package`) gains `copilot: {seats: [{seat, passenger_id, tier, flex, card: {ja, en, hi}, may_eat_from\|null, sunrise_box, assigned: {item_id, spec_id, spec_name: Text, rung}\|null}], serve_order: string[]}` from m17, m18 and m21. Taps go back as crew events `eaten`, `refused`, `swapped`.
+## m21 · sun at the aircraft
+| Method | Path | Request | Response |
+|---|---|---|---|
+| GET | `/sun/flight/{id}` | – | `SunFlight & {delay_min}` for a flight in the database: `std`/`sta` moved by any m4 delay (404 if no flight) |
+| GET | `/sun/route` | `?from=DEL&to=NRT&dep=<iso>&arr=<iso>&flight_no=` | `SunFlight` for a flight that isn't in the database (`flight_id: null`). 422 for an airport other than DEL, BLR, NRT, HND, a time without an offset, arrival before departure, or over 20 h |
+| GET | `/sun/presets` | `?date=2026-10-25` (default) | `{date, rule, flights: SunSummary[]}`: JL740 DEL 04:35 IST → NRT 15:20 JST, JL754 BLR 02:55 IST → NRT 14:00 JST, JL030 DEL 19:55 IST → HND 06:30 JST (+1) |
+| GET | `/sun/seats/{id}` | – | `{flight_id, seats: (EatWindow & {seat, passenger_id, rule})[]}`, by seat. Rules come from m17's `daylight_rules(session, flight_id)`; `seats: []` while m17 isn't merged (404 if no flight) |
+
+- `SunSummary = {flight_id|null, flight_no|null, origin, dest, dep, arr, threshold_cruise, sunrise: SunEvent|null, sunset: SunEvent|null, fajr: SunEvent|null, chauvihar: EatWindow & {rule}}`; `SunFlight = SunSummary & {track: TrackPoint[]}`.
+- `SunEvent = {at_aircraft, at_origin|null, minutes_earlier|null, lat, lon, alt_m}`: the first time on the flight the sun crosses the line at the aircraft, the same crossing on the ground at the origin on that local date, and origin minus aircraft in minutes. Sunrise and sunset line: −0.833° − 1.76′·√(altitude in m) (`threshold_cruise` = −3.91° at 11,000 m); `fajr` (dawn): −18°.
+- `TrackPoint = {at, lat, lon, alt_m, elev, elev_origin}` every 5 min from departure, plus arrival: the sun's height in degrees at the aircraft (`elev`) and on the ground at the origin (`elev_origin`).
+- `EatWindow = {may_eat_from|null, may_eat_until|null, sunrise_box, note: Text}`. A rule is `{kind: "daylight", after_sunrise_min}` (eats from sunrise + N min until sunset) or `{kind: "fast_dawn_to_sunset"}` (eats from sunset until dawn). `may_eat_from` starts the first allowed stretch that reaches into the cabin service (after the 25 min climb, before the 30 min descent); `may_eat_until` is null when it lasts to arrival. `sunrise_box: true` when no allowed time falls in the cabin service: the passenger gets a sealed box at the door. `chauvihar` is the daylight rule with 48 min.
+- Times are ISO with an offset, rounded to the minute: computed times in the origin's zone, `arr` in the destination's. Route: great circle, linear in time; climb to 11,000 m in 25 min, descend in the last 30 min.
+- Front end (`@/modules/m21-sun`): `SunTimer` `{mayEatFrom, sunriseBox, lang, size?: "sm"|"md"}` (countdown on the sim clock, or "Sunrise Box at the door") and `useSunSeats(flightId)` (refetches every 30 s).
