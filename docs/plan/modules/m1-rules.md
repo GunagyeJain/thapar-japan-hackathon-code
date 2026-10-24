@@ -6,7 +6,7 @@
 ## Goal
 The decision core. Diets are ingredient rules, not codes. Every verdict (SAFE / UNSAFE / NEEDS_HUMAN) names the rule that fired. The engine:
 - maps a person's rules to the best JAL meal code, plus a kitchen note and a label mark
-- catches the HNML trap ("Hindu meal" contains chicken)
+- flags a booked code that breaks the person's rules, e.g. JAL's non-vegetarian Hindu meal (HNML) booked for a vegetarian
 
 Python and TypeScript give identical answers, proven by one shared vector file.
 
@@ -58,7 +58,7 @@ Python and TypeScript give identical answers, proven by one shared vector file.
 
   _Done when:_
   - Priya (veg + no onion/garlic, dairy OK) → AVML recommended with `NO ONION NO GARLIC`, then VJML with preference losses dairy and root vegetables.
-  - Verma (vegetarian) booked on HNML → `ok:false`, contains chicken/fish, suggested AVML.
+  - Verma (vegetarian) booked on HNML → `ok:false`, contains chicken, mutton, fish, suggested AVML.
   - Mehta (Jain) → VJML.
 
   **Ship.**
@@ -87,4 +87,5 @@ _Owner's running notes._
 - **TypeScript** (`@/lib/rules`): `loadRules()`, `evaluate(forbid, tags, diet?)`, `evaluateDiet()`, `combinePresets()`, `resolve()`, `label(tag, lang)`. Same answers as Python on every vector.
 - **`/rules` page**: Try it (presets + tonight's seed dishes + free ingredient words, EN/HI/JA), server-vs-offline agreement line, diets and meal-code tables. Uses m2's `ui/VerdictBadge`.
 - **Honey is its own family** (not under sugar), so a dish tagged `sugar` doesn't make a Jain check ask about honey. Diabetic forbids `sugar` and `honey`.
+- **Codes follow JAL's own pages** (EN and JA, retrieved 24 Oct 2026): names as JAL publishes them (e.g. AVML "Vegetarian Hindu meal (Asian)", HNML "Non-vegetarian Hindu meal" / 「ヒンズー教対応のお食事 NO BEEF/NO PORK」), HNML contains lamb, chicken, fish and dairy, MOML also excludes shellfish and squid (no scales or fins), GFML excludes nuts. Where JAL doesn't promise something we no longer assume it: AVML and BLML may contain alcohol, VGML may contain honey (so vrat gets NO ALCOHOL and vegan NO HONEY as kitchen notes).
 - **Vectors**: `cd backend && python -m app.modules.m1_rules.make_vectors` rewrites `shared/rules/vectors.json` (625 cases; hand-checked verdicts are pinned in the script).
