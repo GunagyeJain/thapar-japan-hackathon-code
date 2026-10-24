@@ -4,10 +4,23 @@ import { Link, useParams } from "react-router"
 
 import { fmtTime } from "@/lib/format"
 import type { Alert, PassengerWithPromise } from "@/lib/types"
-import { Button, Countdown, DiffView, EmptyState, PageHeader, RawMessage, StatusChip } from "@/ui"
+import {
+  Button,
+  Countdown,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DiffView,
+  EmptyState,
+  PageHeader,
+  RawMessage,
+  StatusChip,
+} from "@/ui"
 import { ActionBar } from "@/modules/m5-ops/ActionBar"
 import { useAlerts, useMessages, usePassengers } from "@/modules/m5-ops/data"
-import { beforeAfter, highlightFor, messageIds, nameKey, text } from "@/modules/m5-ops/evidence"
+import { beforeAfter, excerptFor, highlightFor, messageIds, nameKey, text } from "@/modules/m5-ops/evidence"
 import { passengerOf, SeverityChip, StandInBanner, StateChip } from "@/modules/m5-ops/parts"
 
 const ACTION_TEXT: Record<string, string> = {
@@ -45,15 +58,30 @@ function Evidence({ alert, passenger }: { alert: Alert; passenger: PassengerWith
         lineBefore && <DiffView before={[lineBefore]} after={text(alert.evidence.line_after) ? [String(alert.evidence.line_after)] : []} beforeLabel="Before" afterLabel="After" />
       )}
       <div className="grid gap-4 xl:grid-cols-2">
-        {shown.map((m) => (
-          <RawMessage
-            key={m.id}
-            title={`${m.kind} #${m.seq} · received ${fmtTime(m.received_at, "IST", { date: true })}`}
-            text={m.text}
-            highlight={key ? highlightFor(m, key) : {}}
-            className="text-base"
-          />
-        ))}
+        {shown.map((m) => {
+          const title = `${m.kind} #${m.seq} · received ${fmtTime(m.received_at, "IST", { date: true })}`
+          const part = key ? excerptFor(m, key) : { text: m.text, highlight: {}, range: null }
+          return (
+            <div key={m.id} className="flex flex-col gap-1">
+              <RawMessage title={part.range ? `${title} · ${part.range}` : title} text={part.text} highlight={part.highlight} className="text-base" />
+              {part.range && (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="link" size="sm" className="self-start">
+                      Full {m.kind} ({m.text.trim().split("\n").length} lines)
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>{title}</DialogTitle>
+                    </DialogHeader>
+                    <RawMessage text={m.text} highlight={key ? highlightFor(m, key) : {}} className="max-h-[65vh] overflow-y-auto" />
+                  </DialogContent>
+                </Dialog>
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
