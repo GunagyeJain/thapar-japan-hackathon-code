@@ -103,7 +103,7 @@ def test_api_example_without_gelatin_or_allow():
 def test_verma_booked_on_hnml():
     result = check_booking(preset("vegetarian")["forbid"], "HNML")
     assert result["ok"] is False
-    assert result["problem"]["contains"] == ["chicken", "fish"]
+    assert result["problem"]["contains"] == ["chicken", "mutton", "fish"]
     assert result["suggested_code"] == "AVML"
 
 
@@ -122,11 +122,11 @@ def test_no_booking_is_flagged():
     [
         (["jain"], "VJML", None),
         (["jain", "diabetic"], "VJML", "DIABETIC"),
-        (["vegan"], "VGML", None),
+        (["vegan"], "VGML", "NO HONEY"),
         (["eggetarian"], "VLML", None),
         (["halal"], "MOML", None),
         (["no_beef"], "HNML", None),
-        (["vrat"], "AVML", "NO GRAIN NO LENTILS OR BEANS NO ONION NO GARLIC"),
+        (["vrat"], "AVML", "NO ALCOHOL NO GRAIN NO LENTILS OR BEANS NO ONION NO GARLIC"),
         (["diabetic"], "DBML", None),
     ],
 )

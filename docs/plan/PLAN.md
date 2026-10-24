@@ -8,7 +8,7 @@ Judging: Technical 30 · Problem 20 · Innovation 20 · Feasibility 20 · Impact
 ## Demo story (about 4 min, replayed by the scenario clock in `/demo`)
 | Act | Sim time (IST) | What the judges see | Modules |
 |---|---|---|---|
-| 0 Hook | – | Boarding pass JL740 DEL→NRT · 23C · meal "?" · "HNML = Hindu meal = contains chicken" | m11 |
+| 0 Hook | – | Boarding pass JL740 DEL→NRT · 23C · meal "?" · JAL asks passengers to reconfirm special meals after any rebooking | m11 |
 | 1 Before the journey | 23 Oct 18:10 | Priya's phone: presets + "what don't you eat" → summary chips → **AVML + kitchen note "no onion, no garlic"** + what the code loses. Ops shows a WRONG_CODE alert for Anil Verma (vegetarian booked on HNML). | m3, m1, m4 |
 | 2 Night before | 24 Oct 23:02 | Ops console: ADL arrives after an IndiGo-codeshare rebooking. LOST_MEAL alert for 23C with the raw PNL/ADL diff and **1 h 38 m to the caterer list**. Staff approve "request again" → SSR draft → corrected ADL → C2 fixed, SMS "your meal is restored". | m4, m5 |
 | 3 Caterer | 25 Oct 00:40 | Meal list v3: diff +1 AVML, sha256, timestamp, **Acknowledge** → C3. Label sheet: big diet mark, name, booking ref, opaque QR. | m7 |

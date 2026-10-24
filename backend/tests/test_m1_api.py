@@ -38,4 +38,4 @@ def test_check_booking_verma(client):
     res = client.post("/api/rules/check-booking", json={"forbid": ["meat", "seafood", "egg"], "booked_code": "HNML"})
     body = res.json()
     assert body["ok"] is False and body["suggested_code"] == "AVML"
-    assert body["problem"]["contains"] == ["chicken", "fish"]
+    assert body["problem"]["contains"] == ["chicken", "mutton", "fish"]
