@@ -1,13 +1,6 @@
-import importlib.util
-from pathlib import Path
-
 import pytest
 
-# Load the module by path so this test runs before the app package exists.
-_path = Path(__file__).resolve().parents[1] / "app" / "modules" / "m3_passenger" / "seats.py"
-_spec = importlib.util.spec_from_file_location("m3_seats", _path)
-seats = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(seats)
+from app.modules.m3_passenger import seats
 
 
 def test_first_two_judges_get_5a_then_5c():
