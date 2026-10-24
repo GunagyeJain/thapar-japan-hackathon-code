@@ -49,7 +49,8 @@ def _prompt() -> str:
         "For each ingredient give name_ja as written, name_en in plain English, tags from this list only "
         f"(use the most specific one that fits; an empty list if none fits): {tags}.\n"
         "confidence is how sure you are of the tags (0 to 1). evidence is the exact text you read it from.\n"
-        "transcription is the full sheet text exactly as written (for a photo; for text, leave it empty).\n"
+        "transcription is the full sheet text exactly as written. For a photo it is required, line by line; "
+        "for text input, leave it empty.\n"
         "Do not judge whether the dish suits any diet. Only report what is in it."
     )
 
