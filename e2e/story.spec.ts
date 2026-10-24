@@ -85,7 +85,8 @@ test.describe.serial("JL740 story v2", () => {
     await step(request, 4)
     await page.goto("/crew")
     await page.getByRole("button", { name: /Download/ }).first().click()
-    await expect(page.getByText(/7 of 8 found/)).toBeVisible()
+    // Galley 1 carries one more special meal than v1: the Jain meal Chaos Mode added to the final list for 21D.
+    await expect(page.getByText(/8 of 9 found/).first()).toBeVisible()
     const pkg = await (await request.get(`/api/flights/${FLIGHT}/crew-package`)).json()
     const seats = Object.fromEntries(pkg.copilot.seats.map((s: { seat: string }) => [s.seat, s]))
     expect(pkg.copilot.sources).toEqual({ trays: "m18", sun: "m21" })
