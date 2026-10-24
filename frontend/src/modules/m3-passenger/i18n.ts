@@ -40,7 +40,7 @@ export const s = {
     loading: { en: "Loading", hi: "लोड हो रहा है", ja: "読み込み中" },
     error: {
       en: "Something went wrong. Check your connection and try again.",
-      hi: "कुछ गड़बड़ हो गई। अपना इंटरनेट देखें और फिर से कोशिश करें।",
+      hi: "कुछ गड़बड़ हो गई। अपना इंटरनेट कनेक्शन जाँचें और फिर से कोशिश करें।",
       ja: "エラーが発生しました。接続を確認して、もう一度お試しください。",
     },
     step: { en: "Step {n} of {total}", hi: "चरण {n} / {total}", ja: "ステップ {n} / {total}" },
@@ -93,16 +93,16 @@ export const s = {
 
   picker: {
     title: { en: "Tell us about your food", hi: "अपने खाने के बारे में बताएँ", ja: "お食事について教えてください" },
-    dietTitle: { en: "Do you follow a diet?", hi: "क्या आप कोई खास आहार मानते हैं?", ja: "特定の食事スタイルはありますか？" },
+    dietTitle: { en: "Do you follow a diet?", hi: "क्या आप किसी खास आहार का पालन करते हैं?", ja: "特定の食事スタイルはありますか？" },
     dietSub: {
       en: "Optional. Tap one and we tick its foods below for you.",
-      hi: "ज़रूरी नहीं। एक चुनें, हम नीचे उसके खाने अपने आप चुन देंगे।",
+      hi: "ज़रूरी नहीं। एक चुनें, हम नीचे उससे जुड़ी चीज़ों पर अपने आप निशान लगा देंगे।",
       ja: "任意です。選ぶと、下の食材に自動でチェックが入ります。",
     },
     foodsTitle: { en: "What can't you eat?", hi: "आप क्या नहीं खा सकते?", ja: "召し上がれない食材は？" },
     foodsSub: { en: "Tick every food you don't eat.", hi: "जो भी नहीं खाते, उन सब पर निशान लगाएँ।", ja: "召し上がれない食材をすべて選んでください。" },
-    allergensTitle: { en: "Any food allergies?", hi: "कोई खाने की एलर्जी?", ja: "食物アレルギーはありますか？" },
-    allergensSub: { en: "The kitchen keeps these out completely.", hi: "किचन इन्हें पूरी तरह बाहर रखेगा।", ja: "厨房でこれらを完全に取り除きます。" },
+    allergensTitle: { en: "Any food allergies?", hi: "क्या आपको किसी खाने से एलर्जी है?", ja: "食物アレルギーはありますか？" },
+    allergensSub: { en: "The kitchen keeps these out completely.", hi: "किचन इन्हें आपके खाने से पूरी तरह दूर रखेगा।", ja: "厨房でこれらを完全に取り除きます。" },
     yourAnswer: { en: "Your answer so far", hi: "अब तक आपका जवाब", ja: "現在のご回答" },
     needFood: {
       en: "Tick at least one food you can't eat, or choose a diet.",
@@ -226,7 +226,7 @@ export const chip = {
   allergy: (items: Text[]) => listText({ en: "Allergy: {list}", hi: "एलर्जी: {list}", ja: "アレルギー：{list}" }, items),
   noGroup: {
     onion_garlic: { en: "No onion or garlic", hi: "प्याज़-लहसुन नहीं", ja: "玉ねぎ・にんにくなし" },
-    root_veg: { en: "No root vegetables", hi: "ज़मीकंद नहीं", ja: "根菜なし" },
+    root_veg: { en: "No root vegetables", hi: "कंद-मूल नहीं", ja: "根菜なし" },
     dairy: { en: "No dairy", hi: "डेयरी नहीं", ja: "乳製品なし" },
     honey: { en: "No honey", hi: "शहद नहीं", ja: "はちみつなし" },
     alcohol: { en: "No alcohol", hi: "शराब नहीं", ja: "アルコールなし" },
