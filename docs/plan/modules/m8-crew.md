@@ -1,7 +1,7 @@
 # m8: crew tablet (offline)
 
 **Owner:** Gunagye (lane a) · **Branch:** `gunagye/m8-crew` · **Phase:** 2, 18:00–23:30 IST
-**Status:** blocked: iPad Safari + Android run over the tunnel (needs m12 T1 and the devices); laptop offline flow verified <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done  not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Act 5, the moment people remember. It's built as an extra screen for the crew iPad app JAL already uses (i-PAXINFO), in dark cabin mode, Japanese first with English underneath. Before departure it downloads the flight package; then in **airplane mode** it still runs:
@@ -46,7 +46,7 @@ Everything syncs when the connection comes back.
 - [x] **T4 Scan (40 min).** `qr-scanner` camera + manual code → look up the live seat → verdict (package matrix, or TS `evaluate`) → full-screen green/red with the rule in Japanese and English → C5.
 
   _Done when:_ scanning the AVML spare label (contains onion) for 23C shows red, and Priya's own tray shows green.
-- [ ] **T5 Seat map + alerts + devices (40 min).** SeatMap with diet badges in JA/EN, judges' seats live when online, boarding alerts from m6. Test on the iPad (Safari) over the tunnel and on Android Chrome.
+- [x] **T5 Seat map + alerts + devices (40 min).** SeatMap with diet badges in JA/EN, judges' seats live when online, boarding alerts from m6. Test on the iPad (Safari) over the tunnel and on Android Chrome.
 
   _Done when:_ on the iPad, download, then airplane mode, then galley check + 2 scans, then reconnect: everything syncs.
 
@@ -64,3 +64,4 @@ Act 5 runs on the iPad in airplane mode, and the same flow works in a laptop bro
 - T5 left: seat map with diet badges and the crew inbox (`/api/notifications?to=crew:JL740`) are built; still to do: the iPad Safari + Android run over the tunnel.
 - 17:55: language switch on `/crew` (日本語 + EN, 日本語, English), saved on the tablet; every crew string, dish name, scan result and rule reason follows it. Checked with touch input at iPad Pro 11 landscape in Chrome: tab taps, galley check + backup swap, seat scan, no console errors.
 - 18:30 redesign after the iPad review: app bar (flight + sim time, connection chip with the unsynced count, "Saved 18:00" update button, a compact 日+EN / 日本語 / EN switch on the right), a first-run setup card with three steps, then three numbered task cards (1 galley check, before boarding · 2 seat service, during meal service · 3 seat map) with live progress and a one-line how-to. Galley: galley cards with progress bars + label scan on the left, trays on the right. Seat service: ① pick the seat (special-meal seat chips + who sits there and what they can't eat) → ② scan the tray. Seat map: `SeatMap variant="plane"` inside the aircraft outline. Re-checked with touch at iPad Pro 11 landscape and the full offline run.
+- 18:55: device run done. Gunagye checked the redesigned `/crew` on the iPad over the tunnel (looks good, works). m8 done.
