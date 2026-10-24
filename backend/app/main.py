@@ -3,6 +3,7 @@
 Dev:  uvicorn on :8000, Vite on :5173 proxies /api here.
 Demo: after `npm run build`, this also serves frontend/dist on :8000 (one origin for the tunnel).
 """
+import mimetypes
 from contextlib import asynccontextmanager
 
 from dotenv import load_dotenv
@@ -13,6 +14,7 @@ from fastapi.staticfiles import StaticFiles
 from app.core.paths import FRONTEND_DIST, REPO_ROOT
 
 load_dotenv(REPO_ROOT / ".env")
+mimetypes.add_type("application/manifest+json", ".webmanifest")  # m8: crew PWA manifest
 
 from app.core.db import create_tables  # noqa: E402
 from app.core.seed import ensure_seeded  # noqa: E402
