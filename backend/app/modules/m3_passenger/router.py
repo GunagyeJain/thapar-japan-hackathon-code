@@ -38,7 +38,7 @@ class ConsentIn(BaseModel):
 class ProfileIn(BaseModel):
     passenger_id: Word
     lang: Lang = "en"
-    presets: Words = []
+    presets: Words = []  # accepted from older clients, never stored
     forbid: Words
     allow: Words = []
     fasting_dates: Words = []
@@ -96,7 +96,6 @@ def _save(
     passenger: Passenger,
     *,
     lang: str,
-    presets: list[str],
     forbid: list[str],
     allow: list[str],
     consent: dict[str, Any],
@@ -118,7 +117,9 @@ def _save(
     if profile is None:
         profile = Profile(id=new_id("PF"), passenger_id=passenger.id, created_at=now)
     profile.lang = lang
-    profile.presets = list(presets)
+    # Food rules only, never the diet's name: "jain" or "halal" would record the person's creed (APPI special-care data).
+    # The quick picks a passenger tapped stay on their phone.
+    profile.presets = []
     profile.forbid = list(forbid)
     profile.allow = list(allow)
     profile.fasting_dates = list(fasting_dates or [])
@@ -142,8 +143,8 @@ def _save(
     session.add(passenger)
     session.flush()
 
-    what = " + ".join(presets) if presets else "custom rules"
     note = f" + {option['kitchen_note']}" if option["kitchen_note"] else ""
+    rules = option["label_mark"]["en"]
     events.record_checkpoint(
         promise.id,
         passenger.id,
@@ -151,7 +152,7 @@ def _save(
         "C1",
         "ok",
         source=source,
-        detail=f"Profile saved: {what} → {option['code']}{note}",
+        detail=f"Profile saved: {rules} → {option['code']}{note}",
         data={"code": option["code"], "kitchen_note": option["kitchen_note"], "forbid": list(forbid)},
         session=session,
     )
@@ -185,7 +186,6 @@ def save_profile(body: ProfileIn, session: SessionDep) -> dict[str, Any]:
         session,
         passenger,
         lang=body.lang,
-        presets=body.presets,
         forbid=body.forbid,
         allow=body.allow,
         consent=consent,
@@ -263,7 +263,6 @@ def _rejoin(body: JoinIn, session: Session, option: dict[str, Any], consent: dic
         session,
         passenger,
         lang=body.lang,
-        presets=body.presets,
         forbid=body.forbid,
         allow=body.allow,
         consent=consent,
@@ -309,7 +308,6 @@ def join(body: JoinIn, session: SessionDep) -> dict[str, Any]:
             session,
             passenger,
             lang=body.lang,
-            presets=body.presets,
             forbid=body.forbid,
             allow=body.allow,
             consent=consent,

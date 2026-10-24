@@ -4,9 +4,7 @@
    "id": "PF-0063",
    "passenger_id": "PX-0063",
    "lang": "hi",
-   "presets": [
-    "vegetarian"
-   ],
+   "presets": [],
    "forbid": [
     "meat",
     "seafood",
@@ -32,19 +30,17 @@
    "id": "PF-0087",
    "passenger_id": "PX-0087",
    "lang": "hi",
-   "presets": [
-    "jain"
-   ],
+   "presets": [],
    "forbid": [
     "meat",
     "seafood",
     "egg",
-    "honey",
-    "gelatin",
-    "alcohol",
     "allium",
     "root_veg",
-    "fungi"
+    "fungi",
+    "honey",
+    "gelatin",
+    "alcohol"
    ],
    "allow": [
     "dairy"
@@ -65,20 +61,17 @@
    "id": "PF-0007",
    "passenger_id": "PX-0007",
    "lang": "hi",
-   "presets": [
-    "jain",
-    "diabetic"
-   ],
+   "presets": [],
    "forbid": [
     "meat",
     "seafood",
     "egg",
-    "honey",
-    "gelatin",
-    "alcohol",
     "allium",
     "root_veg",
     "fungi",
+    "honey",
+    "gelatin",
+    "alcohol",
     "sugar"
    ],
    "allow": [
@@ -100,9 +93,7 @@
    "id": "PF-0026",
    "passenger_id": "PX-0026",
    "lang": "en",
-   "presets": [
-    "halal"
-   ],
+   "presets": [],
    "forbid": [
     "pork",
     "non_halal_meat",
@@ -131,9 +122,7 @@
    "id": "PF-0044",
    "passenger_id": "PX-0044",
    "lang": "en",
-   "presets": [
-    "vegan"
-   ],
+   "presets": [],
    "forbid": [
     "meat",
     "seafood",
@@ -159,9 +148,7 @@
    "id": "PF-0083",
    "passenger_id": "PX-0083",
    "lang": "en",
-   "presets": [
-    "eggetarian"
-   ],
+   "presets": [],
    "forbid": [
     "meat",
     "seafood",
@@ -187,10 +174,7 @@
    "id": "PF-0106",
    "passenger_id": "PX-0106",
    "lang": "hi",
-   "presets": [
-    "vegetarian",
-    "vrat"
-   ],
+   "presets": [],
    "forbid": [
     "meat",
     "seafood",
@@ -413,7 +397,7 @@
    "result": "ok",
    "at": "2026-10-20T10:00:00+05:30",
    "source": "passenger_app",
-   "detail": "Profile saved: Jain rules + low sugar → VJML, note DIABETIC",
+   "detail": "Profile saved: no meat, egg, root veg, onion, garlic, sugar → VJML, note DIABETIC",
    "data": {
     "code": "VJML"
    },

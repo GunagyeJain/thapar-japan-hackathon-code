@@ -137,8 +137,9 @@ def test_cast_gets_the_seeded_code(presets, code, note):
 
 
 def test_label_marks():
-    assert label_mark(preset("jain")["forbid"])["en"] == "JAIN"
-    assert label_mark(preset("jain_no_dairy")["forbid"])["en"] == "JAIN · no dairy"
+    # Marks say what the meal leaves out, never who the person is.
+    assert label_mark(preset("jain")["forbid"])["en"] == "VEG · no onion family, no root vegetables, no mushrooms, no honey, no alcohol"
+    assert label_mark(preset("jain_no_dairy")["forbid"])["en"] == "VEGAN · no onion family, no root vegetables, no mushrooms, no alcohol"
     assert label_mark(preset("halal")["forbid"])["en"] == "HALAL"
     assert label_mark(preset("vegetarian", "no_onion_garlic")["forbid"])["ja"] == "ベジ · 玉ねぎなし、にんにくなし"
     assert label_mark(["beef"])["en"] == "no beef"

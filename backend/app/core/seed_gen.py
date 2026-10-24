@@ -140,7 +140,7 @@ CAST_PROFILES = {
     "2A": ("hi", ["jain", "diabetic"], JAIN + ["sugar"], ["dairy"], [], "VJML", "DIABETIC",
            "VEG · no root veg, no onion, no garlic · low sugar",
            "शाकाहारी · जड़ वाली सब्ज़ी, प्याज़, लहसुन नहीं · कम चीनी", "ベジ · 根菜・玉ねぎ・にんにくなし · 低糖",
-           "Profile saved: Jain rules + low sugar → VJML, note DIABETIC"),
+           "Profile saved: no meat, egg, root veg, onion, garlic, sugar → VJML, note DIABETIC"),
     "18C": ("en", ["halal"], ["pork", "lard", "alcohol", "gelatin"], ["halal_certified"], [], "MOML", None,
             "HALAL · no pork, no alcohol", "हलाल · सूअर का मांस, शराब नहीं", "ハラール · 豚肉・アルコールなし",
             "Profile saved: halal only, no pork or alcohol → MOML"),
@@ -233,7 +233,8 @@ def build_profiles(passengers: list[dict]) -> dict:
         pf_id, mp_id = f"PF-{num}", f"MP-{num}"
         pax["profile_id"] = pf_id
         profiles.append({
-            "id": pf_id, "passenger_id": pax["id"], "lang": lang, "presets": presets, "forbid": forbid,
+            # Food rules only; the diet name ("jain", "halal") is never stored.
+            "id": pf_id, "passenger_id": pax["id"], "lang": lang, "presets": [], "forbid": forbid,
             "allow": allow, "fasting_dates": fasting, "allergens": [],
             "consent": {"this_trip": True, "save_profile": False, "share_with_caterer": True,
                         "cross_border_ack": True, "at": SEED_CREATED_AT},

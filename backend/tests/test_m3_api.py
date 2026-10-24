@@ -117,3 +117,19 @@ def test_judges_survive_reset_when_kept(client):
     rows = client.get(f"/api/flights/{FLIGHT}/passengers", params={"with_promises": "true"}).json()
     judge = next(r for r in rows if r["is_judge"])
     assert judge["seat"] == "5A" and judge["promise"]["checkpoints"]["C1"] == "ok"
+
+
+def test_profile_keeps_food_rules_not_diet_names(client):
+    pid = client.get("/api/passenger/lookup", params={"pnr": "6XK2QP", "surname": "SHARMA"}).json()["id"]
+    body = client.post(
+        "/api/profiles",
+        json={"passenger_id": pid, "presets": ["vegetarian", "no_onion_garlic"], **PRIYA, "consent": CONSENT, "chosen_code": "AVML"},
+    ).json()
+    assert body["profile"]["presets"] == []
+    assert body["profile"]["forbid"] == PRIYA["forbid"]
+    from app.core.models import CheckpointEvent
+
+    with new_session() as s:
+        c1 = s.exec(select(CheckpointEvent).where(CheckpointEvent.passenger_id == pid, CheckpointEvent.checkpoint == "C1")).all()
+    assert c1 and all("vegetarian" not in e.detail for e in c1)
+    assert any("VEG · no onion, no garlic" in e.detail for e in c1)
