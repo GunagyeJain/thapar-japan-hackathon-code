@@ -1,7 +1,7 @@
 # m0: foundation
 
 **Owner:** Gunagye (lane a) · **Branch:** `gunagye/m0-foundation` · **Phase:** start, 15:40–17:00 IST (ship the contracts after T2)
-**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Everything the other modules build on, on main within an hour:
