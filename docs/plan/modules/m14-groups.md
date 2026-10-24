@@ -1,16 +1,16 @@
 # m14: tour-operator group upload (stretch)
 
 **Owner:** Shefali · **Branch:** `shefali/m14-groups` · **Phase:** stretch, only after 02:00 if everything else is done
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** blocked: cut (stretch, #1 on the cut list), do not start <!-- not started | in progress | blocked: <why> | done -->
 
 ## Where it stands
-_Updated 24 Oct 17:57 IST by Shefali._
+_Updated 24 Oct 18:45 IST by Shefali._
 
-**Shefali's queue:** m3 `done` → **m9 `in progress` (T1–T3 shipped, only T4 left)** → m14 `not started`. Shefali is not coding anything right now: waiting for Gunagye to say what to do next.
+**Shefali's queue:** m3 `done` → m9 `done` → m14 cut. m3 open item 1 (MatchResult on `/j`) and the review of lane A's picker rework are shipped. Nothing in progress.
 
 | | |
 |---|---|
-| **State** | `not started`. Nothing written yet. Stretch module, #1 on the PLAN.md cut list |
+| **State** | Cut: not being built. Stretch module, #1 on the PLAN.md cut list. Nothing written |
 | **Can start from** | m3's `DietPicker`/`DietSummary` (on main) and `POST /api/profiles` |
 | **Waiting on others** | Nothing |
 
