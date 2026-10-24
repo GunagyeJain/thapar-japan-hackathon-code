@@ -5,6 +5,14 @@ import type { Lang, Text } from "@/lib/types"
 
 export { pick }
 
+/** Japanese has no spaces, so mark where a short label may wrap: before "（" and after "・".
+ * Pair with the `jaWrap` class so the browser breaks only there (and anywhere as a last resort). */
+export function breakable(text: string, lang: Lang): string {
+  return lang === "ja" ? text.replace(/（/g, "\u200B（").replace(/・/g, "・\u200B") : text
+}
+
+export const jaWrap = "[word-break:keep-all] [overflow-wrap:anywhere]"
+
 export function fill(text: Text, lang: Lang, vars: Record<string, string | number> = {}): string {
   return pick(text, lang).replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? `{${k}}`))
 }
@@ -51,7 +59,7 @@ export const s = {
     title: { en: "Find your booking", hi: "अपनी बुकिंग खोजें", ja: "ご予約を検索" },
     pnr: { en: "Booking reference (PNR)", hi: "बुकिंग रेफ़रेंस (PNR)", ja: "予約番号（PNR）" },
     surname: { en: "Surname", hi: "उपनाम (सरनेम)", ja: "姓（ローマ字）" },
-    hint: { en: "Demo booking: 6XK2QP · SHARMA", hi: "डेमो बुकिंग: 6XK2QP · SHARMA", ja: "デモ用: 6XK2QP · SHARMA" },
+    hint: { en: "Demo booking: 6XK2QP · SHARMA", hi: "डेमो बुकिंग: 6XK2QP · SHARMA", ja: "デモ用：6XK2QP · SHARMA" },
     submit: { en: "Find booking", hi: "बुकिंग खोजें", ja: "検索" },
     searching: { en: "Looking up your booking", hi: "आपकी बुकिंग खोजी जा रही है", ja: "ご予約を検索しています" },
     notFound: {
@@ -116,8 +124,8 @@ export const s = {
     noNote: { en: "No note needed", hi: "नोट की ज़रूरत नहीं", ja: "指示は不要" },
     trayLabel: { en: "Your tray label", hi: "आपकी ट्रे का लेबल", ja: "トレーのラベル" },
     alternative: { en: "Also possible", hi: "यह भी हो सकता है", ja: "ほかの選択肢" },
-    loses: { en: "Leaves out food you eat: {list}", hi: "इसमें वह नहीं होगा जो आप खाते हैं: {list}", ja: "召し上がれる食材も除かれます: {list}" },
-    gaps: { en: "Needs a kitchen note for: {list}", hi: "इनके लिए किचन नोट ज़रूरी: {list}", ja: "キッチンへの指示が必要: {list}" },
+    loses: { en: "Leaves out food you eat: {list}", hi: "इसमें वह नहीं होगा जो आप खाते हैं: {list}", ja: "召し上がれる食材も除かれます：{list}" },
+    gaps: { en: "Needs a kitchen note for: {list}", hi: "इनके लिए किचन नोट ज़रूरी: {list}", ja: "キッチンへの指示が必要：{list}" },
     clashTitle: { en: "Your booking has the wrong meal", hi: "आपकी बुकिंग में गलत भोजन है", ja: "ご予約の機内食が合っていません" },
     clash: {
       en: "Your booking has {booked}. It contains {list}. We'll change it to {suggested}.",
@@ -189,7 +197,7 @@ export const chip = {
     listText({ en: "No {list}", hi: "{list} नहीं", ja: "{list}なし" }, ids.map((id) => CORE_NOUN[id]), { ja: "・" }),
   noList: (items: Text[]) => listText({ en: "No {list}", hi: "{list} नहीं", ja: "{list}なし" }, items),
   alsoNo: (items: Text[]) => listText({ en: "Also no {list}", hi: "{list} भी नहीं", ja: "{list}もなし" }, items),
-  allergy: (items: Text[]) => listText({ en: "Allergy: {list}", hi: "एलर्जी: {list}", ja: "アレルギー: {list}" }, items),
+  allergy: (items: Text[]) => listText({ en: "Allergy: {list}", hi: "एलर्जी: {list}", ja: "アレルギー：{list}" }, items),
   noGroup: {
     onion_garlic: { en: "No onion or garlic", hi: "प्याज़-लहसुन नहीं", ja: "玉ねぎ・にんにくなし" },
     root_veg: { en: "No root vegetables", hi: "ज़मीकंद नहीं", ja: "根菜なし" },

@@ -1,7 +1,7 @@
 # m3: passenger + judge join
 
 **Owner:** Shefali · **Branch:** `shefali/m3-passenger` · **Phase:** 1, 17:00–19:30 IST (after m0 is on main)
-**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Act 1 of the demo, plus the moment judges take part.
@@ -57,7 +57,7 @@ Act 1 of the demo, plus the moment judges take part.
 - [x] **T4 `/j` judge join (35 min).** Short URL, fast on a phone, MatchResult slot.
 
   _Done when:_ three phones on the tunnel URL join and get 5A, 5C, 5D within 2 s each.
-- [ ] **T5 Languages + states (20 min).** Hindi and Japanese strings for every step, plus loading, error and retry states, following `docs/design.md`.
+- [x] **T5 Languages + states (20 min).** Hindi and Japanese strings for every step, plus loading, error and retry states, following `docs/design.md`.
 
   _Done when:_ all three languages fit at 390 px with no overflow.
 
@@ -71,5 +71,6 @@ _Owner's running notes: what's mocked, open questions._
 - T3/T4 checked at 390 px: Priya ends on AVML + NO ONION NO GARLIC with C1; Verma (HNML) gets the red card and a WRONG_CODE alert; three joins at once get 5A, 5C, 5D in under 10 ms each.
 - `/j` calls `POST /api/late-requests` after joining and shows m6's explanation; until m6 ships it shows "Crew will confirm your meal on board". Swap in m6's `MatchResult` component when it lands.
 - `/j` remembers the join on the phone (one seat per device). After a reset without judges, the phone shows the join form again.
-- T5 open: every step has loading, error and retry states, and Hindi was checked on every /p step. Still to do: Japanese on every /p step at 390 px.
+- T5 done: every /p step checked at 390 px in Hindi and Japanese (also the 28-allergen list, the consent warning, the not-found error and a live update), with no overflow. Japanese labels wrap only before "（" or after "・". The boarding-pass date follows the language (10月25日, 25 अक्टू॰).
+- Open: notifications are written by the sending module in English (e.g. m4's "Your meal is back on JL740"), even when Profile.lang is hi or ja. The /p page shows them as sent.
 - Hindi and Japanese copy is a first draft: get a native speaker to read the Japanese before the demo.
