@@ -1,0 +1,53 @@
+// Crew strings: Japanese first, English underneath.
+export interface Bilingual {
+  ja: string
+  en: string
+}
+
+export const COPY = {
+  title: { ja: "特別食チェック", en: "Special meal check" },
+  download: { ja: "フライトデータを取得", en: "Download for flight" },
+  redownload: { ja: "再取得", en: "Download again" },
+  ready: (time: string): Bilingual => ({ ja: `オフライン準備完了 · ${time}`, en: `Ready offline · ${time}` }),
+  notReady: { ja: "未取得：出発前に取得してください", en: "Not downloaded: download before departure" },
+  online: { ja: "オンライン", en: "Online" },
+  offline: { ja: "オフライン", en: "Offline" },
+  pending: (n: number): Bilingual => ({ ja: `未送信 ${n} 件`, en: `${n} waiting to sync` }),
+  synced: { ja: "同期済み", en: "All synced" },
+  tabGalley: { ja: "ギャレー確認", en: "Galley check" },
+  tabScan: { ja: "座席スキャン", en: "Seat scan" },
+  tabSeats: { ja: "座席表", en: "Seat map" },
+  found: (n: number, of: number): Bilingual => ({ ja: `${of} 食中 ${n} 食確認`, en: `${n} of ${of} found` }),
+  galley: (g: string): Bilingual => ({ ja: `ギャレー${g.slice(1)}`, en: `Galley ${g.slice(1)}` }),
+  markFound: { ja: "確認", en: "Found" },
+  markMissing: { ja: "不足", en: "Missing" },
+  statusFound: { ja: "確認済", en: "Found" },
+  statusMissing: { ja: "不足", en: "Missing" },
+  statusOpen: { ja: "未確認", en: "Not checked" },
+  statusServed: { ja: "提供済", en: "Served" },
+  useBackup: { ja: "予備食を使用", en: "Use backup" },
+  noBackup: { ja: "安全な予備食がありません。パーサーに連絡", en: "No safe meal on board. Call the purser" },
+  suggest: (seat: string, galley: string, what: Bilingual): Bilingual => ({
+    ja: `${seat}：ギャレー${galley.slice(1)}の${what.ja}を使用`,
+    en: `${seat}: use the ${what.en} from galley ${galley.slice(1)}`,
+  }),
+  backupVeg: { ja: "予備ベジ食", en: "backup veg meal" },
+  spareMeal: { ja: "予備の特別食", en: "spare special meal" },
+  alsoOnBoard: { ja: "直前リクエスト・予備", en: "Late requests and spares" },
+  codePlaceholder: { ja: "コード6桁", en: "6-character code" },
+  scanOrType: { ja: "QRをスキャン、またはコードを入力", en: "Scan the QR or type the code" },
+  camera: { ja: "カメラ", en: "Camera" },
+  stopCamera: { ja: "カメラ停止", en: "Stop camera" },
+  seat: { ja: "座席", en: "Seat" },
+  check: { ja: "照合", en: "Check" },
+  safe: { ja: "提供できます", en: "Safe to serve" },
+  unsafe: { ja: "提供しないでください", en: "Do not serve" },
+  needsHuman: { ja: "確認が必要です", en: "Check before serving" },
+  notTheirs: (seat: string): Bilingual => ({ ja: `これは ${seat} の食事です`, en: `This is ${seat}'s meal` }),
+  noDiet: { ja: "食事制限の登録なし", en: "No meal restrictions on file" },
+  unknownCode: { ja: "このコードの食事はありません", en: "No meal with this code on JL740" },
+  noSeat: { ja: "この座席の乗客はいません", en: "No passenger in this seat" },
+  next: { ja: "次へ", en: "Next" },
+  inbox: { ja: "搭乗時のお知らせ", en: "Boarding alerts" },
+  inboxEmpty: { ja: "お知らせはありません", en: "No alerts. Late requests from the gate appear here." },
+} as const
