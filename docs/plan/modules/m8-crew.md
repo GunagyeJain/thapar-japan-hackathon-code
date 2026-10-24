@@ -62,3 +62,4 @@ Act 5 runs on the iPad in airplane mode, and the same flow works in a laptop bro
 - Expected specials fall back to every assigned special until m7's `MealListVersion` is on main (then: the latest acknowledged list). The galley check counts per galley (G1 has 8, G2 has 16 with the group).
 - Package `forbid[passenger_id]`: the profile's forbid, or for SSR-only passengers what the booked code excludes plus the kitchen note (`NO ONION NO GARLIC` → onion, garlic), so 23C scans red even before Priya fills the form.
 - T5 left: seat map with diet badges and the crew inbox (`/api/notifications?to=crew:JL740`) are built; still to do: the iPad Safari + Android run over the tunnel.
+- 17:55: language switch on `/crew` (日本語 + EN, 日本語, English), saved on the tablet; every crew string, dish name, scan result and rule reason follows it. Checked with touch input at iPad Pro 11 landscape in Chrome: tab taps, galley check + backup swap, seat scan, no console errors.

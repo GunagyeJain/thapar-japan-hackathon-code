@@ -49,5 +49,9 @@ export const COPY = {
   noSeat: { ja: "この座席の乗客はいません", en: "No passenger in this seat" },
   next: { ja: "次へ", en: "Next" },
   inbox: { ja: "搭乗時のお知らせ", en: "Boarding alerts" },
+  legendSpecial: { ja: "特別食", en: "Special meal" },
+  legendJudge: { ja: "審査員 (J)", en: "Judge (J)" },
+  legendServed: { ja: "提供済", en: "Served" },
+  legendMissing: { ja: "不足", en: "Missing" },
   inboxEmpty: { ja: "お知らせはありません", en: "No alerts. Late requests from the gate appear here." },
 } as const
