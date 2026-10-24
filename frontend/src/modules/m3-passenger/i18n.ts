@@ -163,6 +163,7 @@ export const s = {
     updates: { en: "Updates", hi: "अपडेट", ja: "お知らせ" },
     change: { en: "Change my answers", hi: "अपने जवाब बदलें", ja: "回答を変更する" },
     statusLabel: { en: "Promise status", hi: "वादे की स्थिति", ja: "お約束の状況" },
+    handoffs: { en: "Where your meal is", hi: "आपका भोजन कहाँ तक पहुँचा", ja: "お食事の現在地" },
     empty: {
       en: "No updates yet. If anything changes before your flight, it shows up here.",
       hi: "अभी कोई अपडेट नहीं। फ़्लाइट से पहले कुछ बदला तो यहाँ दिखेगा।",

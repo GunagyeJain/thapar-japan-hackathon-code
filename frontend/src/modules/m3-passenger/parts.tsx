@@ -10,7 +10,7 @@ import { fmtTime } from "@/lib/format"
 import { label } from "@/lib/rules"
 import type { Lang, MealPromise, Notification, Passenger } from "@/lib/types"
 import { cn } from "@/lib/utils"
-import { Button, EmptyState, StatusChip } from "@/ui"
+import { Button, EmptyState, PromiseSteps, StatusChip } from "@/ui"
 
 import { fill, pick, promiseStatus, s } from "./i18n"
 import type { CodeOption } from "./types"
@@ -230,6 +230,10 @@ export function PromiseView({ passenger, promise, lang, children }: { passenger:
     <div className="flex flex-col gap-4">
       <TrayLabel mark={pick(live.label_mark, lang)} code={live.code} note={live.kitchen_note} name={name} pnr={passenger.is_judge ? undefined : passenger.pnr} lang={lang} />
       <PromiseStatus promise={live} lang={lang} />
+      <section>
+        <h2 className="mb-2 font-display text-lg font-semibold text-navy">{pick(s.promise.handoffs, lang)}</h2>
+        <PromiseSteps checkpoints={live.checkpoints} orientation="column" lang={lang} />
+      </section>
       {children}
       <section>
         <h2 className="mb-2 font-display text-lg font-semibold text-navy">{pick(s.promise.updates, lang)}</h2>

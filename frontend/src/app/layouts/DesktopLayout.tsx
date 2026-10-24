@@ -5,6 +5,7 @@ import { NAV, NAV_GROUPS } from "@/app/nav"
 import { Brand } from "@/app/layouts/Brand"
 import { cn } from "@/lib/utils"
 import { FlightContextBar } from "@/ui/FlightContextBar"
+import { StoryGuide } from "@/modules/m11-demo/StoryGuide"
 
 function SideNav() {
   return (
@@ -55,6 +56,7 @@ export function DesktopLayout() {
       </header>
       <main className="min-w-0">
         <FlightContextBar className="sticky top-0 z-30" />
+        <StoryGuide />
         <Outlet />
       </main>
     </div>
