@@ -4,9 +4,9 @@
 **Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Where it stands
-_Updated 24 Oct 18:36 IST by Shefali. Read this first; the Notes below are the history._
+_Updated 24 Oct 18:40 IST by Shefali. Read this first; the Notes below are the history._
 
-**Shefali's queue:** m3 `done` → m9 `done` → m14 cut. m3 open item 1 (MatchResult on `/j`) and the review of lane A's picker rework are shipped. Nothing in progress.
+**Shefali's queue:** m3 `done` → m9 `done` → m14 cut. Every module in the queue is finished. Nothing in progress: waiting for the team to say what's next. Before dry run 1 (07:00): read Bhavyam's Q&A sheet (docs repo `06-deliverables/final-pitch/qa-sheet.md`).
 
 | | |
 |---|---|
@@ -17,6 +17,7 @@ _Updated 24 Oct 18:36 IST by Shefali. Read this first; the Notes below are the h
 | **Demo risk** | Shefali's own key hit the free tier's 20-a-day cap (resets about 12:30 IST on 25 Oct); the eval was finished with a teammate's key. The 4 demo sheets are cached either way. For a live new photo, use a key with requests left |
 | **Waiting on others** | Nothing |
 | **Others waiting on m9** | Nothing known. Approved dishes become `MealSpec` rows (`SPEC-R-…`, source `recipe_check`) |
+| **For Bhavyam (m13)** | Q&A question 6 ("What if the model misreads a recipe?") could add the eval line: on 23 hand-labelled hard sheets, the dictionary finds 79% of hidden non-veg ingredients, the model 96% with no false alarms, both together 100%; a person clears the dictionary's 5 false alarms before approving. Shown live on the Accuracy tab of `/caterer/recipes` |
 | **For m2** | VerdictBadge's "N rules" link is English-only, so it stays English on the Japanese page |
 
 ## Goal

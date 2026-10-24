@@ -4,15 +4,15 @@
 **Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Where it stands
-_Updated 24 Oct 18:26 IST by Shefali. Read this first; the Notes below are the history._
+_Updated 24 Oct 18:40 IST by Shefali. Read this first; the Notes below are the history._
 
-**Shefali's queue:** m3 `done` → m9 `done` → m14 cut. m3 open item 1 (MatchResult on `/j`) and the review of lane A's picker rework are shipped. Nothing in progress.
+**Shefali's queue:** m3 `done` → m9 `done` → m14 cut. Every module in the queue is finished. Nothing in progress: waiting for the team to say what's next. Before dry run 1 (07:00): read Bhavyam's Q&A sheet (docs repo `06-deliverables/final-pitch/qa-sheet.md`).
 
 | | |
 |---|---|
 | **State** | `done`. T1–T5 shipped. `/j` now shows m6's `MatchResult` (compact). Demo-ready: yes |
 | **Changed by someone else** | Gunagye (lane A) reworked the diet picker (commit `3fafd27`). Reviewed 18:26: two bugs, see the last note. One is fixed here (stale match on `/j`); one is in m6 and needs Gunagye (lane B) |
-| **Waiting on others** | **Gunagye (lane B, m6):** the late-request desk drops allergies (last note). **Gunagye (m6):** `MatchResult` has English-only text ("Galley", "CP-SAT · … meals checked") and the Japanese ladder labels break mid-word at 375 px ("通常メニ／ュー") |
+| **Waiting on others** | **Gunagye (lane B, m6):** the late-request desk drops allergies (last note). Still open on main at 18:40. **Gunagye (m6):** `MatchResult` has English-only text ("Galley", "CP-SAT · … meals checked") and the Japanese ladder labels break mid-word at 375 px ("通常メニ／ュー") |
 | **Open, not started** | 1. Japanese copy needs a native speaker's read. 2. Passenger messages arrive in English because m4 writes them (`Profile.lang` is saved) |
 | **Others waiting on m3** | Nothing known |
 
