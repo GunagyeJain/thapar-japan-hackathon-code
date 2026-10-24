@@ -3,12 +3,12 @@
 **Owner:** Bhavyam · **Branch:** `bhavyam/m13-pitch` · **Phase:** final, 05:00–09:30 IST (two early tasks today)
 **Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
-### Where it stands (24 Oct, 18:41 IST, paused for a break)
-- **T5 Q&A sheet written** (docs repo `06-deliverables/final-pitch/qa-sheet.md`): the six questions plus three likely follow-ups, each with a sourced answer. Not ticked until every teammate has read it: **Gunagye and Shefali, please read it before dry run 1 (07:00).**
-- **T3 deck outline written** (`06-deliverables/final-pitch/v1/outline.md`): 9 slides mapped to the rubric, a 5-minute cut, and `[FILL 05:00]` slots for the survey number, the mentor quote, matcher ms and the recipe-check table. Still to do: `deck.html` and the PDF export.
-- **Open:** pitch length and submission format (organiser question, T1); survey results (T0) and mentor answers (T1) not yet recorded in Notes.
-- **T2 demo script is Gunagye's** (lane B, 18:38). m4 and m10 are both done and on main, so nothing from Bhavyam blocks Act 2 or Act 6.
-- **Next for Bhavyam:** (1) record survey results (T0) and the mentor answers from Checkpoint 1 and the 00:00 round (T1) in Notes; (2) at 05:00 fill the `[FILL 05:00]` slots in the outline; (3) build `deck.html` + PDF (T3).
+### Where it stands (24 Oct, 19:09 IST)
+- **T5 Q&A sheet** (docs repo `06-deliverables/final-pitch/qa-sheet.md`): question 6 now has the recipe-check numbers from Shefali's m9 line, checked against `GET /api/recipes/eval` (dictionary 79%, model 96% with 0 false alarms, both 100%; 23 hand-labelled sheets). Not ticked until Gunagye and Shefali have read it.
+- **T3 deck outline** (`06-deliverables/final-pitch/v1/outline.md`): written; `[FILL 05:00]` slots still open. `deck.html` + PDF not started.
+- **T2 demo script:** Gunagye shipped `docs/demo-script.md` (18:57). The deck's demo slide must follow it.
+- **Waiting on Bhavyam's notes:** survey results (T0) and the Checkpoint 1 mentor answers (T1) are not written down anywhere yet. The midnight mentor round is still ahead (00:00).
+- **Next:** record survey + mentor answers in Notes; at 05:00 fill the outline and build the deck.
 
 ## Goal
 Win the room. A pitch that maps every minute to the judging rubric (Technical first), shows the live demo from `/demo`, and backs each claim with:
