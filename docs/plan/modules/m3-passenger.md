@@ -1,7 +1,7 @@
 # m3: passenger + judge join
 
 **Owner:** Shefali · **Branch:** `shefali/m3-passenger` · **Phase:** 1, 17:00–19:30 IST (after m0 is on main)
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Act 1 of the demo, plus the moment judges take part.
@@ -41,7 +41,7 @@ Act 1 of the demo, plus the moment judges take part.
 **`/j` (judges):** a name (display only, e.g. "Judge 1"), language, consent, DietPicker, confirm → a boarding-pass card (JL740 · seat 5A · diet mark) → calls `/api/late-requests` → `MatchResult` (or the placeholder).
 
 ## Tasks
-- [ ] **T1 Backend (40 min).**
+- [x] **T1 Backend (40 min).**
   - `lookup`.
   - `profiles`: creates Profile + MealPromise, writes **C1** via `events.record_checkpoint`. It calls `check_booking` and raises WRONG_CODE when the booked code breaks the rules.
   - `join`: next free seat in row 5 (A C D G H K), then row 20; sets `is_judge`; C1.
@@ -66,3 +66,6 @@ Act 1 runs live on a phone, and a judge can join from a QR in under 30 seconds.
 
 ## Notes
 _Owner's running notes: what's mocked, open questions._
+- T1 done: lookup, profiles (C1, WRONG_CODE when the booked SSR breaks the rules, saving again updates the same promise) and join (seat lock, so judges joining at once never share a seat). A passenger with no SSR gets no WRONG_CODE.
+- `mock.ts` still feeds the picker; switch to `/api/rules` in T2.
+- Hindi and Japanese copy is a first draft: get a native speaker to read the Japanese before the demo.
