@@ -216,6 +216,12 @@ def evaluate(forbid, tags, diet: str | None = None) -> dict:
     return {"verdict": verdict, "fired": fired}
 
 
+def spec_tags(tags, certified: bool = False) -> list:
+    """A MealSpec's tags for evaluate(): `certified` counts as the halal certificate."""
+    tags = list(tags or [])
+    return tags + [HALAL_CERTIFIED] if certified and HALAL_CERTIFIED not in tags else tags
+
+
 def evaluate_diet(diet_id: str, tags) -> dict:
     """evaluate() with a named diet's forbid list; every fired rule carries the diet id."""
     diet = rules().diets.get(diet_id)
