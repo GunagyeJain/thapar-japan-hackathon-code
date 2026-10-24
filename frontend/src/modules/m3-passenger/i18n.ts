@@ -1,35 +1,28 @@
 // Every string m3 shows, in English, Hindi and Japanese. Keep the English short so the others fit at 390 px.
 // `{x}` placeholders are filled by fill().
-import type { Lang, Text } from "./types";
+import { t as pick } from "@/lib/i18n"
+import type { Lang, Text } from "@/lib/types"
 
-export function pick(text: Text, lang: Lang): string {
-  return text[lang] ?? text.en;
-}
+export { pick }
 
 export function fill(text: Text, lang: Lang, vars: Record<string, string | number> = {}): string {
-  return pick(text, lang).replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? `{${k}}`));
+  return pick(text, lang).replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? `{${k}}`))
 }
 
-const SEP: Record<Lang, string> = { en: ", ", hi: ", ", ja: "、" };
+const SEP: Record<Lang, string> = { en: ", ", hi: ", ", ja: "、" }
 
 function joinTexts(items: Text[], lang: Lang, sep = SEP[lang]): string {
-  return items.map((t) => pick(t, lang)).join(sep);
+  return items.map((t) => pick(t, lang)).join(sep)
 }
 
 /** Build a Text from a pattern per language and a list of Texts. */
 function listText(pattern: Text, items: Text[], sep?: Partial<Record<Lang, string>>): Text {
-  const out: Text = { en: "" };
+  const out: Text = { en: "" }
   for (const lang of ["en", "hi", "ja"] as Lang[]) {
-    out[lang] = fill(pattern, lang, { list: joinTexts(items, lang, sep?.[lang]) });
+    out[lang] = fill(pattern, lang, { list: joinTexts(items, lang, sep?.[lang]) })
   }
-  return out;
+  return out
 }
-
-export const LANGS: { id: Lang; label: string }[] = [
-  { id: "en", label: "English" },
-  { id: "hi", label: "हिन्दी" },
-  { id: "ja", label: "日本語" },
-];
 
 export const s = {
   common: {
@@ -100,6 +93,8 @@ export const s = {
     presets: { en: "Quick picks", hi: "जल्दी चुनें", ja: "よく選ばれるもの" },
     groups: { en: "I don't eat", hi: "मैं नहीं खाता/खाती", ja: "食べられないもの" },
     allergens: { en: "Allergies", hi: "एलर्जी", ja: "アレルギー" },
+    allAllergens: { en: "Show all {n}", hi: "सभी {n} दिखाएँ", ja: "全{n}品目を表示" },
+    fewerAllergens: { en: "Show fewer", hi: "कम दिखाएँ", ja: "表示を減らす" },
     nothing: {
       en: "Nothing ticked yet. Tap a quick pick or tick what you don't eat.",
       hi: "अभी कुछ नहीं चुना। ऊपर से चुनें या जो नहीं खाते उस पर निशान लगाएँ।",
@@ -129,6 +124,7 @@ export const s = {
       hi: "आपकी बुकिंग में {booked} है। इसमें {list} होता है। हम इसे {suggested} में बदल देंगे।",
       ja: "ご予約は{booked}です。{list}が含まれます。{suggested}に変更します。",
     },
+    choose: { en: "Choose {code} instead", hi: "इसकी जगह {code} चुनें", ja: "{code}に変更する" },
     confirm: { en: "Confirm {code}", hi: "{code} पक्का करें", ja: "{code}で確定する" },
     saving: { en: "Saving your meal", hi: "आपका भोजन सेव हो रहा है", ja: "保存しています" },
   },
@@ -141,6 +137,7 @@ export const s = {
       ja: "予約、機内食会社のリスト、ギャレー、お座席の各段階で確認します。",
     },
     updates: { en: "Updates", hi: "अपडेट", ja: "お知らせ" },
+    statusLabel: { en: "Promise status", hi: "वादे की स्थिति", ja: "お約束の状況" },
     empty: {
       en: "No updates yet. If anything changes before your flight, it shows up here.",
       hi: "अभी कोई अपडेट नहीं। फ़्लाइट से पहले कुछ बदला तो यहाँ दिखेगा।",
@@ -165,20 +162,28 @@ export const s = {
       ja: "デモ用の座席はすべて埋まりました。大画面の乗務員タブレットをご覧ください。",
     },
     matching: { en: "Checking every meal on board", hi: "विमान का हर भोजन जाँचा जा रहा है", ja: "機内のすべての食事を確認しています" },
+    notYou: { en: "Not your seat? Join again", hi: "यह आपकी सीट नहीं? फिर से जुड़ें", ja: "別の方ですか？もう一度参加する" },
     crewWillConfirm: {
       en: "Crew will confirm your meal on board.",
       hi: "क्रू विमान में आपके भोजन की पुष्टि करेगा।",
       ja: "機内で乗務員がお食事を確認します。",
     },
   },
-} satisfies Record<string, Record<string, Text>>;
+} satisfies Record<string, Record<string, Text>>
+
+export const promiseStatus: Record<"ok" | "fixed" | "at_risk" | "broken", Text> = {
+  ok: { en: "On track", hi: "सब ठीक", ja: "問題なし" },
+  fixed: { en: "Fixed", hi: "ठीक कर दिया गया", ja: "修正済み" },
+  at_risk: { en: "At risk", hi: "जोखिम में", ja: "要注意" },
+  broken: { en: "Broken", hi: "टूट गया", ja: "未対応の問題あり" },
+}
 
 /** Summary chip text. Short nouns are joined into one chip for meat, fish and egg. */
 const CORE_NOUN: Record<string, Text> = {
   meat: { en: "meat", hi: "मांस", ja: "肉" },
   seafood: { en: "fish", hi: "मछली", ja: "魚" },
   egg: { en: "egg", hi: "अंडा", ja: "卵" },
-};
+}
 
 export const chip = {
   noCore: (ids: string[]) =>
@@ -197,4 +202,4 @@ export const chip = {
     dairy: { en: "Dairy OK", hi: "डेयरी चलेगी", ja: "乳製品は可" },
     egg: { en: "Egg OK", hi: "अंडा चलेगा", ja: "卵は可" },
   } as Record<string, Text>,
-};
+}
