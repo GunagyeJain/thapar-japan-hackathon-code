@@ -1,4 +1,4 @@
-"""Applies crew events synced from the tablet: C4 (galley), C5 (seat scan), swaps and alerts."""
+"""Applies crew events synced from the tablet: C4 (galley), C5 (seat scan), swaps, alerts and copilot taps."""
 from datetime import datetime
 from typing import Literal
 
@@ -8,10 +8,12 @@ from sqlmodel import Session, select
 from app.core import alerts, clock, events, outbox
 from app.core.models import Alert, Flight, MealItem, MealPromise, MealSpec, Passenger
 from app.core.settings import seed_epoch
+from app.modules.m8_crew.copilot import TAP_TYPES
 from app.modules.m8_crew.models import CrewEventLog
 
-EventType = Literal["galley_found", "galley_missing", "seat_scan", "swap_backup"]
+EventType = Literal["galley_found", "galley_missing", "seat_scan", "swap_backup", "eaten", "refused", "swapped"]
 SOURCE = "crew tablet"
+TAP_WORDS = {"eaten": "eaten", "refused": "refused", "swapped": "swapped for another meal"}
 
 
 class CrewEvent(BaseModel):
@@ -135,8 +137,27 @@ def _seat_scan(session: Session, flight: Flight, ev: CrewEvent, item: MealItem) 
                   f"{item.id} is not safe for {pax.seat}: {reason}", session=session)
 
 
+def _tap_passenger(session: Session, flight: Flight, ev: CrewEvent) -> Passenger:
+    """The passenger a copilot tap is about: by id (survives a seat change), else by seat."""
+    pax = session.get(Passenger, ev.passenger_id) if ev.passenger_id else None
+    if pax is None and ev.seat:
+        pax = session.exec(select(Passenger).where(Passenger.flight_id == flight.id, Passenger.seat == ev.seat)).first()
+    if pax is None or pax.flight_id != flight.id:
+        raise ValueError(f"{ev.type} needs a passenger on {flight.id}")
+    return pax
+
+
+def _tap(session: Session, flight: Flight, ev: CrewEvent, item: MealItem | None) -> None:
+    """Eaten, refused or swapped (m20 copilot): kept in the crew event log and on the promise timeline (C5 info)."""
+    seat = ev.seat or "?"
+    what = f"tray {item.id}" if item else "meal"
+    _checkpoint(session, flight, ev.passenger_id, "C5", "info", f"{seat}: {what} {TAP_WORDS[ev.type]}", ev,
+                {"tap": ev.type, "item_id": item.id if item else None})
+
+
 HANDLERS = {"galley_found": _galley_found, "galley_missing": _galley_missing,
-            "swap_backup": _swap_backup, "seat_scan": _seat_scan}
+            "swap_backup": _swap_backup, "seat_scan": _seat_scan,
+            "eaten": _tap, "refused": _tap, "swapped": _tap}
 
 
 def apply_events(session: Session, flight: Flight, body: CrewEventsIn) -> dict[str, int]:
@@ -148,8 +169,13 @@ def apply_events(session: Session, flight: Flight, body: CrewEventsIn) -> dict[s
             duplicates += 1
             continue
         item = session.get(MealItem, ev.item_id) if ev.item_id else None
-        if not item or item.flight_id != flight.id:
+        if ev.item_id and (not item or item.flight_id != flight.id):
             raise ValueError(f"unknown item {ev.item_id} for {flight.id}")
+        if ev.type in TAP_TYPES:
+            pax = _tap_passenger(session, flight, ev)  # a tap needs a passenger, not always a tray
+            ev = ev.model_copy(update={"passenger_id": pax.id, "seat": pax.seat})
+        elif item is None:
+            raise ValueError(f"{ev.type} needs an item on {flight.id}")
         if ev.wall_at and ev.wall_at.tzinfo:
             # The tablet's own sim time is stale if the clock moved while it was offline.
             ev = ev.model_copy(update={"at": clock.at_wall(ev.wall_at, session=session)})

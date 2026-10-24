@@ -98,3 +98,90 @@ export const COPY = {
   serveSeat: { ja: "この座席にサービス", en: "Serve this seat" },
   galleyShort: (g: string): Bilingual => ({ ja: `ギャレー${g.slice(1)}`, en: `Galley ${g.slice(1)}` }),
 } as const
+
+// m20 copilot: strictness, the serve list, the per-seat card, the sun timer and the taps.
+export const COPILOT = {
+  task: { ja: "コパイロット", en: "Copilot" },
+  taskWhen: { ja: "食事サービス中", en: "During meal service" },
+  progress: (done: number, of: number): Bilingual => ({ ja: `${of}席中 ${done}席完了`, en: `${done} of ${of} seats done` }),
+  how: {
+    ja: "厳格度で色分けした座席表と配膳リスト。座席をタップすると乗客カード、お渡しするトレー、食事可能時刻が表示されます。",
+    en: "Seats coloured by how strict each diet is, and the serve list. Tap a seat for the passenger's card, tray and when they may eat.",
+  },
+  viewMap: { ja: "座席表（厳格度）", en: "Seat map by strictness" },
+  viewList: { ja: "配膳リスト", en: "Serve list" },
+  tierHard: { ja: "厳格", en: "Strict" },
+  tierFirm: { ja: "医療", en: "Medical" },
+  tierSoft: { ja: "好み", en: "Preference" },
+  tierNone: { ja: "制限なし・未回答", en: "No rules or not stated" },
+  whyHard: { ja: "宗教・アレルギー：代替は不可", en: "Religion or allergy: never substitute" },
+  whyFirm: { ja: "医療上の理由（糖尿病など）", en: "Medical, e.g. diabetic" },
+  whySoft: { ja: "好み：できる範囲で", en: "Taste: where possible" },
+  whyNone: { ja: "食事の制限は伝えられていません", en: "No food rules told to us" },
+  flex: { ja: "フレックス", en: "Flex" },
+  whyFlex: { ja: "マイル特典で別の食事も可", en: "Will take another meal for miles" },
+  sunMark: { ja: "日の出後に食事", en: "Eats after sunrise" },
+  doneMark: { ja: "提供・食事済", en: "Served or eaten" },
+  mayEatFrom: (t: string): Bilingual => ({ ja: `${t} から食事可`, en: `may eat from ${t} IST` }),
+  mayEatUntil: (t: string): Bilingual => ({ ja: `${t} まで`, en: `until ${t} IST` }),
+  mayEatIn: (d: string): Bilingual => ({ ja: `あと ${d}`, en: `in ${d}` }),
+  mayEatNow: { ja: "今、食事できます", en: "May eat now" },
+  sunriseBox: { ja: "サンライズボックス", en: "Sunrise Box" },
+  sunriseBoxWhy: {
+    ja: "機内で食事できる時間がありません。降機時に密封ボックスをお渡しください。",
+    en: "No time to eat on board: hand over the sealed box at the door.",
+  },
+  sunNoTime: {
+    ja: "日没後から日の出後までは飲食なし。食事可能時刻はこのデータにありません。",
+    en: "Nothing from sunset until after sunrise. The time to eat isn't in this download.",
+  },
+  fastToday: { ja: "本日は断食日：本日の規則を表示", en: "Fast day today: today's rules shown" },
+  trayTitle: { ja: "お渡しするトレー", en: "Tray to hand over" },
+  anyMain: { ja: "メイン料理はどれでも可", en: "Any main is fine" },
+  needsTray: { ja: "トレーの取り置きなし：予備パウチ、またはパーサーへ", en: "No tray held: use a reserve pouch or call the purser" },
+  noTray: { ja: "取り置きなし", en: "No tray held" },
+  eaten: { ja: "食事済", en: "Eaten" },
+  refused: { ja: "辞退", en: "Refused" },
+  swapped: { ja: "交換", en: "Swapped" },
+  served: { ja: "提供済", en: "Served" },
+  missing: { ja: "不足", en: "Missing" },
+  scanToServe: { ja: "トレーをスキャンして提供", en: "Scan the tray to serve" },
+  scanFirst: { ja: "特別食は提供前にスキャン（緑なら提供）。食事済は提供後に記録できます。", en: "Special trays: scan before handing over (green = serve). Eaten unlocks once it's served." },
+  lastTap: (what: Bilingual, time: string): Bilingual => ({ ja: `${what.ja} · ${time}`, en: `${what.en} · ${time}` }),
+  tapFailed: { ja: "このタブレットに記録できませんでした。もう一度タップしてください", en: "Couldn't save that on this tablet. Tap again" },
+  pickSeat: { ja: "座席をタップすると乗客カードが表示されます", en: "Tap a seat for the passenger's card" },
+  notStated: { ja: "この座席の乗客から食事の情報はありません", en: "This passenger hasn't told us about their food" },
+  emptySeat: { ja: "空席", en: "Empty seat" },
+  noCopilot: {
+    ja: "このデータにはコパイロット情報がありません。オンラインで「再取得」してください。",
+    en: "This download has no copilot data. Tap Download again while online.",
+  },
+  galleyDone: (g: string, done: number, of: number): Bilingual => ({
+    ja: `ギャレー${g.slice(1)} · ${of}席中 ${done}席完了`,
+    en: `Galley ${g.slice(1)} · ${done} of ${of} done`,
+  }),
+  emptyList: { ja: "配膳リストに座席はありません", en: "No seats on the serve list" },
+  trays: { ja: "トレーの出どころ", en: "Trays from" },
+  fromRouter: { ja: "変更ルーター", en: "the change router" },
+  fromItems: { ja: "機内食リスト", en: "the meal list" },
+} as const
+
+/** Which rung of the ladder put the tray in front of the passenger. */
+export const RUNGS: Record<string, Bilingual> = {
+  ssr_change: { ja: "事前予約の特別食", en: "booked special meal" },
+  caterer_add: { ja: "機内食リストに追加", en: "added to the meal list" },
+  standby_uplift: { ja: "スタンバイ搭載", en: "standby uplift" },
+  lounge: { ja: "ラウンジから", en: "from the lounge" },
+  airside_partner: { ja: "空港内の提携店から", en: "airside partner" },
+  onboard_spare: { ja: "予備の特別食", en: "spare special" },
+  noshow_release: { ja: "ノーショー分を転用", en: "no-show release" },
+  reserve_pouch: { ja: "予備パウチ", en: "reserve pouch" },
+  flex_swap: { ja: "フレックス交換", en: "flex swap" },
+  sunrise_box: { ja: "サンライズボックス", en: "Sunrise Box" },
+  held_main: { ja: "取り置きメイン", en: "held main" },
+  unmet: { ja: "未対応", en: "not met" },
+}
+
+export function rungLabel(rung: string): Bilingual {
+  return RUNGS[rung] ?? { ja: rung.replaceAll("_", " "), en: rung.replaceAll("_", " ") }
+}

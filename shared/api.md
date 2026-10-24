@@ -198,7 +198,25 @@ Everything is computed live on each call (no m19 tables). Extra fields on top of
 - `bento`: `slots, tray: Cup[]` (the standard veg tray), `components: Cup[]` (`Cup = {id, slot, name: Text, tags, standard, safe_for: need[]}`), `needs: [{id, label: Text, lambda, fails: slot[]}]`, `spares: [{cup_id, slot, name: Text, covers: need[], lambda, count}]`, `total_cups, cups_if_stocked_apart, design: Text`.
 
 ## m20 · crew copilot (inside m8)
-The crew package (`GET /api/crew/{flight_id}/package`) gains `copilot: {seats: [{seat, passenger_id, tier, flex, card: {ja, en, hi}, may_eat_from\|null, sunrise_box, assigned: {item_id, spec_id, spec_name: Text, rung}\|null}], serve_order: string[]}` from m17, m18 and m21. Taps go back as crew events `eaten`, `refused`, `swapped`.
+The crew package (`GET /api/flights/{id}/crew-package`, m8) gains `copilot` (or `null` if building it failed; the v1 fields never change):
+```
+copilot: {
+  seats: [{seat, passenger_id, tier: "hard"|"firm"|"soft"|"none", flex, card: {ja, en, hi},
+           may_eat_from: iso|null, sunrise_box: boolean,
+           assigned: {item_id|null, spec_id|null, spec_name: Text, rung}|null,
+           any_main: boolean, galley: "G1"|"G2",
+           source?, fast_today?, sun_rule?: "daylight"|"dawn_to_sunset", may_eat_until?, sun_note?: Text, needs_tray?}],
+  serve_order: string[],
+  taps: [{client_id, type: "eaten"|"refused"|"swapped", passenger_id, seat, item_id|null, at}],
+  sources: {trays: "m18"|"meal items", sun: "m21"|null}
+}
+```
+- `seats`: every passenger we know something about (passport or v1 profile from m17, else a late request, else the booked code); "not stated" seats are left out. Tier, card and `fast_today` use the rules on the flight date (`rules_on`); optional keys are only sent when set.
+- `assigned`: m18 `service.assignments(session, flight_id)` wins for every passenger it covers (dict with `assignments` or a plain list); otherwise the meal items: own special `ssr_change`, spare `onboard_spare`, backup `reserve_pouch`; and when exactly one main fits (`plan_for` gives `main_pick`, `any_main` false) a free main tray of that dish is held, `held_main`. `needs_tray`: strict or medical, no main fits and nothing is held.
+- `may_eat_from`, `may_eat_until`, `sunrise_box`, `sun_note`: m21 `service.daylight_seats(session, flight_id)` (or its `/api/sun/seats` route function); without m21 `may_eat_from` is null and `sun_rule` still marks the seat.
+- `serve_order`: the serve list: seats with a tray, a sun rule or `needs_tray`; business first, then economy front to back, strictest first within a row.
+- Taps go back through `POST /api/flights/{id}/crew-events` as `type: "eaten" | "refused" | "swapped"` with `passenger_id` or `seat` (one is required), `item_id` optional. Stored in the crew event log (idempotent on `client_id`) and as a C5 `info` event on the promise timeline; they come back in `copilot.taps` on the next download.
+
 ## m21 · sun at the aircraft
 | Method | Path | Request | Response |
 |---|---|---|---|

@@ -1,7 +1,7 @@
 # m20: Crew Copilot
 
 **Owner:** Gunagye (lane b, built in parallel) · **Branch:** `gunagye/m16-days` (v2 integration) · **Phase:** v2, 25 Oct 00:30–04:00 IST
-**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 The crew tablet (m8, offline) becomes a copilot: seat map coloured by strictness tier, the serve list (which tray to which seat, in service order, from the router's onboard plan), a per-seat card in Japanese and English, a sun timer for passengers who eat only in daylight (m21), the scan-to-serve block, and eaten / refused / swapped taps. Spec: `docs/plan/v2.md`.
@@ -10,3 +10,14 @@ The crew tablet (m8, offline) becomes a copilot: seat map coloured by strictness
 - additions inside `frontend/src/modules/m8-crew/` and `backend/app/modules/m8_crew/` (the package gains a `copilot` block)
 
 ## Notes
+- **Package:** `backend/app/modules/m8_crew/copilot.py` builds `copilot` inside the crew package (shape in `shared/api.md`, `## m20`). It reads m17 directly; m18 (`service.assignments`) and m21 (`service.daylight_seats`) are optional imports, and a failure in either falls back (trays from the meal items, no sun time) instead of breaking the download. If the whole block fails, the package still downloads with `copilot: null`. JL740 at reset: 104 seats known, 54 on the serve list (24 booked specials, 24 held mains, 6 strict passengers with no tray yet); the copilot block adds 42 KB, package 236 KB (under the 300 KB budget).
+- **Events:** `eaten`, `refused`, `swapped` are accepted by the crew-events endpoint (passenger by id or seat, tray optional), kept in the crew event log and as C5 info events on the promise timeline (the checkpoint state doesn't change).
+- **Tablet:** task 4 "コパイロット · Copilot" next to the galley check, seat service and seat map.
+  - Seat map by strictness: the `SeatMap` plane, seats recoloured by tier (Strict blue, Medical sky, Preference sky outline, no rules or not stated muted); marks F (flex), 日 (eats after sunrise), ✓ (served or eaten); legend with icon + word. Tapping a seat opens its card over the map.
+  - Seat card: the card in Japanese with English below (or one language, following the crew language switch), tier chip and why, fast day today, sun timer "06:41 から食事可 · may eat from 06:41 IST" counting down on the sim clock (or the Sunrise Box), the tray (dish, tray id, galley, position, which rung put it there, tray status), then Eaten · Refused · Swapped.
+  - Serve list: grouped by galley in service order, with progress per galley and a check once a tray is scanned green or eaten.
+  - Scan-to-serve stays the gate: a special tray shows "Scan the tray to serve" (opens seat service on that seat) and Eaten unlocks only once it scanned green. A swap made in the galley check (27D's backup) shows on the copilot straight away (the live item wins over the downloaded plan).
+- **Offline:** everything comes from the downloaded package. Taps go into the tablet's existing event queue (Dexie) and are applied to the stored package in the same transaction (`copilotStore.ts`), so they survive an offline reload and go out with the normal sync on reconnect.
+- **Verified (01:05, :8306, Chromium 1024×768):** download → offline → galley 1 "7 of 8 found" → 27D missing → backup from galley 2 → "8 of 8" → 23C AVML spare red, `TB-7K2Q9F` green → copilot: 2A card (Japanese first), Refused; 23C Eaten → 13 waiting to sync → offline reload keeps the taps → reconnect → synced (server taps, 27D C4 fixed, 23C C5 ok), no console errors. Story smoke against :8306: Acts 1–6 and Flight home pass; Act 0 fails on main already (the m12 `/demo` cockpit no longer shows the "Invite the judges now" cue) and is not m20's.
+- Sun times: `backend/tests/test_m20_copilot.py` uses a stand-in m21 (and m18). Checked once against m21's in-progress `service.daylight_seats` from its builder's worktree (on the import path, nothing copied): 2A, 33D, 33E and 33F "may eat from 06:30 IST" with m21's note. m21 skips m17's `dawn_to_sunset` rules today (it names that kind `fast_dawn_to_sunset`); nobody on JL740 has one.
+- Not m20's, seen on the way: the galley check's "late requests and spares" list is wider than a phone (v1, unchanged).
