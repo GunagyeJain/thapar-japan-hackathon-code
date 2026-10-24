@@ -4,7 +4,7 @@
 **Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Where it stands
-_Updated 24 Oct 18:40 IST by Shefali. Read this first; the Notes below are the history._
+_Updated 24 Oct 18:36 IST by Shefali. Read this first; the Notes below are the history._
 
 **Shefali's queue:** m3 `done` → m9 `done` → m14 cut. m3 open item 1 (MatchResult on `/j`) and the review of lane A's picker rework are shipped. Nothing in progress.
 
@@ -92,4 +92,4 @@ _Owner's running notes._
 - T4 done: `shared/seed/recipes/eval.json` has 23 hand-labelled sheets (the 4 demo ones plus 19 more), built around known hard cases: hidden stock (白だし, おでんだし, 削り粉), product names (ウェイパー, マシュマロ, ちくわ, ウインナー) and words that only look like an ingredient (精進だし, 野菜ブイヨン, かき = 柿, 肉桂, えび芋). A family counts as found when the rules call the dish UNSAFE for vegetarian; NEEDS_HUMAN doesn't count. `evaluation.py` builds the table from the committed cache only (never calls the model); `GET /api/recipes/eval` serves it and the Accuracy tab shows it. The three readers are scored on the same sheets (the ones the model has read).
 - What the table shows: the dictionary is fooled by look-alike words (精進だし → bonito, 野菜ブイヨン → meat extract) and misses product names (ウェイパー, 削り粉). The model got those right but missed コンソメ as meat in the croquette. Combined catches everything but keeps the dictionary's false alarms, which is why a person approves every sheet.
 - The free tier also has a daily cap of 20 requests (on top of 5 a minute). The eval fill hit it after 8 new sheets.
-- 18:40 eval finished with a teammate's key: all 23 sheets read. The model's only miss is still コンソメ in the croquette; every dictionary false alarm is a look-alike word (精進だし, 野菜ブイヨン, かき = 柿, 肉桂, えび芋), and its misses are product names (ウェイパー, 削り粉, マシュマロ, ちくわ, ウインナー).
+- 18:36 eval finished with a teammate's key: all 23 sheets read. The model's only miss is still コンソメ in the croquette; every dictionary false alarm is a look-alike word (精進だし, 野菜ブイヨン, かき = 柿, 肉桂, えび芋), and its misses are product names (ウェイパー, 削り粉, マシュマロ, ちくわ, ウインナー).
