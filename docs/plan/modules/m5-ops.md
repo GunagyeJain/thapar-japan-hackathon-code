@@ -1,7 +1,7 @@
 # m5: ops console
 
-**Owner:** Bhavyam · **Branch:** `bhavyam/m5-ops` · **Phase:** 2, 19:30–22:30 IST
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Owner:** Gunagye (lane b, taken over from Bhavyam) · **Branch:** `gunagye/m5-ops` · **Phase:** 2, 19:30–22:30 IST
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 The screen ground staff at Delhi watch overnight; it's on the projector in Act 2. It shows a flight board with live deadlines and an alert queue, and each alert opens with its **evidence**: the raw PNL and ADL lines, a before/after diff, the SSR draft. A clear "Request again" step makes it obvious a human approves every fix.

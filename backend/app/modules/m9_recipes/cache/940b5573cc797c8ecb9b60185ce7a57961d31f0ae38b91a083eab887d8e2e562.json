@@ -1,0 +1,137 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "野菜天ぷら",
+  "dish_name_en": "Vegetable tempura",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "さつまいも",
+    "name_en": "sweet potato",
+    "tags": [
+     "sweet_potato",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 0.98,
+    "evidence": "・さつまいも 1/2本"
+   },
+   {
+    "name_ja": "なす",
+    "name_en": "eggplant",
+    "tags": [
+     "eggplant",
+     "vegetable"
+    ],
+    "confidence": 0.98,
+    "evidence": "・なす 1本"
+   },
+   {
+    "name_ja": "かぼちゃ",
+    "name_en": "pumpkin",
+    "tags": [
+     "vegetable"
+    ],
+    "confidence": 0.98,
+    "evidence": "・かぼちゃ 1/8個"
+   },
+   {
+    "name_ja": "しいたけ",
+    "name_en": "shiitake mushroom",
+    "tags": [
+     "mushroom",
+     "fungi"
+    ],
+    "confidence": 0.98,
+    "evidence": "・しいたけ 4枚"
+   },
+   {
+    "name_ja": "ピーマン",
+    "name_en": "green pepper",
+    "tags": [
+     "bell_pepper",
+     "vegetable"
+    ],
+    "confidence": 0.98,
+    "evidence": "・ピーマン 2個"
+   },
+   {
+    "name_ja": "小麦粉",
+    "name_en": "wheat flour",
+    "tags": [
+     "wheat",
+     "grain"
+    ],
+    "confidence": 0.98,
+    "evidence": "・衣：小麦粉 100g"
+   },
+   {
+    "name_ja": "卵",
+    "name_en": "egg",
+    "tags": [
+     "egg"
+    ],
+    "confidence": 0.98,
+    "evidence": "卵 1個"
+   },
+   {
+    "name_ja": "冷水",
+    "name_en": "cold water",
+    "tags": [],
+    "confidence": 0.98,
+    "evidence": "冷水 150ml"
+   },
+   {
+    "name_ja": "揚げ油",
+    "name_en": "frying oil",
+    "tags": [],
+    "confidence": 0.98,
+    "evidence": "・揚げ油 適量"
+   },
+   {
+    "name_ja": "鰹節",
+    "name_en": "bonito flakes",
+    "tags": [
+     "bonito",
+     "fish",
+     "seafood"
+    ],
+    "confidence": 0.98,
+    "evidence": "出汁 200ml〔鰹節〕"
+   },
+   {
+    "name_ja": "醤油",
+    "name_en": "soy sauce",
+    "tags": [
+     "soy_sauce",
+     "soy",
+     "wheat"
+    ],
+    "confidence": 0.98,
+    "evidence": "醤油 大さじ3"
+   },
+   {
+    "name_ja": "みりん",
+    "name_en": "mirin",
+    "tags": [
+     "mirin",
+     "alcohol"
+    ],
+    "confidence": 0.98,
+    "evidence": "みりん 大さじ3"
+   },
+   {
+    "name_ja": "大根おろし",
+    "name_en": "grated daikon radish",
+    "tags": [
+     "radish",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 0.98,
+    "evidence": "・大根おろし 適量"
+   }
+  ]
+ }
+}

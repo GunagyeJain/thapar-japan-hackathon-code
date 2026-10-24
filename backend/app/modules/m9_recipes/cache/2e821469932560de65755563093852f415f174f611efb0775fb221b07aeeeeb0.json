@@ -1,0 +1,101 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "きつねうどん",
+  "dish_name_en": "Kitsune udon",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "うどん（冷凍）",
+    "name_en": "Udon noodles (frozen)",
+    "tags": [
+     "wheat",
+     "grain"
+    ],
+    "confidence": 0.9,
+    "evidence": "うどん（冷凍）4玉"
+   },
+   {
+    "name_ja": "油揚げ",
+    "name_en": "Deep-fried tofu",
+    "tags": [
+     "soy"
+    ],
+    "confidence": 0.9,
+    "evidence": "油揚げ 2枚"
+   },
+   {
+    "name_ja": "鰹節",
+    "name_en": "Dried bonito flakes",
+    "tags": [
+     "bonito",
+     "fish"
+    ],
+    "confidence": 1.0,
+    "evidence": "鰹節 20g"
+   },
+   {
+    "name_ja": "昆布",
+    "name_en": "Kombu kelp",
+    "tags": [
+     "kombu",
+     "seaweed"
+    ],
+    "confidence": 1.0,
+    "evidence": "昆布 10g"
+   },
+   {
+    "name_ja": "薄口醤油",
+    "name_en": "Light soy sauce",
+    "tags": [
+     "soy_sauce",
+     "soy",
+     "wheat"
+    ],
+    "confidence": 0.9,
+    "evidence": "薄口醤油 大さじ4"
+   },
+   {
+    "name_ja": "みりん",
+    "name_en": "Mirin",
+    "tags": [
+     "mirin",
+     "alcohol"
+    ],
+    "confidence": 0.9,
+    "evidence": "みりん 大さじ4"
+   },
+   {
+    "name_ja": "醤油",
+    "name_en": "Soy sauce",
+    "tags": [
+     "soy_sauce",
+     "soy",
+     "wheat"
+    ],
+    "confidence": 0.9,
+    "evidence": "醤油 大さじ2"
+   },
+   {
+    "name_ja": "砂糖",
+    "name_en": "Sugar",
+    "tags": [
+     "sugar"
+    ],
+    "confidence": 1.0,
+    "evidence": "砂糖 大さじ2"
+   },
+   {
+    "name_ja": "長ねぎ",
+    "name_en": "Japanese long onion",
+    "tags": [
+     "spring_onion",
+     "allium"
+    ],
+    "confidence": 0.9,
+    "evidence": "長ねぎ 1本"
+   }
+  ]
+ }
+}
