@@ -2,8 +2,10 @@
 from typing import Annotated, Any
 
 from fastapi import APIRouter, HTTPException, Request
+from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, StringConstraints, ValidationError
 from sqlmodel import select
+from starlette.datastructures import UploadFile
 
 from app.core import clock
 from app.core.db import SessionDep
@@ -16,6 +18,8 @@ from .models import RecipeSheet
 router = APIRouter(prefix="/api", tags=["m9 · hidden-ingredient check"])
 
 MAX_TEXT = 20_000
+MAX_IMAGE = 8 * 1024 * 1024
+IMAGE_TYPES = {"image/png", "image/jpeg", "image/webp"}
 
 
 class ExtractText(BaseModel):
@@ -36,27 +40,45 @@ def _out(sheet: RecipeSheet) -> dict[str, Any]:
 
 @router.post("/recipes/extract")
 async def extract(request: Request, session: SessionDep) -> dict[str, Any]:
-    """Body is JSON `{text, name?}` (a pasted sheet) or multipart `file` (a photo, needs the model)."""
+    """Body is JSON `{text, name?}` (a pasted sheet) or multipart `file` (a photo of one)."""
+    name_hint = None
     if request.headers.get("content-type", "").startswith("multipart/"):
-        raise HTTPException(status_code=503, detail="Reading a photo needs the model. Paste the sheet's text instead.")
-    try:
-        body = ExtractText.model_validate(await request.json())
-    except (ValueError, ValidationError) as exc:
-        raise HTTPException(status_code=422, detail="Send {text, name?} with the recipe sheet's text") from exc
+        form = await request.form()
+        upload = form.get("file")
+        if not isinstance(upload, UploadFile):
+            raise HTTPException(status_code=422, detail="Send the photo as the multipart field `file`")
+        mime = upload.content_type or ""
+        if mime not in IMAGE_TYPES:
+            raise HTTPException(status_code=415, detail="Send a PNG, JPEG or WebP photo of the sheet")
+        data = await upload.read(MAX_IMAGE + 1)
+        if len(data) > MAX_IMAGE:
+            raise HTTPException(status_code=413, detail="The photo is over 8 MB")
+        is_image = True
+    else:
+        try:
+            body = ExtractText.model_validate(await request.json())
+        except (ValueError, ValidationError) as exc:
+            raise HTTPException(status_code=422, detail="Send {text, name?} with the recipe sheet's text") from exc
+        data, mime, is_image, name_hint = body.text.encode("utf-8"), "text/plain", False, body.name
 
-    result = pipeline.dictionary_only(body.text)
-    name = {"en": result["dish_name_en"] or body.name or result["dish_name_ja"] or "Recipe", "ja": result["dish_name_ja"] or body.name or ""}
+    try:
+        # Gemini can take seconds: keep it off the event loop.
+        result = await run_in_threadpool(pipeline.run, data, is_image=is_image, mime_type=mime)
+    except pipeline.PhotoNeedsModel as exc:
+        raise HTTPException(status_code=503, detail=f"{exc}. Paste the sheet's text instead.") from exc
+
+    ja = result["dish_name_ja"] or name_hint or ""
     sheet = RecipeSheet(
         id=new_id("RS"),
-        name=name,
-        source_hash=pipeline.source_hash(body.text.encode("utf-8")),
-        cached=False,
-        engine="dictionary",
+        name={"en": result["dish_name_en"] or name_hint or ja or "Recipe", "ja": ja},
+        source_hash=result["source_hash"],
+        cached=result["cached"],
+        engine=result["engine"],
         ingredients=result["ingredients"],
         verdicts=result["verdicts"],
         created_at=clock.now(session=session),
-        text=body.text,
-        model_note="Model offline: dictionary only",
+        text=result["text"] or None,
+        model_note=result["model_note"],
     )
     session.add(sheet)
     session.commit()
