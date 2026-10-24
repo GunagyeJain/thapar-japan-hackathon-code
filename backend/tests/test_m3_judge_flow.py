@@ -1,4 +1,6 @@
 """Judges can tick any combination, and change their answers without taking a second seat."""
+import story_v1
+
 
 FLIGHT = "JL740-20261025"
 CONSENT = {"this_trip": True, "save_profile": False, "share_with_caterer": True, "cross_border_ack": True}
@@ -65,9 +67,7 @@ def test_halal_judge_profile_line_lists_rules_not_the_diet(client):
 
 
 def test_old_pnr_still_finds_priya_after_rebooking(client):
-    client.post("/api/demo/reset", json={"keep_judges": False})
-    for n in (0, 1, 2):
-        client.post("/api/demo/step", json={"n": n, "auto": False})
+    story_v1.run(client, "rebook")
     r = client.get("/api/passenger/lookup", params={"pnr": "6XK2QP", "surname": "SHARMA"})
     assert r.status_code == 200, r.text
     assert r.json()["seat"] == "23C" and r.json()["pnr"] == "8MZ2TN"

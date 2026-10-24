@@ -170,14 +170,20 @@ Reset and the clock are m0 endpoints (above).
 ## m18 · change router + chaos mode
 | Method | Path | Request | Response |
 |---|---|---|---|
-| POST | `/changes` | `{flight_id, passenger_id?, channel, kind, rules?: Rules, note?, lang?}` (rules default to the passport) | `ChangeEvent` (decided) |
-| GET | `/changes` | `?flight_id=` | `{now, window: Window, windows: [{window, from, to, rungs: Rung[]}], events: ChangeEvent[]}` (newest last) |
+| POST | `/changes` | `{flight_id, passenger_id?, channel, kind, rules?: Rules, note?, lang?}` (rules default to the passport, else the profile, else the meal that dropped) | `ChangeEvent` (decided). 404 unknown flight or passenger; 422 bad input, unknown tag, or no rules known for the passenger. Without `passenger_id` it is a dry run: `status: "waiting"`, nothing held |
+| GET | `/changes` | `?flight_id=` | `{now, window: Window, windows: [{window, from, to, rungs: Rung[]}], events: ChangeEvent[]}` (oldest first, newest last) |
 | GET | `/changes/metrics` | `?flight_id=` | `{ours: Metrics, today: Metrics}`, `Metrics = {events, hard_total, hard_met, firm_total, firm_met, meals_wasted, known_before_cutoff, passengers}` |
-| GET | `/changes/assignments` | `?flight_id=` | `{assignments: [{seat, passenger_id, item_id, spec_id, spec_name: Text, rung, tier, order}]}`: the onboard plan, in service order |
-| POST | `/chaos/run` | `{flight_id, preset?: "jl740"}` | `{events: ChangeEvent[], metrics}`; idempotent per reset |
-| POST | `/chaos/reset` | `{flight_id}` | `{ok}`: clears change events and the chaos side effects |
+| GET | `/changes/assignments` | `?flight_id=` | `{assignments: [{seat, passenger_id, item_id, spec_id, spec_name: Text, rung, tier, order, name, code, kind, galley, position, source}]}`: the onboard plan, in service order |
+| POST | `/chaos/run` | `{flight_id, preset?: "jl740"}` | `{events: ChangeEvent[], metrics}`; idempotent per reset; 409 if the seed lacks a beat's passenger |
+| POST | `/chaos/reset` | `{flight_id}` | `{ok, seed_epoch}`: runs the demo reset (judges kept), since chaos also writes bookings, meals, alerts and messages |
 
-Passenger answers go out through `outbox.notify("whatsapp", passenger_id, …, ref={"kind": "change", "change_id"})` so `/chat` shows them.
+Passenger answers go out through `outbox.notify("whatsapp", passenger_id, …, ref={"kind": "change", "change_id", "text": Text})` so `/chat` shows them; crew get `crew:JL740`, the caterer `caterer` (ref `{kind: "change", change_id, item_id?}`).
+
+Additions to `ChangeEvent` (all optional for readers): `seq`; `chaos: boolean`; `request.tier` (strongest tier of the need; `"none"` for a no-show), `request.allergens`, `request.time_rules`, `request.flex`; `decision.galley`; `decision.steps: [{rung, ok, reason: Text}]` (same order as `steps_tried`; `decision.reason` joins them); `decision.swap` (flex_swap: `{passenger_id, seat, name, item_id, spec_id, spec_name, miles}`); `decision.also` (a run-out serving several seats: `[{passenger_id, seat, name, rung, ok, item_id, spec_id, spec_name, tier, reason}]`); `decision.voucher` (unmet on the ground: `{code, value_inr, outlets}`); `today.item_id` (the spare today's crew would hand over) and `today.wasted`. `message` is `null` for a no-show.
+
+Assignments: `source` is `"assigned"` (a meal item held for the seat) or `"main_pick"` (the main course the passport plan holds; `rung: null`). Metrics: hard/firm count events by `request.tier`; `meals_wasted` ours = spare special meals nobody holds + no-show meals not passed on, today = no-show meals thrown away + spare special meals today's crew didn't hand out (pouches never count); `known_before_cutoff` ours = passport or profile dated before the cutoff, today = lines on the caterer's list cut at the cutoff.
+
+Python: `m18_changes.service.submit_change(session, *, flight_id, passenger_id=None, channel, kind, rules=None, note=None, lang=None, at=None) -> ChangeEvent`, `m18_changes.service.assignments(session, flight_id) -> list[dict]` (the rows above).
 
 ## m19 · smart load
 | Method | Path | Request | Response |

@@ -1,6 +1,8 @@
 """Caterer meal lists: versions, diff, hash, acknowledge (C3), labels."""
 import pytest
 
+import story_v1
+
 FLIGHT = "JL740-20261025"
 
 
@@ -14,8 +16,7 @@ def lists(client):
 
 
 def priya_rebooked_and_fixed(client):
-    for n in (1, 2, 3):
-        assert client.post("/api/demo/step", json={"n": n, "auto": True}).status_code == 200
+    story_v1.run(client, "profile", "rebook", "request_again")
 
 
 def test_seed_has_v1_and_v2_acknowledged(client):

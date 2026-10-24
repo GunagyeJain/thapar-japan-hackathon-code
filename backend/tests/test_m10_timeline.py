@@ -1,14 +1,14 @@
 import pytest
 
+import story_v1
+
 FLIGHT = "JL740-20261025"
 
 
 @pytest.fixture(scope="module")
 def story(client):
     """The whole demo, Acts 0 to 6, as the presenter's "Do it for me" would run it."""
-    client.post("/api/demo/reset", json={"keep_judges": False})
-    for n in range(9):
-        assert client.post("/api/demo/step", json={"n": n, "auto": True}).status_code == 200
+    story_v1.run(client)
     rows = client.get(f"/api/flights/{FLIGHT}/passengers?with_promises=true").json()
     priya = next(p for p in rows if p["seat"] == "23C")
     return client.get(f"/api/promises/{priya['promise']['id']}/timeline").json()
