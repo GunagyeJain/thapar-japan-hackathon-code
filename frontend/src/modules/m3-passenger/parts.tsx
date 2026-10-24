@@ -1,7 +1,7 @@
 // Pieces both /p and /j use: the boarding-pass header, a step frame with its action pinned
 // at the bottom, the meal-code card with a tray-label preview, and the promise page.
 import { useQuery } from "@tanstack/react-query"
-import { Plane, RotateCw } from "lucide-react"
+import { Plane, RotateCw, XCircle } from "lucide-react"
 import type { ReactNode } from "react"
 
 import { api, POLL_MS } from "@/lib/api"
@@ -37,6 +37,13 @@ function Fact({ name, value, mono }: { name: string; value: ReactNode; mono?: bo
   )
 }
 
+const LOCALE: Record<Lang, string> = { en: "en-GB", hi: "hi-IN", ja: "ja-JP" }
+
+/** "25 Oct", "25 अक्टू॰", "10月25日": the departure date in Delhi time. */
+function flightDate(iso: string, lang: Lang): string {
+  return new Intl.DateTimeFormat(LOCALE[lang], { day: "numeric", month: "short", timeZone: "Asia/Kolkata" }).format(new Date(iso))
+}
+
 /** JL740 as a boarding pass. Before lookup it shows the flight only. */
 export function BoardingPass({ passenger, code, lang }: { passenger?: Passenger | null; code?: string | null; lang: Lang }) {
   const { data: flight } = useFlight()
@@ -60,7 +67,7 @@ export function BoardingPass({ passenger, code, lang }: { passenger?: Passenger 
       </div>
       <dl className="grid grid-cols-4 gap-3 border-t border-dashed border-line bg-ice/50 px-4 py-2.5">
         <Fact name={pick(s.pass.flight, lang)} value={flight?.flight_no ?? "JL740"} />
-        <Fact name={pick(s.pass.date, lang)} value={flight ? fmtTime(flight.std, "IST", { date: true, zone: false }).split(",")[0] : "25 Oct"} />
+        <Fact name={pick(s.pass.date, lang)} value={flightDate(flight?.std ?? "2026-10-25T04:35:00+05:30", lang)} />
         <Fact name={pick(s.pass.seat, lang)} value={passenger?.seat ?? "--"} />
         <Fact name={pick(s.pass.meal, lang)} value={code ?? passenger?.ssr_meal ?? pick(s.pass.mealUnknown, lang)} mono />
       </dl>
@@ -110,7 +117,10 @@ export function Step({
 export function ErrorBox({ lang, message, onRetry }: { lang: Lang; message?: string; onRetry?: () => void }) {
   return (
     <div role="alert" className="flex flex-col gap-2 rounded-[10px] border border-unsafe/30 bg-unsafe-bg p-3 text-sm text-unsafe">
-      <StatusChip status="unsafe" label={message ?? pick(s.common.error, lang)} className="h-auto py-1 whitespace-normal" />
+      <p className="flex gap-2 font-medium">
+        <XCircle aria-hidden="true" className="mt-px size-4 shrink-0" />
+        {message ?? pick(s.common.error, lang)}
+      </p>
       {onRetry && (
         <Button variant="outline" size="sm" onClick={onRetry} className="self-start">
           <RotateCw /> {pick(s.common.retry, lang)}
