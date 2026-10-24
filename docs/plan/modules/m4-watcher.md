@@ -1,7 +1,15 @@
 # m4: lost-meal watcher
 
 **Owner:** Bhavyam · **Branch:** `bhavyam/m4-watcher` · **Phase:** 1, 17:00–19:30 IST. T1–T2 parsing can start earlier, in new files only (see PLAN.md).
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** blocked: code done on `bhavyam/m4-watcher`, ship waits on one m3 test (see below) <!-- not started | in progress | blocked: <why> | done -->
+
+### Where it stands (24 Oct, 17:58 IST)
+- **Code:** T1 to T4 done and tested on `bhavyam/m4-watcher` (pushed). All m4 tests pass, and Act 2 ran end to end on a live server.
+- **Not on main yet.** `ship.sh` stops at one failing test outside m4: `backend/tests/test_m3_api.py::test_verma_on_hnml_raises_wrong_code`.
+- **Why it fails:** m4's seed reconciles the PNL and opens WRONG_CODE for 24A (Anil Verma), as T4 asks and as Act 1 needs (his profile is seeded, so nobody saves it live). The m3 test then saves his profile and expects the open-alert count to go up by 1; `raise_alert` correctly reuses the open alert, so it stays the same.
+- **Fix needed (m3 owner, now Gunagye lane A):** assert that a WRONG_CODE alert is open for 24A instead of counting +1. Once that is on main, m4 ships as is.
+- **For m5:** LOST_MEAL evidence carries `line_before` / `line_after` (what `/ops` reads) plus the full `lines_before` / `lines_after` blocks. `/ops` switches from its stand-in to the real routes once m4 ships.
+- **Bhavyam:** waiting for the m3 test fix and for Gunagye's next assignment. Not starting anything else meanwhile.
 
 ## Goal
 Act 2, the heart of the pilot. ThaliBento reads **copies of the passenger-list messages** (PNL, then ADLs) that the airline already sends to the airport and the caterer. It notices that a rebooking from an IndiGo codeshare silently dropped Priya's AVML, and raises a LOST_MEAL alert with the evidence and the time left before the caterer's final list. Staff approve "request again"; a corrected ADL arrives; checkpoint C2 turns green. Read-only: we never write into the booking system.
@@ -65,19 +73,19 @@ How to read it:
    - Code **matches** → C2 `ok`, or `fixed` if it was failing. In that case also resolve the open alert and notify the passenger: "Your veg meal (no onion, no garlic) is back on JL740."
 
 ## Tasks
-- [ ] **T1 PNL render + parse (40 min).** `render_pnl(flight)` builds the PNL from the database, in the format above; save it as `shared/seed/messages/pnl_jl740.txt`. `parse(text)` returns ManifestRows.
+- [x] **T1 PNL render + parse (40 min).** `render_pnl(flight)` builds the PNL from the database, in the format above; save it as `shared/seed/messages/pnl_jl740.txt`. `parse(text)` returns ManifestRows.
 
   _Done when:_ a test proves `parse(render_pnl())` matches all 186 seeded passengers (seat, PNR, SSR, inbound).
-- [ ] **T2 ADL parse + apply (40 min).** ADD / DEL / CHG plus rebooking detection. Fixtures in `shared/seed/messages/`:
+- [x] **T2 ADL parse + apply (40 min).** ADD / DEL / CHG plus rebooking detection. Fixtures in `shared/seed/messages/`:
   - `adl_rebook_23C.txt` (above)
   - `adl_restore_23C.txt`: `CHG` `1SHARMA/PRIYAMS .L/8MZ2TN` + `.R/AVML HK1 NO ONION NO GARLIC`
   - `adl_seat_change.txt`
 
   _Done when:_ tests prove Priya keeps one Passenger id with the PNR 6XK2QP → 8MZ2TN and her meal goes AVML → none → AVML.
-- [ ] **T3 Reconcile + alerts + read endpoints (40 min).** Implement reconcile; then `POST /api/feed/messages`, `GET messages`, `GET manifest`, `GET /api/alerts`.
+- [x] **T3 Reconcile + alerts + read endpoints (40 min).** Implement reconcile; then `POST /api/feed/messages`, `GET messages`, `GET manifest`, `GET /api/alerts`.
 
   _Done when:_ posting `adl_rebook_23C.txt` creates exactly one LOST_MEAL for 23C with deadline 25 Oct 00:40 IST and a C2 `fail` event. **Ship** (heads-up: "alerts API live").
-- [ ] **T4 Actions + simulator + seed (40 min).**
+- [x] **T4 Actions + simulator + seed (40 min).**
   - `POST /api/alerts/{id}/actions`. Each action appends `{action, actor, at: clock.now(), note}`. `request_again` stores `evidence.ssr_draft = "SSR AVML JL HK1 DELNRT0740Y25OCT-1SHARMA/PRIYAMS.NO ONION NO GARLIC"`, then runs `simulate("restore_meal", …)`. `notify_passenger` and `notify_kitchen` go through `outbox.notify`.
   - `POST /api/sim/booking-events` supports `rebook_drop_meal`, `restore_meal` and `seat_change`. `delay` (sets `flight.delay_min`, raises DELAY_HOLD, notifies "caterer") is stretch.
   - `seed()` stores the PNL as message 1 and runs reconcile, so WRONG_CODE appears for 24A (HNML vegetarian).
@@ -89,3 +97,9 @@ Act 2 runs from the API alone: rebook → alert with evidence and deadline → r
 
 ## Notes
 _Owner's running notes._
+- 24 Oct: `parser.py` (parse PNL/ADL, `render_pnl`) and the rebook/restore ADL fixtures are in, with tests. Waiting on m0 for: `pnl_jl740.txt` and the 186-passenger round-trip test (need the seed), `adl_seat_change.txt` (needs a seeded PNR), apply/rebooking detection (needs Passenger rows).
+- 24 Oct: T1 to T4 done, Act 2 runs from the API (rebook, LOST_MEAL with 00:40 deadline, request again, C2 fixed, SMS). For m5 and m11:
+  - Priya has no promise in the seed (m3 makes it in Act 1). The watcher still raises LOST_MEAL when her meal code disappears, and once her promise exists the SMS uses its label mark ("Your veg meal (no onion, no garlic) is back on JL740."). Before that it reads "Your AVML meal (no onion no garlic) ...".
+  - The seed books 24 C + 162 Y (not 30 + 156), so ADL class lines read `-NRT162Y`; the fixtures match the seed.
+  - Python for m11: `from app.modules.m4_watcher import ingest, simulate`; `simulate("rebook_drop_meal", "PX-0057", session=s)`.
+  - Shortcuts: an ADL `DEL` without a matching `ADD` deletes the Passenger row; remarks over 64 characters fail instead of wrapping; `delay` and `aircraft_swap` aren't simulated yet (stretch).
