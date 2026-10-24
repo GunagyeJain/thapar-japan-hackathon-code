@@ -145,7 +145,7 @@ export function DaysPage() {
               <section className="flex flex-col gap-2">
                 <h2 className="font-display text-lg font-semibold text-navy">{t(s.keep, lang)}</h2>
                 <div className="flex flex-wrap gap-2">
-                  {calendar().observances.map((o) => (
+                  {calendar().observances.filter((o) => o.rules === "vrat").map((o) => (
                     <Button
                       key={o.id}
                       variant={keeps.includes(o.id) ? "default" : "outline"}
