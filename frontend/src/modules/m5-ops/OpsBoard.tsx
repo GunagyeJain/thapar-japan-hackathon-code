@@ -164,7 +164,8 @@ export function OpsBoard() {
   const passengers = usePassengers()
   const rows = [...(alerts.data?.rows ?? [])].sort(byUrgency)
   const promises = (passengers.data ?? []).filter((p) => p.promise).length
-  const open = rows.filter((a) => a.status !== "resolved").length
+  // Info alerts (a judge's reserved meal, say) are notes, not problems waiting for a person.
+  const open = rows.filter((a) => a.status !== "resolved" && a.severity !== "info").length
 
   const columns: Column<Alert>[] = [
     { key: "sev", header: "Severity", cell: (a) => <SeverityChip severity={a.severity} />, className: "w-28" },
