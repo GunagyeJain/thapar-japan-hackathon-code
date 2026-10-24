@@ -1,12 +1,14 @@
 """Gemini reads a recipe sheet into a fixed schema. It only reads; the rules engine decides."""
 import os
+import time
 from functools import lru_cache
 
 from pydantic import BaseModel, Field, ValidationError
 
 from app.modules.m1_rules import engine
 
-TIMEOUT_MS = 25_000
+TIMEOUT_MS = 60_000
+RETRY_AFTER_S = 3
 
 
 class ModelUnavailable(Exception):
@@ -30,7 +32,7 @@ class Extraction(BaseModel):
 
 
 def model_name() -> str:
-    return os.environ.get("GEMINI_MODEL") or "gemini-2.5-flash"
+    return os.environ.get("GEMINI_MODEL") or "gemini-3.5-flash"
 
 
 def has_key() -> bool:
@@ -52,6 +54,17 @@ def _prompt() -> str:
     )
 
 
+def _generate(client, errors, **kwargs):
+    """One retry after a short pause when Gemini is busy (503) or the free tier's per-minute limit hits (429)."""
+    try:
+        return client.models.generate_content(**kwargs)
+    except errors.APIError as exc:
+        if exc.code not in (429, 503):
+            raise
+        time.sleep(RETRY_AFTER_S)
+        return client.models.generate_content(**kwargs)
+
+
 def extract(*, text: str | None = None, image: bytes | None = None, mime_type: str = "image/png") -> dict:
     """One Gemini call. Returns an Extraction as a dict, or raises ModelUnavailable."""
     if not has_key():
@@ -66,11 +79,15 @@ def extract(*, text: str | None = None, image: bytes | None = None, mime_type: s
     contents: list = [types.Part.from_bytes(data=image, mime_type=mime_type)] if image else [text or ""]
     contents.append(_prompt())
     try:
-        response = client.models.generate_content(
+        response = _generate(
+            client,
+            errors,
             model=model_name(),
             contents=contents,
             config=types.GenerateContentConfig(
                 temperature=0,
+                # Reading a sheet needs little reasoning; low thinking keeps a photo near 5 s.
+                thinking_config=types.ThinkingConfig(thinking_level=types.ThinkingLevel.LOW),
                 response_mime_type="application/json",
                 response_schema=Extraction,
             ),
