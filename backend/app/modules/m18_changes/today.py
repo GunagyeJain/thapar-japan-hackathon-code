@@ -13,6 +13,7 @@ from sqlmodel import Session, select
 
 from app.core.models import MealItem, MealSpec
 from app.modules.m1_rules import engine
+from app.modules.m18_changes import windows
 from app.modules.m18_changes.context import Ctx, fired_text, fits, held_items, spec_of
 from app.modules.m18_changes.models import ChangeEvent
 from app.modules.m18_changes.texts import txt
@@ -60,6 +61,8 @@ def today_for(ctx: Ctx, run_out_seats: str | None = None) -> dict[str, Any]:
         return _out(False, "today.thrown", wasted=1, code=spec.code or spec.name["en"])
     if ctx.window == "ssr":
         return _out(True, "today.before_cutoff")
+    if windows.closed_early(ctx.flight, ctx.at, ctx.long_lead):
+        return _out(False, "today.long_lead")
     if ctx.kind == "lost_request" or ctx.channel == "feed":
         return _out(False, "today.lost")
     if ctx.kind == "run_out":

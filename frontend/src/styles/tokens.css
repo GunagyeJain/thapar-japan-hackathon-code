@@ -76,3 +76,62 @@
   --destructive: var(--cabin-unsafe);
   color-scheme: dark;
 }
+
+/* Brand themes (docs/design.md, "Brand themes"). ThaliBento is :root above; index.html sets data-brand on <html>
+   (default jal) and /jal sets it on its own root. Status colours never change with the brand. */
+[data-brand="jal"] {
+  --navy: #1a1a1a; /* JAL black: headings, text, app bars */
+  --blue: #333333; /* charcoal: info text, selection borders, first chart series */
+  --sky: #8c8c8c; /* JAL silver: secondary accents, icons, second chart series */
+  --ice: #f0f0f0; /* selected rows, muted backgrounds */
+  --mist: #f7f7f7; /* page background */
+  --line: #d6d6d6;
+  --grey: #595959; /* secondary text */
+  --primary: #c00000; /* JAL red: primary buttons and text-primary links only */
+  --ring: #1a1a1a; /* a red focus ring would read as "invalid" */
+  --shadow-overlay: 0 12px 32px rgb(0 0 0 / 0.16);
+
+  /* Re-declared so they resolve to this palette wherever the attribute sits, not only on <html>. */
+  --background: var(--mist);
+  --foreground: var(--navy);
+  --card-foreground: var(--navy);
+  --popover-foreground: var(--navy);
+  --secondary: var(--ice);
+  --secondary-foreground: var(--navy);
+  --muted: var(--ice);
+  --muted-foreground: var(--grey);
+  --accent: var(--ice);
+  --accent-foreground: var(--navy);
+  --border: var(--line);
+  --input: var(--line);
+}
+
+/* These repeat :root: under the JAL brand the crew cabin (and anything marked .brand-thalibento) keeps the
+   ThaliBento palette, where blue means "strict" and red only "do not serve". */
+[data-brand="jal"] :is(.cabin, .brand-thalibento) {
+  --navy: #0a2a66;
+  --blue: #1f5fd1;
+  --sky: #5e95ec;
+  --ice: #eaf1fc;
+  --mist: #f5f8fd;
+  --line: #c7d6ef;
+  --grey: #55617d;
+  --primary: var(--blue);
+  --ring: var(--blue);
+  --shadow-overlay: 0 12px 32px rgb(10 42 102 / 0.18);
+}
+/* A light screen marked .brand-thalibento also needs the semantic names resolved again inside it. */
+[data-brand="jal"] .brand-thalibento {
+  --background: var(--mist);
+  --foreground: var(--navy);
+  --card-foreground: var(--navy);
+  --popover-foreground: var(--navy);
+  --secondary: var(--ice);
+  --secondary-foreground: var(--navy);
+  --muted: var(--ice);
+  --muted-foreground: var(--grey);
+  --accent: var(--ice);
+  --accent-foreground: var(--navy);
+  --border: var(--line);
+  --input: var(--line);
+}

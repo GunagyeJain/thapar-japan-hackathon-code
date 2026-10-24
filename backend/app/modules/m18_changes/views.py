@@ -26,7 +26,7 @@ def events_of(session: Session, flight_id: str) -> list[ChangeEvent]:
 def list_changes(session: Session, flight: Flight) -> dict[str, Any]:
     now = clock.now(session=session)
     return {"now": now, "window": windows.window_at(flight, now), "windows": windows.milestones(flight),
-            "events": [event_payload(e) for e in events_of(session, flight.id)]}
+            "long_lead": windows.long_lead_cutoff(flight), "events": [event_payload(e) for e in events_of(session, flight.id)]}
 
 
 # ---------------------------------------------------------------- metrics

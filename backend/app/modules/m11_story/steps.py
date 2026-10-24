@@ -51,10 +51,10 @@ STEPS: tuple[Step, ...] = (
     Step(
         4, 3, datetime(2026, 10, 25, 6, 30, tzinfo=IST), "/crew",
         {"en": "In the air: the crew copilot", "hi": "हवा में: क्रू कोपायलट", "ja": "機内：クルーコパイロット"},
-        {"en": "iPad /crew: Download, airplane mode → Copilot: seats by strictness, 2A's card in Japanese with her sun timer, the serve list; galley check (27D → backup); 23C: wrong tray red, right tray green.",
-         "hi": "iPad /crew: डाउनलोड, एयरप्लेन मोड → कोपायलट: सीटें सख़्ती के हिसाब से, 2A का कार्ड और सूर्य टाइमर, परोसने की सूची; 23C: ग़लत ट्रे लाल, सही हरी।",
-         "ja": "iPad /crew：ダウンロード、機内モード → コパイロット：座席の厳格度、2Aのカード（日本語）と日の出タイマー、配膳リスト；23C：誤トレイは赤、正しいトレイは緑。"},
-        auto="Sync the crew's scans",
+        {"en": "iPad /crew: Download → Copilot: Ask seats now; /seat?seat=23C: Yes → 23C confirmed at seat. Airplane mode → seats by strictness, 2A's card in Japanese with her sun timer, the serve list; galley check (27D → backup); 23C: wrong tray red, right tray green.",
+         "hi": "iPad /crew: डाउनलोड → कोपायलट: Ask seats now; /seat?seat=23C: हाँ → 23C सीट पर पक्का। एयरप्लेन मोड → सीटें सख़्ती के हिसाब से, 2A का कार्ड और सूर्य टाइमर, परोसने की सूची; 23C: ग़लत ट्रे लाल, सही हरी।",
+         "ja": "iPad /crew：ダウンロード → コパイロット：座席に確認する；/seat?seat=23C：はい → 23Cは座席で確認済。機内モード → 座席の厳格度、2Aのカード（日本語）と日の出タイマー、配膳リスト；23C：誤トレイは赤、正しいトレイは緑。"},
+        auto="Ask the seats and sync the crew's scans",
     ),
     Step(
         5, 4, datetime(2026, 10, 25, 15, 20, tzinfo=JST), "/ops/changes",

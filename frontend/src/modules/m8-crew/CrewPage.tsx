@@ -97,7 +97,7 @@ function CrewScreens({ crewLang, setCrewLang }: { crewLang: CrewLang; setCrewLan
               )}
               {task === "copilot" && (
                 <Screen how={COPILOT.how}>
-                  <CopilotTask pkg={pkg} now={now} onTap={onTap} onScan={goService} />
+                  <CopilotTask pkg={pkg} now={now} onTap={onTap} onScan={goService} online={store.online} />
                 </Screen>
               )}
             </div>
