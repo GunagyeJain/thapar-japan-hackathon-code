@@ -160,29 +160,78 @@ Reset and the clock are m0 endpoints (above).
 | Method | Path | Request | Response |
 |---|---|---|---|
 | GET | `/passport/cabin/{flight_id}` | – | `{flight_id, known, total, passengers: [{passenger_id, seat, cabin, name, known, source, tier: "hard"\|"firm"\|"soft"\|"none", flex, rules: Rules\|null, card: {ja, en, hi}}]}` |
-| GET | `/passport/{passenger_id}` | – | `Passport & {card, plan: {main_pick\|null, code\|null, kitchen_note\|null, forbid, allow, time_rules_active}}` (404 if none) |
-| POST | `/passport/understand` | `{text, lang?}` (≤ 500 chars) | `{rules: Rules, chips: [{tag, kind: "forbid"\|"allow"\|"allergen", tier, via, source: "dictionary"\|"model"}], time_rules: (TimeRule & {label: Text})[], unclear: string[], source: "dictionary"\|"model"\|"both"}`. Stores nothing |
-| POST | `/passport` | `{passenger_id, lang, rules: Rules, source}` | `{passport: Passport, plan, promise: MealPromise\|null}`. Writes the profile, the promise and C1 like `/profiles`; time-rule labels never stored |
-| GET | `/passport/booking/{passenger_id}` | – | `{pnr, passengers: [{passenger_id, name, seat, has_passport}]}`: the others on the same booking to ask |
-| POST | `/radar/scan` | `{flight_id?, passenger_id?}` | `{asked: [{question_id, passenger_id, date, flight_no, label: Text}], quiet: number}`; each question is a `whatsapp` notification with `ref: {kind: "radar_question", question_id, options: [{id, label: Text}]}` |
-| POST | `/radar/answer` | `{question_id, option_id}` | `{question_id, applied: boolean, plan, change: ChangeEvent\|null}` |
+| GET | `/passport/{passenger_id}` | – | `Passport & {card, plan: {main_pick\|null, main_pick_name: Text\|null, code\|null, kitchen_note\|null, forbid, allow, time_rules_active}}` (404 if none) |
+| POST | `/passport/understand` | `{text, lang?}` (1–500 chars, 422 otherwise) | `{rules: Rules, chips: [{tag, kind: "forbid"\|"allow"\|"allergen", tier: Tier\|null, via, source: "dictionary"\|"model"}], time_rules: (TimeRule & {label: Text, via})[], unclear: string[], source: "dictionary"\|"model"\|"both", presets: string[]}`. Stores nothing, logs nothing |
+| POST | `/passport` | `{passenger_id, lang, rules: Rules, source}` | `{passport: Passport, plan, promise: MealPromise\|null}`. Writes the profile, the promise and C1 like `/profiles` (only when the plan needs a special meal); time-rule labels never stored; then runs the Radar for that passenger |
+| GET | `/passport/booking/{passenger_id}` | – | `{pnr, flight_no, passenger: Person, passengers: Person[]}`, `Person = {passenger_id, name, surname, seat, has_passport}`: the passenger and the others on the same booking to ask |
+| POST | `/radar/scan` | `{flight_id?, passenger_id?}` | `{asked: [{question_id, passenger_id, date, flight_no, label: Text}], quiet: number}`; each question is a `whatsapp` notification with `ref: {kind: "radar_question", question_id, date, flight_no, question: Text, options: [{id: "yes"\|"no", label: Text}]}` |
+| POST | `/radar/answer` | `{question_id, option_id: "yes"\|"no"}` | `{question_id, applied: boolean, plan, change: ChangeEvent\|null}`. Idempotent (`applied: false` on a second tap). The reply is a `whatsapp` notification with `ref: {kind: "radar_answer", question_id, option_id, text: Text}` |
+
+- `/understand` chips: one per tag in the rules; `tier` is null for `allow`. `via` says what the person's word became (`"lahsun → garlic"`, `"pure veg → vegetarian"`); time rules carry `via` too (`"Purnima → fasting days"`). `presets` are the diet words recognised (m1 preset ids), for the phone's Change picker only.
+- A `dates` TimeRule from the chat has `confirm: true`: it applies only on dates in its `confirmed` list (the Radar's "Yes"); `declined` dates never apply. Rules without `confirm` (a fast typed as a date) apply on every listed date. `service.rules_on` / `plan_for` follow this.
+- Radar "Yes" before `special_meal_cutoff`: the special meal is reordered through m3's `_save` (Profile, MealPromise, C1) and m18's `submit_change(channel="radar", kind="calendar")` is called when installed; after the cutoff only `submit_change` takes it.
 
 ## m18 · change router + chaos mode
 | Method | Path | Request | Response |
 |---|---|---|---|
-| POST | `/changes` | `{flight_id, passenger_id?, channel, kind, rules?: Rules, note?, lang?}` (rules default to the passport) | `ChangeEvent` (decided) |
-| GET | `/changes` | `?flight_id=` | `{now, window: Window, windows: [{window, from, to, rungs: Rung[]}], events: ChangeEvent[]}` (newest last) |
+| POST | `/changes` | `{flight_id, passenger_id?, channel, kind, rules?: Rules, note?, lang?}` (rules default to the passport, else the profile, else the meal that dropped) | `ChangeEvent` (decided). 404 unknown flight or passenger; 422 bad input, unknown tag, or no rules known for the passenger. Without `passenger_id` it is a dry run: `status: "waiting"`, nothing held |
+| GET | `/changes` | `?flight_id=` | `{now, window: Window, windows: [{window, from, to, rungs: Rung[]}], events: ChangeEvent[]}` (oldest first, newest last) |
 | GET | `/changes/metrics` | `?flight_id=` | `{ours: Metrics, today: Metrics}`, `Metrics = {events, hard_total, hard_met, firm_total, firm_met, meals_wasted, known_before_cutoff, passengers}` |
-| GET | `/changes/assignments` | `?flight_id=` | `{assignments: [{seat, passenger_id, item_id, spec_id, spec_name: Text, rung, tier, order}]}`: the onboard plan, in service order |
-| POST | `/chaos/run` | `{flight_id, preset?: "jl740"}` | `{events: ChangeEvent[], metrics}`; idempotent per reset |
-| POST | `/chaos/reset` | `{flight_id}` | `{ok}`: clears change events and the chaos side effects |
+| GET | `/changes/assignments` | `?flight_id=` | `{assignments: [{seat, passenger_id, item_id, spec_id, spec_name: Text, rung, tier, order, name, code, kind, galley, position, source}]}`: the onboard plan, in service order |
+| POST | `/chaos/run` | `{flight_id, preset?: "jl740"}` | `{events: ChangeEvent[], metrics}`; idempotent per reset; 409 if the seed lacks a beat's passenger |
+| POST | `/chaos/reset` | `{flight_id}` | `{ok, seed_epoch}`: runs the demo reset (judges kept), since chaos also writes bookings, meals, alerts and messages |
 
-Passenger answers go out through `outbox.notify("whatsapp", passenger_id, …, ref={"kind": "change", "change_id"})` so `/chat` shows them.
+Passenger answers go out through `outbox.notify("whatsapp", passenger_id, …, ref={"kind": "change", "change_id", "text": Text})` so `/chat` shows them; crew get `crew:JL740`, the caterer `caterer` (ref `{kind: "change", change_id, item_id?}`).
+
+Additions to `ChangeEvent` (all optional for readers): `seq`; `chaos: boolean`; `request.tier` (strongest tier of the need; `"none"` for a no-show), `request.allergens`, `request.time_rules`, `request.flex`; `decision.galley`; `decision.steps: [{rung, ok, reason: Text}]` (same order as `steps_tried`; `decision.reason` joins them); `decision.swap` (flex_swap: `{passenger_id, seat, name, item_id, spec_id, spec_name, miles}`); `decision.also` (a run-out serving several seats: `[{passenger_id, seat, name, rung, ok, item_id, spec_id, spec_name, tier, reason}]`); `decision.voucher` (unmet on the ground: `{code, value_inr, outlets}`); `today.item_id` (the spare today's crew would hand over) and `today.wasted`. `message` is `null` for a no-show.
+
+Assignments: `source` is `"assigned"` (a meal item held for the seat) or `"main_pick"` (the main course the passport plan holds; `rung: null`). Metrics: hard/firm count events by `request.tier`; `meals_wasted` ours = spare special meals nobody holds + no-show meals not passed on, today = no-show meals thrown away + spare special meals today's crew didn't hand out (pouches never count); `known_before_cutoff` ours = passport or profile dated before the cutoff, today = lines on the caterer's list cut at the cutoff.
+
+Python: `m18_changes.service.submit_change(session, *, flight_id, passenger_id=None, channel, kind, rules=None, note=None, lang=None, at=None) -> ChangeEvent`, `m18_changes.service.assignments(session, flight_id) -> list[dict]` (the rows above).
 
 ## m19 · smart load
 | Method | Path | Request | Response |
 |---|---|---|---|
-| GET | `/load/{flight_id}` | – | `{families: [{family, label: Text, known, forecast, p90, loaded}], reserve: {fresh: {q, cu, co, ratio}, pouch: {q, cu, co, ratio}, loaded}, universal: {profiles: [{id, label: Text}], candidates: [{id, name: Text, covers, matrix: Verdict[]}]}, bento: {components: [...], spares: [...]}}` |
+| GET | `/load/{flight_id}` | – | `{families: [{family, label: Text, known, forecast, p90, loaded}], reserve: {fresh: {q, cu, co, ratio}, pouch: {q, cu, co, ratio}, loaded}, universal: {profiles: [{id, label: Text}], candidates: [{id, name: Text, covers, matrix: Verdict[]}]}, bento: {components: [...], spares: [...]}}` (404 for an unknown flight) |
+
+Everything is computed live on each call (no m19 tables). Extra fields on top of the row above:
+- top level: `flight_id, flight_no, date, passengers, known, unknown, assumptions: [{id, label: Text, value, source: Text}], method: Text`. `known + unknown = passengers`; `Σ families.forecast = passengers`.
+- `families[]`: `family` is one of `non_veg no_beef halal vegetarian veg_no_onion_garlic jain vegan eggetarian fasting diabetic allergy` (each passenger in exactly one, from their rules on the flight date); also `tier, loaded_from: {special, main, spare}, risk: boolean (p90 > loaded), share` (the route prior for passengers who told us nothing). `loaded` = their own special meals + main dishes left after everyone else in the cabin picked + spares and reserve pouches that m1 calls SAFE for the family.
+- `reserve`: `lambda, base, factors: [{label: Text, factor, source}], loaded_covered, formula: Text, point: Text`; each of `fresh`/`pouch` also has `covered, expected_unused, expected_waste, expected_short, cost_per_flight`.
+- `universal`: 13 profiles × 5 candidates; candidate `id` is `universal` (the live `SPEC-BACKUP`), `jain_thali`, `vrat_plate`, `paneer_rice`, `chicken_rice`; also `tags, reserve: boolean, checks` (NEEDS_HUMAN count), `fired: Fired[][]` (parallel to `matrix`); plus `notes: Text[]`.
+- `bento`: `slots, tray: Cup[]` (the standard veg tray), `components: Cup[]` (`Cup = {id, slot, name: Text, tags, standard, safe_for: need[]}`), `needs: [{id, label: Text, lambda, fails: slot[]}]`, `spares: [{cup_id, slot, name: Text, covers: need[], lambda, count}]`, `total_cups, cups_if_stocked_apart, design: Text`.
 
 ## m20 · crew copilot (inside m8)
-The crew package (`GET /api/crew/{flight_id}/package`) gains `copilot: {seats: [{seat, passenger_id, tier, flex, card: {ja, en, hi}, may_eat_from\|null, sunrise_box, assigned: {item_id, spec_id, spec_name: Text, rung}\|null}], serve_order: string[]}` from m17, m18 and m21. Taps go back as crew events `eaten`, `refused`, `swapped`.
+The crew package (`GET /api/flights/{id}/crew-package`, m8) gains `copilot` (or `null` if building it failed; the v1 fields never change):
+```
+copilot: {
+  seats: [{seat, passenger_id, tier: "hard"|"firm"|"soft"|"none", flex, card: {ja, en, hi},
+           may_eat_from: iso|null, sunrise_box: boolean,
+           assigned: {item_id|null, spec_id|null, spec_name: Text, rung}|null,
+           any_main: boolean, galley: "G1"|"G2",
+           source?, fast_today?, sun_rule?: "daylight"|"dawn_to_sunset", may_eat_until?, sun_note?: Text, needs_tray?}],
+  serve_order: string[],
+  taps: [{client_id, type: "eaten"|"refused"|"swapped", passenger_id, seat, item_id|null, at}],
+  sources: {trays: "m18"|"meal items", sun: "m21"|null}
+}
+```
+- `seats`: every passenger we know something about (passport or v1 profile from m17, else a late request, else the booked code); "not stated" seats are left out. Tier, card and `fast_today` use the rules on the flight date (`rules_on`); optional keys are only sent when set.
+- `assigned`: m18 `service.assignments(session, flight_id)` wins for every passenger it covers (dict with `assignments` or a plain list); otherwise the meal items: own special `ssr_change`, spare `onboard_spare`, backup `reserve_pouch`; and when exactly one main fits (`plan_for` gives `main_pick`, `any_main` false) a free main tray of that dish is held, `held_main`. `needs_tray`: strict or medical, no main fits and nothing is held.
+- `may_eat_from`, `may_eat_until`, `sunrise_box`, `sun_note`: m21 `service.daylight_seats(session, flight_id)` (or its `/api/sun/seats` route function); without m21 `may_eat_from` is null and `sun_rule` still marks the seat.
+- `serve_order`: the serve list: seats with a tray, a sun rule or `needs_tray`; business first, then economy front to back, strictest first within a row.
+- Taps go back through `POST /api/flights/{id}/crew-events` as `type: "eaten" | "refused" | "swapped"` with `passenger_id` or `seat` (one is required), `item_id` optional. Stored in the crew event log (idempotent on `client_id`) and as a C5 `info` event on the promise timeline; they come back in `copilot.taps` on the next download.
+
+## m21 · sun at the aircraft
+| Method | Path | Request | Response |
+|---|---|---|---|
+| GET | `/sun/flight/{id}` | – | `SunFlight & {delay_min}` for a flight in the database: `std`/`sta` moved by any m4 delay (404 if no flight) |
+| GET | `/sun/route` | `?from=DEL&to=NRT&dep=<iso>&arr=<iso>&flight_no=` | `SunFlight` for a flight that isn't in the database (`flight_id: null`). 422 for an airport other than DEL, BLR, NRT, HND, a time without an offset, arrival before departure, or over 20 h |
+| GET | `/sun/presets` | `?date=2026-10-25` (default) | `{date, rule, flights: SunSummary[]}`: JL740 DEL 04:35 IST → NRT 15:20 JST, JL754 BLR 02:55 IST → NRT 14:00 JST, JL030 DEL 19:55 IST → HND 06:30 JST (+1) |
+| GET | `/sun/seats/{id}` | – | `{flight_id, seats: (EatWindow & {seat, passenger_id, rule})[]}`, by seat. Rules come from m17's `daylight_rules(session, flight_id)`; `seats: []` while m17 isn't merged (404 if no flight) |
+
+- `SunSummary = {flight_id|null, flight_no|null, origin, dest, dep, arr, threshold_cruise, sunrise: SunEvent|null, sunset: SunEvent|null, fajr: SunEvent|null, chauvihar: EatWindow & {rule}}`; `SunFlight = SunSummary & {track: TrackPoint[]}`.
+- `SunEvent = {at_aircraft, at_origin|null, minutes_earlier|null, lat, lon, alt_m}`: the first time on the flight the sun crosses the line at the aircraft, the same crossing on the ground at the origin on that local date, and origin minus aircraft in minutes. Sunrise and sunset line: −0.833° − 1.76′·√(altitude in m) (`threshold_cruise` = −3.91° at 11,000 m); `fajr` (dawn): −18°.
+- `TrackPoint = {at, lat, lon, alt_m, elev, elev_origin}` every 5 min from departure, plus arrival: the sun's height in degrees at the aircraft (`elev`) and on the ground at the origin (`elev_origin`).
+- `EatWindow = {may_eat_from|null, may_eat_until|null, sunrise_box, note: Text}`. A rule is `{kind: "daylight", after_sunrise_min}` (eats from sunrise + N min until sunset) or `{kind: "fast_dawn_to_sunset"}` (eats from sunset until dawn). `may_eat_from` starts the first allowed stretch that reaches into the cabin service (after the 25 min climb, before the 30 min descent); `may_eat_until` is null when it lasts to arrival. `sunrise_box: true` when no allowed time falls in the cabin service: the passenger gets a sealed box at the door. `chauvihar` is the daylight rule with 48 min.
+- Times are ISO with an offset, rounded to the minute: computed times in the origin's zone, `arr` in the destination's. Route: great circle, linear in time; climb to 11,000 m in 25 min, descend in the last 30 min.
+- Front end (`@/modules/m21-sun`): `SunTimer` `{mayEatFrom, sunriseBox, lang, size?: "sm"|"md"}` (countdown on the sim clock, or "Sunrise Box at the door") and `useSunSeats(flightId)` (refetches every 30 s).

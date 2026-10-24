@@ -1,5 +1,6 @@
-"""The crew package: everything the tablet needs to run the galley check and seat scan offline."""
+"""The crew package: everything the tablet needs to run the galley check, seat scan and copilot offline."""
 import json
+import logging
 from typing import Any
 
 from sqlmodel import Session, select
@@ -9,6 +10,9 @@ from app.core.models import Flight, MealItem, MealPromise, MealSpec, Passenger, 
 from app.core.paths import SHARED_DIR
 from app.core.settings import seed_epoch
 from app.modules.m1_rules import engine
+from app.modules.m8_crew.copilot import build_copilot
+
+log = logging.getLogger(__name__)
 
 
 def _codes() -> dict[str, Any]:
@@ -73,6 +77,12 @@ def build_package(session: Session, flight: Flight) -> dict[str, Any]:
         }
     verdicts = {pid: {i.id: by_spec[i.spec_id] for i in items} for pid, by_spec in spec_verdicts.items()}
 
+    try:
+        copilot = build_copilot(session, flight, passengers, items, specs, forbid)
+    except Exception:  # the copilot reads modules built in parallel: the v1 package must still download
+        log.exception("crew copilot block failed for %s", flight.id)
+        copilot = None
+
     return {
         "flight": flight.model_dump(mode="json"),
         "passengers": [p.model_dump(mode="json") for p in passengers],
@@ -82,6 +92,7 @@ def build_package(session: Session, flight: Flight) -> dict[str, Any]:
         "verdicts": verdicts,
         "forbid": forbid,
         "expected_specials": expected_specials(session, items),
+        "copilot": copilot,
         "rules_version": engine.rules().version,
         "seed_epoch": seed_epoch(session=session),
         "generated_at": clock.now(session=session).isoformat(),

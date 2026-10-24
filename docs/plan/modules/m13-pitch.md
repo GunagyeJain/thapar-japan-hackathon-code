@@ -81,3 +81,4 @@ _Mentor answers (attributed), survey results, organiser answers._
 
 **Organisers:** pitch length · what to submit at 10:00 and where · projector/HDMI · venue Wi-Fi for the demo.
    - Answers:
+- 25 Oct 01:40 (lane B): **v2 is the demo now** (`docs/plan/v2.md`). The story smoke `e2e/story.spec.ts` (v2: passport chat, Calendar Radar, Chaos Mode, crew copilot, landing numbers, flight home) passed 7/7 twice on the v2 build, and `docs/demo-script.md` is rewritten click for click for the v2 screens (4-minute version, 2-minute cut, fallbacks, measured numbers). The v1 walkthrough video shows the old story: re-record it from the v2 script. Slide 3's [CHECK 02:00] items: m16 is in; m15 was dropped; the new standouts are the Calendar Radar, Chaos Mode with the today column, the never-spoiling universal plate and sun at the aircraft.

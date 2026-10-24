@@ -23,6 +23,9 @@ from app.modules import (
     m14_groups,
     m16_days,
     m17_passport,
+    m21_sun,
+    m19_load,
+    m18_changes,
 )
 
 
@@ -48,4 +51,7 @@ MODULES: list[Module] = [
     Module("m14", "groups", m14_groups.router, m14_groups.seed),
     Module("m16", "diets that change by date", m16_days.router, m16_days.seed),
     Module("m17", "dietary passport", m17_passport.router, m17_passport.seed),
+    Module("m21", "sun at the aircraft", m21_sun.router, m21_sun.seed),
+    Module("m19", "smart load", m19_load.router, m19_load.seed),
+    Module("m18", "change router", m18_changes.router, m18_changes.seed),
 ]

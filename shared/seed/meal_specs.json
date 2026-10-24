@@ -170,16 +170,16 @@
  {
   "id": "SPEC-BACKUP",
   "name": {
-   "en": "Paneer and peas with jeera rice (sealed backup)",
-   "ja": "パニールとグリーンピース、ジーラライス（密封予備食）"
+   "en": "Universal plate (retort, shelf-stable): samak millet, makhana, lauki",
+   "ja": "ユニバーサル・プレート（レトルト・常温保存）：サマク、マカナ、ユウガオ"
   },
   "code": null,
   "kind": "backup",
   "tags": [
-   "paneer",
-   "legume",
-   "rice",
-   "ghee"
+   "samak",
+   "makhana",
+   "bottle_gourd",
+   "rock_salt"
   ],
   "certified": false,
   "source": "caterer"

@@ -14,12 +14,14 @@ import { usePriya, useScenario, when, type Step } from "@/modules/m11-demo/data"
 import { JudgeQr } from "@/modules/m11-demo/JudgeQr"
 import { ResetButton } from "@/modules/m11-demo/ResetButton"
 import { CUES, DEVICES, type Device } from "@/modules/m11-demo/script"
+import { CutoffLadder } from "@/modules/m18-changes"
+import { useChanges } from "@/modules/m18-changes/api"
 
 const DEVICE_ICONS: Record<Device, LucideIcon> = { projector: Laptop, phone: Smartphone, ipad: Tablet }
 
 function Stepper({ steps, current }: { steps: Step[]; current: number }) {
   return (
-    <ol className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-9" aria-label="Story steps">
+    <ol className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-6" aria-label="Story steps">
       {steps.map((s) => (
         <li
           key={s.n}
@@ -59,6 +61,7 @@ export function DemoPage() {
   const [did, setDid] = useState<string[]>([])
   const scenario = useScenario()
   const priya = usePriya()
+  const changes = useChanges()
   const run = useMutation({
     mutationFn: (body: { n: number; auto: boolean }) => api.post<{ current: number; did: string[] }>("/demo/step", body),
     onSuccess: (res) => {
@@ -107,6 +110,9 @@ export function DemoPage() {
         }
       />
       <Stepper steps={steps} current={current} />
+      <section className="rounded-xl border bg-card p-4" aria-label="When the airline listens">
+        <CutoffLadder events={changes.data?.live ? changes.data.data.events : undefined} compact={current > 0} />
+      </section>
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,0.8fr)]">
         <section className="flex flex-col gap-5 rounded-xl border bg-card p-6" aria-live="polite" aria-labelledby="cue-title">
           <div className="flex flex-wrap items-start justify-between gap-3">

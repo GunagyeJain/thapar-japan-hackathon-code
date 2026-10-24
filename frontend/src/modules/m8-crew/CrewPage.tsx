@@ -1,25 +1,34 @@
 // "/crew": the crew tablet. Download the flight package while online; everything below works in airplane mode.
 // Layout: app bar (flight, connection, language) → three numbered tasks → the task's screen.
-import { CloudDownload, Info, LayoutGrid, RefreshCw, ScanLine, UtensilsCrossed, Wifi, WifiOff, type LucideIcon } from "lucide-react"
+import { CloudDownload, Info, LayoutGrid, ListChecks, RefreshCw, ScanLine, UtensilsCrossed, Wifi, WifiOff, type LucideIcon } from "lucide-react"
 import { useCallback, useMemo, useState, type ReactNode } from "react"
 
 import { Brand } from "@/app/layouts/Brand"
 import { FLIGHT_ID } from "@/lib/api"
 import { useSimClock } from "@/lib/clock"
 import { fmtTime } from "@/lib/format"
-import type { CrewPackage } from "@/lib/offline/types"
+import type { StoredPackage } from "@/lib/offline/types"
 import { useCrewStore, type CrewStore } from "@/lib/offline/store"
 import { cn } from "@/lib/utils"
 import { Button, StatusChip } from "@/ui"
 import { Bi } from "@/modules/m8-crew/Bi"
+import { CopilotTask } from "@/modules/m8-crew/CopilotTask"
+import { serveProgress, type CopilotPackage } from "@/modules/m8-crew/copilot"
+import { recordTap, type NewTap } from "@/modules/m8-crew/copilotStore"
 import { CrewSeats } from "@/modules/m8-crew/CrewSeats"
 import { GalleyCheck } from "@/modules/m8-crew/GalleyCheck"
-import { COPY, type Bilingual } from "@/modules/m8-crew/i18n"
+import { COPILOT, COPY, type Bilingual } from "@/modules/m8-crew/i18n"
 import { CrewLangProvider, CrewLangSwitch, useSay, useStoredCrewLang, type CrewLang } from "@/modules/m8-crew/lang"
 import { galleyRows, isDone, lookup } from "@/modules/m8-crew/logic"
 import { SeatScan } from "@/modules/m8-crew/SeatScan"
 
-type Task = "galley" | "service" | "seats"
+type Task = "galley" | "service" | "seats" | "copilot"
+
+/** A copilot tap written to the tablet after the shared store last read its package. */
+interface Tapped {
+  base: StoredPackage | null
+  next: StoredPackage
+}
 
 export function CrewPage() {
   const [crewLang, setCrewLang] = useStoredCrewLang()
@@ -35,13 +44,29 @@ function CrewScreens({ crewLang, setCrewLang }: { crewLang: CrewLang; setCrewLan
   const { now: simNow } = useSimClock()
   const [task, setTask] = useState<Task>("galley")
   const [seat, setSeat] = useState("23C")
+  const [tapped, setTapped] = useState<Tapped | null>(null)
   const now = useCallback(() => (simNow ?? new Date()).toISOString(), [simNow])
-  const pkg = store.stored?.pkg
+  // A copilot tap updates the stored package directly; it shows until the shared store reads the package again.
+  const stored = tapped && tapped.base === store.stored ? tapped.next : store.stored
+  const pkg = stored?.pkg as CopilotPackage | undefined
+  const { stored: base, syncNow } = store
 
   const goService = (s: string) => {
     setSeat(s)
     setTask("service")
   }
+
+  const onTap = useCallback(
+    async (tap: NewTap) => {
+      try {
+        const next = await recordTap(FLIGHT_ID, tap)
+        if (next) setTapped({ base, next })
+      } finally {
+        await syncNow() // sends it now when online; offline it stays queued and the unsynced count goes up
+      }
+    },
+    [base, syncNow],
+  )
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -68,6 +93,11 @@ function CrewScreens({ crewLang, setCrewLang }: { crewLang: CrewLang; setCrewLan
               {task === "seats" && (
                 <Screen how={COPY.howSeats}>
                   <CrewSeats pkg={pkg} online={store.online} onSeat={goService} />
+                </Screen>
+              )}
+              {task === "copilot" && (
+                <Screen how={COPILOT.how}>
+                  <CopilotTask pkg={pkg} now={now} onTap={onTap} onScan={goService} />
                 </Screen>
               )}
             </div>
@@ -168,7 +198,7 @@ interface TaskCardInfo {
   done: boolean
 }
 
-function TaskNav({ pkg, task, onTask }: { pkg: CrewPackage; task: Task; onTask: (t: Task) => void }) {
+function TaskNav({ pkg, task, onTask }: { pkg: CopilotPackage; task: Task; onTask: (t: Task) => void }) {
   const say = useSay()
   const cards = useMemo<TaskCardInfo[]>(() => {
     const L = lookup(pkg)
@@ -177,15 +207,17 @@ function TaskNav({ pkg, task, onTask }: { pkg: CrewPackage; task: Task; onTask: 
     const served = pkg.items.filter((i) => i.status === "served").length
     const specials = pkg.passengers.filter((p) => p.ssr_meal).length
     const judges = pkg.passengers.filter((p) => p.is_judge).length
+    const serve = serveProgress(pkg)
     return [
       { id: "galley", n: 1, icon: UtensilsCrossed, title: COPY.task1, when: COPY.task1When, progress: COPY.progressGalley(found, rows.length), done: rows.length > 0 && found === rows.length },
       { id: "service", n: 2, icon: ScanLine, title: COPY.task2, when: COPY.task2When, progress: COPY.progressServed(served), done: false },
       { id: "seats", n: 3, icon: LayoutGrid, title: COPY.task3, when: COPY.task3When, progress: COPY.progressSeats(specials, judges), done: false },
+      { id: "copilot", n: 4, icon: ListChecks, title: COPILOT.task, when: COPILOT.taskWhen, progress: COPILOT.progress(serve.done, serve.of), done: serve.of > 0 && serve.done === serve.of },
     ]
   }, [pkg])
 
   return (
-    <nav role="tablist" aria-label="Tasks" className="grid gap-3 sm:grid-cols-3">
+    <nav role="tablist" aria-label="Tasks" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       {cards.map((c) => {
         const active = c.id === task
         return (

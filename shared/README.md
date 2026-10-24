@@ -111,6 +111,6 @@ Named cast (the other passengers are generated deterministically):
 Load:
 - the special meals for every SSR above (produced from the 24 Oct 03:35 list)
 - caterer spares: 1 VJML in G2, 1 AVML (standard, contains onion) in G1
-- 4 sealed "safe backup" meals in G2 (paneer and peas with jeera rice: Jain-safe, contains dairy). The last 2 are held for galley contingencies.
+- 4 sealed backups in G2: the v2 universal plate (retort, shelf-stable: samak millet, makhana, lauki, rock salt; no dairy, onion, garlic or root vegetables), safe for 13 of 13 diets on this route (m19). The last 2 are held for galley contingencies.
 - business spares: 2 Jain thali (Jain-safe, contains dairy), 2 vegan chana masala (contains onion and garlic), 2 chicken
 - economy mains: chicken tikka masala and paneer butter masala

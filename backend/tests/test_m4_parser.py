@@ -101,3 +101,19 @@ def test_bad_messages_fail_loudly(text):
 def test_render_rejects_long_lines():
     with pytest.raises(ValueError):
         render_pnl(FLIGHT, [pax("20A", "Y", "X", "Y", "MR", "AAAAAA", "AVML", "N" * 70)])
+
+
+def test_a_long_kitchen_note_continues_on_rn_lines_and_reads_back():
+    from types import SimpleNamespace
+
+    from app.modules.m4_watcher.parser import MAX_LINE, finish, parse, wrap
+
+    note = "NO ONION NO GARLIC NO ALCOHOL NO GRAIN NO LENTILS OR BEANS"
+    lines = wrap(f".R/AVML HK1 {note}")
+    assert len(lines) == 2 and lines[1].startswith(".RN/") and all(len(ln) <= MAX_LINE for ln in lines)
+    flight = SimpleNamespace(flight_no="JL740", date="2026-10-25", origin="DEL")
+    text = finish(["ADL", "JL740/25OCT DEL PART1", "-NRT001Y", "CHG", "1SHARMA/PRIYAMS .L/8MZ2TN",
+                   f".R/AVML HK1 {note}", "ENDADL"])
+    row = parse(text, 2026)["rows"][0]
+    assert row["ssr"] == [{"code": "AVML", "status": "HK1", "text": note}]
+    assert flight.flight_no == "JL740"

@@ -13,14 +13,11 @@ router = APIRouter(prefix="/api", tags=["m11 · story engine"])
 # Step n -> (runs every time, runs only with auto=true: the presenter's click)
 RUNS: dict[int, tuple[Callable | None, Callable | None]] = {
     0: (None, None),
-    1: (None, actions.priya_profile),
-    2: (actions.rebook_drops_meal, None),
-    3: (None, actions.request_again),
-    4: (lambda did: actions.caterer_v3(did, acknowledge=False), lambda did: actions.caterer_v3(did, acknowledge=True)),
-    5: (None, actions.reserve_for_mehta),
-    6: (None, None),
-    7: (None, actions.crew_events),
-    8: (None, None),
+    1: (None, actions.priya_passport),
+    2: (actions.radar_scan, actions.radar_yes),
+    3: (None, actions.chaos_run),
+    4: (None, actions.crew_events),
+    5: (None, None),
 }
 
 

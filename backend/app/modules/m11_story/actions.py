@@ -307,3 +307,63 @@ def _ev(type_: str, item_id: str, at: datetime, **extra) -> dict:
     """Fixed client ids, so syncing the same story twice is a no-op on the server."""
     who = extra.get("passenger_id") or extra.get("seat") or ""
     return {"client_id": f"story-{type_}-{item_id}-{who}", "type": type_, "item_id": item_id, "at": at.isoformat(), **extra}
+
+
+# ---------------------------------------------------------------- v2 story (docs/plan/v2.md)
+
+PRIYA_SAYS = "pure veg, no onion-garlic, aur Purnima ka vrat rakhti hoon"
+
+
+def _priya_id() -> str:
+    with new_session() as session:
+        return _pax(session, PRIYA_SEAT).id
+
+
+def priya_passport(did: list[str]) -> None:
+    """Priya says her diet in her own words; the passport is saved (Act 1)."""
+    pid = _priya_id()
+    status, have = _call("GET", f"/passport/{pid}")
+    if status != NOT_THERE and have:
+        did.append("Priya's passport was already saved")
+        return
+    status, understood = _call("POST", "/passport/understand", {"text": PRIYA_SAYS, "lang": "hi"})
+    if status == NOT_THERE:
+        raise StepError("The passport chat isn't on this build yet")
+    _, saved = _call("POST", "/passport", {"passenger_id": pid, "lang": "hi", "rules": understood["rules"], "source": "chat"})
+    plan = (saved or {}).get("plan") or {}
+    did.append(f"Priya's passport saved: {plan.get('code') or plan.get('main_pick')} {plan.get('kitchen_note') or ''}".strip())
+
+
+def radar_scan(did: list[str]) -> None:
+    """The Calendar Radar checks Priya's trip dates against her time rules (runs on every visit to step 2)."""
+    status, out = _call("POST", "/radar/scan", {"passenger_id": _priya_id()})
+    if status == NOT_THERE:
+        did.append("Radar not on this build yet")
+        return
+    did.append(f"Radar asked {len(out.get('asked', []))}, quiet {out.get('quiet', 0)}")
+
+
+def radar_yes(did: list[str]) -> None:
+    """Priya answers Yes to the Radar's question about 25 Oct."""
+    pid = _priya_id()
+    _, notes = _call("GET", f"/notifications?to={pid}")
+    questions = [n for n in (notes or []) if (n.get("ref") or {}).get("kind") == "radar_question"]
+    if not questions:
+        raise StepError("No Radar question for Priya yet: run step 2 first")
+    try:
+        _, out = _call("POST", "/radar/answer", {"question_id": questions[0]["ref"]["question_id"], "option_id": "yes"})
+    except StepError as exc:
+        if "answered" in str(exc).lower():
+            did.append("Priya already answered")
+            return
+        raise
+    did.append(f"Priya said yes: {((out or {}).get('plan') or {}).get('kitchen_note') or 'fasting meal'}")
+
+
+def chaos_run(did: list[str]) -> None:
+    """Chaos Mode: the seven scripted late changes for JL740 go through the change router (Act 2)."""
+    status, out = _call("POST", "/chaos/run", {"flight_id": FLIGHT_ID, "preset": "jl740"})
+    if status == NOT_THERE:
+        raise StepError("Chaos Mode isn't on this build yet")
+    events = (out or {}).get("events", [])
+    did.append(f"Chaos Mode: {len(events)} changes, {sum(1 for e in events if e.get('decision', {}).get('ok'))} met")
