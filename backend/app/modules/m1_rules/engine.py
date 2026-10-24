@@ -399,6 +399,7 @@ def label_mark(forbid, allow=None) -> dict:
     return {lang: base["labels"][lang] + (f" · {parts[lang]}" if rest else "") for lang in ("en", "ja", "hi")}
 
 
+@lru_cache(maxsize=1)
 def rules_payload() -> dict:
     """Everything GET /api/rules returns."""
     taxonomy, diets, presets, codes = (_load(n) for n in ("taxonomy", "diets", "presets", "codes"))
