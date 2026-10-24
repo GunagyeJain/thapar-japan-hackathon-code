@@ -13,11 +13,11 @@ import { cn } from "@/lib/utils"
 import { ErrorBox, Step } from "@/modules/m3-passenger/parts"
 import { Badge, Button, Checkbox, Input, LangSwitch, StatusChip, toast } from "@/ui"
 
+import { dayLabel } from "./format"
 import { fill, s } from "./i18n"
 import type { Leg, TripsOut } from "./types"
 
 const KEEPS_KEY = "tb.m16.keeps"
-const LOCALE: Record<Lang, string> = { en: "en-GB", hi: "hi-IN", ja: "ja-JP" }
 
 function readKeeps(): string[] {
   try {
@@ -34,10 +34,6 @@ function writeKeeps(keeps: string[]): void {
   } catch {
     // Private mode: the choice just isn't remembered.
   }
-}
-
-export function dayLabel(date: string, lang: Lang): string {
-  return new Date(`${date}T00:00:00`).toLocaleDateString(LOCALE[lang], { weekday: "short", day: "numeric", month: "short" })
 }
 
 /** The calendar entry for a date among the fasts this person keeps (shown on the phone only). */
@@ -227,8 +223,13 @@ function LegCard({ leg, lang, checked, calendarDay, onChange }: {
             <div className="flex items-center gap-2">
               <span className="text-grey">{t(s.meal, lang)}</span>
               <Badge variant="secondary" className="code">{leg.code}</Badge>
-              {leg.kitchen_note && <span className="code text-navy">{leg.kitchen_note}</span>}
             </div>
+            {leg.kitchen_note && (
+              <p>
+                <span className="text-grey">{t(s.kitchen, lang)}: </span>
+                <span className="code text-navy">{leg.kitchen_note}</span>
+              </p>
+            )}
             {leg.catered_in === "NRT" && leg.kitchen_note_ja && (
               <p lang="ja">
                 <span className="text-grey">{t(s.kitchenJa, lang)}：</span>

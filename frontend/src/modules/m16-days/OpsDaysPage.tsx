@@ -6,7 +6,7 @@ import { CalendarDays } from "lucide-react"
 import { api, POLL_MS } from "@/lib/api"
 import { Badge, Button, DataTable, EmptyState, PageHeader, StatusChip, type Column } from "@/ui"
 
-import { dayLabel } from "./DaysPage"
+import { dayLabel } from "./format"
 import type { AheadLeg, AheadOut } from "./types"
 
 const DAYS = 30
@@ -47,8 +47,9 @@ const columns: Column<AheadLeg>[] = [
   {
     key: "day",
     header: "On the fast day",
+    className: "w-[38%] whitespace-normal",
     cell: (l) => (
-      <div className="flex flex-col gap-1 py-1">
+      <div className="flex max-w-md flex-col gap-1 py-1 whitespace-normal">
         <span className="flex items-center gap-2">
           <StatusChip status="info" size="sm" label="Fast day" />
           {l.code && <Badge variant="secondary" className="code">{l.code}</Badge>}
