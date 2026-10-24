@@ -1,7 +1,7 @@
 # m0: foundation
 
 **Owner:** Gunagye (lane a) · **Branch:** `gunagye/m0-foundation` · **Phase:** start, 15:40–17:00 IST (ship the contracts after T2)
-**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Everything the other modules build on, on main within an hour:
@@ -60,7 +60,7 @@ At the 16:30 mentor checkpoint, this is what we show running.
     - one tile per surface
 
   _Done when:_ home shows "JL740 · 186 passengers · 22+ special meals" and the countdown moves.
-- [ ] **T4 Checks + docs (10 min).**
+- [x] **T4 Checks + docs (10 min).**
   - `check.sh` project checks: `tsc --noEmit`, `npm run build`, vitest, pytest.
   - README "Run it" for Windows and macOS (`uv venv --python 3.12 backend/.venv`, `uv pip install -r backend/requirements.txt`, Node 20+, `npm install`, `npm run dev`).
   - `.env.example` with `GEMINI_API_KEY=` and `GEMINI_MODEL=gemini-2.5-flash`.
