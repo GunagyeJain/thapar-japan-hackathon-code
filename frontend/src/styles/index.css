@@ -94,4 +94,47 @@
   .tabular {
     font-variant-numeric: tabular-nums;
   }
+  /* PNRs, item ids, raw messages */
+  .code {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Motion: 150–200 ms ease-out on state changes; the only loop is a live countdown under 15 min. */
+@keyframes tb-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+@keyframes tb-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@utility animate-live {
+  animation: tb-pulse 1.6s ease-in-out infinite;
+}
+@utility animate-arrive {
+  animation: tb-arrive 180ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-live,
+  .animate-arrive {
+    animation: none;
+  }
 }
