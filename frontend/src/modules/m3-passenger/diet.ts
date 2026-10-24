@@ -14,12 +14,34 @@ const coveredBy = (list: string[], tag: string) => list.some((g) => covers(g, ta
 
 export const EMPTY_DIET: DietValue = { presets: [], forbid: [], allow: [], allergens: [] }
 
+/** Presets that are really one food ("No beef") live in the food list instead. */
+const FOOD_LIKE_PRESETS = new Set(["no_beef", "no_onion_garlic"])
+
 export function presets(): Preset[] {
   return [...loadRules().presets.values()]
 }
 
+/** The diets shown under "Do you follow a diet?". */
+export function dietPresets(): Preset[] {
+  return presets().filter((p) => !FOOD_LIKE_PRESETS.has(p.id))
+}
+
 export function pickerGroups(kind: PickerGroup["kind"]): PickerGroup[] {
   return loadRules().pickerGroups.filter((g) => g.kind === kind)
+}
+
+const MEATS: PickerGroup[] = [
+  { id: "beef", kind: "diet", labels: { en: "Beef", hi: "बीफ़ (गोमांस)", ja: "牛肉" }, tags: ["beef"] },
+  { id: "pork", kind: "diet", labels: { en: "Pork", hi: "सूअर का मांस", ja: "豚肉" }, tags: ["pork"] },
+  { id: "chicken", kind: "diet", labels: { en: "Chicken", hi: "चिकन", ja: "鶏肉" }, tags: ["chicken"] },
+]
+const ALL_MEAT: Text = { en: "All meat", hi: "कोई भी मांस", ja: "肉類すべて" }
+
+/** "What can't you eat?": single meats first, then m1's food groups ("Meat" reads "All meat" here). */
+export function foodGroups(): PickerGroup[] {
+  const groups = pickerGroups("diet").map((g) => (g.id === "meat" ? { ...g, labels: ALL_MEAT } : g))
+  const at = groups.findIndex((g) => g.id === "meat")
+  return at < 0 ? [...MEATS, ...groups] : [...groups.slice(0, at), ...MEATS, ...groups.slice(at)]
 }
 
 function children(tag: string): string[] {
