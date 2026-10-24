@@ -43,7 +43,7 @@ export function SeatbackPanel({ flightId, online, status, served, onSeat }: Seat
           <Send /> {say(status?.round ? SEATBACK.askRest : SEATBACK.ask)}
         </Button>
       </div>
-      <Bi text={online ? SEATBACK.why : SEATBACK.needsNetwork} size="sm" className="text-muted-foreground" />
+      {!online && <Bi text={SEATBACK.needsNetwork} size="sm" className="text-muted-foreground" />}
       {c && (status?.round ?? 0) > 0 && (
         <Bi text={SEATBACK.counts(c.confirmed, c.changed, c.skipped, c.asked, c.no_answer)} size="sm" className="font-medium tabular" />
       )}
