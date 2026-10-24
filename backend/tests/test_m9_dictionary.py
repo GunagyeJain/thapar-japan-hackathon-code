@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 
+from app.modules.m9_recipes import gemini
 from app.modules.m9_recipes.dictionary import read_sheet, scan
 from app.modules.m9_recipes.pipeline import dictionary_only
 
@@ -65,7 +66,12 @@ def test_unknown_ingredient_goes_to_a_person():
 
 
 @pytest.fixture
-def fresh(client):
+def fresh(client, monkeypatch):
+    # Never call Gemini from tests, even when .env has a key.
+    def offline(**_):
+        raise gemini.ModelUnavailable("tests run offline")
+
+    monkeypatch.setattr(gemini, "extract", offline)
     client.post("/api/demo/reset", json={"keep_judges": False})
 
 
@@ -89,5 +95,5 @@ def test_extract_and_approve_over_http(client, fresh):
     assert [s["id"] for s in client.get("/api/recipes").json()] == [body["id"]]
 
 
-def test_extract_rejects_empty_text(client):
+def test_extract_rejects_empty_text(client, fresh):
     assert client.post("/api/recipes/extract", json={"text": "  "}).status_code == 422

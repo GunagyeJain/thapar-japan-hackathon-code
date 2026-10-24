@@ -65,5 +65,6 @@ A Japanese recipe sheet goes from photo to verdict to approved spec in under 10 
 ## Notes
 _Owner's running notes._
 - T1 done: `dictionary.py` scans every `synonyms_ja` word (longest match first, so 玉ねぎ is onion and 昆布だし is kombu; "ただし" is ignored). Ingredient lines the dictionary can't read (わかめ, 油揚げ, うどん) go through the rules as unknown → NEEDS_HUMAN, so dictionary-only never says SAFE about something it didn't read. 水/湯 lines are skipped.
-- The four demo sheets are in `shared/seed/recipes/*.txt`. PNGs still to make (T2).
-- `POST /recipes/extract` takes JSON text now; a photo returns 503 until the Gemini client lands (T2). Needs `GEMINI_API_KEY` in `.env` (from the team chat).
+- The four demo sheets are in `shared/seed/recipes/` as `.txt` and `.png` (printed cards rendered from the same text).
+- T2 code is in: `gemini.py` (fixed schema incl. a `transcription` for photos, temperature 0, 25 s timeout, schema-checked answer), `cache.py` (`cache/<sha256>.json`, model answers only), `pipeline.run` (cache → Gemini → dictionary on the text or transcription → merge → verdicts). Tests stub Gemini and use a temp cache, so they never call the API or write to the repo.
+- T2 still open: needs `GEMINI_API_KEY` in `.env` (team chat), then extract the 4 PNGs and 4 texts once and commit `backend/app/modules/m9_recipes/cache/`. Without a key: text works dictionary-only (with the "Model offline" note); a photo returns 503.
