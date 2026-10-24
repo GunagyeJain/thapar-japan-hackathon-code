@@ -107,7 +107,7 @@ export function JudgePage() {
 
   return (
     <div className="flex flex-col">
-      <BoardingPass passenger={editing?.passenger} lang={lang} />
+      <BoardingPass passenger={editing?.passenger} code={editing?.promise.code} lang={lang} />
       <Step
         lang={lang}
         title={pick(editing ? s.judge.editTitle : s.judge.title, lang)}

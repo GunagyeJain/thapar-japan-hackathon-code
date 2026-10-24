@@ -115,7 +115,7 @@ _Shefali, 24 Oct 19:13 IST, for Gunagye's visual pass. Checked against the list 
 | 9 | `/crew` app bar | 390 and 1024 | Language buttons are 32 px tall and "Saved 18:20" is 36 px; design.md asks for 48 px on the tablet | m8 | `min-h-12` |
 | 10 | `/p`, `/j` | 390 | The EN / हिन्दी / 日本語 switch is 36 px tall; design.md asks for 44 px on phones | m2 (`LangSwitch`) | A `size="lg"` variant for mobile pages |
 | 11 | `/j` with `MatchResult` | 390, Japanese | Ladder labels break mid-word ("通常メニ／ュー", "バウチャ／ー"); "Galley 1" and "CP-SAT · 17 ms · 0 swaps · 10 meals checked" stay in English on the Japanese page | m6 | `jaWrap`-style breaks; translate the solver line or hide it when `compact` |
-| 12 | `/j` "Try a different diet" | 390 | While editing, the boarding pass shows Meal "Not set" instead of the judge's current code | m3 (Shefali) | Pass `code={editing.promise.code}` to `BoardingPass` |
+| 12 | `/j` "Try a different diet" | 390 | **Fixed 19:17.** While editing, the boarding pass showed Meal "Not set" instead of the judge's current code | m3 (Shefali) | Done: it now shows the current code |
 | 13 | `/p`, `/j` diet tiles (all languages) | all | Hindi label for the Diabetic preset is "मधुमेह", which means the disease, not the diet | m1 (`shared/rules/presets.json`) | "डायबिटिक" or "मधुमेह के अनुकूल" |
 | 14 | Desktop pages on a phone | 390 | The left nav turns into a 957 px sideways-scrolling bar with 20 px tall links. Only matters if a judge opens `/ops` or `/demo` on a phone | m0 | Fine to leave; or collapse it into a menu |
 | 15 | `/ops/late` (late desk) | all | Allergies ticked on the desk never reach the matcher (`diet.forbid` only). Already in m12's lane A list | m6 | `toRequest(diet)` |
