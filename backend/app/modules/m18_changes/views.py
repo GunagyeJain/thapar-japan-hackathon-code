@@ -71,7 +71,8 @@ def known_before_cutoff(session: Session, flight: Flight) -> tuple[int, int, int
 
 
 def metrics(session: Session, flight: Flight) -> dict[str, Any]:
-    events = events_of(session, flight.id)
+    # Late changes only: a Radar answer is a prediction before the cutoff, which today's process could take too.
+    events = [e for e in events_of(session, flight.id) if e.channel != "radar"]
     known_ours, known_today, total = known_before_cutoff(session, flight)
     ours = {**_counts(events, lambda e: e.decision.get("ok")), "meals_wasted": ours_wasted(session, flight.id),
             "known_before_cutoff": known_ours, "passengers": total}
