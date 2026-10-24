@@ -14,7 +14,8 @@
     "seed": "node scripts/py.mjs -m app.core.seed_gen",
     "test": "npm --prefix frontend run test && node scripts/py.mjs -m pytest -q backend/tests",
     "check": "bash scripts/check.sh",
-    "tunnel": "bash scripts/tunnel.sh"
+    "tunnel": "bash scripts/tunnel.sh",
+    "e2e": "npm --prefix e2e test"
   },
   "devDependencies": {
     "concurrently": "^10.0.6"
