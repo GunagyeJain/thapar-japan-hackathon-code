@@ -40,7 +40,7 @@ The screen ground staff at Delhi watch overnight; it's on the projector in Act 2
 - [x] **T1 Board + queue (45 min).** Context bar, KPI row, alert queue against `mock.ts`, switched to the real API with one flag when m4 ships.
 
   _Done when:_ `/ops` shows both alerts with live countdowns at 1440 px, and new alerts appear within 2 s without a full-page flash.
-- [ ] **T2 Alert detail + request again (50 min).** Evidence panel, actions with the confirm dialog, audit timeline.
+- [x] **T2 Alert detail + request again (50 min).** Evidence panel, actions with the confirm dialog, audit timeline.
 
   _Done when:_ against the real API, `POST /api/sim/booking-events {type: "rebook_drop_meal", passenger_id: <Priya>}` shows the LOST_MEAL alert; "Request again" ends with the alert resolved, C2 fixed, and the passenger notification listed.
 - [x] **T3 Feed + states (30 min).** A raw message list (click to view the full text), plus loading, empty and error states per `docs/design.md`. A "Notify kitchen" button on DELAY_HOLD alerts if m4 shipped them.
@@ -55,5 +55,6 @@ _Owner's running notes: what's mocked, open questions._
 - **Taken over by lane B at 17:38** (see docs/decisions.md); nothing had been started on `bhavyam/m5-ops`.
 - **Live or stand-in by itself:** `data.ts` calls m4's `GET /api/alerts?flight_id=`, `GET /flights/{id}/messages` and `POST /alerts/{id}/actions` (actor "JAL ground ops, Delhi"). While they answer 404/405 it serves `mock.ts` (LOST_MEAL 23C and WRONG_CODE 24A, with m4's own PNL/ADL fixture lines), applies actions locally on the sim clock, and shows a "Rehearsal data" banner. No flag to flip.
 - **Evidence reading** (`evidence.ts`): finds the passenger's block by `1SURNAME/GIVEN` in each message listed in `evidence.message_ids` (plus later ADLs for the same name), highlights PNL lines (mark), ADL DEL (remove) and ADD/CHG (add), and diffs the PNL block against the latest ADL block. Falls back to `evidence.line_before/line_after`. Reads `old_pnr`, `new_pnr`, `ssr_draft` if m4 sets them (Request again shows `.R/<code> HK1 <note>` from the promise otherwise).
-- **T2 is built and checked against the stand-in** (Request again → dialog with the SSR line and "A staff member approves every fix…" → resolved, ADL #8 shown). Its done-when needs m4's real routes: re-check then, with `npm run e2e` and one click-through.
+- **T2 checked live at 18:30 against `bhavyam/m4-watcher` merged with main** (scratch copy, port 8300): rebooking → LOST_MEAL on /ops with a 1 h 37 m countdown, no rehearsal banner; Request again shows m4's SSR draft → alert resolved, C2 fixed, AVML back on 8MZ2TN, SMS "Your meal is restored". Story smoke 7/7 on the same build. Re-run `npm run e2e` once m4 is on main, then set m5 to done.
+- **Long messages:** the real PNL is 420 lines, so evidence shows an excerpt (header + the passenger's block ± 2 lines, true line range in the title) with a "Full PNL" dialog. The alert page is one screen tall on the projector.
 - Checked at 1440 and 1920 px: table fits, no page overflow. The audit trail lists `alert.actions` plus the promise's C2 state (no checkpoint-events endpoint exists, so m2's `Timeline` isn't used here).

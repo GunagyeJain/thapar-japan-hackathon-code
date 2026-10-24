@@ -39,6 +39,41 @@ export function highlightFor(message: RawMessage, key: string): Record<number, T
   return marks
 }
 
+const SHORT_ENOUGH = 30
+const HEADER_LINES = 3
+const CONTEXT = 2
+
+export interface Excerpt {
+  text: string
+  highlight: Record<number, Tone>
+  /** "lines 333–340 of 420", or null when the whole message is shown. */
+  range: string | null
+}
+
+/** A long PNL shrunk to its header and this passenger's lines (± a little context), so it reads on a projector. */
+export function excerptFor(message: RawMessage, key: string): Excerpt {
+  const all = message.text.replace(/\r\n/g, "\n").replace(/\n$/, "").split("\n")
+  const marks = highlightFor(message, key)
+  const marked = Object.keys(marks).map(Number)
+  if (all.length <= SHORT_ENOUGH || marked.length === 0) return { text: message.text, highlight: marks, range: null }
+  const keep = new Set<number>()
+  for (let n = 1; n <= HEADER_LINES; n++) keep.add(n)
+  for (const n of marked) for (let k = n - CONTEXT; k <= n + CONTEXT; k++) if (k >= 1 && k <= all.length) keep.add(k)
+  const out: string[] = []
+  const highlight: Record<number, Tone> = {}
+  let previous = 0
+  for (const n of [...keep].sort((a, b) => a - b)) {
+    if (n > previous + 1) out.push("···")
+    out.push(all[n - 1])
+    if (marks[n]) highlight[out.length] = marks[n]
+    previous = n
+  }
+  if (previous < all.length) out.push("···")
+  const lo = Math.min(...marked)
+  const hi = Math.max(...marked)
+  return { text: out.join("\n"), highlight, range: `lines ${lo}–${hi} of ${all.length}` }
+}
+
 function linesOf(message: RawMessage, numbers: number[]): string[] {
   const all = message.text.replace(/\r\n/g, "\n").split("\n")
   return numbers.map((n) => all[n - 1].trim())
