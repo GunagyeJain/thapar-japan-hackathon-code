@@ -216,6 +216,12 @@ def evaluate(forbid, tags, diet: str | None = None) -> dict:
     return {"verdict": verdict, "fired": fired}
 
 
+def spec_tags(tags, certified: bool = False) -> list:
+    """A MealSpec's tags for evaluate(): `certified` counts as the halal certificate."""
+    tags = list(tags or [])
+    return tags + [HALAL_CERTIFIED] if certified and HALAL_CERTIFIED not in tags else tags
+
+
 def evaluate_diet(diet_id: str, tags) -> dict:
     """evaluate() with a named diet's forbid list; every fired rule carries the diet id."""
     diet = rules().diets.get(diet_id)
@@ -399,6 +405,7 @@ def label_mark(forbid, allow=None) -> dict:
     return {lang: base["labels"][lang] + (f" · {parts[lang]}" if rest else "") for lang in ("en", "ja", "hi")}
 
 
+@lru_cache(maxsize=1)
 def rules_payload() -> dict:
     """Everything GET /api/rules returns."""
     taxonomy, diets, presets, codes = (_load(n) for n in ("taxonomy", "diets", "presets", "codes"))

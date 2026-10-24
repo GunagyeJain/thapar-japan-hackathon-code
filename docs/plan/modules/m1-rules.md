@@ -48,13 +48,13 @@ Python and TypeScript give identical answers, proven by one shared vector file.
   - **`codes.json`:** JAL codes with `excludes` / `may_contain` / `contains`: AVML, HNML, VJML, VLML, VGML, MOML, DBML, LSML, GFML, NLML, BLML, FPML.
 
   _Done when:_ a test proves every referenced tag exists and every preset maps to tags.
-- [ ] **T2 Python evaluator + API (35 min).**
+- [x] **T2 Python evaluator + API (35 min).**
   - Expand tags to their ancestors.
   - Verdict precedence: UNSAFE > NEEDS_HUMAN > SAFE. An unknown tag, or halal meat without certification, gives NEEDS_HUMAN.
   - `fired` carries EN/JA/HI messages and a `via` chain.
 
   _Done when:_ `POST /api/rules/evaluate` with the Jain preset and `[paneer, tomato, onion, garlic]` returns UNSAFE with onion and garlic fired. **Ship** (unblocks m3, m4, m6).
-- [ ] **T3 Code mapper + booking check (35 min).** Options are ranked by safety gaps a kitchen note can close, then by preference losses. `kitchen_note` comes from the gaps; `label_mark` is EN/JA/HI ("VEG · no onion, no garlic").
+- [x] **T3 Code mapper + booking check (35 min).** Options are ranked by safety gaps a kitchen note can close, then by preference losses. `kitchen_note` comes from the gaps; `label_mark` is EN/JA/HI ("VEG · no onion, no garlic").
 
   _Done when:_
   - Priya (veg + no onion/garlic, dairy OK) → AVML recommended with `NO ONION NO GARLIC`, then VJML with preference losses dairy and root vegetables.
@@ -62,7 +62,7 @@ Python and TypeScript give identical answers, proven by one shared vector file.
   - Mehta (Jain) → VJML.
 
   **Ship.**
-- [ ] **T4 TypeScript parity (35 min).** `frontend/src/lib/rules/` evaluator, plus `vectors.json` with 150+ cases: every diet × typical dishes, and edge cases (Jain + dairy, vrat, dashi, gelatin, uncertified halal, combined Jain + diabetic). Both pytest and vitest read the same file.
+- [x] **T4 TypeScript parity (35 min).** `frontend/src/lib/rules/` evaluator, plus `vectors.json` with 150+ cases: every diet × typical dishes, and edge cases (Jain + dairy, vrat, dashi, gelatin, uncertified halal, combined Jain + diabetic). Both pytest and vitest read the same file.
 
   _Done when:_ both suites pass on all vectors and print the count. **Ship.**
 - [ ] **T5 `/rules` explorer (30 min).**
@@ -83,4 +83,6 @@ _Owner's running notes._
 - **Halal** is the forbid tag `non_halal_meat`; any meat without the `halal_certified` property tag gives NEEDS_HUMAN.
 - **Code mapper**: a forbidden family the code doesn't exclude is a gap. Gaps listed in `codes.json` `note_phrases` can be closed by a kitchen note; anything else (meat, dairy, the whole root-vegetable family) rules the code out. Remaining codes sort by preference losses, then gaps; options another option beats on both counts go last. That gives Priya AVML + `NO ONION NO GARLIC`, then VJML (loses dairy, root vegetables).
 - `check_booking` returns `{ok: true, kitchen_note}` when the booked code works (note may be null), else `{ok: false, problem: {contains, message}, suggested_code}`.
+- **Spec certificate**: `engine.spec_tags(spec.tags, spec.certified)` adds `halal_certified` for certified specs; use it before `evaluate` (the `{profile_id, spec_id}` endpoint does).
+- **TypeScript** (`@/lib/rules`): `loadRules()`, `evaluate(forbid, tags, diet?)`, `evaluateDiet()`, `combinePresets()`, `resolve()`, `label(tag, lang)`. Same answers as Python on every vector.
 - **Vectors**: `cd backend && python -m app.modules.m1_rules.make_vectors` rewrites `shared/rules/vectors.json` (625 cases; hand-checked verdicts are pinned in the script).
