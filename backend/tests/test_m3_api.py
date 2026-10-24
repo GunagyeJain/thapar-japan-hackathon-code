@@ -2,6 +2,10 @@
 from concurrent.futures import ThreadPoolExecutor
 
 import pytest
+from sqlmodel import select
+
+from app.core.db import new_session
+from app.core.models import Alert
 
 FLIGHT = "JL740-20261025"
 PRIYA = {"forbid": ["meat", "seafood", "egg", "onion", "garlic"], "allow": ["dairy"]}
@@ -62,7 +66,6 @@ def test_saving_twice_updates_the_same_promise(client):
 def test_verma_on_hnml_raises_wrong_code(client):
     rows = client.get(f"/api/flights/{FLIGHT}/passengers").json()
     verma = next(r for r in rows if r["surname"] == "VERMA" and r["seat"] == "24A")
-    before = client.get(f"/api/flights/{FLIGHT}").json()["counts"]["open_alerts"]
     res = client.post(
         "/api/profiles",
         json={"passenger_id": verma["id"], "presets": ["vegetarian"], "forbid": ["meat", "seafood", "egg"], "allow": ["dairy"], "consent": CONSENT, "chosen_code": "AVML"},
@@ -70,8 +73,13 @@ def test_verma_on_hnml_raises_wrong_code(client):
     assert res.status_code == 200, res.text
     check = res.json()["booking_check"]
     assert check["ok"] is False and check["suggested_code"] == "AVML"
-    # /api/alerts belongs to m4, so count open alerts through the flight instead.
-    assert client.get(f"/api/flights/{FLIGHT}").json()["counts"]["open_alerts"] == before + 1
+    # m4's seed may already have opened WRONG_CODE for 24A; raise_alert reuses an open one,
+    # so check that one is open for him rather than counting a new alert.
+    with new_session() as s:
+        open_wrong = s.exec(
+            select(Alert).where(Alert.type == "WRONG_CODE", Alert.passenger_id == verma["id"], Alert.status != "resolved")
+        ).all()
+    assert len(open_wrong) == 1
 
 
 def test_unsafe_chosen_code_is_refused(client):
