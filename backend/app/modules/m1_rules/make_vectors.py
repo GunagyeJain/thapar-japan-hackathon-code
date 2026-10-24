@@ -101,6 +101,7 @@ def main():
     out.write_text(
         f'{{\n  "version": "{vectors["version"]}",\n  "count": {vectors["count"]},\n  "evaluate": [\n    {lines}\n  ]\n}}\n',
         encoding="utf-8",
+        newline="\n",
     )
     print(f"wrote {vectors['count']} vectors to {out}")
 
