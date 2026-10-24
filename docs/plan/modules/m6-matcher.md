@@ -58,7 +58,7 @@ It explains why every alternative failed, reserves the meal, tells the crew at b
 - [x] **T3 Endpoints (30 min).** `/match` (dry run) and `/late-requests` (reserve: sets `assigned_passenger_id`, LATE event, LATE_REQUEST alert for crew, passenger notification "Your Jain meal is reserved: it'll be in galley 2"), plus `GET /late-requests/{id}`.
 
   _Done when:_ a reserve shows up in inventory as assigned and in `/api/notifications?to=<Mehta>`. **Ship.**
-- [ ] **T4 `MatchResult` + `/ops/late` desk (50 min).** Desk: search by seat/PNR/name → `DietPicker` (compact) → "Find a safe meal" (dry run) → `MatchResult` → "Reserve".
+- [x] **T4 `MatchResult` + `/ops/late` desk (50 min).** Desk: search by seat/PNR/name → `DietPicker` (compact) → "Find a safe meal" (dry run) → `MatchResult` → "Reserve".
 
   _Done when:_ Act 4 runs from `/ops/late`. The considered list shows "AVML spare: contains onion", "Paneer butter masala: contains onion, garlic", "Chicken tikka masala: contains chicken". **Ship.**
 - [ ] **T5 Backup forecast (35 min).** `GET /api/backups/forecast?flight_no=JL740&days=14` and the `BackupForecast` panel (table + small chart with festival notes).
@@ -74,4 +74,6 @@ _Owner's running notes. Write the greedy algorithm here for m8._
 - **CP-SAT** adds swaps: a same-cabin passenger who holds a special meal that is safe for the requester may move to a free meal that is safe for them (their profile's `forbid`). A swap costs as much as a backup, so it only wins when it avoids a voucher. One weighted objective: uncovered 10^9, tier cost 10^6, swaps 10^4, galley position as tie-break; 2 s limit, 1 worker (repeatable answers). Any solver error falls back to greedy.
 - **Spec test changes, decided by the rules:** halal → the AVML spare (vegetarian, nothing halal forbids), not a voucher; uncertified chicken shows NEEDS_HUMAN. Jains after Mehta: #2 and #3 get the 2 usable backups, #4 gets a voucher (the last 2 backups stay in reserve for Act 5).
 - **Extra fields** (additive): inventory items carry `tier, cabin, free, reserve`; summary has `main_free {C, Y}` and `backup_reserve`. MatchResult has `label_mark`, `source`; each `considered` row has `galley`, `note` (why it can't be used even if safe) and `chosen`. Vouchers carry `illustrative: true`.
+- **Desk diet input** is `DietChoice.tsx` (presets only), a stand-in until m3 ships `DietPicker`; same `{presets, forbid, allow}` value.
+- **`MatchResult`** is exported from `@/modules/m6-matcher` (props `{result, lang?, compact?}`; `compact` hides the considered list).
 - **Late request writes:** item `assigned_passenger_id`, a `LateRequest` row (keeps `forbid/allow`, so m8 can check a late passenger with no profile), LATE checkpoint (`key: late:<id>`), LATE_REQUEST alert (info), a crew notification to `crew:JL740` and an SMS to the passenger. Asking again returns the same reservation.

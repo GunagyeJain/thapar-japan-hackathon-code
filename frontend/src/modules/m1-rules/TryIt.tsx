@@ -13,8 +13,8 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/ui/button"
 import { Checkbox } from "@/ui/checkbox"
 import { Input } from "@/ui/input"
+import { VerdictBadge } from "@/ui/VerdictBadge"
 import { STR } from "@/modules/m1-rules/i18n"
-import { VerdictBadge } from "@/modules/m1-rules/VerdictBadge"
 
 const SPECS = specsJson as MealSpec[]
 const DEFAULT_SPEC = "SPEC-Y-PANEER"
@@ -32,7 +32,7 @@ function FiredRow({ fired, lang }: { fired: Fired; lang: Lang }) {
   return (
     <li className="flex flex-col gap-1 border-t py-3 first:border-t-0">
       <div className="flex flex-wrap items-center gap-2">
-        <VerdictBadge verdict={fired.effect} lang={lang} />
+        <VerdictBadge verdict={fired.effect} lang={lang} size="sm" />
         <span className="font-medium text-navy">{t(fired.message, lang)}</span>
       </div>
       <div className="font-mono text-xs text-grey">
@@ -172,7 +172,7 @@ export function TryIt({ lang }: TryItProps) {
           <p className="text-sm text-grey">{t(STR.pickDiet, lang)}</p>
         ) : (
           <>
-            <VerdictBadge verdict={local.verdict} lang={lang} large />
+            <VerdictBadge verdict={local.verdict} lang={lang} size="lg" />
             {local.fired.length === 0 ? (
               <p className="text-sm text-grey">{t(STR.noRuleFired, lang)}</p>
             ) : (
