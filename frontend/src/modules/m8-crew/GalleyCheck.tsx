@@ -157,11 +157,11 @@ export function GalleyCheck({ pkg, now, record }: GalleyCheckProps) {
                     {row.item.status !== "planned" && <RowStatus row={row} />}
                     {row.item.status === "planned" && (
                       <span className="flex gap-2">
-                        <Button size="lg" className="h-12 min-w-24" onClick={() => void record({ type: "galley_found", item_id: row.item.id, at: now() })}>
-                          <CheckCircle2 /> {say(COPY.markFound)}
+                        <Button size="lg" variant="outline" className="h-12 min-w-24" onClick={() => void record({ type: "galley_found", item_id: row.item.id, at: now() })}>
+                          <CheckCircle2 className="text-safe" /> {say(COPY.markFound)}
                         </Button>
                         <Button size="lg" variant="outline" className="h-12 min-w-24" onClick={() => void record({ type: "galley_missing", item_id: row.item.id, at: now() })}>
-                          <XCircle /> {say(COPY.markMissing)}
+                          <XCircle className="text-warn" /> {say(COPY.markMissing)}
                         </Button>
                       </span>
                     )}
