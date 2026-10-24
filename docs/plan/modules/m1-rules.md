@@ -77,3 +77,10 @@ m3, m4, m6, m8 and m9 call the engine instead of mocks, and the parity count is 
 
 ## Notes
 _Owner's running notes._
+- **Python is on main** (`app.modules.m1_rules.engine`): `evaluate(forbid, tags, diet=None)`, `evaluate_diet(diet_id, tags)`, `combine_presets(preset_ids) -> {forbid, allow}`, `code_options(forbid, allow)`, `check_booking(forbid, booked_code)`, `label_mark(forbid, allow)`, `resolve(word)`, `rules_payload()`. Unknown forbid/allow ids raise `UnknownTagError` (a `ValueError`).
+- **Dish tags may be Japanese or English words**: `evaluate` maps `synonyms_ja`/`synonyms_en` to tags, so m9 can pass `出汁` straight in (`via: "出汁 → bonito → fish → seafood"`). Unknown words give NEEDS_HUMAN (`rule_id: "unknown_tag"`).
+- **Fired** carries an extra `effect` (`UNSAFE` or `NEEDS_HUMAN`) so the UI can colour each line. One fired rule per dish tag. Rule ids: `forbid.<tag>`, `unclear.<tag>` (dish says only "meat" and beef is forbidden), `halal.certification`, `unknown_tag`.
+- **Halal** is the forbid tag `non_halal_meat`; any meat without the `halal_certified` property tag gives NEEDS_HUMAN.
+- **Code mapper**: a forbidden family the code doesn't exclude is a gap. Gaps listed in `codes.json` `note_phrases` can be closed by a kitchen note; anything else (meat, dairy, the whole root-vegetable family) rules the code out. Remaining codes sort by preference losses, then gaps; options another option beats on both counts go last. That gives Priya AVML + `NO ONION NO GARLIC`, then VJML (loses dairy, root vegetables).
+- `check_booking` returns `{ok: true, kitchen_note}` when the booked code works (note may be null), else `{ok: false, problem: {contains, message}, suggested_code}`.
+- **Vectors**: `cd backend && python -m app.modules.m1_rules.make_vectors` rewrites `shared/rules/vectors.json` (625 cases; hand-checked verdicts are pinned in the script).
