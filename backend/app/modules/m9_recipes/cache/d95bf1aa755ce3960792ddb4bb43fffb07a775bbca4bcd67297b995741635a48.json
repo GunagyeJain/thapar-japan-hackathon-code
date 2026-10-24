@@ -1,0 +1,63 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "ごま豆腐",
+  "dish_name_en": "Sesame tofu",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "練りごま",
+    "name_en": "sesame paste",
+    "tags": [
+     "sesame"
+    ],
+    "confidence": 1.0,
+    "evidence": "練りごま 50g"
+   },
+   {
+    "name_ja": "葛粉",
+    "name_en": "kudzu starch",
+    "tags": [],
+    "confidence": 1.0,
+    "evidence": "葛粉 50g"
+   },
+   {
+    "name_ja": "水",
+    "name_en": "water",
+    "tags": [],
+    "confidence": 1.0,
+    "evidence": "水 400ml"
+   },
+   {
+    "name_ja": "塩",
+    "name_en": "salt",
+    "tags": [
+     "salt"
+    ],
+    "confidence": 1.0,
+    "evidence": "塩 少々"
+   },
+   {
+    "name_ja": "わさび",
+    "name_en": "wasabi",
+    "tags": [
+     "spice"
+    ],
+    "confidence": 0.9,
+    "evidence": "わさび 適量"
+   },
+   {
+    "name_ja": "醤油",
+    "name_en": "soy sauce",
+    "tags": [
+     "soy_sauce",
+     "soy",
+     "wheat"
+    ],
+    "confidence": 1.0,
+    "evidence": "醤油 適量"
+   }
+  ]
+ }
+}

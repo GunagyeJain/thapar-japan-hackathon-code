@@ -1,0 +1,89 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "野菜コロッケ",
+  "dish_name_en": "Vegetable croquette",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "じゃがいも",
+    "name_en": "potato",
+    "tags": [
+     "potato",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 0.99,
+    "evidence": "じゃがいも 4個"
+   },
+   {
+    "name_ja": "玉ねぎ",
+    "name_en": "onion",
+    "tags": [
+     "onion",
+     "allium",
+     "vegetable"
+    ],
+    "confidence": 0.99,
+    "evidence": "玉ねぎ 1/2個"
+   },
+   {
+    "name_ja": "人参",
+    "name_en": "carrot",
+    "tags": [
+     "carrot",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 0.99,
+    "evidence": "人参 1/3本"
+   },
+   {
+    "name_ja": "コンソメ（顆粒）",
+    "name_en": "consommé granules",
+    "tags": [
+     "spice"
+    ],
+    "confidence": 0.8,
+    "evidence": "コンソメ（顆粒）小さじ2"
+   },
+   {
+    "name_ja": "小麦粉",
+    "name_en": "wheat flour",
+    "tags": [
+     "wheat",
+     "grain"
+    ],
+    "confidence": 0.99,
+    "evidence": "小麦粉 適量"
+   },
+   {
+    "name_ja": "卵",
+    "name_en": "egg",
+    "tags": [
+     "egg"
+    ],
+    "confidence": 0.99,
+    "evidence": "卵 1個"
+   },
+   {
+    "name_ja": "パン粉",
+    "name_en": "breadcrumbs",
+    "tags": [
+     "wheat",
+     "grain"
+    ],
+    "confidence": 0.95,
+    "evidence": "パン粉 適量"
+   },
+   {
+    "name_ja": "揚げ油",
+    "name_en": "frying oil",
+    "tags": [],
+    "confidence": 0.9,
+    "evidence": "揚げ油 適量"
+   }
+  ]
+ }
+}
