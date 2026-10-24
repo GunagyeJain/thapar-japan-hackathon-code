@@ -66,3 +66,4 @@ One line per ship to `main`, added by `scripts/ship.sh`. Newest at the bottom. L
 - 2026-10-24 19:12 · Shefali Sharma · `shefali/m3-passenger` · Hindi copy on /p and /j reads naturally: diet question, allergy question, root vegetables, connection error
 - 2026-10-24 19:12 · Gunagye Jain · `gunagye/m6-matcher` · late-request desk now treats allergies as forbidden (veg + milk allergy no longer gets a dairy meal)
 - 2026-10-24 19:14 · Shefali Sharma · `shefali/m9-recipes` · screen review for m12: 15 findings across the story screens at 1920, 1280 and 390, with owners · **Heads-up:** Gunagye: the list is at the end of docs/plan/modules/m9-recipes.md. Top two for the projector: /ops alerts table cuts off Status, /caterer meal list hides Kitchen note at 150% zoom
+- 2026-10-24 19:14 · Shefali Sharma · `shefali/m9-recipes` · m9 status time corrected
