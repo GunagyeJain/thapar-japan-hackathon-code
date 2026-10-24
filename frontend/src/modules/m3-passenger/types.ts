@@ -1,40 +1,27 @@
-// Shapes from shared/api.md that m3 reads. Field names match the API exactly.
+// m3 shapes from shared/api.md that @/lib/types doesn't already have. Field names match the API exactly.
+import type { MealPromise, Passenger, Profile, Text } from "@/lib/types"
 
-export type Lang = "en" | "hi" | "ja";
-export type Text = { en: string; hi?: string; ja?: string };
-
-export type Preset = { id: string; labels: Text; forbid: string[]; allow: string[] };
-
-export type PickerGroup = {
-  id: string;
-  kind: "diet" | "allergen";
-  labels: Text;
-  tags: string[];
-};
+/** What DietPicker edits. `allergens` is optional so callers can pass just {presets, forbid, allow}. */
+export type DietValue = { presets: string[]; forbid: string[]; allow: string[]; allergens?: string[] }
 
 export type CodeOption = {
-  code: string;
-  recommended: boolean;
-  safety_gaps: string[];
-  preference_losses: string[];
-  kitchen_note: string | null;
-  label_mark: Text;
-  why: Text;
-};
+  code: string
+  recommended: boolean
+  safety_gaps: string[]
+  preference_losses: string[]
+  kitchen_note: string | null
+  label_mark: Text
+  why: Text
+}
 
 export type BookingCheck = {
-  ok: boolean;
-  problem?: { contains: string[]; message: Text };
-  suggested_code?: string;
-};
+  ok: boolean
+  problem?: { contains: string[]; message: Text }
+  suggested_code?: string
+  kitchen_note?: string | null
+}
 
-/** What DietPicker edits. `forbid` also holds allergen tags; they are split out on submit. */
-export type DietValue = { presets: string[]; forbid: string[]; allow: string[] };
+export type ConsentIn = { this_trip: boolean; save_profile: boolean; share_with_caterer: boolean; cross_border_ack: boolean }
 
-export type Consent = {
-  this_trip: boolean;
-  save_profile: boolean;
-  share_with_caterer: boolean;
-  cross_border_ack: boolean;
-  at?: string;
-};
+export type ProfileOut = { profile: Profile; promise: MealPromise; booking_check: BookingCheck }
+export type JoinOut = { passenger: Passenger; profile: Profile; promise: MealPromise }
