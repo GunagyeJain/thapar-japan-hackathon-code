@@ -43,7 +43,7 @@ Act 3. The kitchen gets every meal list as a **numbered, timestamped, hashed ver
   - a Print button; `@media print` hides the app chrome
 
 ## Tasks
-- [ ] **T1 Backend (45 min).** Model, `cut_version`, diff, sha256, `ack` (writes C3 for every promise on the list), labels endpoint, seed v1 + v2, tests.
+- [x] **T1 Backend (45 min).** Model, `cut_version`, diff, sha256, `ack` (writes C3 for every promise on the list), labels endpoint, seed v1 + v2, tests.
 
   _Done when:_ after m4's rebooking fixture plus "request again", `POST /api/flights/JL740-20261025/meal-lists` returns v3, whose diff shows Priya's line changed (6XK2QP → 8MZ2TN, AVML kept), and ack writes C3.
 - [ ] **T2 Versions page (45 min).** Versions list, grouped table, diff panel, acknowledge, inbox.
@@ -61,3 +61,9 @@ Act 3 runs live: v3 appears with its diff, gets acknowledged, and its labels pri
 
 ## Notes
 _Owner's running notes: what's mocked, open questions._
+- **Taken over by lane B at 17:00** (see docs/decisions.md); nothing had been started on `shefali/m7-caterer`.
+- **Python:** `app.modules.m7_caterer.service.cut_version(flight_id)` and `ack(version_id, by)` (both take an optional `session=`). Cutting when nothing changed returns the latest version instead of a duplicate.
+- **Diff** adds `changed: [{passenger_id, name, fields: [{field, before, after}], before, after}]` next to `added` / `removed`. Versions also carry `short_hash` (first 12 of sha256).
+- **Seed:** v1 at 24 Oct 03:35 (acked 04:06) and v2 at 22:40 (acked 22:51), both by "Skyline Flight Kitchens · shift lead". v2's one change: the agent added the note DIABETIC to 2A's VJML after the cutoff. Seed acks write no C3; C3 comes from acknowledging v3 in Act 3.
+- **Labels:** mark from the promise's `label_mark`, else from what the booked code and note exclude (m1 `label_mark`). Each label also has `version`.
+- m11's stand-in for the acknowledgement switched off by itself now that these routes exist.
