@@ -50,7 +50,7 @@ function CrewScreens({ crewLang, setCrewLang }: { crewLang: CrewLang; setCrewLan
         {store.loading ? (
           <div className="h-64 animate-pulse rounded-xl bg-muted" aria-busy="true" />
         ) : !pkg ? (
-          <Setup store={store} simNow={simNow} />
+          <Setup store={store} />
         ) : (
           <>
             <TaskNav pkg={pkg} task={task} onTask={setTask} />
@@ -85,7 +85,7 @@ function AppBar({ store, simNow, crewLang, setCrewLang }: { store: CrewStore; si
   const f = ready?.pkg.flight
   const update = async () => {
     setBusy(true)
-    await store.download(simNow)
+    await store.download()
     setBusy(false)
   }
   return (
@@ -126,7 +126,7 @@ function AppBar({ store, simNow, crewLang, setCrewLang }: { store: CrewStore; si
 }
 
 /** First screen until the package is on the tablet. */
-function Setup({ store, simNow }: { store: CrewStore; simNow: Date | null }) {
+function Setup({ store }: { store: CrewStore }) {
   const say = useSay()
   const [busy, setBusy] = useState(false)
   const steps = [COPY.setup1, COPY.setup2, COPY.setup3]
@@ -147,7 +147,7 @@ function Setup({ store, simNow }: { store: CrewStore; simNow: Date | null }) {
         disabled={!store.online || busy}
         onClick={async () => {
           setBusy(true)
-          await store.download(simNow)
+          await store.download()
           setBusy(false)
         }}
       >
