@@ -8,9 +8,9 @@ export const SEAT = {
   route: (from: string, to: string): Text => ({ en: `${from} → ${to}`, hi: `${from} → ${to}`, ja: `${from} → ${to}` }),
   welcome: { en: "Welcome aboard", hi: "विमान में आपका स्वागत है", ja: "ご搭乗ありがとうございます" },
   welcomeBody: {
-    en: "Before the meal, this screen asks whether your meal is still right. One tap is enough.",
-    hi: "भोजन से पहले यह स्क्रीन पूछेगी कि आपका भोजन अब भी सही है या नहीं। बस एक टैप।",
-    ja: "お食事の前に、このままのお食事でよいかをこの画面でお伺いします。タップひとつで完了です。",
+    en: "Your meal check appears here before the meal.",
+    hi: "भोजन से पहले यहाँ आपके भोजन की जाँच दिखेगी।",
+    ja: "お食事の前に、ここで確認をお伺いします。",
   },
   eyebrow: { en: "Meal check · before the meal service", hi: "भोजन जाँच · भोजन परोसने से पहले", ja: "お食事の確認 · 機内食サービスの前に" },
   askSpecial: { en: "Your pre-ordered meal — still right?", hi: "आपका पहले से बुक भोजन — क्या अब भी सही है?", ja: "ご予約のお食事 — このままでよろしいですか？" },
