@@ -1,7 +1,12 @@
 # m10: insights
 
 **Owner:** Bhavyam · **Branch:** `bhavyam/m10-insights` · **Phase:** 3, 22:30–00:30 IST
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
+
+### Where it stands (24 Oct, 18:40 IST)
+- **T1 backend done:** `GET /api/promises/{id}/timeline` returns Priya's C1 ok, C2 fail (23:02, ADL 2) then fixed (23:09, ADL 3), C3, C4 and C5 ok, and the breakpoint with who fixed it. Tested by running the whole `/demo` story.
+- **Now:** the `/insights` page (picker, timeline, breakpoint callout, "what JAL learns").
+- **T2 (shadow month) is cut.**
 
 ## Goal
 Act 6: proof the promise was kept, and where it nearly broke. Priya's C1–C5 timeline shows the **breakpoint** (C2: codeshare rebooking at 23:02), when it was fixed, and by whom. That's the failure data JAL doesn't have today. If time allows, a simulated "shadow month" dashboard shows what pilot month 1 would measure.

@@ -126,7 +126,7 @@ Optional on `RecipeSheet`: `text` (the sheet as read, for the side-by-side view)
 ## m10 · insights
 | Method | Path | Request | Response |
 |---|---|---|---|
-| GET | `/promises/{id}/timeline` | – | `{promise, passenger, events: CheckpointEvent[], breakpoint?: {checkpoint, at, detail}}` |
+| GET | `/promises/{id}/timeline` | – | `{promise, passenger, events: (CheckpointEvent & {message: {id, kind, seq, received_at}\|null})[], actions: (AlertAction & {alert_id, alert_type})[], breakpoint?: {checkpoint, at, detail, source, alert_id?, alert_type?, deadline_at?, fixed_at?, fixed_detail?, fixed_by?, fix_action?}}`. `message` is the PNL/ADL a C2 event came from |
 | GET | `/insights/summary` | `?days=30` (stretch) | `{kpis: {promises, broken, caught_before_deadline, verified_in_galley, median_fix_min}, by_checkpoint: [...], by_diet: [...], daily: [...]}` |
 
 ## m11 · story engine
