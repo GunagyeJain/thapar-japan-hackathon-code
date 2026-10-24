@@ -121,22 +121,30 @@ export function PassengerPage() {
         <Step
           {...frame}
           title={pick(s.picker.title, lang)}
-          sub={pick(s.picker.sub, lang)}
           action={
-            <>
-              {back("consent")}
-              <Button
-                size="lg"
-                className="min-h-11 flex-1"
-                disabled={toRequest(diet).forbid.length === 0}
-                onClick={() => setStep("summary")}
-              >
-                {pick(s.common.next, lang)}
-              </Button>
-            </>
+            <div className="flex w-full flex-col gap-2">
+              {toRequest(diet).forbid.length === 0 && <p className="text-sm text-warn">{pick(s.picker.needFood, lang)}</p>}
+              <div className="flex gap-2">
+                {back("consent")}
+                <Button
+                  size="lg"
+                  className="min-h-11 flex-1"
+                  disabled={toRequest(diet).forbid.length === 0}
+                  onClick={() => setStep("summary")}
+                >
+                  {pick(s.common.next, lang)}
+                </Button>
+              </div>
+            </div>
           }
         >
-          <DietPicker value={diet} onChange={setDiet} lang={lang} />
+          <div className="flex flex-col gap-6">
+            <DietPicker value={diet} onChange={setDiet} lang={lang} />
+            <section className="rounded-[10px] border border-line bg-card p-3">
+              <h2 className="mb-2 text-sm font-medium text-grey">{pick(s.picker.yourAnswer, lang)}</h2>
+              <DietSummary value={diet} lang={lang} />
+            </section>
+          </div>
         </Step>
       )}
 
@@ -175,7 +183,16 @@ export function PassengerPage() {
       )}
 
       {step === "promise" && passenger && saved && (
-        <Step lang={lang} title={pick(s.promise.title, lang)} sub={pick(s.promise.sub, lang)}>
+        <Step
+          lang={lang}
+          title={pick(s.promise.title, lang)}
+          sub={pick(s.promise.sub, lang)}
+          action={
+            <Button variant="outline" size="lg" className="min-h-11 flex-1" onClick={() => setStep("diet")}>
+              {pick(s.promise.change, lang)}
+            </Button>
+          }
+        >
           <PromiseView passenger={passenger} promise={saved.promise} lang={lang} />
         </Step>
       )}
@@ -283,7 +300,8 @@ function MealResult({
   const req = toRequest(diet)
   const options = useQuery({
     queryKey: ["code-options", req.forbid, req.allow],
-    queryFn: () => api.post<{ options: CodeOption[] }>("/rules/code-options", { forbid: req.forbid, allow: req.allow }),
+    // m3's wrapper over /rules/code-options: never empty (SPML + a full kitchen note when no code fits).
+    queryFn: () => api.post<{ options: CodeOption[] }>("/passenger/meal-options", { forbid: req.forbid, allow: req.allow }),
   })
   const booking = useQuery({
     queryKey: ["check-booking", req.forbid, passenger.ssr_meal],
