@@ -22,13 +22,15 @@ interface SeatbackPanelProps {
   flightId: string
   online: boolean
   status: SeatbackStatus | undefined
+  /** Seats whose tray is already served or eaten: nothing left to bring. */
+  served: Set<string>
   onSeat: (seat: string) => void
 }
 
-export function SeatbackPanel({ flightId, online, status, onSeat }: SeatbackPanelProps) {
+export function SeatbackPanel({ flightId, online, status, served, onSeat }: SeatbackPanelProps) {
   const say = useSay()
   const ask = useAskSeats(flightId)
-  const seats = status?.seats ?? []
+  const seats = (status?.seats ?? []).filter((s) => !served.has(s.seat))
   const ready = seats.filter((s) => s.status === "confirmed" || s.status === "changed")
   const silent = seats.filter((s) => s.status === "no_answer")
   const c = status?.counts

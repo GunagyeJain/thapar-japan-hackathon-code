@@ -6,7 +6,7 @@ import { useMemo, useState } from "react"
 import { cn } from "@/lib/utils"
 import { Dialog, DialogContent, DialogTitle } from "@/ui"
 import { Bi } from "@/modules/m8-crew/Bi"
-import type { CopilotPackage } from "@/modules/m8-crew/copilot"
+import { serveRows, type CopilotPackage } from "@/modules/m8-crew/copilot"
 import { CopilotCard } from "@/modules/m8-crew/CopilotCard"
 import { CopilotMap } from "@/modules/m8-crew/CopilotMap"
 import type { NewTap } from "@/modules/m8-crew/copilotStore"
@@ -45,6 +45,7 @@ export function CopilotTask({ pkg, now, onTap, onScan, online = true }: CopilotT
   const [selected, setSelected] = useState<string | null>(null)
   const seatback = useSeatbackStatus(pkg.flight.id)
   const answers = useMemo(() => new Map<string, SeatbackRow>((seatback.data?.seats ?? []).map((s) => [s.seat, s])), [seatback.data])
+  const served = useMemo(() => new Set([...serveRows(pkg).values()].flat().filter((r) => r.done).map((r) => r.seat.seat)), [pkg])
   if (!pkg.copilot) return <Hint text={COPILOT.noCopilot} />
 
   const pick = (next: View) => {
@@ -59,7 +60,7 @@ export function CopilotTask({ pkg, now, onTap, onScan, online = true }: CopilotT
 
   return (
     <div className="flex flex-col gap-4">
-      <SeatbackPanel flightId={pkg.flight.id} online={online} status={seatback.data} onSeat={openSeat} />
+      <SeatbackPanel flightId={pkg.flight.id} online={online} status={seatback.data} served={served} onSeat={openSeat} />
       <div role="radiogroup" aria-label="Copilot view" className="flex flex-wrap gap-2">
         {VIEWS.map((v) => {
           const on = v.id === view

@@ -72,13 +72,14 @@ export const CUES: Record<number, Cue> = {
     device: "ipad",
     screen: "/crew",
     steps: [
-      "Download for flight, then airplane mode.",
-      "Copilot: show the seat map by strictness and tap 2A (her card in Japanese, may eat from …).",
+      "Download for flight (still online).",
+      "Copilot: Ask seats now. Projector tab /seat?seat=23C: tap Yes; the iPad shows 23C confirmed at seat.",
+      "Airplane mode on. Copilot: show the seat map by strictness and tap 2A (her card in Japanese, may eat from …).",
       "Galley check: Missing on 27D → Use backup.",
       "Seat service 23C: code CTUS6P → red; code 7K2Q9F → green. Airplane mode off.",
     ],
-    say: "On board the tablet is offline. The copilot tells the crew in Japanese what each passenger can't eat, which tray is theirs, and when someone who doesn't eat before sunrise may eat: the sun rises over the aircraft long before it rises in Delhi. A wrong tray is stopped at the seat.",
-    sees: "Seats coloured by strictness, 2A's card with her sun timer, the serve list; red then green at 23C.",
+    say: "Before the meal, every seat with a special meal asks one question: still right? Priya taps Yes, so the crew bring hers first; the tray scan stays the final check, because a tap doesn't prove who is sitting there. Then the tablet goes offline. The copilot tells the crew in Japanese what each passenger can't eat, which tray is theirs, and when someone who doesn't eat before sunrise may eat: the sun rises over the aircraft long before it rises in Delhi. A wrong tray is stopped at the seat.",
+    sees: "23C confirmed at seat on the tablet; seats coloured by strictness, 2A's card with her sun timer, the serve list; red then green at 23C.",
     handoff: "C5",
   },
   5: {
@@ -105,6 +106,8 @@ const SCREENS: [string, string][] = [
   ["/caterer", "Caterer portal: the kitchen gets numbered meal lists with every change spelled out, and acknowledges each one."],
   ["/insights", "Insights: every meal promise, hand-off by hand-off: where it broke and how fast it was fixed."],
   ["/demo", "Demo control: steps the flight clock through the story and says who clicks what."],
+  ["/seat", "Seat screen: before the meal, each seat with a special or held meal asks \"still right?\"; the answer reaches the crew tablet over the cabin network."],
+  ["/jal", "JAL booking concept: where ThaliBento plugs into Manage booking → Special meal. Not a Japan Airlines website."],
 ]
 
 export function screenHelp(path: string): string | null {

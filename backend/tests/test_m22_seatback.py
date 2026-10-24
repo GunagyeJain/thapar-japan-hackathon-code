@@ -136,3 +136,14 @@ def test_bad_input(client):
     assert _answer(client, "23C", "maybe").status_code == 422
     assert client.get(f"/api/seatback/{FLIGHT}/seats/23Z").status_code == 422
     assert client.get("/api/seatback/JL000-20990101").status_code == 404
+
+
+def test_demo_step_4_asks_the_seats_before_the_scans(client):
+    for n in range(4):
+        assert client.post("/api/demo/step", json={"n": n, "auto": True}).status_code == 200
+    out = client.post("/api/demo/step", json={"n": 4, "auto": True}).json()
+    assert any("Yes on the seat screen" in line for line in out["did"])
+    seats = {s["seat"]: s for s in client.get(f"/api/seatback/{FLIGHT}").json()["seats"]}
+    assert seats["23C"]["status"] == "confirmed"
+    again = client.post("/api/demo/step", json={"n": 4, "auto": True}).json()
+    assert any("already answered" in line for line in again["did"])
