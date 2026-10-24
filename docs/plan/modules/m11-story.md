@@ -1,7 +1,7 @@
 # m11: story engine + demo control
 
 **Owner:** Gunagye (lane b) · **Branch:** `gunagye/m11-story` · **Phase:** 3, 22:00–02:00 IST
-**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Make the 4-minute demo deterministic and impossible to get lost in. `/demo` is the presenter's control panel:
@@ -73,4 +73,5 @@ Two dry runs in a row work from `/demo` with no manual database fiddling, and th
 - **Step 7** sends the tablet's events with fixed `client_id`s (`story-<type>-<item>-<who>`), so a second sync is all duplicates. 27D gets the first galley-reserve backup.
 - **Step 0** resets (keeping judges) unless nothing has happened since the last story reset, so judges who joined meanwhile stay.
 - **Smoke** (`e2e/story.spec.ts`, `npm run e2e`): 7 acts, API steps with auto, UI checks on /demo, /p, /ops/late (the real desk flow) and /crew ("7 of 8 found"). Screens still on their placeholder (/ops, /caterer, /insights today) are noted as pending and checked by API only; their UI checks switch on by themselves once they ship. Passed twice in a row on 24 Oct 16:55.
+- **When m4 and m7 ship:** their real routes replace the stand-ins automatically; re-run `npm run e2e` (and step through `/demo` once) to confirm the story still ends green.
 - `POST /demo/step` also returns `did: string[]` (what the server just did), shown on `/demo`.
