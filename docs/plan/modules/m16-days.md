@@ -54,7 +54,7 @@ On main by 01:30: Priya can tell her phone she keeps Ekadashi, see that her 20 N
 
 ## Notes
 _Owner's running notes._
-- 24 Oct 21:40, planned with m15 (Shefali) after the team decided the pitch needs two more new things (see `docs/decisions.md`).
+- 24 Oct 21:40, planned after the team decided the pitch needs two more new things (see `docs/decisions.md`).
 - 21:55: T1–T3 done on `gunagye/m16-days`. Calendar: Ekadashi from Drik Panchang (Smarta, New Delhi) 5 Nov 2026 → 17 Apr 2027, with the Vaishnava day after as `alt` where Drik lists one (20/21 Nov, 18/19 Jan); Chaitra Navratri 7–15 Apr 2027 from Dekho Panchang. Sharad Navratri 2026 is already over, so Navratri has no dates before April.
 - What the server stores is `TripLeg.fast_day` per leg (module table), not `Profile.fasting_dates` (m3 writes profiles). The observance the person picked stays in the phone's localStorage (`tb.m16.keeps`).
 - Priya's fast-day return: AVML + `NO ONION NO GARLIC NO ALCOHOL NO GRAIN NO LENTILS OR BEANS` (vrat forbids alcohol and AVML may contain it); Tokyo note 玉ねぎ・にんにく・アルコール・穀物・豆類不使用. Seed: 24A and 27D fast on 5 Nov, 2A on 20 Nov, so `/ops/days` isn't empty before Priya saves.
