@@ -1,6 +1,7 @@
 from typing import Any
 
 from fastapi import APIRouter, HTTPException
+from sqlalchemy.exc import IntegrityError
 
 from app.core.db import SessionDep
 from app.core.models import Flight
@@ -22,9 +23,7 @@ def crew_package(flight_id: str, session: SessionDep) -> dict[str, Any]:
     return build_package(session, _flight(session, flight_id))
 
 
-@router.post("/flights/{flight_id}/crew-events")
-def crew_events(flight_id: str, body: CrewEventsIn, session: SessionDep) -> dict[str, int]:
-    flight = _flight(session, flight_id)
+def _apply(session, flight: Flight, body: CrewEventsIn) -> dict[str, int]:
     try:
         result = apply_events(session, flight, body)
     except ValueError as e:
@@ -32,3 +31,14 @@ def crew_events(flight_id: str, body: CrewEventsIn, session: SessionDep) -> dict
         raise HTTPException(422, str(e)) from e
     session.commit()
     return result
+
+
+@router.post("/flights/{flight_id}/crew-events")
+def crew_events(flight_id: str, body: CrewEventsIn, session: SessionDep) -> dict[str, int]:
+    flight = _flight(session, flight_id)
+    try:
+        return _apply(session, flight, body)
+    except IntegrityError:
+        # Another sync with the same events saved first. On the second try they come back as duplicates.
+        session.rollback()
+        return _apply(session, flight, body)
