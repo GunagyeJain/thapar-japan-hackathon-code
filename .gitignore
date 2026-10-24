@@ -35,3 +35,7 @@ npm-debug.log*
 
 # Local database
 backend/data/
+
+# Playwright (e2e/)
+e2e/test-results/
+e2e/playwright-report/
