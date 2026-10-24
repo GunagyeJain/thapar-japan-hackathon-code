@@ -21,11 +21,7 @@ export const copy = {
   learns: { en: "What JAL learns", hi: "JAL क्या सीखता है", ja: "JALが得る知見" },
   held: { en: "Every hand-off held.", hi: "हर हैंड-ऑफ़ सही रहा।", ja: "すべての受け渡しが問題なし。" },
   noPromises: { en: "No meal promises yet", hi: "अभी कोई भोजन वादा नहीं", ja: "機内食の約束はまだありません" },
-  noPromisesBody: {
-    en: "A promise appears when a passenger saves their food rules on /p.",
-    hi: "जब यात्री /p पर अपने भोजन नियम सेव करता है, तब वादा दिखता है।",
-    ja: "乗客が /p で食事のルールを保存すると表示されます。",
-  },
+  noPromisesBody: { en: "Appears when a passenger saves food rules.", hi: "यात्री के भोजन नियम सेव करने पर दिखता है।", ja: "食事のルール保存後に表示されます。" },
   loadError: { en: "Couldn't load the timeline", hi: "टाइमलाइन लोड नहीं हुई", ja: "タイムラインを読み込めません" },
   retry: { en: "Try again", hi: "फिर से कोशिश करें", ja: "再試行" },
 } satisfies Record<string, Text>
