@@ -19,10 +19,10 @@ export function Specimen({ name, usage, children, dark = true }: SpecimenProps) 
         </h2>
         <code className="code text-xs text-muted-foreground">{usage}</code>
       </div>
-      <div className={dark ? "grid gap-3 xl:grid-cols-2" : "grid"}>
-        <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-card p-5">{children}</div>
+      <div className={dark ? "grid min-w-0 gap-3 xl:grid-cols-2" : "grid min-w-0"}>
+        <div className="flex min-w-0 flex-wrap items-center gap-3 rounded-xl border bg-card p-5">{children}</div>
         {dark && (
-          <CabinTheme className="flex flex-wrap items-center gap-3 rounded-xl border p-5">{children}</CabinTheme>
+          <CabinTheme className="flex min-w-0 flex-wrap items-center gap-3 rounded-xl border p-5">{children}</CabinTheme>
         )}
       </div>
     </section>
