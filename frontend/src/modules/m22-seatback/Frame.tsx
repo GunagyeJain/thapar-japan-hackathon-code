@@ -17,7 +17,7 @@ export function Frame({ children, className }: { children: ReactNode; className?
     <div className="flex min-h-screen items-center justify-center md:p-8">
       <div
         className={cn(
-          "flex min-h-screen w-full max-w-[1180px] flex-col overflow-hidden bg-card md:aspect-[16/9] md:min-h-0 md:rounded-[22px] md:border-[10px] md:border-border",
+          "flex min-h-screen w-full max-w-[1180px] flex-col overflow-hidden bg-card md:aspect-[16/9] md:min-h-0 md:rounded-[22px] md:border-[10px] md:border-navy",
           className,
         )}
       >

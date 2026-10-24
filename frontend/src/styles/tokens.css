@@ -80,16 +80,16 @@
 /* Brand themes (docs/design.md, "Brand themes"). ThaliBento is :root above; index.html sets data-brand on <html>
    (default jal) and /jal sets it on its own root. Status colours never change with the brand. */
 [data-brand="jal"] {
-  --navy: #1a1a1a; /* JAL black: headings, text, app bars */
-  --blue: #333333; /* charcoal: info text, selection borders, first chart series */
-  --sky: #8c8c8c; /* JAL silver: secondary accents, icons, second chart series */
-  --ice: #f0f0f0; /* selected rows, muted backgrounds */
-  --mist: #f7f7f7; /* page background */
-  --line: #d6d6d6;
-  --grey: #595959; /* secondary text */
-  --primary: #c00000; /* JAL red: primary buttons and text-primary links only */
-  --ring: #1a1a1a; /* a red focus ring would read as "invalid" */
-  --shadow-overlay: 0 12px 32px rgb(0 0 0 / 0.16);
+  --navy: #14213d; /* ink navy: headings, text, the sidebar */
+  --blue: #1d4fa3; /* the one accent: actions, links, selection, focus, first chart series (7.8:1 on white) */
+  --sky: #6f8fc9; /* second chart series, icons (3.3:1 on white) */
+  --ice: #eef2f7; /* selected rows, info and muted backgrounds */
+  --mist: #f6f7f9; /* page background: neutral, so text stands out */
+  --line: #dde2ea;
+  --grey: #555f6e; /* secondary text (6.3:1 on white) */
+  --primary: var(--blue); /* red stays for status and JAL's logo */
+  --ring: var(--blue);
+  --shadow-overlay: 0 12px 32px rgb(20 33 61 / 0.16);
 
   /* Re-declared so they resolve to this palette wherever the attribute sits, not only on <html>. */
   --background: var(--mist);
@@ -106,8 +106,8 @@
   --input: var(--line);
 }
 
-/* These repeat :root: under the JAL brand the crew cabin (and anything marked .brand-thalibento) keeps the
-   ThaliBento palette, where blue means "strict" and red only "do not serve". */
+/* These repeat :root: under the JAL brand anything still in dark cabin mode (the /ui gallery's cabin specimen)
+   or marked .brand-thalibento keeps the ThaliBento palette. The crew tablet itself is light since 25 Oct. */
 [data-brand="jal"] :is(.cabin, .brand-thalibento) {
   --navy: #0a2a66;
   --blue: #1f5fd1;
