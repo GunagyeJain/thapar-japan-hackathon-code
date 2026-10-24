@@ -60,3 +60,10 @@ The 07:00 dry run needs no fixes to visuals or setup.
 - Crew offline flow verified over the tunnel address in Chrome (download → offline reload → galley + swap + 2 scans → reconnect → synced). Still to do on real devices: iPad Safari, Android Chrome, the iPhones on mobile data.
 - Projector: connect it to Shefali's MacBook. It shows `/demo` and the other screens over the tunnel, plus the iPad mirrored with QuickTime over a cable. Gunagye's laptop only runs the server.
 - 19:00: T1 done. `npm run tunnel` works with cloudflared 2026.10.3 (winget); Gunagye's phone opened `/j` over the tunnel and joined (passenger and judge views "look fine and work"). Mobile data specifically still to confirm in T3.
+- 22:15 · **Full story run before Integration 2**, over the tunnel, every click from `docs/demo-script.md`: projector 1920×1080 (`/demo`, `/ops`, `/caterer`, `/ops/late`, `/insights`), Priya's phone (Pixel 7), a judge's phone (iPhone 13) and the iPad (landscape, offline for Acts 6–7). Acts 0–8 all pass; no server errors. Fixed on the way (all on main):
+  - Crew syncs ran in parallel on fast taps while online, and the server answered 500 (duplicate event). Syncs now run one at a time, and a racing duplicate counts as a duplicate.
+  - After an offline reload the tablet stamped some scans with the real clock (the clock hook went blank on every retry). It now keeps the stored offset.
+  - Offline scans kept the tablet's stale sim time (03:35, before take-off) after `/demo` moved the clock to 05:20. Events now carry `wall_at`; the server places them on the sim clock (`clock.at_wall`). Priya's journey on `/insights` reads C1 → C2 → C2 fixed → C3 → C4 05:20 → C5 05:20.
+  - "Saved 02:50" when Download was tapped right after a step: the label now uses the server's package time.
+  - C1 line spells out six rules, so Priya's ends "…onion, garlic → AVML".
+- For Bhavyam (demo script): `/ops/late` now shows "CP-SAT · N ms · 0 swaps · **10** meals checked" for Mehta, not 11; read the number off the screen. The iPad caches the app about 12 s after `/crew` first opens; wait that long before airplane mode.
