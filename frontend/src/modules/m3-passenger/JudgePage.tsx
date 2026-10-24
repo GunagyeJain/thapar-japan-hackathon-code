@@ -6,7 +6,9 @@ import { RotateCcw } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 
 import { api, ApiError } from "@/lib/api"
-import type { Lang, Passenger, Text } from "@/lib/types"
+import type { Lang, Passenger } from "@/lib/types"
+import { MatchResult } from "@/modules/m6-matcher/MatchResult"
+import type { LateRequestResponse } from "@/modules/m6-matcher/types"
 import { Button, Input, LangSwitch, StatusChip } from "@/ui"
 
 import { DietPicker } from "./DietPicker"
@@ -70,6 +72,8 @@ export function JudgePage() {
     onSuccess: (out) => {
       remember(out)
       void queryClient.invalidateQueries({ queryKey: ["notifications", out.passenger.id] })
+      // The server released the old meal: never show a match from before this save.
+      queryClient.removeQueries({ queryKey: ["late-request", out.passenger.id] })
       setEditing(null)
       setJoined(out)
     },
@@ -152,8 +156,6 @@ export function JudgePage() {
   )
 }
 
-type LateOut = { late_request: { id: string }; match: { status: "matched" | "voucher"; explanation: Text } }
-
 function Joined({ out, lang, onGone, onTryAgain }: { out: JoinOut; lang: Lang; onGone: () => void; onTryAgain: () => void }) {
   // A demo reset without judges removes this seat: show the join form again.
   const stillThere = useQuery({
@@ -170,9 +172,9 @@ function Joined({ out, lang, onGone, onTryAgain }: { out: JoinOut; lang: Lang; o
 
   // m6 reserves a meal for the judge's current answers (a new key after "Try a different diet").
   const late = useQuery({
-    queryKey: ["late-request", out.passenger.id, out.profile.forbid.join(",")],
+    queryKey: ["late-request", out.passenger.id, out.profile.forbid.join(","), out.profile.allow.join(",")],
     queryFn: () =>
-      api.post<LateOut>("/late-requests", {
+      api.post<LateRequestResponse>("/late-requests", {
         flight_id: out.passenger.flight_id,
         passenger_id: out.passenger.id,
         forbid: out.profile.forbid,
@@ -201,11 +203,7 @@ function Joined({ out, lang, onGone, onTryAgain }: { out: JoinOut; lang: Lang; o
             {late.isPending ? (
               <p className="animate-pulse text-sm text-grey">{pick(s.judge.matching, lang)}</p>
             ) : late.isSuccess ? (
-              <StatusChip
-                status={late.data.match.status === "matched" ? "safe" : "warn"}
-                className="h-auto py-1 whitespace-normal"
-                label={pick(late.data.match.explanation, lang)}
-              />
+              <MatchResult result={late.data.match} lang={lang} compact />
             ) : (
               <StatusChip status="info" className="h-auto py-1 whitespace-normal" label={pick(s.judge.crewWillConfirm, lang)} />
             )}
