@@ -1,4 +1,5 @@
 // Crew display language: Japanese + English (default), Japanese only, or English only. Saved on the tablet.
+import { Languages } from "lucide-react"
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react"
 
 import { cn } from "@/lib/utils"
@@ -7,10 +8,10 @@ import type { Bilingual } from "@/modules/m8-crew/i18n"
 export type CrewLang = "both" | "ja" | "en"
 
 const KEY = "thalibento.crew-lang"
-const CHOICES: { id: CrewLang; label: string }[] = [
-  { id: "both", label: "日本語 + EN" },
-  { id: "ja", label: "日本語" },
-  { id: "en", label: "English" },
+const CHOICES: { id: CrewLang; label: string; short: string }[] = [
+  { id: "both", label: "日本語 + EN", short: "日+EN" },
+  { id: "ja", label: "日本語", short: "日本語" },
+  { id: "en", label: "English", short: "EN" },
 ]
 
 const Ctx = createContext<CrewLang>("both")
@@ -57,22 +58,36 @@ export function useStoredCrewLang(): [CrewLang, (lang: CrewLang) => void] {
   return [lang, set]
 }
 
-export function CrewLangSwitch({ value, onChange, className }: { value: CrewLang; onChange: (lang: CrewLang) => void; className?: string }) {
+export function CrewLangSwitch({
+  value,
+  onChange,
+  compact = false,
+  className,
+}: {
+  value: CrewLang
+  onChange: (lang: CrewLang) => void
+  /** Small version for the app bar. */
+  compact?: boolean
+  className?: string
+}) {
   return (
-    <div role="radiogroup" aria-label="表示言語 · Language" className={cn("inline-flex rounded-lg bg-muted p-1", className)}>
+    <div role="radiogroup" aria-label="表示言語 · Language" className={cn("inline-flex items-center gap-1 rounded-lg bg-muted p-1", className)}>
+      {compact && <Languages className="mx-1 size-4 text-muted-foreground" aria-hidden="true" />}
       {CHOICES.map((c) => (
         <button
           key={c.id}
           type="button"
           role="radio"
           aria-checked={value === c.id}
+          aria-label={c.label}
           onClick={() => onChange(c.id)}
           className={cn(
-            "h-11 min-w-20 rounded-md px-3 text-sm font-medium transition-colors duration-150",
+            "rounded-md font-medium transition-colors duration-150",
+            compact ? "h-8 min-w-11 px-2 text-xs" : "h-11 min-w-20 px-3 text-sm",
             value === c.id ? "bg-card text-foreground ring-1 ring-border" : "text-muted-foreground hover:text-foreground",
           )}
         >
-          {c.label}
+          {compact ? c.short : c.label}
         </button>
       ))}
     </div>

@@ -64,7 +64,7 @@ Import everything from `@/ui` (`frontend/src/ui/index.ts`). The live gallery wit
 | `Timeline` | a promise's C1–C5 events with the breakpoint marked | `<Timeline events={t.events} breakpoint={t.breakpoint} />` |
 | `RawMessage` | a PNL/ADL as received, highlighted lines | `<RawMessage title="ADL 2 · 23:02 IST" text={msg.text} highlight={{5: "remove", 7: "add"}} />` |
 | `DiffView` | before → after lines (`diffLines()` is exported too) | `<DiffView before={v2Lines} after={v3Lines} beforeLabel="v2" afterLabel="v3" changesOnly />` |
-| `SeatMap` | the B787-8 cabin from `flight.cabins`: per-seat status, mark, highlight, click | `<SeatMap cabins={flight.cabins} seats={{"23C": {status: "safe", mark: "A"}}} highlight={["23C"]} />` |
+| `SeatMap` | the B787-8 cabin from `flight.cabins`: per-seat status, mark, highlight, click; `variant="plane"` draws it inside the aircraft outline with galleys G1/G2 | `<SeatMap cabins={flight.cabins} seats={{"23C": {status: "safe", mark: "A"}}} highlight={["23C"]} variant="plane" />` |
 | `EmptyState` | says what will appear and when | `<EmptyState title="No ADL received yet" body="Changes appear here when the feed sends an ADL." />` |
 | `LangSwitch` | EN / हिन्दी / 日本語 | `<LangSwitch value={lang} onChange={setLang} />` |
 | `CabinTheme` | dark cabin tokens for anything outside `/crew` | `<CabinTheme>…</CabinTheme>` |

@@ -79,7 +79,12 @@ export function CrewSeats({ pkg, online, onSeat }: CrewSeatsProps) {
   const seats = useMemo(() => seatInfo(pkg, online ? (live.data ?? []) : []), [pkg, live.data, online])
   return (
     <div className="flex flex-col gap-5">
-      <SeatMap cabins={pkg.flight.cabins} seats={seats} onSeatClick={onSeat} size="md" />
+      <SeatMap
+        cabins={pkg.flight.cabins}
+        seats={seats}
+        onSeatClick={onSeat}
+        variant="plane"
+      />
       <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
         <span><span className="mr-1 inline-block size-3 rounded-sm bg-ice align-middle dark:bg-secondary" /><Bi text={COPY.legendSpecial} inline /></span>
         <span><span className="mr-1 inline-block size-3 rounded-sm bg-warn-bg align-middle" /><Bi text={COPY.legendJudge} inline /></span>

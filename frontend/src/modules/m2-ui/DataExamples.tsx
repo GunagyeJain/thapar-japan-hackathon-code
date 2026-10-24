@@ -103,9 +103,9 @@ export function DataExamples({ lang }: { lang: Lang }) {
         />
       </Specimen>
 
-      <Specimen name="SeatMap" usage="<SeatMap cabins={flight.cabins} seats={…} highlight={['23C']} />" dark>
+      <Specimen name="SeatMap" usage="<SeatMap cabins={flight.cabins} seats={…} highlight={['23C']} variant=&quot;plane&quot; />" dark>
         {flight.data && pax.length > 0 ? (
-          <SeatMap className="w-full" cabins={flight.data.cabins} seats={seatInfo(pax)} highlight={["23C", "31K"]} />
+          <SeatMap className="w-full" cabins={flight.data.cabins} seats={seatInfo(pax)} highlight={["23C", "31K"]} variant="plane" />
         ) : (
           <span className="text-muted-foreground">Loading seats…</span>
         )}
