@@ -43,7 +43,7 @@ Plus the final `docs/design.md`.
 - [x] **T2 Status + chrome components (30 min).** StatusChip, VerdictBadge, Countdown, DualClock, FlightContextBar, PageHeader, EmptyState, LangSwitch; DesktopLayout nav styled.
 
   _Done when:_ the `/ui` gallery shows each one in light and cabin dark. **Ship** (heads-up: "use @/ui components; see docs/design.md").
-- [ ] **T3 Data components (45 min).** DataTable, Timeline, KpiTile, RawMessage, DiffView, SeatMap (with Priya 23C, Mehta 31K and the row-5 judge seats in the example).
+- [x] **T3 Data components (45 min).** DataTable, Timeline, KpiTile, RawMessage, DiffView, SeatMap (with Priya 23C, Mehta 31K and the row-5 judge seats in the example).
 
   _Done when:_ the gallery shows each one with seed data, and SeatMap renders all 186 seats on a 1024 px tablet. **Ship.**
 - [ ] **T4 Rules doc + review (20 min).** Finalise `docs/design.md` with component usage notes and page templates for desktop, mobile and tablet.
