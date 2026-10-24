@@ -285,7 +285,7 @@ def build_items(rng: random.Random, passengers: list[dict]) -> list[dict]:
 
 
 def write(name: str, data) -> None:
-    (SEED_DIR / name).write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    (SEED_DIR / name).write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8", newline="\n")
 
 
 def main() -> None:
