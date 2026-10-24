@@ -18,7 +18,7 @@ from app.core.ids import new_id
 from app.core.models import Flight, Passenger
 from app.modules.m1_rules import engine
 from app.modules.m4_watcher.watcher import simulate
-from app.modules.m7_caterer.service import cut_version, latest
+from app.modules.m7_caterer.service import ack, cut_version, latest
 from app.modules.m17_passport import service as passport
 from app.modules.m18_changes import service, views
 from app.modules.m18_changes.context import held_items, no_show_ids, row_of, service_key
@@ -200,12 +200,18 @@ def _run_out(session: Session, flight: Flight, beat: Beat, common: dict[str, Any
             "run_out_seats": seats, "also": also}
 
 
+CATERER_ON_DUTY = "Skyline Flight Kitchens · shift lead"
+
+
 def _final_list(session: Session, flight: Flight) -> None:
-    """The caterer's final list goes out at 00:40, carrying the changes the kitchen still had time for."""
+    """The caterer's final list goes out at 00:40, carrying the changes the kitchen still had time for,
+    and the kitchen acknowledges it (C3 for every promise on it)."""
     last = latest(session, flight.id)
     if last is None or last.created_at < flight.caterer_final_list_at:
         clock.set(flight.caterer_final_list_at, session=session)
-        cut_version(flight.id, at=flight.caterer_final_list_at, session=session)
+        last = cut_version(flight.id, at=flight.caterer_final_list_at, session=session)
+    if not last.ack_at:
+        ack(last.id, CATERER_ON_DUTY, session=session)
 
 
 def run(session: Session, flight_id: str, preset: str = PRESET) -> dict[str, Any]:
