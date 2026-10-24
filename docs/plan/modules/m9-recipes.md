@@ -1,7 +1,7 @@
 # m9: hidden-ingredient check
 
 **Owner:** Shefali · **Branch:** `shefali/m9-recipes` · **Phase:** 3, 22:30–01:30 IST
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 The deck's page-4 promise. On the Tokyo→Delhi leg the food is cooked in Japan, and fish often hides in the soup stock. The caterer uploads a **Japanese recipe sheet**:
@@ -46,7 +46,7 @@ The model only reads; it never decides.
 The PNGs are recipe cards rendered from the text (an HTML page + screenshot is fine).
 
 ## Tasks
-- [ ] **T1 Dictionary + verdicts on text (40 min).** Works with no model at all. Tests on the 4 `.txt` sheets.
+- [x] **T1 Dictionary + verdicts on text (40 min).** Works with no model at all. Tests on the 4 `.txt` sheets.
 
   _Done when:_ the miso soup text shows UNSAFE for vegetarian and Jain via 出汁 → 鰹節 → fish.
 - [ ] **T2 Gemini + cache (40 min).** Client, schema, validation, cache, timeouts, clear errors.
@@ -64,3 +64,7 @@ A Japanese recipe sheet goes from photo to verdict to approved spec in under 10 
 
 ## Notes
 _Owner's running notes._
+- T1 done: `dictionary.py` scans every `synonyms_ja` word (longest match first, so 玉ねぎ is onion and 昆布だし is kombu; "ただし" is ignored). Ingredient lines the dictionary can't read (わかめ, 油揚げ, うどん) go through the rules as unknown → NEEDS_HUMAN, so dictionary-only never says SAFE about something it didn't read. 水/湯 lines are skipped.
+- The four demo sheets are in `shared/seed/recipes/` as `.txt` and `.png` (printed cards rendered from the same text).
+- T2 code is in: `gemini.py` (fixed schema incl. a `transcription` for photos, temperature 0, 25 s timeout, schema-checked answer), `cache.py` (`cache/<sha256>.json`, model answers only), `pipeline.run` (cache → Gemini → dictionary on the text or transcription → merge → verdicts). Tests stub Gemini and use a temp cache, so they never call the API or write to the repo.
+- T2 still open: needs `GEMINI_API_KEY` in `.env` (team chat), then extract the 4 PNGs and 4 texts once and commit `backend/app/modules/m9_recipes/cache/`. Without a key: text works dictionary-only (with the "Model offline" note); a photo returns 503.
