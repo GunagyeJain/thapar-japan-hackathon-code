@@ -134,9 +134,9 @@ export function LateDesk() {
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-8">
       <PageHeader
-        eyebrow="Operations · gate and check-in desk"
+        eyebrow="Gate and check-in desk"
         title="Late requests"
-        subtitle="Find a safe meal already on board. Every other meal shows why it doesn't fit."
+        subtitle="A safe meal from what's on board"
         actions={<LangSwitch value={lang} onChange={setLang} />}
       />
       <InventoryStrip />
@@ -173,7 +173,7 @@ export function LateDesk() {
             <EmptyState
               className="flex-1"
               title="Every meal on board, checked against their rules"
-              body="Pick the passenger and tap their food rules, then Find a safe meal. Spares go first, then the main menu, then sealed backups, then a voucher."
+              body="Pick a passenger and their food rules."
             />
           )}
         </section>

@@ -64,7 +64,7 @@ export function BackupForecast({ flightNo = "JL740", days = 14, lang = "en" }: B
         </h2>
         {query.data && (
           <span className="text-sm text-muted-foreground tabular">
-            covers late requests {Math.round(query.data.service_level * 100)}% of the time + {query.data.galley_reserve} for the galley
+            {Math.round(query.data.service_level * 100)}% cover + {query.data.galley_reserve} galley
           </span>
         )}
       </div>
@@ -87,9 +87,10 @@ export function BackupForecast({ flightNo = "JL740", days = 14, lang = "en" }: B
             <span className="flex items-center gap-1.5">
               <span className="size-2.5 rounded-sm bg-blue" /> festival or group day
             </span>
-            <span>number on top: backups to load</span>
           </div>
-          <table className="w-full text-sm tabular">
+          <details className="text-sm">
+            <summary className="cursor-pointer text-muted-foreground hover:text-foreground">Day by day</summary>
+          <table className="mt-2 w-full text-sm tabular">
             <thead>
               <tr className="border-b text-left text-muted-foreground">
                 <th className="py-1.5 font-medium">Date</th>
@@ -109,7 +110,8 @@ export function BackupForecast({ flightNo = "JL740", days = 14, lang = "en" }: B
               ))}
             </tbody>
           </table>
-          <p className="text-xs text-muted-foreground">{t(query.data.method, lang)}</p>
+            <p className="mt-2 text-xs text-muted-foreground">{t(query.data.method, lang)}</p>
+          </details>
         </>
       )}
     </section>
