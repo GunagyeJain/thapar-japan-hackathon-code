@@ -43,6 +43,7 @@ npm run dev
 | Tests only | `npm test` |
 | Regenerate `shared/seed/*.json` | `npm run seed` |
 | Demo build: one origin on :8000 (for the tunnel) | `npm run demo` |
+| HTTPS address for phones and the iPad (needs `cloudflared`) | `npm run tunnel` (with `npm run demo` running) |
 | After a sync changed `requirements.txt` | `uv pip install --python backend/.venv -r backend/requirements.txt` |
 | After a sync changed a `package.json` | `npm install` |
 | Port 8000 or 5173 already in use | stop the old `npm run dev`; on Windows `netstat -ano \| findstr :8000`, then `taskkill /PID <pid> /T /F` |
