@@ -367,7 +367,7 @@
    "result": "ok",
    "at": "2026-10-20T10:00:00+05:30",
    "source": "passenger_app",
-   "detail": "Profile saved: vegetarian → AVML",
+   "detail": "Profile saved: no meat, fish and seafood, egg, gelatin → AVML",
    "data": {
     "code": "AVML"
    },
@@ -382,7 +382,7 @@
    "result": "ok",
    "at": "2026-10-20T10:00:00+05:30",
    "source": "passenger_app",
-   "detail": "Profile saved: no meat, egg, root veg, onion, garlic → VJML",
+   "detail": "Profile saved: no meat, fish and seafood, egg, onion family, root vegetables +4 more → VJML",
    "data": {
     "code": "VJML"
    },
@@ -397,7 +397,7 @@
    "result": "ok",
    "at": "2026-10-20T10:00:00+05:30",
    "source": "passenger_app",
-   "detail": "Profile saved: no meat, egg, root veg, onion, garlic, sugar → VJML, note DIABETIC",
+   "detail": "Profile saved: no meat, fish and seafood, egg, onion family, root vegetables +5 more → VJML",
    "data": {
     "code": "VJML"
    },
@@ -412,7 +412,7 @@
    "result": "ok",
    "at": "2026-10-20T10:00:00+05:30",
    "source": "passenger_app",
-   "detail": "Profile saved: halal only, no pork or alcohol → MOML",
+   "detail": "Profile saved: no pork, meat without halal certification, alcohol, gelatin → MOML",
    "data": {
     "code": "MOML"
    },
@@ -427,7 +427,7 @@
    "result": "ok",
    "at": "2026-10-20T10:00:00+05:30",
    "source": "passenger_app",
-   "detail": "Profile saved: vegan → VGML",
+   "detail": "Profile saved: no meat, fish and seafood, egg, dairy, honey +1 more → VGML",
    "data": {
     "code": "VGML"
    },
@@ -442,7 +442,7 @@
    "result": "ok",
    "at": "2026-10-20T10:00:00+05:30",
    "source": "passenger_app",
-   "detail": "Profile saved: eggs OK, no meat or fish → VLML, note EGGETARIAN",
+   "detail": "Profile saved: no meat, fish and seafood, gelatin → VLML",
    "data": {
     "code": "VLML"
    },
@@ -457,7 +457,7 @@
    "result": "ok",
    "at": "2026-10-20T10:00:00+05:30",
    "source": "passenger_app",
-   "detail": "Profile saved: fasting on 25 Oct, no grains → AVML, note VRAT",
+   "detail": "Profile saved: no meat, fish and seafood, egg, gelatin, alcohol +4 more → AVML",
    "data": {
     "code": "AVML"
    },
