@@ -43,10 +43,12 @@ export function useSimClock(): { now: Date | null; isLoading: boolean; error: Er
     return () => window.clearInterval(id)
   }, [])
 
+  // No fresh reading yet: use the stored offset. Not only on error: offline, each retry resets the query to
+  // pending, and a null clock there made the crew tablet stamp scans with the real time instead of sim time.
   const offline = storedOffset()
   const now = query.data
     ? new Date(query.data.sim + (Date.now() - query.data.fetchedAt))
-    : query.isError && offline !== null
+    : offline !== null
       ? new Date(Date.now() + offline)
       : null
   return { now, isLoading: query.isLoading, error: query.error }
