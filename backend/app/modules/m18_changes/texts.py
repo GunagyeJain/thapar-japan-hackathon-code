@@ -64,6 +64,10 @@ TEXTS: dict[str, tuple[str, str, str]] = {
         "{spec} ({item}, galley {galley}) was freed by the no-show in {seat} and fits: no hard or firm rule fired.",
         "{seat} के यात्री के न आने से {spec} ({item}, गैली {galley}) खाली हुआ और सही है: कोई सख़्त या ज़रूरी नियम लागू नहीं हुआ।",
         "{seat}の未搭乗で空いた{spec}（{item}、ギャレー{galley}）が適合：厳格・必須の規則に該当なし。"),
+    "why.seat_release": (
+        "{spec} ({item}, galley {galley}) was skipped on the seat screen at {seat} and fits: no hard or firm rule fired.",
+        "{seat} की सीट-स्क्रीन पर छोड़ा गया {spec} ({item}, गैली {galley}) सही है: कोई सख़्त या ज़रूरी नियम लागू नहीं हुआ।",
+        "{seat}の座席モニターで辞退された{spec}（{item}、ギャレー{galley}）が適合：厳格・必須の規則に該当なし。"),
     "why.reserve_pouch": (
         "Sealed universal plate {spec} ({item}, galley {galley}) fits: no hard or firm rule fired. Heat and serve.",
         "सीलबंद यूनिवर्सल प्लेट {spec} ({item}, गैली {galley}) सही है: कोई सख़्त या ज़रूरी नियम लागू नहीं हुआ। गरम करके परोसें।",

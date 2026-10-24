@@ -26,6 +26,7 @@ from app.modules import (
     m21_sun,
     m19_load,
     m18_changes,
+    m22_seatback,
 )
 
 
@@ -54,4 +55,5 @@ MODULES: list[Module] = [
     Module("m21", "sun at the aircraft", m21_sun.router, m21_sun.seed),
     Module("m19", "smart load", m19_load.router, m19_load.seed),
     Module("m18", "change router", m18_changes.router, m18_changes.seed),
+    Module("m22", "seatback meal check", m22_seatback.router, m22_seatback.seed),
 ]
