@@ -185,3 +185,19 @@ export const RUNGS: Record<string, Bilingual> = {
 export function rungLabel(rung: string): Bilingual {
   return RUNGS[rung] ?? { ja: rung.replaceAll("_", " "), en: rung.replaceAll("_", " ") }
 }
+
+/** Seat service: find the passenger from their boarding pass, or the booking reference printed on it. */
+export const PASS = {
+  title: { ja: "搭乗券で探す", en: "Or find by boarding pass" },
+  label: { ja: "搭乗券のコードまたは予約番号", en: "Boarding-pass code or booking reference" },
+  placeholder: { ja: "例 6XK2QP", en: "e.g. 6XK2QP" },
+  find: { ja: "検索", en: "Find" },
+  scan: { ja: "搭乗券をスキャン", en: "Scan the boarding pass" },
+  found: (name: string, seat: string): Bilingual => ({ ja: `${name} · ${seat}`, en: `${name} · ${seat}` }),
+  pick: { ja: "同じ予約の方：該当の方を選んでください", en: "Same booking: pick the passenger" },
+  seatMoved: (onPass: string, now: string): Bilingual => ({ ja: `搭乗券は${onPass}、現在の座席は${now}`, en: `Pass says ${onPass}; seat now ${now}` }),
+  rebooked: { ja: "予約番号が変わっています（再予約）。氏名で照合しました", en: "Booking reference changed (rebooked): matched by name" },
+  otherFlight: (flight: string): Bilingual => ({ ja: `${flight}の搭乗券です。この便ではありません`, en: `This pass is for ${flight}, not this flight` }),
+  notFound: { ja: "この便にこの搭乗券の乗客はいません", en: "No passenger on this flight with that pass" },
+  unreadable: { ja: "読み取れません。予約番号を入力してください", en: "Can't read that. Type the booking reference" },
+} as const
