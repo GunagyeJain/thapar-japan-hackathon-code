@@ -1,13 +1,15 @@
-"""m6 endpoints: inventory, dry-run match, late requests."""
+"""m6 endpoints: inventory, dry-run match, late requests, backup forecast."""
+from datetime import date
 from typing import Annotated, Literal
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field, StringConstraints
+from sqlmodel import select
 
 from app.core.db import SessionDep
 from app.core.models import Flight
 from app.modules.m1_rules.engine import UnknownTagError
-from app.modules.m6_matcher import inventory, matcher
+from app.modules.m6_matcher import forecast, inventory, matcher
 from app.modules.m6_matcher.models import LateRequest
 
 router = APIRouter(prefix="/api", tags=["m6 · late-request matcher"])
@@ -73,3 +75,17 @@ def get_late_request(late_request_id: str, session: SessionDep):
     if lr is None:
         raise HTTPException(status_code=404, detail=f"No late request {late_request_id}")
     return _late_payload(lr)
+
+
+@router.get("/backups/forecast")
+def get_backup_forecast(
+    session: SessionDep,
+    flight_no: Annotated[str, Query(pattern=r"^[A-Z0-9]{2,8}$")] = "JL740",
+    days: Annotated[int, Query(ge=1, le=60)] = 14,
+):
+    """Recommended sealed backups per day, starting from the next flight with this number."""
+    first = session.exec(select(Flight).where(Flight.flight_no == flight_no).order_by(Flight.date)).first()
+    if first is None:
+        raise HTTPException(status_code=404, detail=f"No flight {flight_no}")
+    start = date.fromisoformat(str(first.date))
+    return {"flight_no": flight_no, **forecast.forecast(start, days)}
