@@ -3,6 +3,19 @@
 **Owner:** Shefali · **Branch:** `shefali/m3-passenger` · **Phase:** 1, 17:00–19:30 IST (after m0 is on main)
 **Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
+## Where it stands
+_Updated 24 Oct 17:57 IST by Shefali. Read this first; the Notes below are the history._
+
+**Shefali's queue:** m3 `done` → **m9 `in progress` (T1–T3 shipped, only T4 left)** → m14 `not started`. Shefali is not coding anything right now: waiting for Gunagye to say what to do next.
+
+| | |
+|---|---|
+| **State** | `done`. T1–T5 shipped to main (last Shefali ship 16:33). Demo-ready: yes |
+| **Changed by someone else** | Gunagye (lane A) reworked the diet picker into three questions at 17:50 (commit `3fafd27`, last note below). Shefali hasn't reviewed it yet |
+| **Open, not started** | 1. `/j` shows m6's explanation as plain text; m6's `MatchResult` component is now on main and isn't used yet. 2. Japanese copy needs a native speaker's read. 3. Passenger messages arrive in English because m4 writes them (`Profile.lang` is saved) |
+| **Waiting on others** | Nothing |
+| **Others waiting on m3** | Nothing known |
+
 ## Goal
 Act 1 of the demo, plus the moment judges take part.
 - **Priya** finds her booking, picks a language, gives consent, taps her diet once, and sees it turned into **AVML + kitchen note "no onion, no garlic"** along with what the code loses.

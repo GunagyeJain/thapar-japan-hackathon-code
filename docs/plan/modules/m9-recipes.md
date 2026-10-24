@@ -3,6 +3,20 @@
 **Owner:** Shefali · **Branch:** `shefali/m9-recipes` · **Phase:** 3, 22:30–01:30 IST
 **Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
+## Where it stands
+_Updated 24 Oct 17:57 IST by Shefali. Read this first; the Notes below are the history._
+
+**Shefali's queue:** m3 `done` → **m9 `in progress` (T1–T3 shipped, only T4 left)** → m14 `not started`. Shefali is not coding anything right now: waiting for Gunagye to say what to do next.
+
+| | |
+|---|---|
+| **State** | `in progress`. T1, T2, T3 shipped to main (last ship 17:48). Demo-ready: yes. `/caterer/recipes` goes photo → verdicts → approved meal spec; the 4 demo sheets work with Wi-Fi off (cached) |
+| **Left** | T4 eval table, not started. It is #4 on the PLAN.md cut list, so m9 can be called done for the demo without it |
+| **Setup each laptop needs** | `GEMINI_API_KEY` and `GEMINI_MODEL=gemini-3.5-flash` in `.env`, only for new (uncached) sheets. The 2.5 model in the old `.env.example` no longer works |
+| **Waiting on others** | Nothing |
+| **Others waiting on m9** | Nothing known. Approved dishes become `MealSpec` rows (`SPEC-R-…`, source `recipe_check`); no other module uses them yet (they aren't loaded on JL740 as meal items) |
+| **For m2** | VerdictBadge's "N rules" link is English-only, so it stays English on the Japanese page |
+
 ## Goal
 The deck's page-4 promise. On the Tokyo→Delhi leg the food is cooked in Japan, and fish often hides in the soup stock. The caterer uploads a **Japanese recipe sheet**:
 1. A Japanese dictionary pass, plus Gemini, extracts the ingredients into a fixed schema.

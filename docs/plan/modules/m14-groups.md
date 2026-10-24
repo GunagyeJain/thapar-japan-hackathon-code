@@ -3,6 +3,17 @@
 **Owner:** Shefali · **Branch:** `shefali/m14-groups` · **Phase:** stretch, only after 02:00 if everything else is done
 **Status:** not started <!-- not started | in progress | blocked: <why> | done -->
 
+## Where it stands
+_Updated 24 Oct 17:57 IST by Shefali._
+
+**Shefali's queue:** m3 `done` → **m9 `in progress` (T1–T3 shipped, only T4 left)** → m14 `not started`. Shefali is not coding anything right now: waiting for Gunagye to say what to do next.
+
+| | |
+|---|---|
+| **State** | `not started`. Nothing written yet. Stretch module, #1 on the PLAN.md cut list |
+| **Can start from** | m3's `DietPicker`/`DietSummary` (on main) and `POST /api/profiles` |
+| **Waiting on others** | Nothing |
+
 ## Goal
 Tour operators book Indian groups of 20–40 people, often older travellers who won't fill in forms. The operator uploads one spreadsheet, and every traveller gets a food-rules profile and a meal promise. The group roster then shows each person's checkpoint status on one screen.
 
