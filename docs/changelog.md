@@ -98,3 +98,4 @@ One line per ship to `main`, added by `scripts/ship.sh`. Newest at the bottom. L
 - 2026-10-25 04:16 · Gunagye Jain · `gunagye/m12-polish` · galley check: Found and Missing are quiet outline buttons with a green or amber icon, ready for the light crew scheme
 - 2026-10-25 04:37 · Gunagye Jain · `gunagye/m12-polish` · crew tablet reads well in the light palette (legend swatches, whole Japanese words, accent-blue labels); lane A copy fits in eight words
 - 2026-10-25 04:42 · Gunagye Jain · `gunagye/m22-seatback` · Story smoke: Act 1 waits up to 15 s for the saved meal, so slow tunnel runs pass
+- 2026-10-25 05:13 · Gunagye Jain · `gunagye/m12-polish` · walkthrough video v2 recorded from the final demo script (docs only) · **Heads-up:** Bhavyam: the 5:43 walkthrough video now follows the v2 demo script on the final screens. It's on Gunagye's laptop as D:\Hackathons\Thapar Japan Hackathon\ThaliBento-demo-walkthrough.mp4 (v1 kept as -v1.mp4); use it as the backup video
