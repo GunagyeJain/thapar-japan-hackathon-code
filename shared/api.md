@@ -61,7 +61,7 @@ Example: Priya's `forbid: [meat, seafood, egg, onion, garlic]` with dairy allowe
 - `Change = {kind: "added"|"removed"|"changed", passenger_id|null, pnr, name, field?, before?, after?}`
 - `ManifestRow = {passenger_id, pnr, surname, given, title, seat, cabin, ssr: [{code, status, text}], inbound|null}`. Judges aren't in the feed, so they aren't listed
 - `alerts` in a feed or sim response are the ones that message raised or resolved, not every open one
-- LOST_MEAL `evidence = {message_ids, code_before, note_before, lines_before: string[], lines_after: string[], old_pnr, new_pnr, inbound_before, inbound_after, ssr_draft?}`
+- LOST_MEAL `evidence = {message_ids, code_before, note_before, lines_before: string[], lines_after: string[], line_before, line_after|null, old_pnr, new_pnr, inbound_before, inbound_after, ssr_draft?}`
 - WRONG_CODE `evidence = {message_ids, booked_code, promised_code, suggested_code, contains}`
 - Names in PNL/ADL are A-Z only (ICAO 9303): MÜLLER is sent as MUELLER. Families and groups share a PNR, so match on PNR + name
 

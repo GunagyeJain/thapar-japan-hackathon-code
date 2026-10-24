@@ -73,6 +73,7 @@ def test_t2_t3_rebook_then_restore(fresh):
     ev = alert["evidence"]
     assert (ev["old_pnr"], ev["new_pnr"], ev["code_before"]) == ("6XK2QP", "8MZ2TN", "AVML")
     assert ".R/AVML HK1 NO ONION NO GARLIC" in ev["lines_before"] and "ADD" in ev["lines_after"]
+    assert (ev["line_before"], ev["line_after"]) == (".R/AVML HK1 NO ONION NO GARLIC", None)
     assert [e.result for e in c2_events(PRIYA)] == ["fail"]
 
     fresh.post("/api/feed/messages", json={"text": fixture("adl_restore_23C.txt")})

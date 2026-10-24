@@ -1,7 +1,15 @@
 # m4: lost-meal watcher
 
 **Owner:** Bhavyam · **Branch:** `bhavyam/m4-watcher` · **Phase:** 1, 17:00–19:30 IST. T1–T2 parsing can start earlier, in new files only (see PLAN.md).
-**Status:** done <!-- not started | in progress | blocked: <why> | done -->
+**Status:** blocked: code done on `bhavyam/m4-watcher`, ship waits on one m3 test (see below) <!-- not started | in progress | blocked: <why> | done -->
+
+### Where it stands (24 Oct, 18:05 IST)
+- **Code:** T1 to T4 done and tested on `bhavyam/m4-watcher` (pushed). All m4 tests pass, and Act 2 ran end to end on a live server.
+- **Not on main yet.** `ship.sh` stops at one failing test outside m4: `backend/tests/test_m3_api.py::test_verma_on_hnml_raises_wrong_code`.
+- **Why it fails:** m4's seed reconciles the PNL and opens WRONG_CODE for 24A (Anil Verma), as T4 asks and as Act 1 needs (his profile is seeded, so nobody saves it live). The m3 test then saves his profile and expects the open-alert count to go up by 1; `raise_alert` correctly reuses the open alert, so it stays the same.
+- **Fix needed (m3 owner, now Gunagye lane A):** assert that a WRONG_CODE alert is open for 24A instead of counting +1. Once that is on main, m4 ships as is.
+- **For m5:** LOST_MEAL evidence carries `line_before` / `line_after` (what `/ops` reads) plus the full `lines_before` / `lines_after` blocks. `/ops` switches from its stand-in to the real routes once m4 ships.
+- **Bhavyam:** waiting for the m3 test fix and for Gunagye's next assignment. Not starting anything else meanwhile.
 
 ## Goal
 Act 2, the heart of the pilot. ThaliBento reads **copies of the passenger-list messages** (PNL, then ADLs) that the airline already sends to the airport and the caterer. It notices that a rebooking from an IndiGo codeshare silently dropped Priya's AVML, and raises a LOST_MEAL alert with the evidence and the time left before the caterer's final list. Staff approve "request again"; a corrected ADL arrives; checkpoint C2 turns green. Read-only: we never write into the booking system.

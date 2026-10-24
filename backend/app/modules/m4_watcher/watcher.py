@@ -173,6 +173,7 @@ def reconcile(session: Session, flight: Flight, msg: RawMessage, before: dict, p
                 passenger_id=pid, promise_id=promise.id if promise else None, deadline_at=flight.caterer_final_list_at,
                 evidence={"message_ids": [i for i in (prev_msg, msg.id) if i], "code_before": lost_code, "note_before": b["ssr_note"],
                           "lines_before": passenger_lines(SimpleNamespace(**b), flight.origin), "lines_after": lines_after,
+                          "line_before": f".R/{lost_code} HK1" + (f" {b['ssr_note']}" if b["ssr_note"] else ""), "line_after": None,
                           "old_pnr": b["pnr"], "new_pnr": p.pnr, "inbound_before": b["inbound"], "inbound_after": p.inbound},
                 session=session)
             is_new = alert not in open_alerts.get(pid, [])
