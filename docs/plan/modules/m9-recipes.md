@@ -4,9 +4,9 @@
 **Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Where it stands
-_Updated 24 Oct 18:40 IST by Shefali. Read this first; the Notes below are the history._
+_Updated 24 Oct 19:13 IST by Shefali. Read this first; the Notes below are the history._
 
-**Shefali's queue:** m3 `done` → m9 `done` → m14 cut. Every module in the queue is finished. Nothing in progress: waiting for the team to say what's next. Before dry run 1 (07:00): read Bhavyam's Q&A sheet (docs repo `06-deliverables/final-pitch/qa-sheet.md`).
+**Shefali's queue:** m3 `done` → m9 `done` → m14 cut. Now helping with demo prep: screen review for m12 is at the end of this file; Hindi on /p and /j fixed (shipped 19:08).
 
 | | |
 |---|---|
@@ -94,3 +94,29 @@ _Owner's running notes._
 - What the table shows: the dictionary is fooled by look-alike words (精進だし → bonito, 野菜ブイヨン → meat extract) and misses product names (ウェイパー, 削り粉). The model got those right but missed コンソメ as meat in the croquette. Combined catches everything but keeps the dictionary's false alarms, which is why a person approves every sheet.
 - The free tier also has a daily cap of 20 requests (on top of 5 a minute). The eval fill hit it after 8 new sheets.
 - 18:36 eval finished with a teammate's key: all 23 sheets read. The model's only miss is still コンソメ in the croquette; every dictionary false alarm is a look-alike word (精進だし, 野菜ブイヨン, かき = 柿, 肉桂, えび芋), and its misses are product names (ウェイパー, 削り粉, マシュマロ, ちくわ, ウインナー).
+
+## Screen review for m12
+_Shefali, 24 Oct 19:13 IST, for Gunagye's visual pass. Checked against the list at the end of `docs/design.md`, on the tunnel (main as served at 18:20) at 1920 × 1080 and 390 × 844, plus 1280 × 720 (what a 1920 projector shows at 150 % browser zoom) and the crew tablet at 1024 × 768. Done in a Chrome-based browser, **not Safari**: Safari-only issues still need a pass on the iPad. Nothing was submitted on the tunnel, so the demo data is untouched._
+
+**What passed:** no page scrolls sideways at any of those sizes; no placeholder text; status is always icon + word; colours are all design tokens; Japanese and Hindi don't overflow on /p and /j at 390. `/crew`: Download for flight works, survives a reload, and the app shell, scripts, QR scanner and fonts are all in the offline cache. Galley check (tap Found, and type a label code) and seat scan (23C + `7K2Q9F` → green "Safe to serve") work.
+
+**Still to check by hand** (needs the hardware): iPad Safari with Wi-Fi off / airplane mode (reload `/crew`, galley check, seat scan); the camera QR scan (the test browser blocks the camera); the iPad mirrored to the MacBook with QuickTime over the cable, also in airplane mode.
+
+| # | Screen | Viewport | What's wrong | Owner | Suggestion |
+|---|---|---|---|---|---|
+| 1 | `/ops` | 1920 and 1280 | The Alerts table is wider than its card: at 1920 the Status column is cut off (872 of 892 px shown); at 1280 (150 % zoom) Deadline and Status are both hidden behind a scroll. Act 2 points at these columns | m5 | Let the table take the full width, or drop/shorten a column so it fits |
+| 2 | `/caterer` | 1280 | The meal-list table (626 px) and the v1 → v2 diff (537 px) scroll inside a 388 px column: Kitchen note and Meal item are hidden at 150 % zoom. Act 3 shows the kitchen note | m7 | Stack the inbox under the list below ~1400 px, or give the list more width |
+| 3 | `/ops`, `/ops/late`, `/caterer` | all | Em dashes (—) used as the empty value in tables (Deadline, forecast "short", Kitchen note) and in the change summary "note — → DIABETIC". Team rule: no em dashes in UI text | m5, m6, m7 | Empty cell: leave blank or "None"; summary: "note: none → DIABETIC" |
+| 4 | `/ops/late`, `/caterer` | all | Backup-forecast bar dates are 10 px (`text-[10px]` in `BackupForecast.tsx`); the type scale starts at 12 | m6 | `text-xs` |
+| 5 | Left nav (all desktop pages) | 1920 | Section labels (OVERVIEW, OPERATIONS…), "Meal promises · JAL", the footer line and the IST/JST suffixes are 11 px: unreadable on the projector | m0 / m2 | 12 px minimum; for the projector, run the browser at 125–150 % zoom once #1 and #2 are fixed |
+| 6 | All desktop pages | 1920 | Content is capped at ~1150 px, so a third of the projector is empty and body text is 14 px. From 5 m it reads small | m12 | Browser zoom 125–150 % on the projector Mac (no code change), after #1 and #2 |
+| 7 | `/crew` galley list | 1024 × 768 and 390 | Meal names are cut with "…" (e.g. "ジャイナ式低糖食：ムングダル…", "Jain low-sugar meal: moong dal, tinda, multigrain p…"). The crew can't read the full dish they're checking | m8 | Let the dish line wrap to two lines |
+| 8 | `/crew` scan boxes | 1024 × 768 | The placeholder "例 7K2Q9F · e.g. 7K2Q9F" is cut off in the narrow galley scan box | m8 | Shorter placeholder ("例 7K2Q9F") |
+| 9 | `/crew` app bar | 390 and 1024 | Language buttons are 32 px tall and "Saved 18:20" is 36 px; design.md asks for 48 px on the tablet | m8 | `min-h-12` |
+| 10 | `/p`, `/j` | 390 | The EN / हिन्दी / 日本語 switch is 36 px tall; design.md asks for 44 px on phones | m2 (`LangSwitch`) | A `size="lg"` variant for mobile pages |
+| 11 | `/j` with `MatchResult` | 390, Japanese | Ladder labels break mid-word ("通常メニ／ュー", "バウチャ／ー"); "Galley 1" and "CP-SAT · 17 ms · 0 swaps · 10 meals checked" stay in English on the Japanese page | m6 | `jaWrap`-style breaks; translate the solver line or hide it when `compact` |
+| 12 | `/j` "Try a different diet" | 390 | While editing, the boarding pass shows Meal "Not set" instead of the judge's current code | m3 (Shefali) | Pass `code={editing.promise.code}` to `BoardingPass` |
+| 13 | `/p`, `/j` diet tiles (all languages) | all | Hindi label for the Diabetic preset is "मधुमेह", which means the disease, not the diet | m1 (`shared/rules/presets.json`) | "डायबिटिक" or "मधुमेह के अनुकूल" |
+| 14 | Desktop pages on a phone | 390 | The left nav turns into a 957 px sideways-scrolling bar with 20 px tall links. Only matters if a judge opens `/ops` or `/demo` on a phone | m0 | Fine to leave; or collapse it into a menu |
+| 15 | `/ops/late` (late desk) | all | Allergies ticked on the desk never reach the matcher (`diet.forbid` only). Already in m12's lane A list | m6 | `toRequest(diet)` |
+
