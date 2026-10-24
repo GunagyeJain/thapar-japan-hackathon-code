@@ -11,10 +11,11 @@ from sqlmodel import Session, select
 from app.core import alerts, clock, events
 from app.core.db import SessionDep
 from app.core.ids import new_id
-from app.core.models import Flight, MealPromise, Passenger, Profile
+from app.core.models import Alert, Flight, MealItem, MealPromise, Passenger, Profile
 from app.core.seed import FLIGHT_ID
 from app.modules.m1_rules import engine
 
+from .options import meal_options
 from .seats import NoSeatLeft, cabin_for, clean_pnr, clean_surname, next_judge_seat
 
 router = APIRouter(prefix="/api", tags=["m3 · passenger + judge join"])
@@ -43,7 +44,7 @@ class ProfileIn(BaseModel):
     fasting_dates: Words = []
     allergens: Words = []
     consent: ConsentIn
-    chosen_code: Annotated[str, StringConstraints(strip_whitespace=True, to_upper=True, max_length=8)]
+    chosen_code: Annotated[str, StringConstraints(strip_whitespace=True, to_upper=True, max_length=8)] | None = None
 
 
 class JoinIn(BaseModel):
@@ -52,7 +53,15 @@ class JoinIn(BaseModel):
     presets: Words = []
     forbid: Words
     allow: Words = []
+    allergens: Words = []
     consent: ConsentIn
+    # A judge changing their answers: keep the same seat, release the meal reserved for the old answers.
+    passenger_id: Word | None = None
+
+
+class OptionsIn(BaseModel):
+    forbid: Words
+    allow: Words = []
 
 
 def _engine(fn, *args):
@@ -70,10 +79,10 @@ def _consent(consent: ConsentIn, session: Session) -> dict[str, Any]:
 
 def _pick_option(forbid: list[str], allow: list[str], code: str | None) -> dict[str, Any]:
     """The code option the person chose, or the recommended one. Only safe codes are offered."""
-    options = _engine(engine.code_options, forbid, allow)
-    if not options:
-        raise HTTPException(status_code=400, detail="Tick at least one thing you don't eat")
-    if code is None:
+    if not forbid:
+        raise HTTPException(status_code=400, detail="Tick at least one food you don't eat")
+    options = _engine(meal_options, forbid, allow)
+    if not code:
         return options[0]
     chosen = next((o for o in options if o["code"] == code), None)
     if chosen is None:
@@ -149,6 +158,12 @@ def _save(
     return profile, promise
 
 
+@router.post("/passenger/meal-options")
+def passenger_meal_options(body: OptionsIn) -> dict[str, Any]:
+    """Like /rules/code-options, but never empty: SPML with a full kitchen note when no code fits."""
+    return {"options": _engine(meal_options, body.forbid, body.allow)}
+
+
 @router.get("/passenger/lookup")
 def lookup(pnr: str, surname: str, session: SessionDep) -> Passenger:
     passenger = session.exec(
@@ -219,10 +234,53 @@ def _next_passenger_id(session: Session) -> str:
     return f"PX-{max(numbers, default=0) + 1:04d}"
 
 
+def _release_judge_meal(session: Session, passenger_id: str) -> None:
+    """Give back the meal m6 reserved for a judge's old answers, so the new answers get a fresh match."""
+    from app.modules.m6_matcher.models import LateRequest
+
+    for item in session.exec(select(MealItem).where(MealItem.assigned_passenger_id == passenger_id)).all():
+        item.assigned_passenger_id = None
+        session.add(item)
+    for lr in session.exec(select(LateRequest).where(LateRequest.passenger_id == passenger_id)).all():
+        session.delete(lr)
+    now = clock.now(session=session).isoformat()
+    for alert in session.exec(
+        select(Alert).where(Alert.passenger_id == passenger_id, Alert.type == "LATE_REQUEST", Alert.status != "resolved")
+    ).all():
+        alert.status = "resolved"
+        alert.actions = [*alert.actions, {"action": "resolve", "actor": "judge", "at": now, "note": "Changed their answers"}]
+        session.add(alert)
+
+
+def _rejoin(body: JoinIn, session: Session, option: dict[str, Any], consent: dict[str, Any]) -> dict[str, Any]:
+    passenger = session.get(Passenger, body.passenger_id)
+    if passenger is None or not passenger.is_judge:
+        raise HTTPException(status_code=404, detail="That judge seat is gone (the demo was reset). Join again.")
+    passenger.display_name = body.display_name
+    passenger.given = body.display_name.upper()
+    _release_judge_meal(session, passenger.id)
+    profile, promise = _save(
+        session,
+        passenger,
+        lang=body.lang,
+        presets=body.presets,
+        forbid=body.forbid,
+        allow=body.allow,
+        consent=consent,
+        option=option,
+        source="judge_join",
+        allergens=body.allergens,
+    )
+    session.commit()
+    return {"passenger": passenger, "profile": profile, "promise": promise}
+
+
 @router.post("/join")
 def join(body: JoinIn, session: SessionDep) -> dict[str, Any]:
     option = _pick_option(body.forbid, body.allow, None)
     consent = _consent(body.consent, session)
+    if body.passenger_id:
+        return _rejoin(body, session, option, consent)
     with _join_lock:
         session.commit()  # end any read started before the lock, so we see seats taken a moment ago
         flight = session.get(Flight, FLIGHT_ID)
@@ -257,6 +315,7 @@ def join(body: JoinIn, session: SessionDep) -> dict[str, Any]:
             consent=consent,
             option=option,
             source="judge_join",
+            allergens=body.allergens,
         )
         session.commit()
     return {"passenger": passenger, "profile": profile, "promise": promise}
