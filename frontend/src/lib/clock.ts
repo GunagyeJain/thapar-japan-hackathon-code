@@ -10,13 +10,30 @@ export interface ClockResponse {
 }
 
 const TICK_MS = 1000
+const OFFSET_KEY = "thalibento.sim-offset-ms" // sim minus wall, kept so the crew tablet has a clock offline
+
+function storedOffset(): number | null {
+  try {
+    const v = localStorage.getItem(OFFSET_KEY)
+    return v === null ? null : Number(v)
+  } catch {
+    return null
+  }
+}
 
 export function useSimClock(): { now: Date | null; isLoading: boolean; error: Error | null } {
   const query = useQuery({
     queryKey: ["clock"],
     queryFn: async () => {
       const res = await api.get<ClockResponse>("/clock")
-      return { sim: new Date(res.now).getTime(), fetchedAt: Date.now() }
+      const sim = new Date(res.now).getTime()
+      const fetchedAt = Date.now()
+      try {
+        localStorage.setItem(OFFSET_KEY, String(sim - fetchedAt))
+      } catch {
+        // private mode: the clock still works while online
+      }
+      return { sim, fetchedAt }
     },
     refetchInterval: POLL_MS,
   })
@@ -26,7 +43,12 @@ export function useSimClock(): { now: Date | null; isLoading: boolean; error: Er
     return () => window.clearInterval(id)
   }, [])
 
-  const now = query.data ? new Date(query.data.sim + (Date.now() - query.data.fetchedAt)) : null
+  const offline = storedOffset()
+  const now = query.data
+    ? new Date(query.data.sim + (Date.now() - query.data.fetchedAt))
+    : query.isError && offline !== null
+      ? new Date(Date.now() + offline)
+      : null
   return { now, isLoading: query.isLoading, error: query.error }
 }
 
