@@ -39,13 +39,13 @@ export function DietPicker({ value, onChange, lang, compact = false }: DietPicke
         ))}
       </Question>
 
-      <Question id="dp-foods" title={pick(s.picker.foodsTitle, lang)} sub={pick(s.picker.foodsSub, lang)} compact={compact}>
+      <Question id="dp-foods" title={pick(s.picker.foodsTitle, lang)} compact={compact}>
         {foodGroups().map((g) => (
           <Tile key={g.id} label={pick(g.labels, lang)} on={isGroupOn(value, g)} onToggle={() => onChange(toggleGroup(value, g))} lang={lang} compact={compact} />
         ))}
       </Question>
 
-      <Question id="dp-allergens" title={pick(s.picker.allergensTitle, lang)} sub={pick(s.picker.allergensSub, lang)} compact={compact}>
+      <Question id="dp-allergens" title={pick(s.picker.allergensTitle, lang)} compact={compact}>
         {shownAllergens.map((g) => (
           <Tile key={g.id} label={pick(g.labels, lang)} on={isAllergenOn(value, g)} onToggle={() => onChange(toggleAllergen(value, g))} lang={lang} compact={compact} />
         ))}
@@ -61,13 +61,13 @@ export function DietPicker({ value, onChange, lang, compact = false }: DietPicke
   )
 }
 
-function Question({ id, title, sub, compact, children }: { id: string; title: string; sub: string; compact: boolean; children: ReactNode }) {
+function Question({ id, title, sub, compact, children }: { id: string; title: string; sub?: string; compact: boolean; children: ReactNode }) {
   return (
     <section aria-labelledby={id}>
-      <h3 id={id} className={cn("font-display font-semibold text-navy", compact ? "text-sm" : "text-lg")}>
+      <h3 id={id} className={cn("font-display font-semibold text-navy", compact ? "text-sm" : "text-lg", !sub && "mb-2.5")}>
         {title}
       </h3>
-      <p className={cn("mb-2.5 text-grey", compact ? "text-xs" : "text-sm")}>{sub}</p>
+      {sub && <p className={cn("mb-2.5 text-grey", compact ? "text-xs" : "text-sm")}>{sub}</p>}
       <div className={cn("grid gap-2", compact ? "grid-cols-3" : "grid-cols-2")}>{children}</div>
     </section>
   )
