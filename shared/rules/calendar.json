@@ -1,8 +1,10 @@
 {
-  "version": "2026-10-24",
+  "version": "2026-10-25",
   "source": {
     "ekadashi": "https://www.drikpanchang.com/vrats/ekadashidates.html?year=2026 and ?year=2027 (Smarta dates, New Delhi; read 24 Oct 2026)",
-    "navratri": "https://dekhopanchang.com/en/festivals/chaitra-navratri/2027 (New Delhi; read 24 Oct 2026)"
+    "navratri": "https://dekhopanchang.com/en/festivals/chaitra-navratri/2027 (New Delhi; read 24 Oct 2026)",
+    "purnima": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2026 and ?year=2027 (Purnima vrat dates, New Delhi; read 25 Oct 2026)",
+    "ramadan": "Expected dates for India, read 25 Oct 2026: first fast expected 8 or 9 Feb 2027, Eid al-Fitr 9 to 11 Mar 2027, depending on the moon sighting"
   },
   "note": {
     "en": "Dates follow one panchang for New Delhi. Your family's fast may fall a day earlier or later; you can move it.",
@@ -43,6 +45,66 @@
         {"date": "2027-04-13", "name": {"en": "Chaitra Navratri, day 7", "hi": "चैत्र नवरात्रि, सातवाँ दिन"}},
         {"date": "2027-04-14", "name": {"en": "Chaitra Navratri, day 8", "hi": "चैत्र नवरात्रि, आठवाँ दिन"}},
         {"date": "2027-04-15", "name": {"en": "Chaitra Navratri, day 9", "hi": "चैत्र नवरात्रि, नौवाँ दिन"}}
+      ]
+    },
+    {
+      "id": "purnima",
+      "labels": {"en": "Purnima", "hi": "पूर्णिमा", "ja": "プールニマー（満月）"},
+      "rules": "vrat",
+      "days": [
+        {"date": "2026-10-25", "name": {"en": "Sharad Purnima", "hi": "शरद पूर्णिमा", "ja": "シャラド・プールニマー（満月）"}, "alt": "2026-10-26"},
+        {"date": "2026-11-24", "name": {"en": "Kartika Purnima", "hi": "कार्तिक पूर्णिमा", "ja": "カールッティカ・プールニマー（満月）"}},
+        {"date": "2026-12-23", "name": {"en": "Margashirsha Purnima", "hi": "मार्गशीर्ष पूर्णिमा", "ja": "マールガシールシャ・プールニマー（満月）"}},
+        {"date": "2027-01-22", "name": {"en": "Pausha Purnima", "hi": "पौष पूर्णिमा", "ja": "パウシャ・プールニマー（満月）"}},
+        {"date": "2027-02-20", "name": {"en": "Magha Purnima", "hi": "माघ पूर्णिमा", "ja": "マーガ・プールニマー（満月）"}},
+        {"date": "2027-03-22", "name": {"en": "Phalguna Purnima", "hi": "फाल्गुन पूर्णिमा", "ja": "パールグナ・プールニマー（満月）"}},
+        {"date": "2027-04-20", "name": {"en": "Chaitra Purnima", "hi": "चैत्र पूर्णिमा", "ja": "チャイトラ・プールニマー（満月）"}},
+        {"date": "2027-05-20", "name": {"en": "Vaishakha Purnima", "hi": "वैशाख पूर्णिमा", "ja": "ヴァイシャーカ・プールニマー（満月）"}},
+        {"date": "2027-06-18", "name": {"en": "Jyeshtha Purnima", "hi": "ज्येष्ठ पूर्णिमा", "ja": "ジェーシュタ・プールニマー（満月）"}},
+        {"date": "2027-07-18", "name": {"en": "Ashadha Purnima", "hi": "आषाढ़ पूर्णिमा", "ja": "アーシャーダ・プールニマー（満月）"}},
+        {"date": "2027-08-16", "name": {"en": "Shravana Purnima", "hi": "श्रावण पूर्णिमा", "ja": "シュラーヴァナ・プールニマー（満月）"}, "alt": "2027-08-17"},
+        {"date": "2027-09-15", "name": {"en": "Bhadrapada Purnima", "hi": "भाद्रपद पूर्णिमा", "ja": "バードラパダ・プールニマー（満月）"}},
+        {"date": "2027-10-15", "name": {"en": "Sharad Purnima", "hi": "शरद पूर्णिमा", "ja": "シャラド・プールニマー（満月）"}},
+        {"date": "2027-11-13", "name": {"en": "Kartika Purnima", "hi": "कार्तिक पूर्णिमा", "ja": "カールッティカ・プールニマー（満月）"}, "alt": "2027-11-14"},
+        {"date": "2027-12-13", "name": {"en": "Margashirsha Purnima", "hi": "मार्गशीर्ष पूर्णिमा", "ja": "マールガシールシャ・プールニマー（満月）"}}
+      ]
+    },
+    {
+      "id": "ramadan",
+      "labels": {"en": "Ramadan (expected dates)", "hi": "रमज़ान (अनुमानित तारीखें)", "ja": "ラマダン（予定日）"},
+      "rules": "dawn_to_sunset",
+      "note": {"en": "Expected dates. Ramadan starts when the new moon is sighted, so each fast may fall a day earlier or later.", "hi": "अनुमानित तारीखें। रमज़ान चाँद दिखने पर शुरू होता है, इसलिए हर रोज़ा एक दिन आगे या पीछे हो सकता है।", "ja": "予定日です。ラマダンは新月の観測で始まるため、各断食日は1日前後することがあります。"},
+      "days": [
+        {"date": "2027-02-09", "name": {"en": "Ramadan, fast 1 (expected)", "hi": "रमज़ान, रोज़ा 1 (अनुमानित)", "ja": "ラマダン 1日目（予定）"}, "alt": "2027-02-08"},
+        {"date": "2027-02-10", "name": {"en": "Ramadan, fast 2 (expected)", "hi": "रमज़ान, रोज़ा 2 (अनुमानित)", "ja": "ラマダン 2日目（予定）"}, "alt": "2027-02-09"},
+        {"date": "2027-02-11", "name": {"en": "Ramadan, fast 3 (expected)", "hi": "रमज़ान, रोज़ा 3 (अनुमानित)", "ja": "ラマダン 3日目（予定）"}, "alt": "2027-02-10"},
+        {"date": "2027-02-12", "name": {"en": "Ramadan, fast 4 (expected)", "hi": "रमज़ान, रोज़ा 4 (अनुमानित)", "ja": "ラマダン 4日目（予定）"}, "alt": "2027-02-11"},
+        {"date": "2027-02-13", "name": {"en": "Ramadan, fast 5 (expected)", "hi": "रमज़ान, रोज़ा 5 (अनुमानित)", "ja": "ラマダン 5日目（予定）"}, "alt": "2027-02-12"},
+        {"date": "2027-02-14", "name": {"en": "Ramadan, fast 6 (expected)", "hi": "रमज़ान, रोज़ा 6 (अनुमानित)", "ja": "ラマダン 6日目（予定）"}, "alt": "2027-02-13"},
+        {"date": "2027-02-15", "name": {"en": "Ramadan, fast 7 (expected)", "hi": "रमज़ान, रोज़ा 7 (अनुमानित)", "ja": "ラマダン 7日目（予定）"}, "alt": "2027-02-14"},
+        {"date": "2027-02-16", "name": {"en": "Ramadan, fast 8 (expected)", "hi": "रमज़ान, रोज़ा 8 (अनुमानित)", "ja": "ラマダン 8日目（予定）"}, "alt": "2027-02-15"},
+        {"date": "2027-02-17", "name": {"en": "Ramadan, fast 9 (expected)", "hi": "रमज़ान, रोज़ा 9 (अनुमानित)", "ja": "ラマダン 9日目（予定）"}, "alt": "2027-02-16"},
+        {"date": "2027-02-18", "name": {"en": "Ramadan, fast 10 (expected)", "hi": "रमज़ान, रोज़ा 10 (अनुमानित)", "ja": "ラマダン 10日目（予定）"}, "alt": "2027-02-17"},
+        {"date": "2027-02-19", "name": {"en": "Ramadan, fast 11 (expected)", "hi": "रमज़ान, रोज़ा 11 (अनुमानित)", "ja": "ラマダン 11日目（予定）"}, "alt": "2027-02-18"},
+        {"date": "2027-02-20", "name": {"en": "Ramadan, fast 12 (expected)", "hi": "रमज़ान, रोज़ा 12 (अनुमानित)", "ja": "ラマダン 12日目（予定）"}, "alt": "2027-02-19"},
+        {"date": "2027-02-21", "name": {"en": "Ramadan, fast 13 (expected)", "hi": "रमज़ान, रोज़ा 13 (अनुमानित)", "ja": "ラマダン 13日目（予定）"}, "alt": "2027-02-20"},
+        {"date": "2027-02-22", "name": {"en": "Ramadan, fast 14 (expected)", "hi": "रमज़ान, रोज़ा 14 (अनुमानित)", "ja": "ラマダン 14日目（予定）"}, "alt": "2027-02-21"},
+        {"date": "2027-02-23", "name": {"en": "Ramadan, fast 15 (expected)", "hi": "रमज़ान, रोज़ा 15 (अनुमानित)", "ja": "ラマダン 15日目（予定）"}, "alt": "2027-02-22"},
+        {"date": "2027-02-24", "name": {"en": "Ramadan, fast 16 (expected)", "hi": "रमज़ान, रोज़ा 16 (अनुमानित)", "ja": "ラマダン 16日目（予定）"}, "alt": "2027-02-23"},
+        {"date": "2027-02-25", "name": {"en": "Ramadan, fast 17 (expected)", "hi": "रमज़ान, रोज़ा 17 (अनुमानित)", "ja": "ラマダン 17日目（予定）"}, "alt": "2027-02-24"},
+        {"date": "2027-02-26", "name": {"en": "Ramadan, fast 18 (expected)", "hi": "रमज़ान, रोज़ा 18 (अनुमानित)", "ja": "ラマダン 18日目（予定）"}, "alt": "2027-02-25"},
+        {"date": "2027-02-27", "name": {"en": "Ramadan, fast 19 (expected)", "hi": "रमज़ान, रोज़ा 19 (अनुमानित)", "ja": "ラマダン 19日目（予定）"}, "alt": "2027-02-26"},
+        {"date": "2027-02-28", "name": {"en": "Ramadan, fast 20 (expected)", "hi": "रमज़ान, रोज़ा 20 (अनुमानित)", "ja": "ラマダン 20日目（予定）"}, "alt": "2027-02-27"},
+        {"date": "2027-03-01", "name": {"en": "Ramadan, fast 21 (expected)", "hi": "रमज़ान, रोज़ा 21 (अनुमानित)", "ja": "ラマダン 21日目（予定）"}, "alt": "2027-02-28"},
+        {"date": "2027-03-02", "name": {"en": "Ramadan, fast 22 (expected)", "hi": "रमज़ान, रोज़ा 22 (अनुमानित)", "ja": "ラマダン 22日目（予定）"}, "alt": "2027-03-01"},
+        {"date": "2027-03-03", "name": {"en": "Ramadan, fast 23 (expected)", "hi": "रमज़ान, रोज़ा 23 (अनुमानित)", "ja": "ラマダン 23日目（予定）"}, "alt": "2027-03-02"},
+        {"date": "2027-03-04", "name": {"en": "Ramadan, fast 24 (expected)", "hi": "रमज़ान, रोज़ा 24 (अनुमानित)", "ja": "ラマダン 24日目（予定）"}, "alt": "2027-03-03"},
+        {"date": "2027-03-05", "name": {"en": "Ramadan, fast 25 (expected)", "hi": "रमज़ान, रोज़ा 25 (अनुमानित)", "ja": "ラマダン 25日目（予定）"}, "alt": "2027-03-04"},
+        {"date": "2027-03-06", "name": {"en": "Ramadan, fast 26 (expected)", "hi": "रमज़ान, रोज़ा 26 (अनुमानित)", "ja": "ラマダン 26日目（予定）"}, "alt": "2027-03-05"},
+        {"date": "2027-03-07", "name": {"en": "Ramadan, fast 27 (expected)", "hi": "रमज़ान, रोज़ा 27 (अनुमानित)", "ja": "ラマダン 27日目（予定）"}, "alt": "2027-03-06"},
+        {"date": "2027-03-08", "name": {"en": "Ramadan, fast 28 (expected)", "hi": "रमज़ान, रोज़ा 28 (अनुमानित)", "ja": "ラマダン 28日目（予定）"}, "alt": "2027-03-07"},
+        {"date": "2027-03-09", "name": {"en": "Ramadan, fast 29 (expected)", "hi": "रमज़ान, रोज़ा 29 (अनुमानित)", "ja": "ラマダン 29日目（予定）"}, "alt": "2027-03-08"},
+        {"date": "2027-03-10", "name": {"en": "Ramadan, fast 30 (expected)", "hi": "रमज़ान, रोज़ा 30 (अनुमानित)", "ja": "ラマダン 30日目（予定）"}, "alt": "2027-03-09"}
       ]
     }
   ]

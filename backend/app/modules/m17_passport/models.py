@@ -20,3 +20,21 @@ class Passport(SQLModel, table=True):
     source: str = "seed"  # chat | form | desk | ssr | seed
     confirmed: bool = True
     updated_at: datetime = Field(sa_type=TZDateTime)
+
+
+class RadarQuestion(SQLModel, table=True):
+    """One tap-to-answer question the Calendar Radar sent: "Your JL740 on 25 Oct falls on Sharad Purnima. Fasting?"
+
+    `label` is what the public calendar calls that date, never a reason the person gave.
+    """
+
+    id: str = Field(primary_key=True)  # RQ-…
+    passenger_id: str = Field(index=True)
+    date: str  # ISO date of the flight the question is about
+    flight_no: str
+    rule_id: str  # the passport's time rule (TR-…)
+    label: dict[str, Any] = Field(default_factory=dict, sa_column=json_col())  # Text
+    status: str = "asked"  # asked | answered
+    answer: str | None = None  # yes | no
+    asked_at: datetime = Field(sa_type=TZDateTime)
+    answered_at: datetime | None = Field(default=None, sa_type=TZDateTime)

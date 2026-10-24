@@ -4,8 +4,11 @@ from typing import Any
 
 from sqlmodel import Session, select
 
-from app.core.models import MealItem, MealSpec, Passenger, Profile
+from app.core import clock
+from app.core.models import Flight, MealItem, MealPromise, MealSpec, Passenger, Profile
 from app.modules.m1_rules import engine
+from app.modules.m3_passenger.options import meal_options
+from app.modules.m3_passenger.router import _save
 from app.modules.m17_passport.models import Passport
 
 # Forbids under these roots are religious or ethical rules: never bent. Sugar is medical. Everything else is taste.
@@ -75,17 +78,31 @@ def _iso(day: date | datetime | str) -> str:
     return day.isoformat()[:10] if not isinstance(day, str) else day[:10]
 
 
+def applies_on(rule: dict[str, Any], iso: str) -> bool:
+    """Does a date or weekday rule change the meal on this date?
+
+    A `dates` rule with `confirm: true` (a Purnima fast read from the chat) applies only on dates the passenger
+    confirmed to the Radar; one without it (a fast typed as a date) applies on every listed date.
+    A date the passenger declined never applies.
+    """
+    if iso in rule.get("declined", []):
+        return False
+    if rule["kind"] == "dates":
+        if iso not in rule.get("dates", []):
+            return False
+        return not rule.get("confirm") or iso in rule.get("confirmed", [])
+    if rule["kind"] == "weekday":
+        return date.fromisoformat(iso).weekday() in rule.get("weekdays", [])
+    return False
+
+
 def rules_on(rules: dict[str, Any], day: date | datetime | str) -> dict[str, Any]:
     """Forbid/allow that apply on one date: date and weekday rules add their preset or extra forbids. Forbid wins."""
     iso = _iso(day)
-    weekday = date.fromisoformat(iso).weekday()
     forbid, allow = list(rules.get("forbid", [])), list(rules.get("allow", []))
     active = []
     for rule in rules.get("time_rules", []):
-        hit = (rule["kind"] == "dates" and iso in rule.get("dates", [])) or (
-            rule["kind"] == "weekday" and weekday in rule.get("weekdays", [])
-        )
-        if not hit:
+        if not applies_on(rule, iso):
             continue
         active.append(rule["id"])
         if rule.get("preset"):
@@ -101,13 +118,18 @@ def rules_on(rules: dict[str, Any], day: date | datetime | str) -> dict[str, Any
 
 def daylight_rules(session: Session, flight_id: str) -> list[dict[str, Any]]:
     """Passengers on the flight who don't eat between sunset and sunrise (+N min), or fast from dawn to sunset (m21)."""
+    flight = session.get(Flight, flight_id)
     out = []
     for pax in session.exec(select(Passenger).where(Passenger.flight_id == flight_id)).all():
         rules = rules_for(session, pax.id) or {}
         for rule in rules.get("time_rules", []):
-            if rule["kind"] in ("daylight", "dawn_to_sunset"):
-                out.append({"seat": pax.seat, "passenger_id": pax.id,
-                            "rule": {"kind": rule["kind"], "after_sunrise_min": rule.get("after_sunrise_min", 0)}})
+            if rule["kind"] not in ("daylight", "dawn_to_sunset"):
+                continue
+            # A Ramadan rule lists its dates: a flight outside them needs nothing special.
+            if rule["kind"] == "dawn_to_sunset" and rule.get("dates") and flight and flight.date not in rule["dates"]:
+                continue
+            out.append({"seat": pax.seat, "passenger_id": pax.id,
+                        "rule": {"kind": rule["kind"], "after_sunrise_min": rule.get("after_sunrise_min", 0)}})
     return sorted(out, key=lambda r: r["seat"])
 
 
@@ -131,12 +153,11 @@ def plan_for(session: Session, passenger: Passenger, rules: dict[str, Any], day:
         return {"main_pick": None, "code": None, "kitchen_note": None, "any_main": True, **today}
     if safe_mains:
         return {"main_pick": safe_mains[0].id, "code": None, "kitchen_note": None, "any_main": len(safe_mains) > 1, **today}
-    options = engine.code_options(today["forbid"], today["allow"])
-    best = options[0] if options else None
+    best = meal_options(today["forbid"], today["allow"])[0]  # SPML with a full kitchen note when no code fits
     return {
         "main_pick": None,
-        "code": best["code"] if best else "SPML",
-        "kitchen_note": best["kitchen_note"] if best else None,
+        "code": best["code"],
+        "kitchen_note": best["kitchen_note"],
         "any_main": False,
         **today,
     }
@@ -174,3 +195,57 @@ def cabin(session: Session, flight_id: str) -> list[dict[str, Any]]:
             "tier": strictest(rules), "flex": bool(rules and rules.get("flex")), "rules": rules,
         })
     return sorted(out, key=lambda p: (int("".join(c for c in p["seat"] if c.isdigit())), p["seat"]))
+
+
+# ---------------------------------------------------------------- saving (chat, Radar)
+
+DEFAULT_CONSENT = {"this_trip": True, "save_profile": True, "share_with_caterer": True, "cross_border_ack": True}
+
+
+def passport_id(passenger_id: str) -> str:
+    return f"PP-{passenger_id[3:]}" if passenger_id.startswith("PX-") else f"PP-{passenger_id}"
+
+
+def main_name(session: Session, plan: dict[str, Any]) -> dict[str, str] | None:
+    """The held main-menu dish's name ("Paneer butter masala with rice"), for the passenger's message."""
+    spec = session.get(MealSpec, plan["main_pick"]) if plan.get("main_pick") else None
+    return dict(spec.name) if spec else None
+
+
+def write_meal(session: Session, passenger: Passenger, plan: dict[str, Any], *, lang: str, allergens: list[str],
+               source: str) -> MealPromise | None:
+    """A plan that needs a special meal goes through m3's _save: Profile, MealPromise and C1, exactly like /profiles.
+
+    The profile holds what the passenger can eat on this flight (time rules already applied), because the crew
+    tablet and the caterer read it for this flight. A main-menu pick writes no promise.
+    """
+    if not plan.get("code"):
+        return None
+    profile = session.get(Profile, passenger.profile_id) if passenger.profile_id else None
+    consent = dict(profile.consent) if profile and profile.consent else {
+        **DEFAULT_CONSENT, "at": clock.now(session=session).isoformat()}
+    option = {"code": plan["code"], "kitchen_note": plan["kitchen_note"],
+              "label_mark": engine.label_mark(plan["forbid"], plan["allow"])}
+    _, promise = _save(session, passenger, lang=lang, forbid=plan["forbid"], allow=plan["allow"], consent=consent,
+                       option=option, source=source, allergens=allergens)
+    return promise
+
+
+def save(session: Session, passenger: Passenger, *, lang: str, rules: dict[str, Any],
+         source: str) -> tuple[Passport, dict[str, Any], MealPromise | None]:
+    """Upsert the passenger's passport, work out the flight plan, and order the special meal if one is needed."""
+    now = clock.now(session=session)
+    plan = plan_for(session, passenger, rules)
+    passport = get(session, passenger.id) or Passport(id=passport_id(passenger.id), passenger_id=passenger.id, updated_at=now)
+    passport.lang = lang
+    passport.rules = dict(rules)
+    passport.source = source
+    passport.confirmed = True
+    passport.code = plan["code"]
+    passport.kitchen_note = plan["kitchen_note"]
+    passport.label_mark = engine.label_mark(rules["forbid"], rules["allow"]) if rules["forbid"] else {}
+    passport.updated_at = now
+    session.add(passport)
+    promise = write_meal(session, passenger, plan, lang=lang, allergens=list(rules.get("allergens", [])), source=f"passport_{source}")
+    session.flush()
+    return passport, plan, promise

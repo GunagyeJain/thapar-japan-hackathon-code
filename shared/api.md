@@ -160,12 +160,16 @@ Reset and the clock are m0 endpoints (above).
 | Method | Path | Request | Response |
 |---|---|---|---|
 | GET | `/passport/cabin/{flight_id}` | – | `{flight_id, known, total, passengers: [{passenger_id, seat, cabin, name, known, source, tier: "hard"\|"firm"\|"soft"\|"none", flex, rules: Rules\|null, card: {ja, en, hi}}]}` |
-| GET | `/passport/{passenger_id}` | – | `Passport & {card, plan: {main_pick\|null, code\|null, kitchen_note\|null, forbid, allow, time_rules_active}}` (404 if none) |
-| POST | `/passport/understand` | `{text, lang?}` (≤ 500 chars) | `{rules: Rules, chips: [{tag, kind: "forbid"\|"allow"\|"allergen", tier, via, source: "dictionary"\|"model"}], time_rules: (TimeRule & {label: Text})[], unclear: string[], source: "dictionary"\|"model"\|"both"}`. Stores nothing |
-| POST | `/passport` | `{passenger_id, lang, rules: Rules, source}` | `{passport: Passport, plan, promise: MealPromise\|null}`. Writes the profile, the promise and C1 like `/profiles`; time-rule labels never stored |
-| GET | `/passport/booking/{passenger_id}` | – | `{pnr, passengers: [{passenger_id, name, seat, has_passport}]}`: the others on the same booking to ask |
-| POST | `/radar/scan` | `{flight_id?, passenger_id?}` | `{asked: [{question_id, passenger_id, date, flight_no, label: Text}], quiet: number}`; each question is a `whatsapp` notification with `ref: {kind: "radar_question", question_id, options: [{id, label: Text}]}` |
-| POST | `/radar/answer` | `{question_id, option_id}` | `{question_id, applied: boolean, plan, change: ChangeEvent\|null}` |
+| GET | `/passport/{passenger_id}` | – | `Passport & {card, plan: {main_pick\|null, main_pick_name: Text\|null, code\|null, kitchen_note\|null, forbid, allow, time_rules_active}}` (404 if none) |
+| POST | `/passport/understand` | `{text, lang?}` (1–500 chars, 422 otherwise) | `{rules: Rules, chips: [{tag, kind: "forbid"\|"allow"\|"allergen", tier: Tier\|null, via, source: "dictionary"\|"model"}], time_rules: (TimeRule & {label: Text, via})[], unclear: string[], source: "dictionary"\|"model"\|"both", presets: string[]}`. Stores nothing, logs nothing |
+| POST | `/passport` | `{passenger_id, lang, rules: Rules, source}` | `{passport: Passport, plan, promise: MealPromise\|null}`. Writes the profile, the promise and C1 like `/profiles` (only when the plan needs a special meal); time-rule labels never stored; then runs the Radar for that passenger |
+| GET | `/passport/booking/{passenger_id}` | – | `{pnr, flight_no, passenger: Person, passengers: Person[]}`, `Person = {passenger_id, name, surname, seat, has_passport}`: the passenger and the others on the same booking to ask |
+| POST | `/radar/scan` | `{flight_id?, passenger_id?}` | `{asked: [{question_id, passenger_id, date, flight_no, label: Text}], quiet: number}`; each question is a `whatsapp` notification with `ref: {kind: "radar_question", question_id, date, flight_no, question: Text, options: [{id: "yes"\|"no", label: Text}]}` |
+| POST | `/radar/answer` | `{question_id, option_id: "yes"\|"no"}` | `{question_id, applied: boolean, plan, change: ChangeEvent\|null}`. Idempotent (`applied: false` on a second tap). The reply is a `whatsapp` notification with `ref: {kind: "radar_answer", question_id, option_id, text: Text}` |
+
+- `/understand` chips: one per tag in the rules; `tier` is null for `allow`. `via` says what the person's word became (`"lahsun → garlic"`, `"pure veg → vegetarian"`); time rules carry `via` too (`"Purnima → fasting days"`). `presets` are the diet words recognised (m1 preset ids), for the phone's Change picker only.
+- A `dates` TimeRule from the chat has `confirm: true`: it applies only on dates in its `confirmed` list (the Radar's "Yes"); `declined` dates never apply. Rules without `confirm` (a fast typed as a date) apply on every listed date. `service.rules_on` / `plan_for` follow this.
+- Radar "Yes" before `special_meal_cutoff`: the special meal is reordered through m3's `_save` (Profile, MealPromise, C1) and m18's `submit_change(channel="radar", kind="calendar")` is called when installed; after the cutoff only `submit_change` takes it.
 
 ## m18 · change router + chaos mode
 | Method | Path | Request | Response |

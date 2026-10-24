@@ -82,7 +82,7 @@ def seed(session: Session) -> None:
             time_rules = [{"id": "TR-1", "kind": "weekday", "weekdays": [6], "preset": "vegetarian"}]
         elif i == 1:  # keeps Purnima fasts (25 Oct 2026 is Sharad Purnima)
             presets, flexible = ["vegetarian"], False
-            time_rules = [{"id": "TR-1", "kind": "dates", "dates": ["2026-10-25", "2026-11-24", "2026-12-24"], "preset": "vrat"}]
+            time_rules = [{"id": "TR-1", "kind": "dates", "dates": ["2026-10-25", "2026-11-24", "2026-12-23"], "preset": "vrat"}]
         flex = flexible and rng.random() < FLEX_SHARE
         lang = "ja" if not presets and not extra and rng.random() < 0.6 else rng.choice(["en", "hi"])
         session.add(_passport(p.id, _from_presets(presets, extra, flex=flex, time_rules=time_rules), "chat", lang, now))
