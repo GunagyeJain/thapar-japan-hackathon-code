@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 
 import { Button } from "@/ui"
 import { COPY } from "@/modules/m8-crew/i18n"
+import { useSay } from "@/modules/m8-crew/lang"
 
 interface CameraProps {
   onCode: (code: string) => void
@@ -12,6 +13,7 @@ interface CameraProps {
 const SAME_CODE_COOLDOWN_MS = 2500
 
 export function Camera({ onCode }: CameraProps) {
+  const say = useSay()
   const video = useRef<HTMLVideoElement>(null)
   const [on, setOn] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -54,7 +56,7 @@ export function Camera({ onCode }: CameraProps) {
     <div className="flex flex-col gap-2">
       <Button size="lg" variant={on ? "outline" : "secondary"} className="h-12" onClick={() => setOn((v) => !v)}>
         {on ? <CameraOff /> : <CameraIcon />}
-        {on ? `${COPY.stopCamera.ja} · ${COPY.stopCamera.en}` : `${COPY.camera.ja} · ${COPY.camera.en}`}
+        {on ? say(COPY.stopCamera) : say(COPY.camera)}
       </Button>
       {on && <video ref={video} className="aspect-video w-full max-w-md rounded-lg bg-black object-cover" muted playsInline />}
       {error && <p className="text-sm text-warn">Camera unavailable ({error}). Type the 6-character code instead.</p>}

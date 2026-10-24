@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import { Button, Input, StatusChip } from "@/ui"
 import { Bi } from "@/modules/m8-crew/Bi"
 import { COPY } from "@/modules/m8-crew/i18n"
+import { useCrewLang, useDish, useSay } from "@/modules/m8-crew/lang"
 import { galleyRows, lookup, normaliseCode, pickBackup, type GalleyRow, type Lookup } from "@/modules/m8-crew/logic"
 
 interface GalleyCheckProps {
@@ -18,14 +19,17 @@ interface GalleyCheckProps {
 const isDone = (r: GalleyRow) => r.item.status === "loaded" || r.item.status === "served" || r.replacement !== undefined
 
 function RowStatus({ row }: { row: GalleyRow }) {
+  const say = useSay()
   if (row.replacement) return <StatusChip status="safe" size="sm" icon={ArrowRightLeft} label={`Backup ${row.replacement.id}`} />
   if (row.item.status === "loaded" || row.item.status === "served")
-    return <StatusChip status="safe" size="sm" label={`${COPY.statusFound.ja} ${COPY.statusFound.en}`} />
-  if (row.item.status === "missing") return <StatusChip status="unsafe" size="sm" label={`${COPY.statusMissing.ja} ${COPY.statusMissing.en}`} />
-  return <StatusChip status="neutral" size="sm" icon={CircleDashed} label={`${COPY.statusOpen.ja} ${COPY.statusOpen.en}`} />
+    return <StatusChip status="safe" size="sm" label={say(COPY.statusFound)} />
+  if (row.item.status === "missing") return <StatusChip status="unsafe" size="sm" label={say(COPY.statusMissing)} />
+  return <StatusChip status="neutral" size="sm" icon={CircleDashed} label={say(COPY.statusOpen)} />
 }
 
 function BackupSuggestion({ pkg, L, row, now, record }: { pkg: CrewPackage; L: Lookup; row: GalleyRow } & Omit<GalleyCheckProps, "pkg">) {
+  const say = useSay()
+  const dish = useDish()
   const pid = row.item.assigned_passenger_id
   if (!pid || row.replacement) return null
   const backup = pickBackup(pkg, L, pid, row.item.galley)
@@ -45,7 +49,7 @@ function BackupSuggestion({ pkg, L, row, now, record }: { pkg: CrewPackage; L: L
       <div className="min-w-0 flex-1">
         <Bi text={COPY.suggest(seat, backup.galley, what)} size="lg" className="text-warn" />
         <p className="mt-1 text-sm text-muted-foreground">
-          <span lang="ja">{spec?.name.ja}</span> · {spec?.name.en} · <span className="code">{backup.id}</span> · {backup.position}
+          {dish(spec?.name)} · <span className="code">{backup.id}</span> · {backup.position}
         </p>
       </div>
       <Button
@@ -53,13 +57,16 @@ function BackupSuggestion({ pkg, L, row, now, record }: { pkg: CrewPackage; L: L
         className="h-12 px-5"
         onClick={() => void record({ type: "swap_backup", item_id: backup.id, passenger_id: pid, at: now() })}
       >
-        <ArrowRightLeft /> {COPY.useBackup.ja} · {COPY.useBackup.en}
+        <ArrowRightLeft /> {say(COPY.useBackup)}
       </Button>
     </div>
   )
 }
 
 export function GalleyCheck({ pkg, now, record }: GalleyCheckProps) {
+  const say = useSay()
+  const dish = useDish()
+  const mode = useCrewLang()
   const L = useMemo(() => lookup(pkg), [pkg])
   const galleys = useMemo(() => galleyRows(pkg, L), [pkg, L])
   const [code, setCode] = useState("")
@@ -98,7 +105,7 @@ export function GalleyCheck({ pkg, now, record }: GalleyCheckProps) {
                 className={cn("h-12 min-w-32 rounded-md px-4 text-left transition-colors duration-150", g === galley ? "bg-card ring-1 ring-border" : "text-muted-foreground")}
               >
                 <Bi text={COPY.galley(g)} size="sm" inline />
-                <span className="ml-2 text-sm tabular">{rows.filter(isDone).length}/{rows.length}</span>
+                <span className="ml-2 text-sm tabular"> · {rows.filter(isDone).length}/{rows.length}</span>
               </button>
             ))}
           </div>
@@ -110,18 +117,18 @@ export function GalleyCheck({ pkg, now, record }: GalleyCheckProps) {
             <Input
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder={`${COPY.codePlaceholder.ja} · ${COPY.codePlaceholder.en}`}
+              placeholder={say(COPY.codePlaceholder)}
               className="code h-12 w-60 text-lg uppercase md:text-lg"
               autoCapitalize="characters"
               autoComplete="off"
             />
           </label>
           <Button type="submit" size="lg" className="h-12">
-            {COPY.markFound.ja} · {COPY.markFound.en}
+            {say(COPY.markFound)}
           </Button>
         </form>
       </div>
-      {miss && <StatusChip status="warn" label={`${miss}: ${COPY.unknownCode.ja} · ${COPY.unknownCode.en}`} />}
+      {miss && <StatusChip status="warn" label={`${miss}: ${say(COPY.unknownCode)}`} />}
 
       <section className="rounded-xl border bg-card">
             <ul>
@@ -132,20 +139,20 @@ export function GalleyCheck({ pkg, now, record }: GalleyCheckProps) {
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center gap-2">
                         <span className="code rounded bg-muted px-1.5 py-0.5 text-sm font-semibold">{row.spec?.code ?? "—"}</span>
-                        <span lang="ja" className="truncate">{row.spec?.name.ja}</span>
+                        <span className="truncate">{dish(row.spec?.name, true)}</span>
                       </span>
                       <span className="mt-0.5 block truncate text-sm text-muted-foreground">
-                        {row.passenger && `${row.passenger.surname}/${row.passenger.given}`} · {row.spec?.name.en} · <span className="code">{row.item.id}</span> · {row.item.position}
+                        {row.passenger && `${row.passenger.surname}/${row.passenger.given}`}{mode === "both" && ` · ${row.spec?.name.en ?? ""}`} · <span className="code">{row.item.id}</span> · {row.item.position}
                       </span>
                     </span>
                     <RowStatus row={row} />
                     {row.item.status === "planned" && (
                       <span className="flex gap-2">
                         <Button size="lg" className="h-12 min-w-24" onClick={() => void record({ type: "galley_found", item_id: row.item.id, at: now() })}>
-                          <CheckCircle2 /> {COPY.markFound.ja}
+                          <CheckCircle2 /> {say(COPY.markFound)}
                         </Button>
                         <Button size="lg" variant="outline" className="h-12 min-w-24" onClick={() => void record({ type: "galley_missing", item_id: row.item.id, at: now() })}>
-                          <XCircle /> {COPY.markMissing.ja}
+                          <XCircle /> {say(COPY.markMissing)}
                         </Button>
                       </span>
                     )}
@@ -162,6 +169,7 @@ export function GalleyCheck({ pkg, now, record }: GalleyCheckProps) {
 
 /** Spares, backups and late-request meals in this galley: listed apart so the count above stays the expected list. */
 function AlsoOnBoard({ pkg, L, galley }: { pkg: CrewPackage; L: Lookup; galley: string }) {
+  const dish = useDish()
   const extra = pkg.items.filter((i) => i.galley === galley && (i.kind === "spare" || i.kind === "backup"))
   if (extra.length === 0) return null
   return (
@@ -174,7 +182,7 @@ function AlsoOnBoard({ pkg, L, galley }: { pkg: CrewPackage; L: Lookup; galley: 
           return (
             <li key={i.id} className="flex items-center gap-2 py-1">
               <span className="w-14 text-muted-foreground">{i.position}</span>
-              <span className="min-w-0 flex-1 truncate">{spec?.name.en}</span>
+              <span className="min-w-0 flex-1 truncate">{dish(spec?.name)}</span>
               <span className="code text-xs text-muted-foreground">{i.id}</span>
               {pax ? <StatusChip size="sm" status="info" label={pax.seat} /> : <StatusChip size="sm" status="neutral" label={i.status === "missing" ? "missing" : "free"} />}
             </li>

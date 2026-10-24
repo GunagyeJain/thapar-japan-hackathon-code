@@ -81,10 +81,10 @@ export function CrewSeats({ pkg, online, onSeat }: CrewSeatsProps) {
     <div className="flex flex-col gap-5">
       <SeatMap cabins={pkg.flight.cabins} seats={seats} onSeatClick={onSeat} size="md" />
       <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-        <span><span className="mr-1 inline-block size-3 rounded-sm bg-ice align-middle dark:bg-secondary" />特別食 Special meal</span>
-        <span><span className="mr-1 inline-block size-3 rounded-sm bg-warn-bg align-middle" />審査員 Judge (J)</span>
-        <span><span className="mr-1 inline-block size-3 rounded-sm bg-safe-bg align-middle" />提供済 Served</span>
-        <span><span className="mr-1 inline-block size-3 rounded-sm bg-unsafe-bg align-middle" />不足 Missing</span>
+        <span><span className="mr-1 inline-block size-3 rounded-sm bg-ice align-middle dark:bg-secondary" /><Bi text={COPY.legendSpecial} inline /></span>
+        <span><span className="mr-1 inline-block size-3 rounded-sm bg-warn-bg align-middle" /><Bi text={COPY.legendJudge} inline /></span>
+        <span><span className="mr-1 inline-block size-3 rounded-sm bg-safe-bg align-middle" /><Bi text={COPY.legendServed} inline /></span>
+        <span><span className="mr-1 inline-block size-3 rounded-sm bg-unsafe-bg align-middle" /><Bi text={COPY.legendMissing} inline /></span>
       </div>
       {online && <BoardingAlerts flightNo={pkg.flight.flight_no} />}
     </div>
