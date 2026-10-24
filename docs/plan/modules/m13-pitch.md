@@ -1,7 +1,13 @@
 # m13: pitch, video, props
 
 **Owner:** Bhavyam · **Branch:** `bhavyam/m13-pitch` · **Phase:** final, 05:00–09:30 IST (two early tasks today)
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
+
+### Where it stands (24 Oct, 18:36 IST)
+- **T5 Q&A sheet written** (docs repo `06-deliverables/final-pitch/qa-sheet.md`): the six questions plus three likely follow-ups, each with a sourced answer. Not ticked until every teammate has read it: **Gunagye and Shefali, please read it before dry run 1 (07:00).**
+- **T3 deck outline written** (`06-deliverables/final-pitch/v1/outline.md`): 9 slides mapped to the rubric, a 5-minute cut, and `[FILL 05:00]` slots for the survey number, the mentor quote, matcher ms and the recipe-check table. Still to do: `deck.html` and the PDF export.
+- **Open:** pitch length and submission format (organiser question, T1); survey results (T0) and mentor answers (T1) not yet recorded in Notes.
+- **Next for Bhavyam:** T2 demo script, then T3 `deck.html` once the [FILL] numbers are in.
 
 ## Goal
 Win the room. A pitch that maps every minute to the judging rubric (Technical first), shows the live demo from `/demo`, and backs each claim with:
