@@ -135,3 +135,28 @@
   --border: var(--line);
   --input: var(--line);
 }
+
+/* /jal, the JAL-style booking demo: black text, red pills and light greys, as on jal.co.jp. Scoped to the page. */
+.jal-site {
+  --navy: #1a1a1a;
+  --blue: #1a1a1a;
+  --sky: #8c8c8c;
+  --ice: #f2f2f2;
+  --mist: #f7f7f7;
+  --line: #dedede;
+  --grey: #5c5c5c; /* 6.7:1 on white */
+  --primary: #cc0000; /* JAL red pills: 5.9:1 with white text */
+  --ring: #1a1a1a;
+  --background: #ffffff;
+  --foreground: var(--navy);
+  --card-foreground: var(--navy);
+  --popover-foreground: var(--navy);
+  --secondary: var(--ice);
+  --secondary-foreground: var(--navy);
+  --muted: var(--ice);
+  --muted-foreground: var(--grey);
+  --accent: var(--ice);
+  --accent-foreground: var(--navy);
+  --border: var(--line);
+  --input: var(--line);
+}
