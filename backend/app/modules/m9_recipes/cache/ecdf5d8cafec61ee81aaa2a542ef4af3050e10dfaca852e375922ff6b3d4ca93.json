@@ -1,0 +1,97 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "冷やし中華",
+  "dish_name_en": "Cold ramen salad",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "中華麺",
+    "name_en": "Chinese noodles",
+    "tags": [
+     "wheat",
+     "grain"
+    ],
+    "confidence": 0.95,
+    "evidence": "中華麺 4玉"
+   },
+   {
+    "name_ja": "きゅうり",
+    "name_en": "cucumber",
+    "tags": [
+     "cucumber",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "きゅうり 1本"
+   },
+   {
+    "name_ja": "トマト",
+    "name_en": "tomato",
+    "tags": [
+     "tomato",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "トマト 1個"
+   },
+   {
+    "name_ja": "錦糸卵",
+    "name_en": "thinly shredded omelet",
+    "tags": [
+     "egg"
+    ],
+    "confidence": 1.0,
+    "evidence": "錦糸卵 卵2個分"
+   },
+   {
+    "name_ja": "カニカマ",
+    "name_en": "crab stick",
+    "tags": [
+     "crab",
+     "fish",
+     "seafood"
+    ],
+    "confidence": 0.9,
+    "evidence": "カニカマ 8本"
+   },
+   {
+    "name_ja": "醤油",
+    "name_en": "soy sauce",
+    "tags": [
+     "soy_sauce",
+     "soy",
+     "wheat"
+    ],
+    "confidence": 0.95,
+    "evidence": "醤油 大さじ4"
+   },
+   {
+    "name_ja": "酢",
+    "name_en": "vinegar",
+    "tags": [],
+    "confidence": 0.9,
+    "evidence": "酢 大さじ4"
+   },
+   {
+    "name_ja": "砂糖",
+    "name_en": "sugar",
+    "tags": [
+     "sugar"
+    ],
+    "confidence": 1.0,
+    "evidence": "砂糖 大さじ2"
+   },
+   {
+    "name_ja": "ごま油",
+    "name_en": "sesame oil",
+    "tags": [
+     "sesame"
+    ],
+    "confidence": 1.0,
+    "evidence": "ごま油 小さじ2"
+   }
+  ]
+ }
+}

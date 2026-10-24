@@ -1,0 +1,68 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "ほうれん草とコーンのソテー",
+  "dish_name_en": "Spinach and corn saute",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "ほうれん草",
+    "name_en": "spinach",
+    "tags": [
+     "spinach",
+     "vegetable"
+    ],
+    "confidence": 0.98,
+    "evidence": "ほうれん草 1束"
+   },
+   {
+    "name_ja": "コーン",
+    "name_en": "corn",
+    "tags": [
+     "corn"
+    ],
+    "confidence": 0.98,
+    "evidence": "コーン 100g"
+   },
+   {
+    "name_ja": "ウインナー",
+    "name_en": "vienna sausage",
+    "tags": [
+     "meat",
+     "pork"
+    ],
+    "confidence": 0.9,
+    "evidence": "ウインナー 4本"
+   },
+   {
+    "name_ja": "バター",
+    "name_en": "butter",
+    "tags": [
+     "butter",
+     "dairy"
+    ],
+    "confidence": 0.98,
+    "evidence": "バター 10g"
+   },
+   {
+    "name_ja": "塩",
+    "name_en": "salt",
+    "tags": [
+     "salt"
+    ],
+    "confidence": 0.98,
+    "evidence": "塩 少々"
+   },
+   {
+    "name_ja": "こしょう",
+    "name_en": "pepper",
+    "tags": [
+     "spice"
+    ],
+    "confidence": 0.95,
+    "evidence": "こしょう 少々"
+   }
+  ]
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "杏仁豆腐",
+  "dish_name_en": "Almond jelly",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "牛乳",
+    "name_en": "milk",
+    "tags": [
+     "milk",
+     "dairy"
+    ],
+    "confidence": 1.0,
+    "evidence": "・牛乳 400ml"
+   },
+   {
+    "name_ja": "砂糖",
+    "name_en": "sugar",
+    "tags": [
+     "sugar"
+    ],
+    "confidence": 1.0,
+    "evidence": "・砂糖 40g"
+   },
+   {
+    "name_ja": "杏仁霜",
+    "name_en": "apricot kernel powder",
+    "tags": [
+     "tree_nut"
+    ],
+    "confidence": 0.9,
+    "evidence": "・杏仁霜 20g"
+   },
+   {
+    "name_ja": "粉ゼラチン",
+    "name_en": "powdered gelatin",
+    "tags": [
+     "gelatin"
+    ],
+    "confidence": 1.0,
+    "evidence": "・粉ゼラチン 5g"
+   },
+   {
+    "name_ja": "みかん（缶）",
+    "name_en": "canned mandarin orange",
+    "tags": [
+     "orange",
+     "fruit"
+    ],
+    "confidence": 1.0,
+    "evidence": "・みかん（缶）適量"
+   },
+   {
+    "name_ja": "水",
+    "name_en": "water",
+    "tags": [],
+    "confidence": 1.0,
+    "evidence": "1. 粉ゼラチンを水でふやかす。"
+   }
+  ]
+ }
+}

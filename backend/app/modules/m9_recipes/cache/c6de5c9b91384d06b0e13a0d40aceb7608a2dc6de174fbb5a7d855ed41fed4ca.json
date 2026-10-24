@@ -1,0 +1,70 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "フルーツヨーグルト",
+  "dish_name_en": "Fruit yogurt salad",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "ヨーグルト",
+    "name_en": "yogurt",
+    "tags": [
+     "yogurt",
+     "dairy"
+    ],
+    "confidence": 0.98,
+    "evidence": "ヨーグルト 400g"
+   },
+   {
+    "name_ja": "みかん（缶）",
+    "name_en": "canned mandarin orange",
+    "tags": [
+     "orange",
+     "fruit"
+    ],
+    "confidence": 0.95,
+    "evidence": "みかん（缶）1缶"
+   },
+   {
+    "name_ja": "バナナ",
+    "name_en": "banana",
+    "tags": [
+     "banana",
+     "fruit"
+    ],
+    "confidence": 0.98,
+    "evidence": "バナナ 1本"
+   },
+   {
+    "name_ja": "キウイ",
+    "name_en": "kiwi",
+    "tags": [
+     "kiwi",
+     "fruit"
+    ],
+    "confidence": 0.98,
+    "evidence": "キウイ 1個"
+   },
+   {
+    "name_ja": "マシュマロ",
+    "name_en": "marshmallow",
+    "tags": [
+     "gelatin",
+     "sugar"
+    ],
+    "confidence": 0.9,
+    "evidence": "マシュマロ 12個"
+   },
+   {
+    "name_ja": "はちみつ",
+    "name_en": "honey",
+    "tags": [
+     "honey"
+    ],
+    "confidence": 0.98,
+    "evidence": "はちみつ 大さじ1"
+   }
+  ]
+ }
+}

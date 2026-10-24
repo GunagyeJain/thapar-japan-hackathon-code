@@ -1,0 +1,67 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "柿の白和え",
+  "dish_name_en": "Persimmon with tofu dressing",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "木綿豆腐",
+    "name_en": "firm tofu",
+    "tags": [
+     "soy",
+     "legume"
+    ],
+    "confidence": 0.95,
+    "evidence": "木綿豆腐 1/2丁"
+   },
+   {
+    "name_ja": "かき（柿）",
+    "name_en": "persimmon",
+    "tags": [
+     "fruit"
+    ],
+    "confidence": 0.95,
+    "evidence": "かき（柿）1個"
+   },
+   {
+    "name_ja": "白ごま",
+    "name_en": "white sesame seeds",
+    "tags": [
+     "sesame"
+    ],
+    "confidence": 0.95,
+    "evidence": "白ごま 大さじ2"
+   },
+   {
+    "name_ja": "砂糖",
+    "name_en": "sugar",
+    "tags": [
+     "sugar"
+    ],
+    "confidence": 0.95,
+    "evidence": "砂糖 大さじ1"
+   },
+   {
+    "name_ja": "白味噌",
+    "name_en": "white miso paste",
+    "tags": [
+     "soy",
+     "legume"
+    ],
+    "confidence": 0.95,
+    "evidence": "白味噌 小さじ2"
+   },
+   {
+    "name_ja": "塩",
+    "name_en": "salt",
+    "tags": [
+     "salt"
+    ],
+    "confidence": 0.95,
+    "evidence": "塩 少々"
+   }
+  ]
+ }
+}

@@ -51,3 +51,4 @@ One line per ship to `main`, added by `scripts/ship.sh`. Newest at the bottom. L
 - 2026-10-24 18:28 · Gunagye Jain · `gunagye/m5-ops` · m5 done: /ops and the alert page run on m4's live alerts; story smoke 7/7 twice on main · **Heads-up:** The whole demo story now runs on real routes, no stand-ins. Integration 1 (Acts 1-2) is ready to click through from /demo
 - 2026-10-24 18:31 · Bhavyam Misra · `bhavyam/m10-insights` · insights: /insights shows each promise's C1-C5 timeline, the breakpoint and how fast it was fixed (Act 6) · **Heads-up:** New GET /api/promises/{id}/timeline (shape in shared/api.md). m11: step 8 lands on /insights, which opens on 23C
 - 2026-10-24 18:33 · Gunagye Jain · `gunagye/m5-ops` · m5 notes: correct the check time
+- 2026-10-24 18:36 · Shefali Sharma · `shefali/m9-recipes` · Accuracy tab now compares all 23 recipe sheets: dictionary 79%, model 96%, both 100% of hidden non-veg ingredients found
