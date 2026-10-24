@@ -3,10 +3,10 @@ import { useQuery } from "@tanstack/react-query"
 import { BellRing } from "lucide-react"
 import { useMemo } from "react"
 
-import { api, POLL_MS } from "@/lib/api"
+import { api, FLIGHT_ID, POLL_MS } from "@/lib/api"
 import { fmtTime } from "@/lib/format"
 import type { CrewPackage } from "@/lib/offline/types"
-import type { Notification } from "@/lib/types"
+import type { Notification, Passenger } from "@/lib/types"
 import { SeatMap, type SeatInfo } from "@/ui"
 import { Bi } from "@/modules/m8-crew/Bi"
 import { COPY } from "@/modules/m8-crew/i18n"
@@ -18,10 +18,13 @@ interface CrewSeatsProps {
   onSeat: (seat: string) => void
 }
 
-function seatInfo(pkg: CrewPackage): Record<string, SeatInfo> {
+function seatInfo(pkg: CrewPackage, live: Passenger[]): Record<string, SeatInfo> {
   const L = lookup(pkg)
   const seats: Record<string, SeatInfo> = {}
-  for (const p of pkg.passengers) {
+  // Judges who joined after the download appear while the tablet is online.
+  const known = new Set(pkg.passengers.map((p) => p.id))
+  const passengers = [...pkg.passengers, ...live.filter((p) => p.is_judge && !known.has(p.id))]
+  for (const p of passengers) {
     const items = pkg.items.filter((i) => i.assigned_passenger_id === p.id)
     const served = items.some((i) => i.status === "served")
     const missing = items.some((i) => i.kind === "special" && i.status === "missing") && !items.some((i) => i.kind !== "special" && i.status === "loaded")
@@ -67,7 +70,13 @@ function BoardingAlerts({ flightNo }: { flightNo: string }) {
 }
 
 export function CrewSeats({ pkg, online, onSeat }: CrewSeatsProps) {
-  const seats = useMemo(() => seatInfo(pkg), [pkg])
+  const live = useQuery({
+    queryKey: ["passengers", FLIGHT_ID],
+    queryFn: () => api.get<Passenger[]>(`/flights/${FLIGHT_ID}/passengers`),
+    refetchInterval: POLL_MS,
+    enabled: online,
+  })
+  const seats = useMemo(() => seatInfo(pkg, online ? (live.data ?? []) : []), [pkg, live.data, online])
   return (
     <div className="flex flex-col gap-5">
       <SeatMap cabins={pkg.flight.cabins} seats={seats} onSeatClick={onSeat} size="md" />
