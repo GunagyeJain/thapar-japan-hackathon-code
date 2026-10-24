@@ -35,7 +35,7 @@ Win the room. A pitch that maps every minute to the judging rubric (Technical fi
   - Would a read-only passenger-list feed plus an add-on screen for the crew iPad app be acceptable for a pilot?
 
   Write their answers, with names and roles, in Notes below. Also ask the organisers: what to submit at 10:00, pitch length, projector/HDMI, and the Wi-Fi.
-- [ ] **T2 Demo script (45 min).** `docs/demo-script.md`, following m11's steps; the 4-minute version plus a 2-minute cut.
+- [ ] **T2 Demo script (45 min). Taken by Gunagye lane B at 18:38 (see docs/decisions.md); Bhavyam skips it.** `docs/demo-script.md`, following m11's steps; the 4-minute version plus a 2-minute cut.
 
   _Done when:_ the team can run a dry run from the script without asking anything.
 - [ ] **T3 Final deck (90 min).** Problem (survey number + mentor quote) → live demo → how it works (architecture, read-only integration, rules decide) → numbers (rule-test count, matcher ms, recipe-check table) → pilot plan → team. Export the PDF.
