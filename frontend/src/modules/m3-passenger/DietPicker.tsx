@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 import { Checkbox } from "@/ui"
 
 import { isAllergenOn, isGroupOn, pickerGroups, presets, toggleAllergen, toggleGroup, togglePreset } from "./diet"
-import { fill, pick, s } from "./i18n"
+import { breakable, fill, jaWrap, pick, s } from "./i18n"
 import type { DietValue } from "./types"
 
 export interface DietPickerProps {
@@ -49,7 +49,7 @@ export function DietPicker({ value, onChange, lang, compact = false }: DietPicke
                 )}
               >
                 {on && <Check aria-hidden="true" className="size-4 shrink-0 text-blue" />}
-                {pick(p.labels, lang)}
+                <span className={cn(lang === "ja" && jaWrap)}>{breakable(pick(p.labels, lang), lang)}</span>
               </button>
             )
           })}
@@ -111,7 +111,7 @@ function GroupList({ id, title, groups, isOn, onToggle, lang, compact }: GroupLi
             <li key={g.id}>
               <label htmlFor={boxId} className={cn("flex cursor-pointer items-center gap-3", compact ? "min-h-9 text-sm" : "min-h-11")}>
                 <Checkbox id={boxId} checked={isOn(g)} onCheckedChange={() => onToggle(g)} className="size-5" />
-                <span className="leading-tight">{pick(g.labels, lang)}</span>
+                <span className={cn("leading-tight", lang === "ja" && jaWrap)}>{breakable(pick(g.labels, lang), lang)}</span>
               </label>
             </li>
           )
