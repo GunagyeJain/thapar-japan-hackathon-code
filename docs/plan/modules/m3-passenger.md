@@ -79,6 +79,7 @@ Act 1 runs live on a phone, and a judge can join from a QR in under 30 seconds.
 
 ## Notes
 _Owner's running notes: what's mocked, open questions._
+- **Changed by lane B at 19:30 (Q5 privacy fix, Gunagye's request):** `_save` stores `presets = []` (food rules only; the tapped quick picks stay on the phone), and C1 reads "Profile saved: <food-rule mark> → <code>". `ProfileIn.presets` is still accepted, never stored. Judges' "Change my answers" refills the ticks from forbid/allow; the quick pick isn't highlighted. Test: `test_profile_keeps_food_rules_not_diet_names`.
 - T1 done: lookup, profiles (C1, WRONG_CODE when the booked SSR breaks the rules, saving again updates the same promise) and join (seat lock, so judges joining at once never share a seat). A passenger with no SSR gets no WRONG_CODE.
 - T2: no mock needed. The picker reads presets, picker groups and the tag tree from `loadRules()` (the same shared/rules JSON the server uses), so it works instantly on a slow phone. It understands parents: Jain forbids `allium`, which ticks "Onion & garlic"; unticking it keeps leek, shallot, spring onion and chive. Allergies live in `DietValue.allergens` (optional) and are sent as forbidden too. The meal code always comes from the server (`/api/rules/code-options`).
 - T3/T4 checked at 390 px: Priya ends on AVML + NO ONION NO GARLIC with C1; Verma (HNML) gets the red card and a WRONG_CODE alert; three joins at once get 5A, 5C, 5D in under 10 ms each.
