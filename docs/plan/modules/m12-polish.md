@@ -1,7 +1,7 @@
 # m12: polish + hardening
 
 **Owner:** Gunagye (lane a) · **Branch:** `gunagye/m12-polish` · **Phase:** freeze, 02:00–05:30 IST
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Make the five surfaces look like one finished product on the projector, the iPad and the judges' phones, and make the demo setup boring and repeatable.
@@ -36,4 +36,7 @@ The 07:00 dry run needs no fixes to visuals or setup.
 
 ## Notes
 - If the tunnel restarts, the address changes: reopen `/demo` and `/crew` on the new address before switching to airplane mode.
+- 17:00 · cloudflared 2026.10.3 installed on Gunagye's laptop (winget). `npm run tunnel` (or `bash scripts/tunnel.sh`) with `bash scripts/demo.sh` running prints the addresses.
+- Gzip + immutable caching for `/assets/*` in `main.py`: `/j` over the tunnel went from ~5 s to 1.6–2.5 s on a phone-sized Chrome (Playwright); the crew package from 194 KB to 13 KB.
+- Crew offline flow verified over the tunnel address in Chrome (download → offline reload → galley + swap + 2 scans → reconnect → synced). Still to do on real devices: iPad Safari, Android Chrome, the iPhones on mobile data.
 - Projector: connect it to Shefali's MacBook. It shows `/demo` and the other screens over the tunnel, plus the iPad mirrored with QuickTime over a cable. Gunagye's laptop only runs the server.

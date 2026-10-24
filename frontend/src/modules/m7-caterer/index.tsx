@@ -1,19 +1,8 @@
-import { ModulePlaceholder } from "@/app/ModulePlaceholder"
 import type { ModuleRoute } from "@/app/types"
+import { CatererPage } from "@/modules/m7-caterer/CatererPage"
+import { LabelsPage } from "@/modules/m7-caterer/LabelsPage"
 
-// m7 owns this folder. Replace the placeholders with the real pages; keep exporting `routes`.
 export const routes: ModuleRoute[] = [
-  {
-    path: "/caterer",
-    layout: "desktop",
-    element: (
-      <ModulePlaceholder
-        module="m7"
-        route="/caterer"
-        owner="Shefali"
-        title="Caterer portal"
-        purpose="Meal list versions with diffs and acknowledgement, plus printable labels."
-      />
-    ),
-  },
+  { path: "/caterer", layout: "desktop", element: <CatererPage /> },
+  { path: "/caterer/labels", layout: "desktop", element: <LabelsPage /> },
 ]

@@ -69,7 +69,7 @@
     {"id": "mushroom", "parent": "fungi", "labels": {"en": "Mushroom", "ja": "マッシュルーム", "hi": "मशरूम"}, "synonyms_ja": ["マッシュルーム", "しいたけ", "椎茸", "しめじ", "えのき"], "synonyms_en": ["mushroom", "shiitake"]},
 
     {"id": "sugar", "parent": null, "labels": {"en": "Sugar", "ja": "砂糖", "hi": "चीनी"}, "synonyms_ja": ["砂糖", "上白糖", "グラニュー糖"], "synonyms_en": ["sugar"]},
-    {"id": "honey", "parent": "sugar", "labels": {"en": "Honey", "ja": "はちみつ", "hi": "शहद"}, "synonyms_ja": ["はちみつ", "蜂蜜", "ハチミツ"], "synonyms_en": ["honey"]},
+    {"id": "honey", "parent": null, "labels": {"en": "Honey", "ja": "はちみつ", "hi": "शहद"}, "synonyms_ja": ["はちみつ", "蜂蜜", "ハチミツ"], "synonyms_en": ["honey"]},
     {"id": "jaggery", "parent": "sugar", "labels": {"en": "Jaggery", "ja": "黒糖", "hi": "गुड़"}, "synonyms_ja": ["黒糖", "黒砂糖"], "synonyms_en": ["jaggery", "gur"]},
 
     {"id": "alcohol", "parent": null, "labels": {"en": "Alcohol", "ja": "アルコール", "hi": "शराब"}, "synonyms_ja": ["アルコール"], "synonyms_en": ["alcohol"]},

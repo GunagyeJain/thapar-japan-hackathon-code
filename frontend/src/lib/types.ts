@@ -173,3 +173,12 @@ export interface Notification {
   at: Iso
   ref: Record<string, unknown>
 }
+
+/** A rule that fired in a verdict (m1). `via` is the chain, e.g. "出汁 → bonito → fish". */
+export interface Fired {
+  rule_id: string
+  tag: string
+  via: string
+  diet?: string
+  message: Text
+}

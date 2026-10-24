@@ -60,7 +60,7 @@ Folder pattern: `frontend/src/modules/mN-slug/` · `backend/app/modules/mN_slug/
 | m4 | lost-meal watcher | Bhavyam | `bhavyam/m4-watcher` | `backend/app/modules/m4_watcher/`, `shared/seed/messages/` | m0, m1 (mock) | 1 | yes |
 | m5 | ops console (board, alerts, evidence) | Bhavyam | `bhavyam/m5-ops` | `frontend/src/modules/m5-ops/` | m2, m4 (mock) | 2 | yes |
 | m6 | late-request matcher + `/ops/late` desk + backup sizing | Gunagye (B) | `gunagye/m6-matcher` | `backend/app/modules/m6_matcher/`, `frontend/src/modules/m6-matcher/` | m1, m3 DietPicker | 2 | yes |
-| m7 | caterer portal + labels | Shefali | `shefali/m7-caterer` | `frontend/src/modules/m7-caterer/`, `backend/app/modules/m7_caterer/` | m2, m4 (mock) | 2 | yes |
+| m7 | caterer portal + labels | Gunagye (lane b) | `gunagye/m7-caterer` | `frontend/src/modules/m7-caterer/`, `backend/app/modules/m7_caterer/` | m2, m4 (mock) | 2 | yes |
 | m8 | crew tablet (offline) | Gunagye (A) | `gunagye/m8-crew` | `frontend/src/modules/m8-crew/`, `frontend/src/lib/offline/`, `backend/app/modules/m8_crew/`, `frontend/public/crew/` | m1, m2 | 2 | yes |
 | m9 | hidden-ingredient check | Shefali | `shefali/m9-recipes` | `frontend/src/modules/m9-recipes/`, `backend/app/modules/m9_recipes/`, `shared/seed/recipes/` | m1 | 3 | yes (cached) |
 | m10 | insights: Priya's timeline (shadow month is stretch) | Bhavyam | `bhavyam/m10-insights` | `frontend/src/modules/m10-insights/`, `backend/app/modules/m10_insights/`, `shared/seed/history/` | m0 events | 3 | timeline yes |
@@ -84,9 +84,9 @@ Each person works top to bottom. Take the first module in your queue whose Statu
 | Person | Queue |
 |---|---|
 | gunagye (lane a) | m0 → m2 → m8 → m12 |
-| gunagye (lane b) | m1 → m6 → m11 |
+| gunagye (lane b) | m1 → m6 → m11 → m7 |
 | bhavyam | m4 → m5 → m10 → m13 |
-| shefali | m3 → m7 → m9 → m14 |
+| shefali | m3 → m9 → m14 |
 
 Before m0 ships (≈17:00), nobody edits files the scaffold creates. Get ready instead:
 - Read your module spec.

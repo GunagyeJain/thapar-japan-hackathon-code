@@ -1,7 +1,7 @@
 # m11: story engine + demo control
 
 **Owner:** Gunagye (lane b) · **Branch:** `gunagye/m11-story` · **Phase:** 3, 22:00–02:00 IST
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Make the 4-minute demo deterministic and impossible to get lost in. `/demo` is the presenter's control panel:
@@ -46,19 +46,19 @@ A Playwright run proves the whole story still works before every rehearsal.
 Every step is idempotent: running it twice changes nothing.
 
 ## Tasks
-- [ ] **T1 Scenario + step runner (45 min).** Step definitions, `GET /scenario`, `POST /step` (sets the clock, runs the auto actions, marks done), tests.
+- [x] **T1 Scenario + step runner (45 min).** Step definitions, `GET /scenario`, `POST /step` (sets the clock, runs the auto actions, marks done), tests.
 
   _Done when:_ stepping 0 → 8 by API alone ends with Priya's C1–C5 all green and 27D served from the backup.
-- [ ] **T2 `/demo` page (40 min).**
+- [x] **T2 `/demo` page (40 min).**
   - Step list with the current step, a big cue card ("Now: open Ops → click Request again"), Next / Back, and "Do it for me".
   - Reset (keep judges / full), with a confirm.
   - The judge QR built from the page's **current** address (`location.origin + "/j"`), and a live count of judges who joined.
 
   _Done when:_ the whole story can be presented from `/demo` plus the four surfaces.
-- [ ] **T3 Playwright smoke (40 min).** `e2e/story.spec.ts`: reset, then step through, checking the key text on each screen (alert title, "AVML", "v3", "VJML", "7 of 8", the timeline breakpoint).
+- [x] **T3 Playwright smoke (40 min).** `e2e/story.spec.ts`: reset, then step through, checking the key text on each screen (alert title, "AVML", "v3", "VJML", "7 of 8", the timeline breakpoint).
 
   _Done when:_ `npx playwright test` passes against `npm run demo`.
-- [ ] **T4 Demo script (15 min).** `scripts/demo.sh`: build, start, print the local and tunnel instructions.
+- [x] **T4 Demo script (15 min).** `scripts/demo.sh`: build, start, print the local and tunnel instructions.
 
   _Done when:_ one command gets from a clean checkout to a running demo.
 
@@ -68,3 +68,10 @@ Two dry runs in a row work from `/demo` with no manual database fiddling, and th
 ## Notes
 - Judges join during Act 0/1, while the tablet is still online. Their seats sync to the tablet with the package at step 6.
 - On the projector, judges show as first name + initial; their diet comes from presets only.
+- **How steps call the other modules:** through their HTTP routes in `shared/api.md`, in-process (`actions._call`), not Python imports, so an owner can structure their code freely. m3 `POST /profiles`, m4 `POST /sim/booking-events` and `POST /alerts/{id}/actions`, m7 `GET/POST /flights/{id}/meal-lists` + `POST /meal-lists/{id}/ack`, m6 `POST /late-requests`, m8 `POST /flights/{id}/crew-events`.
+- **Stand-ins until a route is on main** (404/405): m4's rebooking (Priya 6XK2QP → 8MZ2TN, SSR dropped, C2 fail, LOST_MEAL with the deadline) and request-again (SSR back, C2 fixed, alert resolved, SMS); m7's acknowledgement (C3 for every promise). They switch off by themselves once the routes exist.
+- **Step 7** sends the tablet's events with fixed `client_id`s (`story-<type>-<item>-<who>`), so a second sync is all duplicates. 27D gets the first galley-reserve backup.
+- **Step 0** resets (keeping judges) unless nothing has happened since the last story reset, so judges who joined meanwhile stay.
+- **Smoke** (`e2e/story.spec.ts`, `npm run e2e`): 7 acts, API steps with auto, UI checks on /demo, /p, /ops/late (the real desk flow) and /crew ("7 of 8 found"). Screens still on their placeholder (/ops, /caterer, /insights today) are noted as pending and checked by API only; their UI checks switch on by themselves once they ship. Passed twice in a row on 24 Oct 16:55.
+- **When m4 and m7 ship:** their real routes replace the stand-ins automatically; re-run `npm run e2e` (and step through `/demo` once) to confirm the story still ends green.
+- `POST /demo/step` also returns `did: string[]` (what the server just did), shown on `/demo`.

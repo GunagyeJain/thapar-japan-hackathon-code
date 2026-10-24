@@ -1,7 +1,7 @@
 # m2: design system
 
 **Owner:** Gunagye (lane a) · **Branch:** `gunagye/m2-design-system` · **Phase:** 1, 17:00–18:15 IST. Keep it tight: build only what the acts use, so m8 starts by 18:15.
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** done <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 One look across five surfaces, so the product reads as a real airline tool and not five student pages. It continues the deck's identity (navy/blue on ice, boarding-pass details) and gives every module ready-made status, data and layout components.
@@ -37,16 +37,16 @@ All exported from `@/ui`:
 Plus the final `docs/design.md`.
 
 ## Tasks
-- [ ] **T1 Tokens + type (30 min).** `tokens.css` (light + cabin dark), Tailwind theme mapping, fonts (two weights each; Japanese through fontsource unicode-range subsets), focus ring, tabular numbers utility.
+- [x] **T1 Tokens + type (30 min).** `tokens.css` (light + cabin dark), Tailwind theme mapping, fonts (two weights each; Japanese through fontsource unicode-range subsets), focus ring, tabular numbers utility.
 
   _Done when:_ the m0 home page uses the new tokens with no hard-coded hex anywhere in `src/`.
-- [ ] **T2 Status + chrome components (30 min).** StatusChip, VerdictBadge, Countdown, DualClock, FlightContextBar, PageHeader, EmptyState, LangSwitch; DesktopLayout nav styled.
+- [x] **T2 Status + chrome components (30 min).** StatusChip, VerdictBadge, Countdown, DualClock, FlightContextBar, PageHeader, EmptyState, LangSwitch; DesktopLayout nav styled.
 
   _Done when:_ the `/ui` gallery shows each one in light and cabin dark. **Ship** (heads-up: "use @/ui components; see docs/design.md").
-- [ ] **T3 Data components (45 min).** DataTable, Timeline, KpiTile, RawMessage, DiffView, SeatMap (with Priya 23C, Mehta 31K and the row-5 judge seats in the example).
+- [x] **T3 Data components (45 min).** DataTable, Timeline, KpiTile, RawMessage, DiffView, SeatMap (with Priya 23C, Mehta 31K and the row-5 judge seats in the example).
 
   _Done when:_ the gallery shows each one with seed data, and SeatMap renders all 186 seats on a 1024 px tablet. **Ship.**
-- [ ] **T4 Rules doc + review (20 min).** Finalise `docs/design.md` with component usage notes and page templates for desktop, mobile and tablet.
+- [x] **T4 Rules doc + review (20 min).** Finalise `docs/design.md` with component usage notes and page templates for desktop, mobile and tablet.
 
   _Done when:_ the doc lists every component with one usage example.
 
@@ -55,3 +55,6 @@ Every other module can build its screens only from `@/ui` and the tokens, and th
 
 ## Notes
 _Owner's running notes._
+- Everything is exported from `@/ui`; the gallery at `/ui` shows each component with JL740 data in light and cabin dark.
+- SeatMap draws all 206 seats of the seed seat map (186 booked; rows 5 and 20 free for judges). In the gallery it scrolls inside the desktop layout at 1024 px; in TabletLayout (no sidebar) it fits.
+- Checked at 1440, 1024 and 375 px: no page-level sideways scroll.
