@@ -382,7 +382,7 @@
    "result": "ok",
    "at": "2026-10-20T10:00:00+05:30",
    "source": "passenger_app",
-   "detail": "Profile saved: no meat, fish and seafood, egg, onion family, root vegetables +4 more → VJML",
+   "detail": "Profile saved: no meat, fish and seafood, egg, onion family, root vegetables, mushrooms +3 more → VJML",
    "data": {
     "code": "VJML"
    },
@@ -397,7 +397,7 @@
    "result": "ok",
    "at": "2026-10-20T10:00:00+05:30",
    "source": "passenger_app",
-   "detail": "Profile saved: no meat, fish and seafood, egg, onion family, root vegetables +5 more → VJML",
+   "detail": "Profile saved: no meat, fish and seafood, egg, onion family, root vegetables, mushrooms +4 more → VJML",
    "data": {
     "code": "VJML"
    },
@@ -427,7 +427,7 @@
    "result": "ok",
    "at": "2026-10-20T10:00:00+05:30",
    "source": "passenger_app",
-   "detail": "Profile saved: no meat, fish and seafood, egg, dairy, honey +1 more → VGML",
+   "detail": "Profile saved: no meat, fish and seafood, egg, dairy, honey, gelatin → VGML",
    "data": {
     "code": "VGML"
    },
@@ -457,7 +457,7 @@
    "result": "ok",
    "at": "2026-10-20T10:00:00+05:30",
    "source": "passenger_app",
-   "detail": "Profile saved: no meat, fish and seafood, egg, gelatin, alcohol +4 more → AVML",
+   "detail": "Profile saved: no meat, fish and seafood, egg, gelatin, alcohol, grains +3 more → AVML",
    "data": {
     "code": "AVML"
    },
