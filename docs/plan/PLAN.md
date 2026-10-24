@@ -16,6 +16,8 @@ Judging: Technical 30 · Problem 20 · Innovation 20 · Feasibility 20 · Impact
 | 5 In flight | 05:20 | Crew tablet in dark cabin mode, **offline**: galley check "7 of 8 found", 27D Jain missing → sealed backup in galley 2 → scan → green. Seat scan at 23C: wrong tray red "contains onion", right tray green. JA/EN. | m8 |
 | 6 After | – | Priya's C1–C5 timeline, breakpoint = codeshare rebooking 23:02 · shadow-month dashboard · backups for the next 14 days (festival-aware). | m10 |
 | Live | Acts 0–1 | Judges scan the QR on `/demo` and enter their diet on their own phones (presets only). They're invited early, while the tablet is still online. Their seats light up in row 5 on the crew tablet, and the matcher finds each of them a meal. | m3, m6, m8, m11 |
+| Live + | Acts 0–1 | **Say it your way:** a judge types or speaks their diet in their own words (Hindi, Hinglish, Tamil, Japanese…); the chips show which words became which rules; they confirm and join. | m15, m3 |
+| 6 + | 20 Nov | **Diets that change by date:** Priya's return JL749 Tokyo→Delhi is Prabodhini Ekadashi. Her phone knows her fast days, sends only the date, and that leg's meal gets the fasting note (in Japanese for the Tokyo kitchen); the outbound meal is unchanged. Ops sees the coming fast-day legs. | m16, m1 |
 
 ## Architecture
 ```
@@ -68,6 +70,8 @@ Folder pattern: `frontend/src/modules/mN-slug/` · `backend/app/modules/mN_slug/
 | m12 | polish + hardening | Gunagye (A) | `gunagye/m12-polish` | `scripts/tunnel.sh`; style-only edits anywhere in `frontend/` after the freeze | all | freeze | yes |
 | m13 | pitch, video, props | Bhavyam | `bhavyam/m13-pitch` | `docs/demo-script.md` (+ final deck in the docs repo) | all | final | yes |
 | m14 | group upload (stretch) | Shefali | `shefali/m14-groups` | `frontend/src/modules/m14-groups/`, `backend/app/modules/m14_groups/` | m3 | stretch | no |
+| m15 | say it your way (late add) | Shefali | `shefali/m15-say` | `frontend/src/modules/m15-say/`, `backend/app/modules/m15_say/` (+ one mount in m3's `JudgePage.tsx`) | m1, m3, m9 | late add, by 01:30 | yes, if green by 01:30 |
+| m16 | diets that change by date (late add) | Gunagye (lane b) | `gunagye/m16-days` | `shared/rules/calendar.json`, `frontend/src/modules/m16-days/`, `backend/app/modules/m16_days/` | m1, m3 | late add, by 01:30 | yes, if green by 01:30 |
 
 **Shared zone** (add-only; see CONTRIBUTING.md), in addition to the defaults:
 - `backend/app/core/`, `backend/app/main.py`, `backend/app/registry.py`
@@ -84,9 +88,9 @@ Each person works top to bottom. Take the first module in your queue whose Statu
 | Person | Queue |
 |---|---|
 | gunagye (lane a) | m0 → m2 → m8 → m12 |
-| gunagye (lane b) | m1 → m6 → m11 → m7 → m5 |
+| gunagye (lane b) | m1 → m6 → m11 → m7 → m5 → m16 |
 | bhavyam | m4 → m10 → m13 |
-| shefali | m3 → m9 → m14 |
+| shefali | m3 → m9 → m15 → m14 |
 
 Before m0 ships (≈17:00), nobody edits files the scaffold creates. Get ready instead:
 - Read your module spec.
@@ -104,6 +108,7 @@ Before m0 ships (≈17:00), nobody edits files the scaffold creates. Get ready i
 | 21:45 | Hackspace gates close for exit: be inside with chargers, the iPad and both phones | |
 | 22:30 | **Integration 2:** Acts 1–5 on real endpoints; first full run from `/demo`; rough backup video v1 | everyone ships by 22:30 |
 | 00:00 | **Mentorship round:** run the story for the mentors and ask the m13 Q&A questions; note their feedback in m13 | |
+| 01:30 | **Late adds on main:** m15 and m16 shipped with the story smoke green, or cut | lane A rebuilds the demo after they land |
 | 02:00 | **Feature freeze:** full story on the tunnel with the iPad offline and 3 phones joining | after this only fixes and polish |
 | 02:00–05:00 | Bhavyam and Shefali rest; Gunagye polishes (m12) | |
 | 05:00–07:00 | Fix list from the module notes; pitch deck (m13) | |
@@ -119,6 +124,7 @@ Everyone ships at least every 90 minutes. Contract changes ship immediately, wit
 - **Mocks.** Every module can run against `shared/seed` and the response shapes in `shared/api.md` before its dependencies ship. Keep mocks in your own folder, in a file called `mock.ts` or `mock.py`.
 
 ## Cut list (drop in this order)
+0. m15 and m16 (late adds), if they aren't on main with the smoke green by 01:30
 1. m14 group upload
 2. m10 shadow-month dashboard (keep the timeline)
 3. m10 backup forecast (show a fixed count with the rationale)
