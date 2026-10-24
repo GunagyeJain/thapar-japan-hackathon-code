@@ -1,0 +1,72 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "えび芋の煮物",
+  "dish_name_en": "Simmered ebi-imo taro",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "えび芋",
+    "name_en": "ebi-imo taro",
+    "tags": [
+     "taro",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "えび芋 4個"
+   },
+   {
+    "name_ja": "米のとぎ汁",
+    "name_en": "water from washing rice",
+    "tags": [
+     "rice",
+     "grain"
+    ],
+    "confidence": 0.9,
+    "evidence": "米のとぎ汁で下ゆでする"
+   },
+   {
+    "name_ja": "昆布だし",
+    "name_en": "kombu dashi (kelp stock)",
+    "tags": [
+     "kombu",
+     "seaweed"
+    ],
+    "confidence": 1.0,
+    "evidence": "昆布だし 500ml"
+   },
+   {
+    "name_ja": "薄口醤油",
+    "name_en": "light soy sauce",
+    "tags": [
+     "soy_sauce",
+     "soy",
+     "wheat"
+    ],
+    "confidence": 0.95,
+    "evidence": "薄口醤油 大さじ2"
+   },
+   {
+    "name_ja": "みりん",
+    "name_en": "mirin",
+    "tags": [
+     "mirin",
+     "alcohol"
+    ],
+    "confidence": 1.0,
+    "evidence": "みりん 大さじ2"
+   },
+   {
+    "name_ja": "砂糖",
+    "name_en": "sugar",
+    "tags": [
+     "sugar"
+    ],
+    "confidence": 1.0,
+    "evidence": "砂糖 大さじ1"
+   }
+  ]
+ }
+}

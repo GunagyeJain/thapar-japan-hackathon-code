@@ -24,7 +24,7 @@ def test_readers_are_compared_on_the_same_dishes():
     are left out of all three rows, so the numbers stay comparable."""
     t = evaluation.table()
     read = [r for r in t["rows"] if r["model"] is not None]
-    assert t["compared"] == len(read) >= 12
+    assert t["compared"] == len(read) == len(t["rows"]), "an eval sheet lost its cached model answer"
     assert {m["dishes"] for m in t["metrics"].values()} == {len(read)}
 
 

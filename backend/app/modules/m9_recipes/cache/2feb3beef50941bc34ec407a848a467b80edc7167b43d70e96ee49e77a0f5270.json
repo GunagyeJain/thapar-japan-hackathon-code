@@ -1,0 +1,55 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "りんごのコンポート",
+  "dish_name_en": "Apple compote",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "りんご",
+    "name_en": "apple",
+    "tags": [
+     "apple",
+     "fruit"
+    ],
+    "confidence": 1.0,
+    "evidence": "りんご 2個"
+   },
+   {
+    "name_ja": "砂糖",
+    "name_en": "sugar",
+    "tags": [
+     "sugar"
+    ],
+    "confidence": 1.0,
+    "evidence": "砂糖 60g"
+   },
+   {
+    "name_ja": "レモン汁",
+    "name_en": "lemon juice",
+    "tags": [
+     "fruit"
+    ],
+    "confidence": 0.9,
+    "evidence": "レモン汁 大さじ1"
+   },
+   {
+    "name_ja": "シナモンスティック",
+    "name_en": "cinnamon stick",
+    "tags": [
+     "spice"
+    ],
+    "confidence": 0.95,
+    "evidence": "シナモンスティック（肉桂）1本"
+   },
+   {
+    "name_ja": "水",
+    "name_en": "water",
+    "tags": [],
+    "confidence": 1.0,
+    "evidence": "水 300ml"
+   }
+  ]
+ }
+}

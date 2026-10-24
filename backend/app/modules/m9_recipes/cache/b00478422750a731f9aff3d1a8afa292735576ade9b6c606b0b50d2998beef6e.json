@@ -1,0 +1,110 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "五目炊き込みご飯",
+  "dish_name_en": "Mixed rice",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "米",
+    "name_en": "rice",
+    "tags": [
+     "rice",
+     "grain"
+    ],
+    "confidence": 1.0,
+    "evidence": "・米 2合"
+   },
+   {
+    "name_ja": "人参",
+    "name_en": "carrot",
+    "tags": [
+     "carrot",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "・人参 1/3本"
+   },
+   {
+    "name_ja": "ごぼう",
+    "name_en": "burdock",
+    "tags": [
+     "burdock",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "・ごぼう 1/3本"
+   },
+   {
+    "name_ja": "油揚げ",
+    "name_en": "fried tofu",
+    "tags": [
+     "soy"
+    ],
+    "confidence": 1.0,
+    "evidence": "・油揚げ 1枚"
+   },
+   {
+    "name_ja": "しいたけ",
+    "name_en": "shiitake mushroom",
+    "tags": [
+     "fungi",
+     "mushroom"
+    ],
+    "confidence": 1.0,
+    "evidence": "・しいたけ 2枚"
+   },
+   {
+    "name_ja": "ちくわ",
+    "name_en": "chikuwa (fish cake)",
+    "tags": [
+     "fish",
+     "seafood"
+    ],
+    "confidence": 0.9,
+    "evidence": "・ちくわ 1本"
+   },
+   {
+    "name_ja": "醤油",
+    "name_en": "soy sauce",
+    "tags": [
+     "soy_sauce",
+     "soy",
+     "wheat"
+    ],
+    "confidence": 1.0,
+    "evidence": "・醤油 大さじ2"
+   },
+   {
+    "name_ja": "みりん",
+    "name_en": "mirin",
+    "tags": [
+     "mirin",
+     "alcohol"
+    ],
+    "confidence": 1.0,
+    "evidence": "・みりん 大さじ1"
+   },
+   {
+    "name_ja": "昆布",
+    "name_en": "kombu (kelp)",
+    "tags": [
+     "kombu",
+     "seaweed"
+    ],
+    "confidence": 1.0,
+    "evidence": "・昆布 5cm"
+   },
+   {
+    "name_ja": "水",
+    "name_en": "water",
+    "tags": [],
+    "confidence": 1.0,
+    "evidence": "水"
+   }
+  ]
+ }
+}

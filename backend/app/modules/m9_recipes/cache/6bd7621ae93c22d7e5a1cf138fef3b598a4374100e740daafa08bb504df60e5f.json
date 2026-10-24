@@ -1,0 +1,107 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "野菜中華丼",
+  "dish_name_en": "Vegetable rice bowl",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "白菜",
+    "name_en": "Chinese cabbage",
+    "tags": [
+     "cabbage",
+     "vegetable"
+    ],
+    "confidence": 0.9,
+    "evidence": "白菜 1/4個"
+   },
+   {
+    "name_ja": "人参",
+    "name_en": "Carrot",
+    "tags": [
+     "carrot",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 0.9,
+    "evidence": "人参 1/2本"
+   },
+   {
+    "name_ja": "しいたけ",
+    "name_en": "Shiitake mushroom",
+    "tags": [
+     "mushroom",
+     "fungi"
+    ],
+    "confidence": 0.9,
+    "evidence": "しいたけ 4枚"
+   },
+   {
+    "name_ja": "たけのこ（水煮）",
+    "name_en": "Boiled bamboo shoot",
+    "tags": [
+     "vegetable"
+    ],
+    "confidence": 0.9,
+    "evidence": "たけのこ（水煮）100g"
+   },
+   {
+    "name_ja": "うずらの卵",
+    "name_en": "Quail egg",
+    "tags": [
+     "egg"
+    ],
+    "confidence": 0.9,
+    "evidence": "うずらの卵 8個"
+   },
+   {
+    "name_ja": "オイスターソース",
+    "name_en": "Oyster sauce",
+    "tags": [
+     "oyster_sauce",
+     "oyster",
+     "shellfish"
+    ],
+    "confidence": 0.9,
+    "evidence": "オイスターソース 大さじ2"
+   },
+   {
+    "name_ja": "鶏ガラスープの素",
+    "name_en": "Chicken stock powder",
+    "tags": [
+     "chicken_extract",
+     "chicken"
+    ],
+    "confidence": 0.9,
+    "evidence": "鶏ガラスープの素 小さじ2"
+   },
+   {
+    "name_ja": "片栗粉",
+    "name_en": "Potato starch",
+    "tags": [
+     "potato"
+    ],
+    "confidence": 0.8,
+    "evidence": "片栗粉 大さじ1"
+   },
+   {
+    "name_ja": "ご飯",
+    "name_en": "Cooked rice",
+    "tags": [
+     "rice",
+     "grain"
+    ],
+    "confidence": 0.9,
+    "evidence": "ご飯 600g"
+   },
+   {
+    "name_ja": "水",
+    "name_en": "Water",
+    "tags": [],
+    "confidence": 1.0,
+    "evidence": "水とスープの素"
+   }
+  ]
+ }
+}
