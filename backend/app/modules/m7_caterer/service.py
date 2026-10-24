@@ -10,7 +10,7 @@ from sqlmodel import Session, select
 from app.core import clock, events, outbox
 from app.core.db import use_session
 from app.core.ids import new_id
-from app.core.models import Flight, MealItem, MealPromise, Passenger
+from app.core.models import Flight, MealItem, MealPromise, Passenger, Profile
 from app.modules.m1_rules import engine
 from app.modules.m7_caterer.models import MealListVersion
 
@@ -137,8 +137,7 @@ def labels(session: Session, flight_id: str, version_no: int | None = None) -> l
     for line in version.lines:
         if not line["item_id"]:
             continue
-        promise = promises.get(line["passenger_id"])
-        mark = promise.label_mark if promise and promise.label_mark else _mark_from_code(line["code"], line["note"])
+        mark = _mark(session, promises.get(line["passenger_id"]), line)
         out.append(
             {
                 "item_id": line["item_id"],
@@ -156,10 +155,25 @@ def labels(session: Session, flight_id: str, version_no: int | None = None) -> l
     return out
 
 
+def _mark(session: Session, promise: MealPromise | None, line: dict[str, Any]) -> dict[str, str]:
+    """The passenger's own food rules when we have them (m1 label_mark), else what the booked code excludes."""
+    profile = session.get(Profile, promise.profile_id) if promise else None
+    if profile and profile.forbid:
+        return engine.label_mark(profile.forbid, profile.allow)
+    if promise and promise.label_mark:
+        return promise.label_mark
+    return _mark_from_code(line["code"], line["note"])
+
+
 def _mark_from_code(code: str, note: str | None) -> dict[str, str]:
-    """No promise (booked by an agent): the mark says what the booked code and its note exclude."""
+    """No promise (booked by an agent): the mark says what the booked code and its note exclude.
+
+    Only diet families count (meat, fish, egg, dairy, onion family, root vegetables…, and the halal and
+    beef/pork markers); a code's side guarantees such as "no alcohol" would just clutter the tray.
+    """
     rules = engine.rules()
-    excludes = rules.codes.get(code, {}).get("excludes", [])
+    families = set(rules.preference_groups) | {t for base in rules.label_bases for t in base["requires"]} | {"beef", "pork"}
+    excludes = [t for t in rules.codes.get(code, {}).get("excludes", []) if t in families]
     from_note = [tag for tag, phrase in rules.note_phrases.items() if note and phrase in note.upper()]
     forbid = list(dict.fromkeys([*excludes, *from_note]))
     return engine.label_mark(forbid) if forbid else {"en": code, "ja": code, "hi": code}
