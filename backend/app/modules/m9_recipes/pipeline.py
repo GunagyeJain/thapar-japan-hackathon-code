@@ -90,6 +90,17 @@ def dictionary_only(text: str) -> dict:
     return {**sheet, "verdicts": verdicts(sheet["ingredients"])}
 
 
+def _photo_text(model: dict | None) -> str:
+    """The model's transcription of a photo. If it left that out, rebuild an ingredient list
+    from its evidence lines, so the dictionary still gets a second look."""
+    if not model:
+        return ""
+    if model.get("transcription", "").strip():
+        return model["transcription"]
+    lines = [f"・{row.get('evidence') or row['name_ja']}" for row in model.get("ingredients", [])]
+    return "\n".join([model.get("dish_name_ja", ""), "", "材料", *lines]).strip()
+
+
 class PhotoNeedsModel(Exception):
     pass
 
@@ -114,10 +125,12 @@ def run(data: bytes, *, is_image: bool = False, mime_type: str = "image/png") ->
 
     if is_image and model is None:
         raise PhotoNeedsModel(note or "Reading a photo needs the model")
-    text = (model or {}).get("transcription", "") if is_image else data.decode("utf-8")
+    text = _photo_text(model) if is_image else data.decode("utf-8")
 
     read = read_sheet(text)
     rows = merge(read["ingredients"], model["ingredients"]) if model else read["ingredients"]
+    # Water and ice carry no food rule; the dictionary skips them, so skip the model's too.
+    rows = [r for r in rows if not (r["name_ja"] in NEUTRAL and not r.get("tags"))]
     if model and read["ingredients"]:
         engine_name = "dictionary+gemini"
     else:
