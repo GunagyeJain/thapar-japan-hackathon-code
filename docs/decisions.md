@@ -6,4 +6,4 @@ Append one line per decision: `- YYYY-MM-DD HH:MM · <name> · <decision> · <wh
 - 2026-10-24 16:05 · Gunagye · Seed seat map: economy rows 18–39, rows 5 and 20 free for judges, 186 passengers · the cast has 18C and judges need empty rows, which the 156-seat economy can't give
 - 2026-10-24 16:05 · Gunagye · Latest majors kept (Vite 8, React Router 8, vitest 5, TypeScript 7): the scaffold builds and tests clean on them · no need to pin back
 - 2026-10-24 16:05 · Gunagye · Each frontend module exports `routes` from its `index.tsx` (path + layout + element); `routes.tsx` only spreads them · one line per module, so the route list never conflicts
-- 2026-10-24 11:28 · Gunagye · Lane B takes over m7 (caterer) from Shefali; Shefali's queue is now m3 → m9 → m14 · lane B finished m1, m6 and m11 by 16:55 and m7 hadn't started, so this moves Act 3 forward and frees Shefali for the recipe check
+- 2026-10-24 17:00 · Gunagye · Lane B takes over m7 (caterer) from Shefali; Shefali's queue is now m3 → m9 → m14 · lane B finished m1, m6 and m11 by 16:55 and m7 hadn't started, so this moves Act 3 forward and frees Shefali for the recipe check
