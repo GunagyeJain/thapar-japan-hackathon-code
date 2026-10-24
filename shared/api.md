@@ -108,10 +108,13 @@ Seat numbers are not printed on labels: the QR carries the item id and the crew 
 |---|---|---|---|
 | POST | `/recipes/extract` | multipart `file` (image) or `{text, name?}` | `RecipeSheet` |
 | POST | `/recipes/{id}/approve` | `{by}` | `{sheet: RecipeSheet, spec: MealSpec}` |
-| GET | `/recipes` | – | `RecipeSheet[]` |
+| GET | `/recipes` | – | `RecipeSheet[]` (newest first) |
+| GET | `/recipes/{id}` | – | `RecipeSheet` |
 | GET | `/recipes/eval` | – | `{rows: [{dish, truth: string[], dictionary: string[], model: string[], combined: string[]}], metrics: {dictionary, model, combined}}` |
 
 `RecipeSheet = {id, name: Text, source_hash, cached: boolean, engine: "dictionary"|"gemini"|"dictionary+gemini", ingredients: [{name_ja, name_en, tags, confidence, evidence}], verdicts: [{diet, verdict, fired}], status: "needs_review"|"approved", created_at}`
+
+Optional on `RecipeSheet`: `text` (the sheet as read, for the side-by-side view), `model_note` (e.g. "Model offline: dictionary only"), `spec_id` and `approved_by` (set by approve). Approve creates `MealSpec` `SPEC-R-…` with `kind: "main"`, `source: "recipe_check"`.
 
 ## m10 · insights
 | Method | Path | Request | Response |
