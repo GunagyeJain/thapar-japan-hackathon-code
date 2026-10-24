@@ -10,7 +10,7 @@ from app.modules.m1_rules import engine
 
 FALLBACK_CODE = "SPML"
 NOTE_MAX = 60  # SSR free text has to fit one PNL line
-RULES_SHOWN = 5  # food rules spelled out in the C1 line before "+N more"
+RULES_SHOWN = 6  # food rules spelled out in the C1 line before "+N more"
 
 FALLBACK_WHY = {
     "en": "No standard meal code covers all of these, so the kitchen makes a special meal from the note.",
@@ -31,7 +31,7 @@ def _outer_tags(forbid: list[str]) -> list[str]:
 
 
 def rules_text(forbid: list[str]) -> str:
-    """The food rules in words, e.g. "no meat, seafood, egg, onion family, root vegetables +4 more".
+    """The food rules in words, e.g. "no meat, fish and seafood, egg, onion family, root vegetables, mushrooms +3 more".
 
     Never the diet's name ("jain", "halal"): that would record the person's creed.
     """
