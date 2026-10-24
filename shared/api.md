@@ -53,10 +53,14 @@ Example: Priya's `forbid: [meat, seafood, egg, onion, garlic]` with dairy allowe
 | GET | `/flights/{id}/manifest` | – | `{as_of: RawMessage.id, passengers: ManifestRow[]}` |
 | GET | `/alerts` | `?flight_id=&status=open&type=` | `Alert[]` (newest first) |
 | POST | `/alerts/{id}/actions` | `{action: "acknowledge"\|"request_again"\|"notify_passenger"\|"notify_kitchen"\|"resolve", actor, note?}` | `Alert`. `request_again` stores `evidence.ssr_draft` and has the simulator emit the corrected ADL → C2 `fixed` + passenger notification |
-| POST | `/sim/booking-events` | `{type: "rebook_drop_meal"\|"seat_change"\|"delay"\|"aircraft_swap", passenger_id?, params?}` | `{message: RawMessage, alerts: Alert[]}` |
+| POST | `/sim/booking-events` | `{type: "rebook_drop_meal"\|"restore_meal"\|"seat_change"\|"delay"\|"aircraft_swap", passenger_id?, params?}` | `{message: RawMessage, alerts: Alert[], changes: Change[]}`. Live now: `rebook_drop_meal` (params `new_pnr?`, `inbound_flight?`), `restore_meal` (`code`, `note?`), `seat_change` (`seat`) |
 
 - `Change = {kind: "added"|"removed"|"changed", passenger_id|null, pnr, name, field?, before?, after?}`
-- `ManifestRow = {pnr, surname, given, title, seat, cabin, ssr: [{code, status, text}], inbound|null}`
+- `ManifestRow = {passenger_id, pnr, surname, given, title, seat, cabin, ssr: [{code, status, text}], inbound|null}`. Judges aren't in the feed, so they aren't listed
+- `alerts` in a feed or sim response are the ones that message raised or resolved, not every open one
+- LOST_MEAL `evidence = {message_ids, code_before, note_before, lines_before: string[], lines_after: string[], old_pnr, new_pnr, inbound_before, inbound_after, ssr_draft?}`
+- WRONG_CODE `evidence = {message_ids, booked_code, promised_code, suggested_code, contains}`
+- Names in PNL/ADL are A-Z only (ICAO 9303): MÜLLER is sent as MUELLER. Families and groups share a PNR, so match on PNR + name
 
 LOST_MEAL deadline = `caterer_final_list_at`. Evidence holds the message ids, the line before and the line after.
 

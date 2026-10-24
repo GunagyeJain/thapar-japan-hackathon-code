@@ -3,11 +3,11 @@ from types import SimpleNamespace as NS
 
 import pytest
 
-from app.modules.m4_watcher.parser import parse, render_pnl, split_title
+from app.modules.m4_watcher.parser import parse, render_pnl, split_title, type_b
 
 MESSAGES = Path(__file__).resolve().parents[2] / "shared" / "seed" / "messages"
 
-FLIGHT = NS(flight_no="JL740", date="2026-10-25", origin="DEL", dest="NRT", cabins={"C": 30, "Y": 156})
+FLIGHT = NS(flight_no="JL740", date="2026-10-25", origin="DEL", dest="NRT", cabins={"C": {"seats": 30}, "Y": {"seats": 176}})
 
 
 def pax(seat, cabin, surname, given, title, pnr, ssr_meal=None, ssr_note=None, inbound=None, group=None):
@@ -33,11 +33,15 @@ def test_split_title(raw, expected):
     assert split_title(raw) == expected
 
 
+def test_type_b_names():
+    assert [type_b(n) for n in ("Müller", "JOSÉ", "STRAßE", "O'NEIL")] == ["MUELLER", "JOSE", "STRASSE", "O'NEIL"]
+
+
 def test_pnl_roundtrip():
     text = render_pnl(FLIGHT, CAST)
     msg = parse(text, 2026)
     assert (msg["kind"], msg["flight_no"], msg["date"], msg["origin"]) == ("PNL", "JL740", "2026-10-25", "DEL")
-    assert "CFG/030C156Y" in text and "-NRT002C" in text and "-NRT003Y" in text
+    assert "CFG/030C176Y" in text and "-NRT002C" in text and "-NRT003Y" in text
     rows = {r["pnr"]: r for r in msg["rows"]}
     assert len(rows) == len(CAST)
     for p in CAST:
@@ -69,7 +73,7 @@ ENDPNL
 
 
 def test_adl_rebook_fixture():
-    msg = parse((MESSAGES / "adl_rebook_23C.txt").read_text(), 2026)
+    msg = parse((MESSAGES / "adl_rebook_23C.txt").read_text(encoding="utf-8"), 2026)
     dropped, added = msg["rows"]
     assert (dropped["action"], dropped["pnr"]) == ("DEL", "6XK2QP")
     assert (added["action"], added["pnr"], added["seat"], added["ssr"]) == ("ADD", "8MZ2TN", "23C", [])
@@ -77,7 +81,7 @@ def test_adl_rebook_fixture():
 
 
 def test_adl_restore_fixture():
-    (row,) = parse((MESSAGES / "adl_restore_23C.txt").read_text(), 2026)["rows"]
+    (row,) = parse((MESSAGES / "adl_restore_23C.txt").read_text(encoding="utf-8"), 2026)["rows"]
     assert (row["action"], row["pnr"]) == ("CHG", "8MZ2TN")
     assert row["ssr"] == [{"code": "AVML", "status": "HK1", "text": "NO ONION NO GARLIC"}]
 
