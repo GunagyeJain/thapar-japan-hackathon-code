@@ -1,0 +1,2042 @@
+[
+ {
+  "id": "TB-MDQJUG",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML-DB",
+  "kind": "special",
+  "galley": "G1",
+  "position": "G1-S01",
+  "assigned_passenger_id": "PX-0007",
+  "status": "planned"
+ },
+ {
+  "id": "TB-LJLQHZ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-MOML",
+  "kind": "special",
+  "galley": "G1",
+  "position": "G1-S02",
+  "assigned_passenger_id": "PX-0026",
+  "status": "planned"
+ },
+ {
+  "id": "TB-HFFKVY",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VGML",
+  "kind": "special",
+  "galley": "G1",
+  "position": "G1-S03",
+  "assigned_passenger_id": "PX-0044",
+  "status": "planned"
+ },
+ {
+  "id": "TB-7K2Q9F",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-AVML-NOG",
+  "kind": "special",
+  "galley": "G1",
+  "position": "G1-S04",
+  "assigned_passenger_id": "PX-0057",
+  "status": "planned"
+ },
+ {
+  "id": "TB-57NB5B",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-HNML",
+  "kind": "special",
+  "galley": "G1",
+  "position": "G1-S05",
+  "assigned_passenger_id": "PX-0063",
+  "status": "planned"
+ },
+ {
+  "id": "TB-9B8AQE",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VLML",
+  "kind": "special",
+  "galley": "G1",
+  "position": "G1-S06",
+  "assigned_passenger_id": "PX-0083",
+  "status": "planned"
+ },
+ {
+  "id": "TB-9UXHBX",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G1",
+  "position": "G1-S07",
+  "assigned_passenger_id": "PX-0087",
+  "status": "planned"
+ },
+ {
+  "id": "TB-ETVUCP",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-AVML-VRAT",
+  "kind": "special",
+  "galley": "G1",
+  "position": "G1-S08",
+  "assigned_passenger_id": "PX-0106",
+  "status": "planned"
+ },
+ {
+  "id": "TB-RFF9BQ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S01",
+  "assigned_passenger_id": "PX-0133",
+  "status": "planned"
+ },
+ {
+  "id": "TB-SXWFL5",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S02",
+  "assigned_passenger_id": "PX-0134",
+  "status": "planned"
+ },
+ {
+  "id": "TB-7GW5MQ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S03",
+  "assigned_passenger_id": "PX-0135",
+  "status": "planned"
+ },
+ {
+  "id": "TB-6KQ2KR",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S04",
+  "assigned_passenger_id": "PX-0136",
+  "status": "planned"
+ },
+ {
+  "id": "TB-24MGZU",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S05",
+  "assigned_passenger_id": "PX-0137",
+  "status": "planned"
+ },
+ {
+  "id": "TB-ZH88X7",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S06",
+  "assigned_passenger_id": "PX-0138",
+  "status": "planned"
+ },
+ {
+  "id": "TB-9LRLCN",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S07",
+  "assigned_passenger_id": "PX-0139",
+  "status": "planned"
+ },
+ {
+  "id": "TB-HHT26K",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S08",
+  "assigned_passenger_id": "PX-0140",
+  "status": "planned"
+ },
+ {
+  "id": "TB-KN8WUH",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S09",
+  "assigned_passenger_id": "PX-0141",
+  "status": "planned"
+ },
+ {
+  "id": "TB-QCZEXN",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S10",
+  "assigned_passenger_id": "PX-0142",
+  "status": "planned"
+ },
+ {
+  "id": "TB-UQXNEX",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S11",
+  "assigned_passenger_id": "PX-0143",
+  "status": "planned"
+ },
+ {
+  "id": "TB-MBXNCN",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S12",
+  "assigned_passenger_id": "PX-0144",
+  "status": "planned"
+ },
+ {
+  "id": "TB-KUKUSG",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VGML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S13",
+  "assigned_passenger_id": "PX-0157",
+  "status": "planned"
+ },
+ {
+  "id": "TB-WX3H2Y",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-AVML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S14",
+  "assigned_passenger_id": "PX-0162",
+  "status": "planned"
+ },
+ {
+  "id": "TB-VCYX97",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-AVML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S15",
+  "assigned_passenger_id": "PX-0166",
+  "status": "planned"
+ },
+ {
+  "id": "TB-LTCRYZ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VLML",
+  "kind": "special",
+  "galley": "G2",
+  "position": "G2-S16",
+  "assigned_passenger_id": "PX-0182",
+  "status": "planned"
+ },
+ {
+  "id": "TB-YNFF5J",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-VJML",
+  "kind": "spare",
+  "galley": "G2",
+  "position": "G2-X01",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-PB8Y8J",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-AVML",
+  "kind": "spare",
+  "galley": "G1",
+  "position": "G1-X01",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-3EY4VP",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-BACKUP",
+  "kind": "backup",
+  "galley": "G2",
+  "position": "G2-B01",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-3TPVCM",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-BACKUP",
+  "kind": "backup",
+  "galley": "G2",
+  "position": "G2-B02",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-MNZ37D",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-BACKUP",
+  "kind": "backup",
+  "galley": "G2",
+  "position": "G2-B03",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-BW4N9E",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-BACKUP",
+  "kind": "backup",
+  "galley": "G2",
+  "position": "G2-B04",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-BEWZMY",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-JAIN",
+  "kind": "spare",
+  "galley": "G1",
+  "position": "G1-X02",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-RN7H33",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-JAIN",
+  "kind": "spare",
+  "galley": "G1",
+  "position": "G1-X03",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-Z78DKS",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHANA",
+  "kind": "spare",
+  "galley": "G1",
+  "position": "G1-X04",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-GK43VJ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHANA",
+  "kind": "spare",
+  "galley": "G1",
+  "position": "G1-X05",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-G5GNDU",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHICKEN",
+  "kind": "spare",
+  "galley": "G1",
+  "position": "G1-X06",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-52VX66",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHICKEN",
+  "kind": "spare",
+  "galley": "G1",
+  "position": "G1-X07",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-HSL6YW",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M01",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-DK6EAX",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHANA",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M02",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-C63LZL",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-JAIN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M03",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-C4P5BF",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M04",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-VYY5VU",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHANA",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M05",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-VB5HU6",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-JAIN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M06",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-7ZDYAP",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M07",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-CWW627",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHANA",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M08",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-JUVY7N",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-JAIN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M09",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-GFPDRZ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M10",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-ZSJBBK",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHANA",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M11",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-6ZATRQ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-JAIN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M12",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-98HX7B",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M13",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-9GZL8Y",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHANA",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M14",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-NEGRCK",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-JAIN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M15",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-GP5SMV",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M16",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-HMX4GZ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHANA",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M17",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-35KUBE",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-JAIN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M18",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-EJUE8B",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M19",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-EBFGL5",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHANA",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M20",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-EE9L54",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-JAIN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M21",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-GK4724",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M22",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-QHAQVR",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHANA",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M23",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-625SQ4",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-JAIN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M24",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-AVPU7E",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-C-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M25",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-VVMK2K",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M26",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-CTUS6P",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M27",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-WL69X5",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M01",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-H359V6",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M02",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-Q4XXC7",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M28",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-B5HEHE",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M29",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-QRPCHU",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M03",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-PL9CYP",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M04",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-DA73M6",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M30",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-ETLUPT",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M31",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-PXBSVH",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M05",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-YCXZAH",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M06",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-68V5FG",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M32",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-AR3BW2",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M33",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-72E8N4",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M07",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-R57CQS",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M08",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-CRJT2H",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M34",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-DKNJUY",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M35",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-DA2XZ7",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M09",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-J6F2JT",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M10",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-2275EE",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M36",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-378ZH8",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M37",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-QPKMRJ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M11",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-VP87A9",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M12",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-K9ALYV",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M38",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-MQUTTK",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M39",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-LPKPH6",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M13",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-6KYDBV",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M14",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-LPQQ52",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M40",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-YAL2C8",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M41",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-ZM8FLT",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M15",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-8MK349",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M16",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-4V8VT6",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M42",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-T9AB9T",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M43",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-LT4QFM",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M17",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-GYKWLS",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M18",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-P3L7VA",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M44",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-TN3ZPY",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M45",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-DQCQ3R",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M19",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-J4CKRJ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M20",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-AGM9Y2",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M46",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-2MPTSE",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M47",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-VP3CCR",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M21",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-GVU77T",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M22",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-QSTWTL",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M48",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-JNABW8",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M49",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-5WJCWW",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M23",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-XSYSWT",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M24",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-7LG9YF",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M50",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-Y8Q549",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M51",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-DJ6TU6",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M25",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-SMWMC3",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M26",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-AJGM5N",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M52",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-V6XLWG",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M53",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-LD3D6V",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M27",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-J3Z7GN",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M28",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-Z27RL2",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M54",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-SBHHQS",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M55",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-D2NW7M",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M29",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-FJLX3M",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M30",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-9JC388",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M56",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-YB3N9A",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M57",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-653ZVT",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M31",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-MRF77D",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M32",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-K2RXR4",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M58",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-QZ97BQ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M59",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-249KPY",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M33",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-M2545S",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M34",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-SFML4W",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M60",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-YDR7CV",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M61",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-34F4JC",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M35",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-T4NDW4",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M36",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-NUWVPH",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M62",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-GRWYWP",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M63",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-9JY9YL",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M37",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-69MP64",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M38",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-5TC9BE",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M64",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-ARCMG2",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M65",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-KXNB2K",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M39",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-95TPJC",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M40",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-XUVCCY",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M66",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-XK5H43",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M67",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-MCQ7EY",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M41",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-LMVSES",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M42",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-A64CDP",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M68",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-ZWNHKJ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M69",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-UDDXCZ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M43",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-ZG42D9",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M44",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-22CCHQ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M70",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-H3VDVD",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M71",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-C2L442",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M45",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-G22C5A",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M46",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-4TJ32J",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M72",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-QDXYPJ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M73",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-DS2EWV",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M47",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-RQRM9B",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M48",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-B96PYL",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M74",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-KDCGCZ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M75",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-5QH3VJ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M49",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-MAV869",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M50",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-AVYBX8",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M76",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-TVCZMN",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M77",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-XP9KVV",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M51",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-EPRR6H",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M52",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-76AFGH",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M78",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-XBJ3DX",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M79",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-T4TXP9",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M53",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-ABNWFQ",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M54",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-K6XDTA",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M80",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-552EVY",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M81",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-Q9G34S",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M55",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-DS6HR4",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M56",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-HCATJS",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M82",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-JZYKH8",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M83",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-9Y8C7L",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M57",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-ZFSPTM",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M58",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-L7WFWT",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M84",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-4R5DGW",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M85",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-77TG2A",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M59",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-A4ZX49",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M60",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-3Q6H27",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M86",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-5XFF9Q",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M87",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-KAZQS2",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M61",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-H59RW4",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M62",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-8G7GL9",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M88",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-9356QD",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M89",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-VFUPLG",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M63",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-FSN96G",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M64",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-EUU4GY",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M90",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-XD6DL8",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M91",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-X5DMMU",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M65",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-W592C5",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M66",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-JUUDH5",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M92",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-BQQGAR",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M93",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-D9Q43P",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M67",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-X5F7P5",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M68",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-P8XL5N",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M94",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-D6VZ85",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M95",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-F9R9AM",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M69",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-EBLV4B",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M70",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-MXYFZ5",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M96",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-P6RSEV",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-PANEER",
+  "kind": "main",
+  "galley": "G1",
+  "position": "G1-M97",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ },
+ {
+  "id": "TB-M99QVE",
+  "flight_id": "JL740-20261025",
+  "spec_id": "SPEC-Y-CHICKEN",
+  "kind": "main",
+  "galley": "G2",
+  "position": "G2-M71",
+  "assigned_passenger_id": null,
+  "status": "planned"
+ }
+]

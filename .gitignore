@@ -32,3 +32,6 @@ desktop.ini
 *.log
 npm-debug.log*
 *.tmp
+
+# Local database
+backend/data/

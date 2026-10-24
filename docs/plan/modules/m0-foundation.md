@@ -1,7 +1,7 @@
 # m0: foundation
 
 **Owner:** Gunagye (lane a) · **Branch:** `gunagye/m0-foundation` · **Phase:** start, 15:40–17:00 IST (ship the contracts after T2)
-**Status:** not started <!-- not started | in progress | blocked: <why> | done -->
+**Status:** in progress <!-- not started | in progress | blocked: <why> | done -->
 
 ## Goal
 Everything the other modules build on, on main within an hour:
@@ -41,16 +41,16 @@ At the 16:30 mentor checkpoint, this is what we show running.
   - `npm run demo`: build, then FastAPI serves `frontend/dist` on :8000.
 
 ## Tasks
-- [ ] **T1 Scaffold (25 min).**
+- [x] **T1 Scaffold (25 min).**
   - Frontend: Vite React-TS, Tailwind v4, shadcn/ui (button, input, checkbox, card, badge, tabs, dialog, sonner, table), React Router, TanStack Query, `@fontsource` Archivo / Inter / Noto Sans JP / Hind, vitest.
   - Backend: FastAPI + SQLModel (SQLite at `backend/data/thalibento.db`, add `backend/data/` to `.gitignore`), ortools, pytest; `backend/requirements.txt` installed with `uv`.
   - Root `package.json` with `concurrently`. If a brand-new major version breaks the build, pin the previous major.
 
   _Done when:_ `npm run dev` serves `/` and `GET /api/health` returns `{ok: true}`.
-- [ ] **T2 Contracts in code (20 min).** Core models + helpers, registry, every backend skeleton, every frontend placeholder and nav entry.
+- [x] **T2 Contracts in code (20 min).** Core models + helpers, registry, every backend skeleton, every frontend placeholder and nav entry.
 
   _Done when:_ every route renders its placeholder, `/api/docs` lists every module's router, and `POST /api/demo/reset` works. **Ship right away** (heads-up: "core models, registries and module folders are on main"). The others start from this.
-- [ ] **T3 Seed + home (15 min).**
+- [x] **T3 Seed + home (15 min).**
   - `seed_gen.py` writes deterministic `shared/seed/*.json`: 186 passengers with the named cast, profiles + promises for the cast, specs, and items with fixed `TB-` ids. They load on startup and on every module's `seed()`.
   - Home page:
     - JL740 card (DEL 04:35 IST → NRT 15:20 JST, B787-8)
@@ -72,3 +72,7 @@ A teammate on a fresh laptop follows README "Run it" and sees the JL740 home pag
 
 ## Notes
 _Owner's running notes._
+- Every module's frontend folder has `index.tsx` exporting `routes: ModuleRoute[]` (`{path, layout: "desktop"|"mobile"|"tablet", element}`). Replace the placeholder element; keep the export.
+- Every backend skeleton has a `GET /api/mN/status` placeholder so it shows in `/api/docs`. Delete it when real endpoints land.
+- Core types for the frontend are in `frontend/src/lib/types.ts` (shared zone, add-only).
+- Seed data: `npm run seed` regenerates `shared/seed/*.json` deterministically; reset reloads it.

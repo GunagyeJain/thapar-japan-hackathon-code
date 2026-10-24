@@ -1,0 +1,78 @@
+/* ThaliBento design tokens (docs/design.md). m2 owns this file after m0. */
+:root {
+  --navy: #0a2a66;
+  --blue: #1f5fd1;
+  --sky: #5e95ec;
+  --ice: #eaf1fc;
+  --mist: #f5f8fd;
+  --line: #c7d6ef;
+  --grey: #55617d;
+  --paper: #ffffff;
+
+  --safe: #1e7f4f;
+  --safe-bg: #e7f5ee;
+  --warn: #9a6200;
+  --warn-bg: #fff4db;
+  --unsafe: #c8372b;
+  --unsafe-bg: #fbe9e7;
+
+  --cabin-bg: #0b1220;
+  --cabin-surface: #131c2e;
+  --cabin-line: #24324d;
+  --cabin-text: #e6edf9;
+  --cabin-muted: #93a3c2;
+  --cabin-safe: #4cc38a;
+  --cabin-warn: #f2b84b;
+  --cabin-unsafe: #ff7a6e;
+
+  --radius-control: 6px;
+  --radius-card: 10px;
+  --shadow-overlay: 0 12px 32px rgb(10 42 102 / 0.18);
+
+  /* shadcn/ui variable names, mapped onto our tokens */
+  --background: var(--mist);
+  --foreground: var(--navy);
+  --card: var(--paper);
+  --card-foreground: var(--navy);
+  --popover: var(--paper);
+  --popover-foreground: var(--navy);
+  --primary: var(--blue);
+  --primary-foreground: #ffffff;
+  --secondary: var(--ice);
+  --secondary-foreground: var(--navy);
+  --muted: var(--ice);
+  --muted-foreground: var(--grey);
+  --accent: var(--ice);
+  --accent-foreground: var(--navy);
+  --destructive: var(--unsafe);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--blue);
+  --radius: 10px;
+}
+
+/* Crew cabin mode (TabletLayout) */
+.cabin {
+  --background: var(--cabin-bg);
+  --foreground: var(--cabin-text);
+  --card: var(--cabin-surface);
+  --card-foreground: var(--cabin-text);
+  --popover: var(--cabin-surface);
+  --popover-foreground: var(--cabin-text);
+  --secondary: var(--cabin-line);
+  --secondary-foreground: var(--cabin-text);
+  --muted: var(--cabin-line);
+  --muted-foreground: var(--cabin-muted);
+  --accent: var(--cabin-line);
+  --accent-foreground: var(--cabin-text);
+  --border: var(--cabin-line);
+  --input: var(--cabin-line);
+  --safe: var(--cabin-safe);
+  --warn: var(--cabin-warn);
+  --unsafe: var(--cabin-unsafe);
+  --safe-bg: rgb(76 195 138 / 0.14);
+  --warn-bg: rgb(242 184 75 / 0.14);
+  --unsafe-bg: rgb(255 122 110 / 0.14);
+  --destructive: var(--cabin-unsafe);
+  color-scheme: dark;
+}
