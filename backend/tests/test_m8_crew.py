@@ -96,3 +96,21 @@ def test_same_events_from_two_syncs_at_once_count_as_duplicates(client, monkeypa
     r = _events(client, epoch, [ev])
     assert r.status_code == 200
     assert r.json() == {"accepted": 0, "duplicates": 1, "ignored_old_epoch": 0}
+
+
+def test_offline_scan_lands_on_the_sim_time_it_happened(client):
+    """The demo moved the clock to 05:20 while the tablet was offline: its own stamp still says 03:35."""
+    from datetime import datetime, timezone
+
+    client.post("/api/demo/reset", json={"keep_judges": False})
+    pkg = _package(client).json()
+    shah = next(p for p in pkg["passengers"] if p["seat"] == "27D")
+    tray = next(i for i in pkg["items"] if i["assigned_passenger_id"] == shah["id"])
+    client.post("/api/clock", json={"now": "2026-10-25T05:20:00+05:30"})
+    ev = {"client_id": "late-clock-1", "type": "seat_scan", "item_id": tray["id"], "seat": "27D", "verdict": "SAFE",
+          "at": "2026-10-25T03:35:30+05:30", "wall_at": datetime.now(timezone.utc).isoformat()}
+    assert _events(client, pkg["seed_epoch"], [ev]).json()["accepted"] == 1
+    promise = next(p for p in _package(client).json()["promises"] if p["passenger_id"] == shah["id"])
+    events = client.get(f"/api/promises/{promise['id']}/timeline").json()["events"]
+    c5 = next(e for e in events if e["checkpoint"] == "C5")
+    assert datetime.fromisoformat(c5["at"]) >= datetime.fromisoformat("2026-10-25T05:20:00+05:30")

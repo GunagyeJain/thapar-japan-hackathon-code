@@ -108,7 +108,7 @@ Seat numbers are not printed on labels: the QR carries the item id and the crew 
 | GET | `/flights/{id}/crew-package` | – | `{flight, passengers, promises, items, specs, verdicts: {[passenger_id]: {[item_id]: Verdict}}, expected_specials: item_id[], rules_version, seed_epoch, generated_at}`: everything the tablet needs offline |
 | POST | `/flights/{id}/crew-events` | `{seed_epoch, events: CrewEvent[]}` | `{accepted, duplicates, ignored_old_epoch}` |
 
-`CrewEvent = {client_id, type: "galley_found"|"galley_missing"|"seat_scan"|"swap_backup", item_id?, passenger_id?, seat?, verdict?, at}`. The endpoint is idempotent on `client_id` and writes C4/C5, item status, swaps and MISSING_TRAY / RED_SCAN.
+`CrewEvent = {client_id, type: "galley_found"|"galley_missing"|"seat_scan"|"swap_backup", item_id?, passenger_id?, seat?, verdict?, at, wall_at?}`. `wall_at` (optional) is the device's real clock: when it's there, the server uses the sim time in effect at that moment instead of `at`, which goes stale if the clock moved while the tablet was offline. The endpoint is idempotent on `client_id` and writes C4/C5, item status, swaps and MISSING_TRAY / RED_SCAN.
 
 ## m9 · hidden-ingredient check
 | Method | Path | Request | Response |

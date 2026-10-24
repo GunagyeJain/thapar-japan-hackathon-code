@@ -39,7 +39,7 @@ export function recordEvent(flightId: string, event: Omit<CrewEvent, "client_id"
 async function writeEvent(flightId: string, event: Omit<CrewEvent, "client_id">): Promise<StoredPackage | null> {
   const stored = await db.packages.get(flightId)
   if (!stored) return null
-  const full: CrewEvent = { ...event, client_id: newClientId() }
+  const full: CrewEvent = { ...event, client_id: newClientId(), wall_at: new Date().toISOString() }
   const next: StoredPackage = { ...stored, pkg: applyLocal(stored.pkg, full) }
   await db.transaction("rw", db.packages, db.queue, async () => {
     await db.queue.put({ client_id: full.client_id, flight_id: flightId, seed_epoch: stored.pkg.seed_epoch, event: full })

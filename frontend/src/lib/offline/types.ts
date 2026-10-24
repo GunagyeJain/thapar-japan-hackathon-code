@@ -26,6 +26,8 @@ export interface CrewEvent {
   verdict?: Verdict
   reason?: string
   at: string
+  /** The device's real clock. The server turns it into sim time, since `at` goes stale if the demo moves the clock while offline. */
+  wall_at?: string
 }
 
 export interface StoredPackage {
