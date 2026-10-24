@@ -1,0 +1,103 @@
+{
+ "model": "gemini-3.5-flash",
+ "source": "text",
+ "result": {
+  "dish_name_ja": "大豆ミートの肉じゃが",
+  "dish_name_en": "Soy-meat nikujaga",
+  "transcription": "",
+  "ingredients": [
+   {
+    "name_ja": "大豆ミート",
+    "name_en": "soy meat",
+    "tags": [
+     "soy",
+     "legume"
+    ],
+    "confidence": 0.95,
+    "evidence": "大豆ミート（乾燥）60g"
+   },
+   {
+    "name_ja": "じゃがいも",
+    "name_en": "potato",
+    "tags": [
+     "potato",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "じゃがいも 3個"
+   },
+   {
+    "name_ja": "玉ねぎ",
+    "name_en": "onion",
+    "tags": [
+     "onion",
+     "allium",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "玉ねぎ 1個"
+   },
+   {
+    "name_ja": "人参",
+    "name_en": "carrot",
+    "tags": [
+     "carrot",
+     "root_veg",
+     "vegetable"
+    ],
+    "confidence": 1.0,
+    "evidence": "人参 1本"
+   },
+   {
+    "name_ja": "しらたき",
+    "name_en": "shirataki konjac noodles",
+    "tags": [
+     "konjac"
+    ],
+    "confidence": 1.0,
+    "evidence": "しらたき 1袋"
+   },
+   {
+    "name_ja": "昆布だし",
+    "name_en": "kombu dashi",
+    "tags": [
+     "kombu",
+     "seaweed"
+    ],
+    "confidence": 0.95,
+    "evidence": "昆布だし 400ml"
+   },
+   {
+    "name_ja": "醤油",
+    "name_en": "soy sauce",
+    "tags": [
+     "soy_sauce",
+     "soy",
+     "wheat"
+    ],
+    "confidence": 0.95,
+    "evidence": "醤油 大さじ3"
+   },
+   {
+    "name_ja": "砂糖",
+    "name_en": "sugar",
+    "tags": [
+     "sugar"
+    ],
+    "confidence": 1.0,
+    "evidence": "砂糖 大さじ2"
+   },
+   {
+    "name_ja": "みりん",
+    "name_en": "mirin",
+    "tags": [
+     "mirin",
+     "alcohol"
+    ],
+    "confidence": 1.0,
+    "evidence": "みりん 大さじ2"
+   }
+  ]
+ }
+}
