@@ -8,7 +8,7 @@ import type { Lang, Passenger } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { Button, EmptyState, Input, KpiTile, LangSwitch, PageHeader, toast } from "@/ui"
 import { DietPicker } from "@/modules/m3-passenger/DietPicker"
-import { EMPTY_DIET } from "@/modules/m3-passenger/diet"
+import { EMPTY_DIET, toRequest } from "@/modules/m3-passenger/diet"
 import type { DietValue } from "@/modules/m3-passenger/types"
 import { BackupForecast } from "@/modules/m6-matcher/BackupForecast"
 import { MatchResult } from "@/modules/m6-matcher/MatchResult"
@@ -104,7 +104,9 @@ export function LateDesk() {
   const [diet, setDiet] = useState<DietValue>(EMPTY_DIET)
   const [result, setResult] = useState<{ match: Result; reservedId?: string } | null>(null)
 
-  const body = () => ({ flight_id: FLIGHT_ID, passenger_id: passenger?.id, forbid: diet.forbid, allow: diet.allow, source: "gate" })
+  // Allergies go in as forbidden too, the same way the passenger and judge forms send them.
+  const { forbid, allow } = toRequest(diet)
+  const body = () => ({ flight_id: FLIGHT_ID, passenger_id: passenger?.id, forbid, allow, source: "gate" })
   const find = useMutation({
     mutationFn: () => api.post<Result>("/match", body()),
     onSuccess: (match) => setResult({ match }),
@@ -123,7 +125,7 @@ export function LateDesk() {
     },
     onError: (e) => toast.error(`Couldn't reserve: ${e.message}`),
   })
-  const ready = passenger !== null && diet.forbid.length > 0
+  const ready = passenger !== null && forbid.length > 0
   const choose = (p: Passenger) => {
     setPassenger(p)
     setResult(null)
