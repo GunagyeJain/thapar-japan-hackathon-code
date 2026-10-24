@@ -63,3 +63,5 @@ One line per ship to `main`, added by `scripts/ship.sh`. Newest at the bottom. L
 - 2026-10-24 19:00 · Gunagye Jain · `gunagye/m12-polish` · m12 T1 done (tunnel + phone join); next steps for lane A written in the m12 file · **Heads-up:** Lane A notes: the late-request desk (m6 LateDesk) drops allergies, fix = toRequest(diet); tunnel is https://losing-plasma-colour-combined.trycloudflare.com while Gunagye's laptop runs demo.sh + tunnel.sh
 - 2026-10-24 19:03 · Gunagye Jain · `gunagye/m12-polish` · m8 status line fixed (docs only)
 - 2026-10-24 19:10 · Bhavyam Misra · `bhavyam/m13-pitch` · m13: Q&A question 6 now carries the recipe-check eval numbers (docs repo)
+- 2026-10-24 19:12 · Shefali Sharma · `shefali/m3-passenger` · Hindi copy on /p and /j reads naturally: diet question, allergy question, root vegetables, connection error
+- 2026-10-24 19:12 · Gunagye Jain · `gunagye/m6-matcher` · late-request desk now treats allergies as forbidden (veg + milk allergy no longer gets a dairy meal)
