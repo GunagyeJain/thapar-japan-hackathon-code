@@ -91,7 +91,7 @@ export const COPILOT = {
   tierFirm: { ja: "医療", en: "Medical" },
   tierSoft: { ja: "好み", en: "Preference" },
   tierNone: { ja: "制限なし・未回答", en: "No rules or not stated" },
-  whyHard: { ja: "宗教・アレルギー：代替は不可", en: "Religion or allergy: never substitute" },
+  whyHard: { ja: "厳格な食事ルール：代替は不可", en: "Strict food rules: never substitute" },
   whyFirm: { ja: "医療上の理由（糖尿病など）", en: "Medical, e.g. diabetic" },
   whySoft: { ja: "好み：できる範囲で", en: "Taste: where possible" },
   whyNone: { ja: "食事の制限は伝えられていません", en: "No food rules told to us" },
