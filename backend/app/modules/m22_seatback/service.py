@@ -210,11 +210,14 @@ def options(session: Session, flight_id: str, seat: str) -> dict[str, Any]:
     if rules is None:  # nothing known to check a swap against: the crew ask in person
         return {"seat": seat, "rules_known": False, "options": []}
     forbid = day_rules(rules, flight)[0]["forbid"]
-    mine = {i.id for i in held_items(session, pax.id)}
+    held = held_items(session, pax.id)
+    mine = {i.id for i in held}
+    row = eligible(session, flight.id).get(pax.id)
+    same = {i.spec_id for i in held} | ({row["spec_id"]} if row and row.get("spec_id") else set())  # their own dish
     groups: dict[str, dict[str, Any]] = {}
     for item, source in _pool(session, flight):
         spec = session.get(MealSpec, item.spec_id)
-        if item.id in mine or spec is None or inventory.menu_cabin(spec.id) not in (None, pax.cabin):
+        if item.id in mine or spec is None or spec.id in same or inventory.menu_cabin(spec.id) not in (None, pax.cabin):
             continue
         if not fits(spec, forbid):
             continue

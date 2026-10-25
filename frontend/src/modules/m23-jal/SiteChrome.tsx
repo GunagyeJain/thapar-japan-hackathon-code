@@ -55,7 +55,7 @@ export function JalShell({ active, children }: { active: "book" | "manage"; chil
             </Link>
             <div className="ml-auto flex items-center gap-3">
               <Search className="hidden size-5 text-muted-foreground sm:block" aria-hidden="true" />
-              <LangSwitch value={lang} onChange={setLang} />
+              <LangSwitch value={lang} onChange={setLang} className="shrink-0 whitespace-nowrap [&>button]:px-2 sm:[&>button]:px-3" />
             </div>
           </div>
           <nav aria-label="Main" className="mx-auto max-w-6xl overflow-x-auto px-4 md:px-8">

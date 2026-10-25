@@ -104,6 +104,13 @@ def test_change_offers_only_what_fits_and_moves_the_tray(client):
     assert _answer(client, seat, "change", "TB-NOPE00").status_code == 422
 
 
+def test_change_never_offers_the_dish_they_already_have(client):
+    rows = {s["seat"]: s for s in _ask(client)["seats"]}
+    for seat in ["26C", *list(rows)[:5]]:  # 26C has a main held by its passport plan
+        opts = client.get(f"/api/seatback/{FLIGHT}/seats/{seat}/options").json()["options"]
+        assert rows[seat]["spec_id"] not in {o["spec_id"] for o in opts}, seat
+
+
 def test_change_reads_rules_the_router_learned_at_the_gate(client):
     # 31K asks for a Jain meal at the gate in Chaos Mode: no passport, so the rules come from that change.
     assert client.post("/api/chaos/run", json={"flight_id": FLIGHT}).status_code == 200
