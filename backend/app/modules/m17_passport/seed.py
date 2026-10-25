@@ -1,7 +1,7 @@
 """Who has told us what on JL740, before the story starts. Deterministic, so every reset gives the same cabin.
 
 - Passengers with a special meal (SSR) or a cast profile: a passport converted from it.
-- About half of the rest answered the T-48 h chat (mix based on Pew 2021 and a share of Japanese travellers).
+- About half of the rest filled in the T-48 h meal form (mix based on Pew 2021 and a share of Japanese travellers).
 - The others have told us nothing: the silent majority that m19 forecasts.
 Priya (23C) and Mehta (31K) have no passport: Priya makes hers live in Act 1, Mehta asks at the gate.
 Swati (30C) has none either: she tells check-in she's diabetic (Chaos Mode).
@@ -85,4 +85,4 @@ def seed(session: Session) -> None:
             time_rules = [{"id": "TR-1", "kind": "dates", "dates": ["2026-10-25", "2026-11-24", "2026-12-23"], "preset": "vrat"}]
         flex = flexible and rng.random() < FLEX_SHARE
         lang = "ja" if not presets and not extra and rng.random() < 0.6 else rng.choice(["en", "hi"])
-        session.add(_passport(p.id, _from_presets(presets, extra, flex=flex, time_rules=time_rules), "chat", lang, now))
+        session.add(_passport(p.id, _from_presets(presets, extra, flex=flex, time_rules=time_rules), "form", lang, now))

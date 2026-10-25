@@ -16,9 +16,6 @@ export interface TimeRule {
   declined?: string[]
 }
 
-/** What the phone shows for a time rule; `label` and `via` never reach the database. */
-export type LabelledTimeRule = TimeRule & { label: Text; via?: string }
-
 export interface Rules {
   forbid: string[]
   allow: string[]
@@ -26,24 +23,6 @@ export interface Rules {
   tiers: Record<string, Tier>
   flex: boolean
   time_rules: TimeRule[]
-}
-
-export interface Chip {
-  tag: string
-  kind: "forbid" | "allow" | "allergen"
-  tier: Tier | null
-  via: string
-  source: "dictionary" | "model"
-}
-
-export interface Understood {
-  rules: Rules
-  chips: Chip[]
-  time_rules: LabelledTimeRule[]
-  unclear: string[]
-  source: "dictionary" | "model" | "both"
-  /** Diet words recognised (m1 preset ids), so Change can open the picker with them ticked. Phone only. */
-  presets: string[]
 }
 
 export interface Plan {
