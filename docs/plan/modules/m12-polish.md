@@ -36,7 +36,7 @@ Lane A's queue (m0 → m2 → m8 → m12): m0, m2 and m8 are **done**; m12 is th
 
 **Running on Gunagye's laptop (started by the lane A session):**
 - Demo server: `bash scripts/demo.sh --reset` → :8000 (built frontend + API, one origin). After pulling new code: stop it, `npm install`, `uv pip install --python backend/.venv -r backend/requirements.txt`, start it again.
-- Tunnel: `bash scripts/tunnel.sh` → **https://losing-plasma-colour-combined.trycloudflare.com** (`/j`, `/crew`, `/demo`, `/ops`). If the tunnel restarts the address changes: reopen `/demo` (judge QR) and `/crew` online on the new address before airplane mode.
+- Tunnel: **https://attractive-nowhere-anywhere-asn.trycloudflare.com** (`/j`, `/crew`, `/demo`, `/ops`). The first one (losing-plasma-…) is gone: the laptop lost network at 08:59 on 25 Oct and Cloudflare dropped it; the new cloudflared runs detached, so `127.0.0.1:20242/quicktunnel` shows its address. Don't start a second tunnel. If the tunnel restarts the address changes: reopen `/demo` (judge QR) and `/crew` online on the new address before airplane mode.
 - If port 8000 is taken by an old run: `netstat -ano | findstr :8000`, then `taskkill /PID <pid> /T /F`. Stopping background `npm run dev` runs can leave watchfiles/uvicorn orphans behind; kill those too (leave lane B's Vite on :5180 alone).
 
 **Next steps, in order:**
