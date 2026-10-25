@@ -184,7 +184,8 @@ def _router_trays(rows: list[dict[str, Any]], by_seat: dict[str, Passenger], ite
         item = items.get(r.get("item_id") or "")
         spec = specs.get(r.get("spec_id") or (item.spec_id if item else ""))
         name = r.get("spec_name") if isinstance(r.get("spec_name"), dict) else None
-        out[pax_id] = _assigned(item, spec, str(r.get("rung") or "onboard_spare"), name)
+        rung = r.get("rung") or ("held_main" if r.get("source") == "main_pick" else "onboard_spare")
+        out[pax_id] = _assigned(item, spec, str(rung), name)
     return out
 
 

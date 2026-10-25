@@ -155,6 +155,17 @@ def test_router_may_return_a_plain_list(fresh, monkeypatch):
     assert seats["23C"]["assigned"]["item_id"] == backup["id"]
 
 
+def test_a_main_the_router_holds_reads_held_main_not_spare(fresh, monkeypatch):
+    pkg = _package(fresh)
+    priya = next(p for p in pkg["passengers"] if p["seat"] == "23C")
+    main = next(i for i in pkg["items"] if i["kind"] == "main")
+    # A main course held by a passport plan comes from the router without a rung.
+    rows = [{"seat": "23C", "passenger_id": priya["id"], "item_id": main["id"], "spec_id": main["spec_id"],
+             "source": "main_pick", "tier": "hard", "order": 1}]
+    _fake_module(monkeypatch, "app.modules.m18_changes.service", assignments=lambda session, flight_id: rows)
+    assert _seats(_package(fresh))["23C"]["assigned"]["rung"] == "held_main"
+
+
 def test_a_failing_router_or_sun_never_breaks_the_package(fresh, monkeypatch):
     def broken(session, flight_id):
         raise RuntimeError("built in parallel, not ready")
