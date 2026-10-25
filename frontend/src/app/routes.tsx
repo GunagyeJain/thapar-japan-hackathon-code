@@ -23,7 +23,6 @@ import { routes as m16 } from "@/modules/m16-days"
 import { routes as m21 } from "@/modules/m21-sun"
 import { routes as m19 } from "@/modules/m19-load"
 import { routes as m18 } from "@/modules/m18-changes"
-import { routes as m17 } from "@/modules/m17-passport"
 import { routes as m23 } from "@/modules/m23-jal"
 import { routes as m22 } from "@/modules/m22-seatback"
 
@@ -43,7 +42,6 @@ const MODULE_ROUTES: ModuleRoute[] = [
   ...m21,
   ...m19,
   ...m18,
-  ...m17,
   ...m23,
   ...m22,
 ]

@@ -1,6 +1,6 @@
 // Stand-in for the change desk's calls until m17 and m18 are on main: a small router over the seed galley
-// (POST /changes), the cabin's passports from the seed bookings (GET /passport/cabin) and a dictionary-only
-// reading of free text (POST /passport/understand). Same shapes as shared/api.md.
+// (POST /changes) and the cabin's passports from the seed bookings (GET /passport/cabin).
+// Same shapes as shared/api.md.
 import itemsJson from "@shared/seed/meal_items.json"
 import passengersJson from "@shared/seed/passengers.json"
 import specsJson from "@shared/seed/meal_specs.json"
@@ -13,7 +13,7 @@ import { ANSWER, fillMessage, MEAL } from "./i18n"
 import { WINDOW_RUNGS } from "./labels"
 import { windowAt } from "./ladder"
 import { MOCK_FLIGHT_ID, mockAdd, mockState, SEGMENTS, specName } from "./mock"
-import type { CabinPassenger, CabinResponse, ChangeEvent, Rules, Rung, SubmitChange, UnderstandResponse, Window } from "./types"
+import type { CabinPassenger, CabinResponse, ChangeEvent, Rules, Rung, SubmitChange, Window } from "./types"
 import { needSummary } from "./words"
 
 const ITEMS = itemsJson as MealItem[]
@@ -195,53 +195,3 @@ export function mockCabin(): CabinResponse {
 }
 
 // Diet words to the m1 presets they stand for. Food rules only: a word never says who the person is.
-const PRESET_WORDS: [RegExp, string][] = [
-  [/jain|जैन|ジャイナ/i, "jain"],
-  [/vegan|वीगन|ヴィーガン/i, "vegan"],
-  [/halal|हलाल|ハラール/i, "halal"],
-  [/diabet|sugar|शुगर|मधुमेह|糖尿/i, "diabetic"],
-  [/vrat|upvas|fast|व्रत|उपवास|断食/i, "vrat"],
-  [/eggetarian/i, "eggetarian"],
-  [/\bveg\b|vegetarian|shakahari|शाकाहारी|ベジタリアン|菜食/i, "vegetarian"],
-  [/onion|garlic|pyaz|lahsun|प्याज|लहसुन|玉ねぎ|にんにく/i, "no_onion_garlic"],
-  [/beef|गोमांस|牛肉/i, "no_beef"],
-]
-
-const ALLERGY = /allerg|एलर्जी|アレルギー/i
-const FINE = /\b(ok|okay|fine|yes|chalega|chalta)\b|चलेगा|大丈夫/i
-const uniq = (xs: string[]): string[] => [...new Set(xs)]
-const tagsIn = (words: string[]): string[] => words.map((w) => resolve(w)[0]).filter((t): t is string => t !== null)
-
-/**
- * A dictionary-only reading of what the passenger said: presets by keyword, ingredients by synonym. Each clause
- * decides what its food words mean: an allergy, "is fine", or (by default) a food they don't eat.
- */
-export function mockUnderstand(text: string): UnderstandResponse {
-  const presets = PRESET_WORDS.filter(([re]) => re.test(text)).map(([, id]) => id)
-  const combined = presets.length ? combinePresets(presets) : { forbid: [], allow: [] }
-  const clauses = text.split(/[,.;\n]+/).map((c) => ({ text: c, words: c.split(/[\s:!?()/-]+/).filter(Boolean) }))
-  const allergens = uniq(clauses.filter((c) => ALLERGY.test(c.text)).flatMap((c) => tagsIn(c.words)))
-  const fine = uniq(clauses.filter((c) => !ALLERGY.test(c.text) && FINE.test(c.text)).flatMap((c) => tagsIn(c.words)))
-  const avoided = uniq(clauses.filter((c) => !ALLERGY.test(c.text) && !FINE.test(c.text)).flatMap((c) => tagsIn(c.words)))
-  const forbid = uniq([...combined.forbid, ...avoided.filter((t) => !fine.includes(t)), ...allergens])
-  const rules = rulesOf(forbid, uniq([...combined.allow, ...fine]).filter((a) => !forbid.includes(a)), allergens)
-  const words = clauses.flatMap((c) => c.words)
-  const tags = tagsIn(words)
-  const via = (tag: string) => words.find((w) => resolve(w)[0] === tag) ?? presets.join(", ")
-  return {
-    rules,
-    chips: [
-      ...rules.forbid.map((tag) => ({
-        tag,
-        kind: allergens.includes(tag) ? ("allergen" as const) : ("forbid" as const),
-        tier: rules.tiers[tag],
-        via: via(tag),
-        source: "dictionary" as const,
-      })),
-      ...rules.allow.map((tag) => ({ tag, kind: "allow" as const, tier: "soft" as const, via: via(tag), source: "dictionary" as const })),
-    ],
-    time_rules: [],
-    unclear: presets.length || tags.length ? [] : words.slice(0, 5),
-    source: "dictionary",
-  }
-}

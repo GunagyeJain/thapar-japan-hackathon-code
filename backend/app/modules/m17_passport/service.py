@@ -81,7 +81,7 @@ def _iso(day: date | datetime | str) -> str:
 def applies_on(rule: dict[str, Any], iso: str) -> bool:
     """Does a date or weekday rule change the meal on this date?
 
-    A `dates` rule with `confirm: true` (a Purnima fast read from the chat) applies only on dates the passenger
+    A `dates` rule with `confirm: true` (a Purnima fast the passenger ticked) applies only on dates the passenger
     confirmed to the Radar; one without it (a fast typed as a date) applies on every listed date.
     A date the passenger declined never applies.
     """
@@ -197,7 +197,7 @@ def cabin(session: Session, flight_id: str) -> list[dict[str, Any]]:
     return sorted(out, key=lambda p: (int("".join(c for c in p["seat"] if c.isdigit())), p["seat"]))
 
 
-# ---------------------------------------------------------------- saving (chat, Radar)
+# ---------------------------------------------------------------- saving (form, Radar)
 
 DEFAULT_CONSENT = {"this_trip": True, "save_profile": True, "share_with_caterer": True, "cross_border_ack": True}
 
@@ -249,3 +249,11 @@ def save(session: Session, passenger: Passenger, *, lang: str, rules: dict[str, 
     promise = write_meal(session, passenger, plan, lang=lang, allergens=list(rules.get("allergens", [])), source=f"passport_{source}")
     session.flush()
     return passport, plan, promise
+
+
+TIME_RULE_KEYS = ("id", "kind", "dates", "weekdays", "preset", "add_forbid", "after_sunrise_min", "confirm", "confirmed", "declined")
+
+
+def clean_time_rule(rule: dict[str, Any]) -> dict[str, Any]:
+    """A TimeRule as stored: any display label never reaches the database."""
+    return {k: rule[k] for k in TIME_RULE_KEYS if k in rule}

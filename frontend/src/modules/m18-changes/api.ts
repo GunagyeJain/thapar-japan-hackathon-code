@@ -1,4 +1,4 @@
-// m18's calls (and m17's cabin and understand), typed per shared/api.md. When an endpoint isn't on the server yet
+// m18's calls (and m17's cabin), typed per shared/api.md. When an endpoint isn't on the server yet
 // (FastAPI's 404 "Not Found", or 405 from the page catch-all), the call answers from mock.ts and says so with
 // `live: false`; the next poll after the merge switches to the server by itself.
 import itemsJson from "@shared/seed/meal_items.json"
@@ -8,7 +8,7 @@ import { api, ApiError, FLIGHT_ID, POLL_MS } from "@/lib/api"
 import type { Lang, MealItem } from "@/lib/types"
 
 import { mockChanges, mockMetrics, mockReset, mockRunChaos } from "./mock"
-import { mockCabin, mockSubmit, mockUnderstand } from "./mockDesk"
+import { mockCabin, mockSubmit } from "./mockDesk"
 import type {
   CabinResponse,
   ChangeEvent,
@@ -17,7 +17,6 @@ import type {
   Feed,
   MetricsResponse,
   SubmitChange,
-  UnderstandResponse,
 } from "./types"
 import type { ItemPlace } from "./words"
 
@@ -25,7 +24,6 @@ export const CHANGES_KEY = ["m18", "changes", FLIGHT_ID] as const
 const METRICS_KEY = ["m18", "metrics", FLIGHT_ID] as const
 const CABIN_KEY = ["m17", "cabin", FLIGHT_ID] as const
 const PLACES_KEY = ["m18", "places", FLIGHT_ID] as const
-export const UNDERSTAND_MAX = 500
 
 /** The route isn't on the server yet. A module's own 404 ("No passenger PX-…") is a real error and is shown. */
 export function missingEndpoint(e: unknown): boolean {
@@ -140,8 +138,3 @@ export function useSubmitChange() {
   })
 }
 
-/** Free text in any language → food rules with tiers (m17). Stores nothing. */
-export function understand(text: string, lang: Lang): Promise<Feed<UnderstandResponse>> {
-  const clean = text.trim().slice(0, UNDERSTAND_MAX)
-  return orMock(() => api.post<UnderstandResponse>("/passport/understand", { text: clean, lang }), () => mockUnderstand(clean))
-}

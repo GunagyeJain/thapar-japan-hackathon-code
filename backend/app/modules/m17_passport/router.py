@@ -1,4 +1,4 @@
-"""m17 endpoints: understand a diet in the passenger's own words, save the passport, the booking's other travellers,
+"""m17 endpoints: save the passport, the booking's other travellers,
 what the cabin has told us, and the Calendar Radar (scan, answer)."""
 from typing import Annotated, Any, Literal
 
@@ -10,7 +10,7 @@ from app.core.db import SessionDep
 from app.core.models import Flight, Passenger
 from app.modules.m1_rules import engine
 from app.modules.m17_passport import radar, service
-from app.modules.m17_passport.understand import clean_time_rule, understand
+from app.modules.m17_passport.service import clean_time_rule
 
 router = APIRouter(prefix="/api", tags=["m17 · dietary passport"])
 
@@ -18,11 +18,6 @@ Id = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_l
 TagId = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=40)]
 IsoDate = Annotated[str, StringConstraints(pattern=r"^\d{4}-\d{2}-\d{2}$")]
 Tier = Literal["hard", "firm", "soft"]
-
-
-class UnderstandIn(BaseModel):
-    text: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=500)]
-    lang: Annotated[str, StringConstraints(pattern=r"^[a-z]{2}(-[A-Za-z]{2})?$")] | None = None
 
 
 class TimeRuleIn(BaseModel):
@@ -53,7 +48,7 @@ class PassportIn(BaseModel):
     passenger_id: Id
     lang: Literal["en", "hi", "ja"] = "en"
     rules: RulesIn
-    source: Literal["chat", "form", "desk", "ssr", "seed"] = "chat"
+    source: Literal["form", "desk", "ssr", "seed"] = "form"
 
 
 class ScanIn(BaseModel):
@@ -138,11 +133,6 @@ def cabin(flight_id: str, session: SessionDep) -> dict[str, Any]:
     }
 
 
-@router.post("/passport/understand")
-def understand_text(body: UnderstandIn) -> dict[str, Any]:
-    """The passenger's own words → food rules to check. Stores nothing and logs nothing."""
-    return understand(body.text, body.lang)
-
 
 @router.post("/passport")
 def save_passport(body: PassportIn, session: SessionDep) -> dict[str, Any]:
@@ -157,7 +147,7 @@ def save_passport(body: PassportIn, session: SessionDep) -> dict[str, Any]:
 
 @router.get("/passport/booking/{passenger_id}")
 def booking(passenger_id: str, session: SessionDep) -> dict[str, Any]:
-    """The others on the same booking reference, so the chat can say "send them this link"."""
+    """The others on the same booking reference, so the booking page can list them."""
     pax = _passenger(session, passenger_id)
     others = session.exec(select(Passenger).where(Passenger.pnr == pax.pnr, Passenger.id != pax.id)).all()
 

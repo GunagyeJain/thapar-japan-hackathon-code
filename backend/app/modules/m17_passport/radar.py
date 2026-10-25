@@ -18,9 +18,19 @@ from app.modules.m1_rules import engine
 from app.modules.m16_days.models import TripLeg
 from app.modules.m17_passport import service
 from app.modules.m17_passport.models import Passport, RadarQuestion
-from app.modules.m17_passport.words import WEEKDAY_NAMES
 
 log = logging.getLogger(__name__)
+
+WEEKDAY_NAMES = {
+    0: {"en": "Monday", "hi": "सोमवार", "ja": "月曜日"},
+    1: {"en": "Tuesday", "hi": "मंगलवार", "ja": "火曜日"},
+    2: {"en": "Wednesday", "hi": "बुधवार", "ja": "水曜日"},
+    3: {"en": "Thursday", "hi": "गुरुवार", "ja": "木曜日"},
+    4: {"en": "Friday", "hi": "शुक्रवार", "ja": "金曜日"},
+    5: {"en": "Saturday", "hi": "शनिवार", "ja": "土曜日"},
+    6: {"en": "Sunday", "hi": "रविवार", "ja": "日曜日"},
+}
+
 
 LANGS = ("en", "hi", "ja")
 MONTHS_EN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]

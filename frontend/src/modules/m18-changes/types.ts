@@ -148,21 +148,7 @@ export interface CabinResponse {
   passengers: CabinPassenger[]
 }
 
-export interface UnderstandChip {
-  tag: string
-  kind: "forbid" | "allow" | "allergen"
-  tier: Tier
-  via: string
-  source: "dictionary" | "model"
-}
 
-export interface UnderstandResponse {
-  rules: Rules
-  chips: UnderstandChip[]
-  time_rules: (TimeRule & { label: Text })[]
-  unclear: string[]
-  source: "dictionary" | "model" | "both"
-}
 
 /** A response plus whether it came from the server (`live`) or the stand-in data in mock.ts. */
 export interface Feed<T> {

@@ -9,7 +9,7 @@ import type { Passenger } from "@/lib/types"
 import { missingEndpoint, normalizeEvent } from "./api"
 import { findPassengers, rulesFromDiet, tierFor } from "./desk"
 import { CHAOS_EVENTS, KNOWN, mockMetrics, mockReset } from "./mock"
-import { mockSubmit, mockUnderstand } from "./mockDesk"
+import { mockSubmit } from "./mockDesk"
 import { kpiViews, metricsFromEvents, ratio, strictestTier } from "./metrics"
 import type { ChangeEvent } from "./types"
 import { decisionHeadline, needSummary, numbered, outcomeOf, stepsOf } from "./words"
@@ -130,15 +130,6 @@ describe("stand-in router and reader", () => {
     const second = mockSubmit(body, "2026-10-25T02:55:00+05:30")
     expect(second.decision.rung).toBe("reserve_pouch")
     expect(mockMetrics().ours.hard_total).toBe(2)
-  })
-
-  it("reads an allergy as hard and keeps it out of the OK list", () => {
-    const r = mockUnderstand("pure veg, no onion-garlic, aur aaj vrat hai. peanut allergy, dairy ok")
-    expect(r.rules.forbid).toEqual(expect.arrayContaining(["meat", "onion", "garlic", "grain", "peanut"]))
-    expect(r.rules.allergens).toEqual(["peanut"])
-    expect(r.rules.allow).not.toContain("peanut")
-    expect(r.rules.allow).toContain("dairy")
-    expect(r.chips.find((c) => c.tag === "peanut")).toMatchObject({ kind: "allergen", tier: "hard" })
   })
 })
 

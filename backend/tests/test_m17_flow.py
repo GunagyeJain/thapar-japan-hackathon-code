@@ -1,9 +1,17 @@
-"""m17 chat flow over the API: understand → save (promise + C1) → Radar question → yes / no."""
+"""m17 passport flow over the API: save (promise + C1) → Radar question → yes / no."""
 import pytest
 
 FLIGHT = "JL740-20261025"
 PRIYA = "PX-0057"
-PRIYA_SENTENCE = "pure veg, no onion-garlic, aur Purnima ka vrat rakhti hoon"
+PRIYA_RULES = {
+    "forbid": ["meat", "seafood", "egg", "gelatin", "onion", "garlic"],
+    "allow": ["dairy"],
+    "allergens": [],
+    "tiers": {},
+    "flex": False,
+    "time_rules": [{"id": "TR-1", "kind": "dates", "dates": ["2026-10-25"], "preset": "vrat", "confirm": True}],
+}
+NO_BEEF_PORK = {"forbid": ["beef", "pork"], "allow": [], "allergens": [], "tiers": {}, "flex": False, "time_rules": []}
 
 
 @pytest.fixture(autouse=True)
@@ -11,14 +19,8 @@ def fresh(client):
     client.post("/api/demo/reset", json={"keep_judges": False})
 
 
-def understand(client, text: str) -> dict:
-    res = client.post("/api/passport/understand", json={"text": text, "lang": "hi"})
-    assert res.status_code == 200, res.text
-    return res.json()
-
-
-def save(client, passenger_id: str, out: dict, lang: str = "en") -> dict:
-    res = client.post("/api/passport", json={"passenger_id": passenger_id, "lang": lang, "rules": out["rules"], "source": "chat"})
+def save(client, passenger_id: str, rules: dict, lang: str = "en") -> dict:
+    res = client.post("/api/passport", json={"passenger_id": passenger_id, "lang": lang, "rules": rules, "source": "form"})
     assert res.status_code == 200, res.text
     return res.json()
 
@@ -33,20 +35,11 @@ def questions(client, passenger_id: str) -> list[dict]:
     return [n for n in notes if n["channel"] == "whatsapp" and n["ref"].get("kind") == "radar_question"]
 
 
-def test_understand_validates_and_stores_nothing(client):
-    assert client.post("/api/passport/understand", json={"text": "  "}).status_code == 422
-    assert client.post("/api/passport/understand", json={"text": "x" * 501}).status_code == 422
-    before = client.get("/api/notifications", params={"to": PRIYA}).json()
-    understand(client, PRIYA_SENTENCE)
-    assert client.get(f"/api/passport/{PRIYA}").status_code == 404
-    assert client.get("/api/notifications", params={"to": PRIYA}).json() == before
-
-
 def test_priya_saves_her_passport_and_gets_avml(client):
-    out = save(client, PRIYA, understand(client, PRIYA_SENTENCE), lang="hi")
+    out = save(client, PRIYA, PRIYA_RULES, lang="hi")
     assert out["plan"]["code"] == "AVML" and out["plan"]["kitchen_note"] == "NO ONION NO GARLIC"
     assert out["promise"]["code"] == "AVML" and out["promise"]["checkpoints"]["C1"] == "ok"
-    assert out["passport"]["id"] == "PP-0057" and out["passport"]["source"] == "chat"
+    assert out["passport"]["id"] == "PP-0057" and out["passport"]["source"] == "form"
     stored = out["passport"]["rules"]["time_rules"][0]
     assert "label" not in stored and "via" not in stored and stored["confirm"] is True
     assert promise_of(client, "23C")["kitchen_note"] == "NO ONION NO GARLIC"
@@ -55,14 +48,14 @@ def test_priya_saves_her_passport_and_gets_avml(client):
 
 
 def test_a_main_menu_dish_needs_no_promise(client):
-    out = save(client, "PX-0122", understand(client, "I eat chicken but never beef or pork"))
+    out = save(client, "PX-0122", NO_BEEF_PORK)
     assert out["plan"]["main_pick"] and out["plan"]["code"] is None and out["promise"] is None
     assert out["plan"]["main_pick_name"]["en"]
 
 
 def test_save_rejects_unknown_tags(client):
     rules = {"forbid": ["dragon"], "allow": [], "allergens": [], "tiers": {}, "flex": False, "time_rules": []}
-    res = client.post("/api/passport", json={"passenger_id": PRIYA, "lang": "en", "rules": rules, "source": "chat"})
+    res = client.post("/api/passport", json={"passenger_id": PRIYA, "lang": "en", "rules": rules, "source": "form"})
     assert res.status_code == 422
     rules["forbid"] = ["meat"]
     assert client.post("/api/passport", json={"passenger_id": "PX-9999", "lang": "en", "rules": rules}).status_code == 404
@@ -85,7 +78,7 @@ def test_booking_lists_the_others_on_the_pnr(client):
 
 
 def test_radar_asks_about_sharad_purnima_and_yes_orders_the_fasting_meal(client):
-    save(client, PRIYA, understand(client, PRIYA_SENTENCE))
+    save(client, PRIYA, PRIYA_RULES)
     (question,) = questions(client, PRIYA)
     ref = question["ref"]
     assert ref["date"] == "2026-10-25" and ref["flight_no"] == "JL740"
@@ -110,7 +103,7 @@ def test_radar_asks_about_sharad_purnima_and_yes_orders_the_fasting_meal(client)
 
 
 def test_radar_no_keeps_the_usual_meal(client):
-    save(client, PRIYA, understand(client, PRIYA_SENTENCE))
+    save(client, PRIYA, PRIYA_RULES)
     (question,) = questions(client, PRIYA)
     out = client.post("/api/radar/answer", json={"question_id": question["ref"]["question_id"], "option_id": "no"}).json()
     assert out["applied"] is True and out["plan"]["kitchen_note"] == "NO ONION NO GARLIC"
@@ -121,7 +114,7 @@ def test_radar_no_keeps_the_usual_meal(client):
 
 
 def test_after_the_cutoff_yes_goes_to_the_change_router(client):
-    save(client, PRIYA, understand(client, PRIYA_SENTENCE))
+    save(client, PRIYA, PRIYA_RULES)
     (question,) = questions(client, PRIYA)
     client.post("/api/clock", json={"now": "2026-10-24T12:00:00+05:30"})
     out = client.post("/api/radar/answer", json={"question_id": question["ref"]["question_id"], "option_id": "yes"}).json()
@@ -152,9 +145,9 @@ def test_seeded_fast_without_confirm_still_applies(client):
     assert out["plan"]["code"] == "AVML" and "NO GRAIN" in out["plan"]["kitchen_note"]
 
 
-def test_passport_never_stores_words_or_names(client):
-    save(client, PRIYA, understand(client, PRIYA_SENTENCE + ", main Jain nahi, halal bhi nahi"))
+def test_passport_never_stores_diet_names(client):
+    save(client, PRIYA, PRIYA_RULES)
     stored = client.get(f"/api/passport/{PRIYA}").json()
     text = str(stored["rules"]).lower() + str(stored["label_mark"]).lower()
-    for word in ("purnima", "jain", "halal", "pure veg", "rakhti", "sharad"):
+    for word in ("purnima", "jain", "halal", "sharad"):
         assert word not in text
