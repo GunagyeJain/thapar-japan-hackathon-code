@@ -190,3 +190,25 @@ export const PASS = {
   notFound: { ja: "この便にこの搭乗券の乗客はいません", en: "No passenger on this flight with that pass" },
   unreadable: { ja: "読み取れません。予約番号を入力してください", en: "Can't read that. Type the booking reference" },
 } as const
+
+/** Allergy told on board (m20). Never "safe" for an allergy: only contains, none listed, or unknown. */
+export const ALLERGY = {
+  add: { ja: "アレルギーを追加", en: "Add allergy" },
+  title: { ja: "機内で申告されたアレルギー", en: "Allergy told on board" },
+  saved: { ja: "このタブレットに保存", en: "Saved on this tablet" },
+  contains: (names: Bilingual): Bilingual => ({ ja: `${names.ja}を含む：提供しない`, en: `Contains ${names.en}: do not serve` }),
+  notListed: (names: Bilingual): Bilingual => ({
+    ja: `${names.ja}の表示なし：微量混入の可能性。ご本人とラベルを確認`,
+    en: `No ${names.en} listed, may contain traces: read the label with the passenger`,
+  }),
+  unknown: { ja: "原材料不明：提供しない", en: "Ingredients unknown, do not serve" },
+  nothingListed: (names: Bilingual): Bilingual => ({
+    ja: `${names.ja}の表示がない食品は機内にありません。密封・表示のある品のみ提供し、重度のアレルギーはJALの医療手順に従う`,
+    en: `Nothing on board lists no-${names.en}. Offer sealed labelled items only; follow JAL's medical procedure for a severe allergy.`,
+  }),
+  groupSealed: { ja: "密封・表示あり", en: "Sealed, labelled" },
+  groupSpare: { ja: "特別食・予備", en: "Special and spare trays" },
+  groupMain: { ja: "メインメニュー", en: "Main menu" },
+  ownTray: { ja: "この席のトレー", en: "This seat's tray" },
+  unknownDish: { ja: "不明な食品", en: "Unknown item" },
+} as const
