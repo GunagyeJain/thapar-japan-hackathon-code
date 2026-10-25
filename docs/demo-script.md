@@ -47,7 +47,7 @@ If a click fails, press **Do it for me** on `/demo`: the server does that step a
 | 2 | No question on the phone | Reload `/jal/meal?passenger=PX-0057` once; else **Do it for me: Answer Yes** | "She said yes; the kitchen has the fasting meal." |
 | 3 | Run Chaos Mode errors | **Do it for me: Run Chaos Mode** | "Here are the seven changes as they landed overnight." |
 | 4 | iPad trouble, or the seat screen doesn't change | **Do it for me: Ask the seats and sync the crew's scans** (asks the seats, answers Yes at 23C, syncs the scans) and show the seat map on the laptop (`/crew`) | "Same check, from the laptop." |
-| any | Tunnel or Wi-Fi down | Laptop hotspot; or the backup video | "Here's the same run from this morning." |
+| any | Tunnel or Wi-Fi down | Laptop hotspot; or the backup video, `docs/video/ThaliBento-demo-walkthrough.mp4` (5:43, follows this script) | "Here's the same run from this morning." |
 
 ## 2-minute cut (steps 1, 2, 3, 4, 5)
 Before the pitch: `/demo` → **Start**. Keep the phone on `/jal` and the iPad on `/crew` online.
