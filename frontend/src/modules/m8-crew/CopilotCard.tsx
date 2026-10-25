@@ -8,6 +8,7 @@ import { fmtDuration, fmtTime } from "@/lib/format"
 import type { MealItem } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { Button, StatusChip, toast, type Status } from "@/ui"
+import { AllergyTold } from "@/modules/m8-crew/AllergyTold"
 import { Bi } from "@/modules/m8-crew/Bi"
 import {
   lastTaps,
@@ -56,10 +57,13 @@ export function CopilotCard({ pkg, seat, now, onTap, onScan, answer }: CopilotCa
   const head = <span className="font-display text-4xl font-bold tabular">{seat}</span>
   if (!pax || !info) {
     return (
-      <section className="flex flex-wrap items-center gap-4 rounded-xl border bg-card p-5" aria-live="polite">
-        {head}
-        {pax && <span className="font-display text-xl font-semibold">{pax.display_name ?? `${pax.surname}/${pax.given} ${pax.title}`}</span>}
-        <StatusChip status="neutral" label={say(pax ? COPILOT.notStated : COPILOT.emptySeat)} className="h-auto py-1 whitespace-normal" />
+      <section className="flex flex-col gap-3 rounded-xl border bg-card p-5" aria-live="polite" aria-label={`${seat} card`}>
+        <div className="flex flex-wrap items-center gap-4">
+          {head}
+          {pax && <span className="font-display text-xl font-semibold">{pax.display_name ?? `${pax.surname}/${pax.given} ${pax.title}`}</span>}
+          <StatusChip status="neutral" label={say(pax ? COPILOT.notStated : COPILOT.emptySeat)} className="h-auto py-1 whitespace-normal" />
+        </div>
+        {pax && <AllergyTold key={pax.id} pkg={pkg} pax={pax} />}
       </section>
     )
   }
@@ -83,6 +87,7 @@ export function CopilotCard({ pkg, seat, now, onTap, onScan, answer }: CopilotCa
       <SunTimer seat={info} />
       <Tray pkg={pkg} seat={info} current={current} />
       <Taps seat={info} item={current.item} tap={tap} now={now} onTap={onTap} onScan={onScan} />
+      <AllergyTold key={pax.id} pkg={pkg} pax={pax} />
     </section>
   )
 }
