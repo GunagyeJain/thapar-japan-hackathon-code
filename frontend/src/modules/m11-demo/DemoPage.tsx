@@ -1,7 +1,7 @@
 // /demo: the presenter's cockpit. Steps the sim clock through the story and, for each step, says where to look,
 // what to click, what to say and what the room should notice. "Do it for me" covers a failed click.
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { ArrowLeft, ArrowRight, CheckCircle2, ExternalLink, Eye, Laptop, MessageSquareQuote, RefreshCw, RotateCcw, Smartphone, Tablet, Wand2, type LucideIcon } from "lucide-react"
+import { ArrowLeft, ArrowRight, CheckCircle2, ChevronRight, ExternalLink, Eye, Laptop, MessageSquareQuote, RefreshCw, RotateCcw, Smartphone, Tablet, Wand2, type LucideIcon } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router"
 
@@ -156,8 +156,8 @@ export function DemoPage() {
                 </ol>
               </Block>
               <details className="group md:col-span-2">
-                <summary className="flex cursor-pointer items-center gap-1.5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-                  <MessageSquareQuote className="size-3.5" aria-hidden="true" /> Script
+                <summary className="flex cursor-pointer list-none items-center gap-1.5 text-xs font-semibold tracking-wide text-muted-foreground uppercase hover:text-foreground [&::-webkit-details-marker]:hidden">
+                  <ChevronRight className="size-4 transition-transform duration-150 group-open:rotate-90" aria-hidden="true" /> Script
                 </summary>
                 <div className="mt-3 grid gap-5 md:grid-cols-2">
                   <Block icon={MessageSquareQuote} title="Say">

@@ -55,7 +55,7 @@ const COLUMNS: Column<Row>[] = [
   { key: "result", header: "Result", cell: (e) => <OutcomeChip event={e} side="ours" />, className: cell },
   {
     key: "today",
-    header: "Today",
+    header: "Without ThaliBento",
     cell: (e) => (
       <span title={t(e.today.outcome, "en")}>
         <OutcomeChip event={e} side="today" />
