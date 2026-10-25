@@ -7,7 +7,7 @@ import type { CrewPackage } from "@/lib/offline/types"
 import type { Passenger } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { Button, StatusChip, type Status } from "@/ui"
-import { allergenNames, allergenTags, allergyRows, type AllergyRow, type AllergyState, type ItemGroup } from "@/modules/m8-crew/allergy"
+import { allergenGroups, allergenNames, allergyRows, type AllergyRow, type AllergyState, type ItemGroup } from "@/modules/m8-crew/allergy"
 import { Bi } from "@/modules/m8-crew/Bi"
 import { ALLERGY, type Bilingual } from "@/modules/m8-crew/i18n"
 import { useCrewLang, useDish, useSay } from "@/modules/m8-crew/lang"
@@ -47,7 +47,7 @@ export interface AllergyToldProps {
 
 export function AllergyTold({ pkg, pax }: AllergyToldProps) {
   const say = useSay()
-  const all = useMemo(() => allergenTags(), [])
+  const all = useMemo(() => allergenGroups().map((g) => g.id), [])
   const [told, setTold] = useState<Told>(() => readTold(pkg))
   const [open, setOpen] = useState(false)
   const saved = told[pax.id]
