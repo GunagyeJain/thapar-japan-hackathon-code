@@ -87,8 +87,8 @@ export const s = {
     presets: { en: "Quick picks", hi: "जल्दी चुनें", ja: "よく選ばれるもの" },
     groups: { en: "I don't eat", hi: "मैं नहीं खाता/खाती", ja: "食べられないもの" },
     allergens: { en: "Allergies", hi: "एलर्जी", ja: "アレルギー" },
-    allAllergens: { en: "Show all {n}", hi: "सभी {n} दिखाएँ", ja: "全{n}品目を表示" },
-    fewerAllergens: { en: "Show fewer", hi: "कम दिखाएँ", ja: "表示を減らす" },
+    yes: { en: "Yes", hi: "हाँ", ja: "はい" },
+    no: { en: "No", hi: "नहीं", ja: "いいえ" },
     nothing: { en: "Nothing ticked yet.", hi: "अभी कुछ नहीं चुना।", ja: "まだ選択されていません。" },
   },
 

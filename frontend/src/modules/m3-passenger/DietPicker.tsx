@@ -1,5 +1,5 @@
-// Three plain questions: "Do you follow a diet?" (optional shortcut), "What can't you eat?", "Any food allergies?".
-// Every choice is the same kind of tile with a tick, so it's obvious what's selected.
+// Three plain questions: "Do you follow a diet?" (optional shortcut), "What can't you eat?", "Any food allergies?"
+// (Yes opens the full allergen list, No clears it). Every choice is the same kind of tile with a tick, so it's obvious what's selected.
 // Also used by the late-request desk (m6) and group upload (m14), so it only edits `value`.
 import { Check } from "lucide-react"
 import { useState, type ReactNode } from "react"
@@ -8,7 +8,7 @@ import type { Lang } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 import { dietPresets, foodGroups, isAllergenOn, isGroupOn, pickerGroups, toggleAllergen, toggleGroup, togglePreset } from "./diet"
-import { breakable, fill, jaWrap, pick, s } from "./i18n"
+import { breakable, jaWrap, pick, s } from "./i18n"
 import type { DietValue } from "./types"
 
 export interface DietPickerProps {
@@ -20,9 +20,14 @@ export interface DietPickerProps {
 }
 
 export function DietPicker({ value, onChange, lang, compact = false }: DietPickerProps) {
-  const [allAllergens, setAllAllergens] = useState(false)
+  // null until answered; a value that already has allergies counts as Yes.
+  const [hasAllergies, setHasAllergies] = useState<boolean | null>(null)
   const allergens = pickerGroups("allergen")
-  const shownAllergens = allAllergens ? allergens : allergens.filter((g) => g.jp_class === "mandatory" || isAllergenOn(value, g))
+  const listOpen = hasAllergies === true || (value.allergens ?? []).length > 0
+  const sayNo = () => {
+    setHasAllergies(false)
+    onChange({ ...value, allergens: [] })
+  }
 
   return (
     <div lang={lang} className={cn("flex flex-col", compact ? "gap-4" : "gap-7")}>
@@ -45,39 +50,59 @@ export function DietPicker({ value, onChange, lang, compact = false }: DietPicke
         ))}
       </Question>
 
-      <Question id="dp-allergens" title={pick(s.picker.allergensTitle, lang)} compact={compact}>
-        {shownAllergens.map((g) => (
-          <Tile key={g.id} label={pick(g.labels, lang)} on={isAllergenOn(value, g)} onToggle={() => onChange(toggleAllergen(value, g))} lang={lang} compact={compact} />
-        ))}
+      <Question id="dp-allergens" title={pick(s.picker.allergensTitle, lang)} compact={compact} radio>
+        <Tile radio label={pick(s.picker.yes, lang)} on={listOpen} onToggle={() => setHasAllergies(true)} lang={lang} compact={compact} />
+        <Tile radio label={pick(s.picker.no, lang)} on={!listOpen && hasAllergies === false} onToggle={sayNo} lang={lang} compact={compact} />
       </Question>
-      <button
-        type="button"
-        onClick={() => setAllAllergens((v) => !v)}
-        className="-mt-4 min-h-11 self-start text-sm font-medium text-blue underline-offset-4 hover:underline"
-      >
-        {allAllergens ? pick(s.picker.fewerAllergens, lang) : fill(s.picker.allAllergens, lang, { n: allergens.length })}
-      </button>
+      {listOpen && (
+        <div role="group" aria-label={pick(s.picker.allergens, lang)} className={cn("grid gap-2", compact ? "-mt-2 grid-cols-3" : "-mt-4 grid-cols-2")}>
+          {allergens.map((g) => (
+            <Tile key={g.id} label={pick(g.labels, lang)} on={isAllergenOn(value, g)} onToggle={() => onChange(toggleAllergen(value, g))} lang={lang} compact={compact} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
 
-function Question({ id, title, sub, compact, children }: { id: string; title: string; sub?: string; compact: boolean; children: ReactNode }) {
+interface QuestionProps {
+  id: string
+  title: string
+  sub?: string
+  compact: boolean
+  /** One answer only (Yes / No). */
+  radio?: boolean
+  children: ReactNode
+}
+
+function Question({ id, title, sub, compact, radio = false, children }: QuestionProps) {
   return (
     <section aria-labelledby={id}>
       <h3 id={id} className={cn("font-display font-semibold text-navy", compact ? "text-sm" : "text-lg", !sub && "mb-2.5")}>
         {title}
       </h3>
       {sub && <p className={cn("mb-2.5 text-grey", compact ? "text-xs" : "text-sm")}>{sub}</p>}
-      <div className={cn("grid gap-2", compact ? "grid-cols-3" : "grid-cols-2")}>{children}</div>
+      <div role={radio ? "radiogroup" : undefined} aria-labelledby={radio ? id : undefined} className={cn("grid gap-2", compact ? "grid-cols-3" : "grid-cols-2")}>
+        {children}
+      </div>
     </section>
   )
 }
 
-function Tile({ label, on, onToggle, lang, compact }: { label: string; on: boolean; onToggle: () => void; lang: Lang; compact: boolean }) {
+interface TileProps {
+  label: string
+  on: boolean
+  onToggle: () => void
+  lang: Lang
+  compact: boolean
+  radio?: boolean
+}
+
+function Tile({ label, on, onToggle, lang, compact, radio = false }: TileProps) {
   return (
     <button
       type="button"
-      role="checkbox"
+      role={radio ? "radio" : "checkbox"}
       aria-checked={on}
       onClick={onToggle}
       className={cn(
@@ -90,6 +115,7 @@ function Tile({ label, on, onToggle, lang, compact }: { label: string; on: boole
         aria-hidden="true"
         className={cn(
           "flex size-5 shrink-0 items-center justify-center rounded-[4px] border transition-colors duration-150",
+          radio && "rounded-full",
           on ? "border-blue bg-blue text-primary-foreground" : "border-line bg-card",
         )}
       >
